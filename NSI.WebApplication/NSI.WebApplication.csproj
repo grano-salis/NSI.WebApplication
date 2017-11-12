@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="wwwroot\app\**" />
+    <Compile Remove="wwwroot\node_modules\**" />
+    <Content Remove="wwwroot\app\**" />
+    <Content Remove="wwwroot\node_modules\**" />
+    <EmbeddedResource Remove="wwwroot\app\**" />
+    <EmbeddedResource Remove="wwwroot\node_modules\**" />
+    <None Remove="wwwroot\app\**" />
+    <None Remove="wwwroot\node_modules\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="app\app.component.ts" />
+    <None Remove="app\app.module.ts" />
+    <None Remove="app\example\comp1\comp1.component.ts" />
+    <None Remove="app\example\comp2\comp2.component.ts" />
+    <None Remove="app\example\example.module.ts" />
+    <None Remove="app\example\services\example.service.ts" />
+    <None Remove="app\main.ts" />
+    <None Remove="app\shared\services\validation.service.ts" />
+    <None Remove="app\shared\shared.module.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\app.component.ts" />
+    <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\example\comp1\comp1.component.ts" />
+    <TypeScriptCompile Include="app\example\comp2\comp2.component.ts" />
+    <TypeScriptCompile Include="app\example\example.module.ts" />
+    <TypeScriptCompile Include="app\example\services\example.service.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
+    <TypeScriptCompile Include="app\shared\services\interceptor.service.ts" />
+    <TypeScriptCompile Include="app\shared\services\validation.service.ts" />
+    <TypeScriptCompile Include="app\shared\shared.module.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\core\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+</Project>
