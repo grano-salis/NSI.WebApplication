@@ -47,4 +47,8 @@
     <Folder Include="app\core\" />
     <Folder Include="Views\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\js\datepicker\daterangepicker.js" />
+    <None Include="wwwroot\js\moment\moment.min.js" />
+  </ItemGroup>
 </Project>
