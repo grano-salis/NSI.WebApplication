@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NSI.BLL\NSI.BLL.csproj" />
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
   </ItemGroup>
 

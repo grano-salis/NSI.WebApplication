@@ -15,6 +15,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using NSI.REST.Middleware;
+using NSI.BLL.DocumentRepository;
+using NSI.Repository.Interfaces;
+using NSI.Repository;
 
 namespace NSI.REST
 {
@@ -40,7 +43,10 @@ namespace NSI.REST
             services.AddDataProtection();
             services.AddLocalization(options => options.ResourcesPath = "Resouces");
             services.AddMemoryCache();
+
+            // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
+            services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddMvc();
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
 
@@ -74,6 +80,8 @@ namespace NSI.REST
             {
                 o.AddPolicy("AllowAllHeaders", corsBuilder.Build());
             });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
