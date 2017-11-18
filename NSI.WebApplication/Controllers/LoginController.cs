@@ -12,13 +12,16 @@ namespace NSI.WebApplication.Controllers
     public class LoginController : Controller
     {
         private readonly string _restURL;
+        private readonly string _webAppURL;
         public LoginController(IOptions<RestConfig> restConfig)
         {
             _restURL = restConfig.Value.RestURL;
+            _webAppURL = "~/wwwroot/dist/index.html";
         }
 
         public IActionResult Index([FromForm]string username, [FromForm]string password)
         {
+        
             if (Request.Cookies.ContainsKey("JWT.Token"))
             {
                 var jwtToken = Request.Cookies["JWT.Token"];
@@ -46,7 +49,7 @@ namespace NSI.WebApplication.Controllers
                 }
 
                 ViewBag.JWTToken = jwtToken;
-                return View("~/Views/App.cshtml");
+                return View(_webAppURL);
             }
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || password.Length < 6)
@@ -57,7 +60,7 @@ namespace NSI.WebApplication.Controllers
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var stringTask = client.GetStringAsync(string.Format("{0}/api/authorization/login?username={1}&passCode={2}", _restURL, username, password)).Result;
+            var stringTask = client.GetStringAsync(string.Format("{0}/api/Authorization/login?username={1}&passCode={2}", _restURL, username, password)).Result;
             if (string.IsNullOrWhiteSpace(stringTask))
                 return View("~/Views/Login.cshtml");
 
@@ -67,7 +70,7 @@ namespace NSI.WebApplication.Controllers
 
             ViewBag.JWTToken = loginResponse.AccessToken;
             Response.Cookies.Append("JWT.Token", loginResponse.AccessToken);
-            return View("~/Views/App.cshtml");
+            return View(_webAppURL);
         }
 
         private class LoginResponse
@@ -82,7 +85,7 @@ namespace NSI.WebApplication.Controllers
             if (Request.Cookies.ContainsKey("JWT.Token"))
             {
                 ViewBag.JWTToken = Request.Cookies["JWT.Token"];
-                return View("~/Views/App.cshtml");
+                return View(_webAppURL);
             }
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password) || password.Length < 6)
@@ -103,7 +106,7 @@ namespace NSI.WebApplication.Controllers
 
             ViewBag["JWT.Token"] = loginResponse.accessToken;
             Response.Cookies.Append("JWT.Token", loginResponse.accessToken);
-            return View("~/Views/App.cshtml");
+            return View(_webAppURL);
         }
     }
 }
