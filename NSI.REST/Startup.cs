@@ -108,7 +108,9 @@ namespace NSI.REST
             });
 
             app.UseExHandler();
-            app.UseAuthHandler();
+            //enableti ovaj dio na produkciji
+            //dodati neki flag
+            //app.UseAuthHandler();
 
             app.UseMvc();
         }

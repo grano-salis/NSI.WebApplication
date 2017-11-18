@@ -22,6 +22,7 @@ namespace NSI.WebApplication
                 .UseApplicationInsights()
                 .Build();
 
+
             host.Run();
         }
     }

@@ -25,7 +25,7 @@ bld/
 # Visual Studio 2015 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
-#wwwroot/
+/NSI.WebApplication/wwwroot/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -260,3 +260,60 @@ paket-files/
 __pycache__/
 *.pyc
 /NSI.WebApplication/wwwroot/app
+
+############################################################################
+#Added for Angular 5+ application
+############################################################################
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/NSI.WebApplication2/dist
+/NSI.WebApplication2/tmp
+/NSI.WebApplication2/out-tsc
+
+# Dependencies
+/NSI.WebApplication2/node_modules
+
+
+# IDEs and editors
+.idea/*
+!.idea/runConfigurations/
+!.idea/codeStyleSettings.xml
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+xcuserdata/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Maven
+/target
+/log
+
+# Misc
+/NSI.WebApplication2/.sass-cache
+/NSI.WebApplication2/connect.lock
+/NSI.WebApplication2/coverage
+/NSI.WebApplication2/libpeerconnection.log
+/NSI.WebApplication2npm-debug.log
+/NSI.WebApplication2testem.log
+/NSI.WebApplication2/typings
+/NSI.WebApplication2/reports
+/NSI.WebApplication2/src/translations/template.*
+/NSI.WebApplication2/src/environments/.env.json
+
+# E2E
+/NSI.WebApplication2/e2e/*.js
+/NSI.WebApplication2/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
