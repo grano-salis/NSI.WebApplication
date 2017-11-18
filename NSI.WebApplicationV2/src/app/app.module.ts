@@ -13,6 +13,7 @@ import {PagesModule} from "./pages/pages.module";
 import {HttpClientModule} from "@angular/common/http";
 import {QuoteService} from "./services/quote.service";
 import { CookieService } from 'ngx-cookie-service';
+import { TasksService } from './services/tasks.service';
 @NgModule({
   imports: [
     BrowserModule,
@@ -28,7 +29,8 @@ import { CookieService } from 'ngx-cookie-service';
   declarations: [AppComponent],
   providers: [//ovdje se injecta svaki servis koji se doda
     CookieService,
-    QuoteService
+    QuoteService,
+    TasksService
   ],
   bootstrap: [AppComponent]
 })
