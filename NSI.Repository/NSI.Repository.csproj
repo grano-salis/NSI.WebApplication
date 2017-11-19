@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
-    <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>
