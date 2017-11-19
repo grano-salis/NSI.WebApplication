@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NSI.BLL;
+using NSI.DC.TaskRepository;
+using NSI.BLL.Interfaces;
+using NSI.Repository;
 
 namespace NSI.REST.Controllers
 {
@@ -11,18 +15,26 @@ namespace NSI.REST.Controllers
     [Route("api/Tasks")]
     public class TasksController : Controller
     {
+        ITaskManipulation _taskRepository { get; set; }
+
+        public TasksController()
+        {
+            _taskRepository = new TaskManipulation();
+        }
+
         // GET: api/Tasks
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<TaskDto> Get()
         {
-            return new string[] { "value1", "value2" };
+           return _taskRepository.GetTasks();
+
         }
 
         // GET: api/Tasks/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public TaskDto Get(int id)
         {
-            return "value";
+            return _taskRepository.GetTaksById(id);
         }
         
         // POST: api/Tasks
