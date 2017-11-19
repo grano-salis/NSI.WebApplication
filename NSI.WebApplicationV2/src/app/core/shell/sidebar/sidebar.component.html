@@ -32,13 +32,18 @@
             <span id="homechevron" class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
-            <li>
-              <a [routerLink]="['/home']" routerLinkActive="active">Home</a>
+            <li  [routerLink]="['/home']" routerLinkActive="active">
+              <a>Home</a>
             </li>
-            <li>
-              <a [routerLink]="['/about']" routerLinkActive="active">About</a>
+            <li [routerLink]="['/about']" routerLinkActive="active">
+              <a >About</a>
             </li>
           </ul>
+        </li>
+        <li [routerLink]="['/meetings']" routerLinkActive="current-page">
+          <a>
+            <i class="fa fa-calendar-o"></i> Meetings
+          </a>
         </li>
         <!-- <li>
           <a id="formsli" (click)="anchorClicked($event)">
