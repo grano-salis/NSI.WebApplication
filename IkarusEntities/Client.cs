@@ -11,15 +11,15 @@ namespace IkarusEntities
             ClientContact = new HashSet<ClientContact>();
         }
 
-        public long ClientId { get; set; }
+        public int ClientId { get; set; }
         public string ClientName { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
-        public long ClientTypeId { get; set; }
-        public long CustomerId { get; set; }
-        public long? AddressId { get; set; }
-        public long CreatedByUserId { get; set; }
+        public int ClientTypeId { get; set; }
+        public int CustomerId { get; set; }
+        public int? AddressId { get; set; }
+        public int CreatedByUserId { get; set; }
 
         public Address Address { get; set; }
         public ClientType ClientType { get; set; }

@@ -5,9 +5,9 @@ namespace IkarusEntities
 {
     public partial class ClientContact
     {
-        public long ClientContactId { get; set; }
-        public long ClientId { get; set; }
-        public long Contact { get; set; }
+        public int ClientContactId { get; set; }
+        public int ClientId { get; set; }
+        public int Contact { get; set; }
 
         public Client Client { get; set; }
         public Contact ContactNavigation { get; set; }

@@ -26,7 +26,6 @@ namespace IkarusEntities
         public virtual DbSet<Participant> Participant { get; set; }
         public virtual DbSet<PaymentGateway> PaymentGateway { get; set; }
         public virtual DbSet<PricingPackage> PricingPackage { get; set; }
-        public virtual DbSet<SpatialRefSys> SpatialRefSys { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<UserCase> UserCase { get; set; }
@@ -38,36 +37,12 @@ namespace IkarusEntities
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql(@"Host=baasu.db.elephantsql.com;Database=lqncahrn;Username=lqncahrn;Password=T4DfhwWR98vfjSWlWxCULqxAYVFtaWLs");
+                optionsBuilder.UseNpgsql(@"Host=46.101.178.124;Database=ikarus;Username=postgres;Password=postgres");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("btree_gin")
-                .HasPostgresExtension("btree_gist")
-                .HasPostgresExtension("citext")
-                .HasPostgresExtension("cube")
-                .HasPostgresExtension("dblink")
-                .HasPostgresExtension("dict_int")
-                .HasPostgresExtension("dict_xsyn")
-                .HasPostgresExtension("earthdistance")
-                .HasPostgresExtension("fuzzystrmatch")
-                .HasPostgresExtension("hstore")
-                .HasPostgresExtension("intarray")
-                .HasPostgresExtension("ltree")
-                .HasPostgresExtension("pg_stat_statements")
-                .HasPostgresExtension("pg_trgm")
-                .HasPostgresExtension("pgcrypto")
-                .HasPostgresExtension("pgrowlocks")
-                .HasPostgresExtension("pgstattuple")
-                .HasPostgresExtension("plv8")
-                .HasPostgresExtension("postgis")
-                .HasPostgresExtension("tablefunc")
-                .HasPostgresExtension("unaccent")
-                .HasPostgresExtension("uuid-ossp")
-                .HasPostgresExtension("xml2");
-
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.HasIndex(e => e.AddressTypeId)
@@ -75,8 +50,6 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.CreatedByUserId)
                     .HasName("IX_Relationship68");
-
-                entity.Property(e => e.AddressId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -102,7 +75,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship77");
 
-                entity.Property(e => e.AddressTypeId).ValueGeneratedNever();
+                entity.Property(e => e.AddressTypeName).IsRequired();
 
                 entity.Property(e => e.IsDeleted).HasDefaultValueSql("false");
 
@@ -119,8 +92,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship57");
 
-                entity.Property(e => e.CaseCategoryId).ValueGeneratedNever();
-
                 entity.Property(e => e.CaseCategoryName).IsRequired();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
@@ -133,7 +104,7 @@ namespace IkarusEntities
                     .WithMany(p => p.CaseCategory)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Relationship11");
+                    .HasConstraintName("Relationship57");
             });
 
             modelBuilder.Entity<CaseContact>(entity =>
@@ -174,8 +145,6 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship36");
-
-                entity.Property(e => e.CaseId).ValueGeneratedNever();
 
                 entity.Property(e => e.CaseNumber).IsRequired();
 
@@ -228,8 +197,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship60");
 
-                entity.Property(e => e.ClientId).ValueGeneratedNever();
-
                 entity.Property(e => e.ClientName).IsRequired();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
@@ -270,8 +237,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.Contact)
                     .HasName("IX_Relationship64");
 
-                entity.Property(e => e.ClientContactId).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.ClientContact)
                     .HasForeignKey(d => d.ClientId)
@@ -289,8 +254,6 @@ namespace IkarusEntities
             {
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship59");
-
-                entity.Property(e => e.ClientTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.ClientTypeName).IsRequired();
 
@@ -316,9 +279,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CreatedByUserId)
                     .HasName("IX_Relationship71");
 
-                entity.Property(e => e.Contact1)
-                    .HasColumnName("Contact")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Contact1).HasColumnName("Contact");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("timestamptz");
 
@@ -347,8 +308,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.UserId)
                     .HasName("IX_Relationship75");
 
-                entity.Property(e => e.ConversationId).ValueGeneratedNever();
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Conversation)
                     .HasForeignKey(d => d.UserId)
@@ -362,8 +321,6 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.PricingPackageId)
                     .HasName("IX_Relationship50");
-
-                entity.Property(e => e.CustomerId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -398,7 +355,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.FileTypeId)
                     .HasName("IX_Relationship38");
 
-                entity.Property(e => e.DocumentId).ValueGeneratedNever();
+                entity.Property(e => e.DocumentId).HasDefaultValueSql("nextval('\"Customer_CustomerId_seq\"'::regclass)");
 
                 entity.HasOne(d => d.Case)
                     .WithMany(p => p.Document)
@@ -429,8 +386,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship78");
 
-                entity.Property(e => e.DocumentCategoryId).ValueGeneratedNever();
-
                 entity.Property(e => e.CategoryTitle).IsRequired();
 
                 entity.HasOne(d => d.Customer)
@@ -442,8 +397,6 @@ namespace IkarusEntities
 
             modelBuilder.Entity<FileType>(entity =>
             {
-                entity.Property(e => e.FileTypeId).ValueGeneratedNever();
-
                 entity.Property(e => e.Extension).IsRequired();
 
                 entity.Property(e => e.IconPath).IsRequired();
@@ -456,8 +409,6 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.CreatedByUserId)
                     .HasName("IX_Relationship67");
-
-                entity.Property(e => e.HearingId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -485,8 +436,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CreatedByUserId)
                     .HasName("IX_Relationship70");
 
-                entity.Property(e => e.MeetingId).ValueGeneratedNever();
-
                 entity.Property(e => e.DateCreated).HasColumnType("timetz");
 
                 entity.Property(e => e.DateModified).HasColumnType("timetz");
@@ -511,8 +460,6 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.CreatedByUserId)
                     .HasName("IX_Relationship74");
-
-                entity.Property(e => e.MessageId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -541,8 +488,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.UserId)
                     .HasName("IX_Relationship52");
 
-                entity.Property(e => e.ParticipantId).ValueGeneratedNever();
-
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
                 entity.Property(e => e.DateModified).HasColumnType("timestamptz");
@@ -566,8 +511,6 @@ namespace IkarusEntities
 
             modelBuilder.Entity<PaymentGateway>(entity =>
             {
-                entity.Property(e => e.PaymentGatewayId).ValueGeneratedNever();
-
                 entity.Property(e => e.GatewayName).IsRequired();
 
                 entity.Property(e => e.IsActive).HasDefaultValueSql("true");
@@ -575,8 +518,6 @@ namespace IkarusEntities
 
             modelBuilder.Entity<PricingPackage>(entity =>
             {
-                entity.Property(e => e.PricingPackageId).ValueGeneratedNever();
-
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
                 entity.Property(e => e.DateModified).HasColumnType("timestamptz");
@@ -588,31 +529,10 @@ namespace IkarusEntities
                 entity.Property(e => e.Price).HasColumnType("numeric(10, 2)");
             });
 
-            modelBuilder.Entity<SpatialRefSys>(entity =>
-            {
-                entity.HasKey(e => e.Srid);
-
-                entity.ToTable("spatial_ref_sys");
-
-                entity.Property(e => e.Srid)
-                    .HasColumnName("srid")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.AuthName).HasColumnName("auth_name");
-
-                entity.Property(e => e.AuthSrid).HasColumnName("auth_srid");
-
-                entity.Property(e => e.Proj4text).HasColumnName("proj4text");
-
-                entity.Property(e => e.Srtext).HasColumnName("srtext");
-            });
-
             modelBuilder.Entity<Task>(entity =>
             {
                 entity.HasIndex(e => e.UserId)
                     .HasName("IX_Relationship22");
-
-                entity.Property(e => e.TaskId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -627,6 +547,7 @@ namespace IkarusEntities
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Task)
                     .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("AssignedTo");
             });
 
@@ -640,8 +561,6 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.PricingPackageId)
                     .HasName("IX_Relationship44");
-
-                entity.Property(e => e.TransactionId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -668,6 +587,8 @@ namespace IkarusEntities
             {
                 entity.HasKey(e => new { e.UserCaseId, e.CaseId, e.UserId });
 
+                entity.Property(e => e.UserCaseId).ValueGeneratedOnAdd();
+
                 entity.HasOne(d => d.Case)
                     .WithMany(p => p.UserCase)
                     .HasForeignKey(d => d.CaseId)
@@ -691,8 +612,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.Username)
                     .HasName("Username")
                     .IsUnique();
-
-                entity.Property(e => e.UserId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -718,6 +637,8 @@ namespace IkarusEntities
             modelBuilder.Entity<UserMeeting>(entity =>
             {
                 entity.HasKey(e => new { e.UserMeetingId, e.MeetingId, e.UserId });
+
+                entity.Property(e => e.UserMeetingId).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.Meeting)
                     .WithMany(p => p.UserMeeting)

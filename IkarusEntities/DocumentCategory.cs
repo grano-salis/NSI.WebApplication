@@ -10,9 +10,9 @@ namespace IkarusEntities
             Document = new HashSet<Document>();
         }
 
-        public long DocumentCategoryId { get; set; }
+        public int DocumentCategoryId { get; set; }
         public string CategoryTitle { get; set; }
-        public long CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
         public Customer Customer { get; set; }
         public ICollection<Document> Document { get; set; }

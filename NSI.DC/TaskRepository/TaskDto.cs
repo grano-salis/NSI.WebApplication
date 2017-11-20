@@ -9,7 +9,7 @@ namespace NSI.DC.TaskRepository
     public class TaskDto
     {
         [DataMember]
-        public long TaskId { get; set; }
+        public int TaskId { get; set; }
 
         [DataMember]
         public DateTime? DueDate { get; set; }
@@ -30,6 +30,6 @@ namespace NSI.DC.TaskRepository
         public bool? IsDeleted { get; set; }
 
         [DataMember]
-        public long? UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

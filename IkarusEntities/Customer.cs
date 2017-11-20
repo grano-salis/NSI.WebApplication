@@ -17,14 +17,14 @@ namespace IkarusEntities
             UserInfo = new HashSet<UserInfo>();
         }
 
-        public long CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public long CustomerName { get; set; }
         public bool? IsActive { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
-        public long? PricingPackageId { get; set; }
-        public long? AddressId { get; set; }
+        public int? PricingPackageId { get; set; }
+        public int? AddressId { get; set; }
 
         public Address Address { get; set; }
         public PricingPackage PricingPackage { get; set; }

@@ -22,7 +22,7 @@ namespace IkarusEntities
             UserMeeting = new HashSet<UserMeeting>();
         }
 
-        public long UserId { get; set; }
+        public int UserId { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -31,7 +31,7 @@ namespace IkarusEntities
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
-        public long CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
         public Customer Customer { get; set; }
         public ICollection<Address> Address { get; set; }

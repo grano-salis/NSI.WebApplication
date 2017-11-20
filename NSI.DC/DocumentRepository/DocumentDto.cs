@@ -9,6 +9,6 @@ namespace NSI.DC.DocumentRepository
     public class DocumentDto
     {
         [DataMember]
-        public long DocumentId {get; set;}
+        public int DocumentId {get; set;}
     }
 }

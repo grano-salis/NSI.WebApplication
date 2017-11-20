@@ -11,7 +11,7 @@ namespace IkarusEntities
             Transaction = new HashSet<Transaction>();
         }
 
-        public long PricingPackageId { get; set; }
+        public int PricingPackageId { get; set; }
         public long PricingPackageName { get; set; }
         public bool? IsActive { get; set; }
         public decimal Price { get; set; }

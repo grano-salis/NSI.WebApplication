@@ -10,7 +10,7 @@ namespace IkarusEntities
             Transaction = new HashSet<Transaction>();
         }
 
-        public long PaymentGatewayId { get; set; }
+        public int PaymentGatewayId { get; set; }
         public string GatewayName { get; set; }
         public bool? IsActive { get; set; }
 

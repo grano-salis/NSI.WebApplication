@@ -13,7 +13,7 @@ namespace IkarusEntities
             UserCase = new HashSet<UserCase>();
         }
 
-        public long CaseId { get; set; }
+        public int CaseId { get; set; }
         public string CaseNumber { get; set; }
         public string CourtNumber { get; set; }
         public decimal? Value { get; set; }
@@ -24,10 +24,10 @@ namespace IkarusEntities
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
-        public long CaseCategory { get; set; }
-        public long CustomerId { get; set; }
-        public long ClientId { get; set; }
-        public long CreatedByUserId { get; set; }
+        public int CaseCategory { get; set; }
+        public int CustomerId { get; set; }
+        public int ClientId { get; set; }
+        public int CreatedByUserId { get; set; }
 
         public CaseCategory CaseCategoryNavigation { get; set; }
         public Client Client { get; set; }

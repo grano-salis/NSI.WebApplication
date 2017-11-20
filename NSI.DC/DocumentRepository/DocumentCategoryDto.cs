@@ -9,7 +9,7 @@ namespace NSI.DC.DocumentRepository
     public class DocumentCategoryDto
     {
         [DataMember]
-        long DocumentCategoryId { get; set; }
+        int DocumentCategoryId { get; set; }
 
         [DataMember]
         string DocumentCategoryName { get; set; }

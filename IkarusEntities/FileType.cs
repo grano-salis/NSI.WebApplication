@@ -10,7 +10,7 @@ namespace IkarusEntities
             Document = new HashSet<Document>();
         }
 
-        public long FileTypeId { get; set; }
+        public int FileTypeId { get; set; }
         public string Extension { get; set; }
         public string IconPath { get; set; }
 
