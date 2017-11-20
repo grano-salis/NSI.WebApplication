@@ -3,4 +3,8 @@
  * Framework overrides and customization goes here.
  */
 
-@import "gentelella/custom-theme"
+@import "gentelella/custom-theme";
+
+.fc-day-number {
+    line-height: 20px;
+}

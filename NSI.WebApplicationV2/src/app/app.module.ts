@@ -10,10 +10,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import {PagesModule} from "./pages/pages.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {QuoteService} from "./services/quote.service";
 import { CookieService } from 'ngx-cookie-service';
 import { TasksService } from './services/tasks.service';
+import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-spinner';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -24,10 +26,12 @@ import { TasksService } from './services/tasks.service';
     CoreModule,
     SharedModule,
     PagesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgLoadingSpinnerModule
   ],
   declarations: [AppComponent],
   providers: [//ovdje se injecta svaki servis koji se doda
+    { provide: HTTP_INTERCEPTORS, useClass: NgLoadingSpinnerInterceptor, multi: true },
     CookieService,
     QuoteService,
     TasksService
