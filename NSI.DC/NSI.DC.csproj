@@ -10,4 +10,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TransactionRepository\" />
+    <Folder Include="PricingPackageRepository\" />
+  </ItemGroup>
 </Project>

@@ -12,8 +12,8 @@ namespace NSI.DC.Common
         [DataMember]
         public string ColumnName { get; set; }
 
-        [DataMember]
-        public SortOrder Order { get; set; }
+        //[DataMember]
+        //public SortOrder Order { get; set; }
 
     }
 }

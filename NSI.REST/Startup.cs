@@ -19,6 +19,10 @@ using NSI.BLL.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
 
+using IkarusEntities;
+using NSI.BLL.Interfaces;
+using NSI.BLL;
+
 namespace NSI.REST
 {
     public class Startup
@@ -46,14 +50,24 @@ namespace NSI.REST
 
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
+            services.AddDbContext<IkarusContext>();
+            //services.AddSingleton<IkarusContext>(new IkarusContext());
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionManipulation, TransactionManipulation>();
+
             services.AddMvc();
-            //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
+
+            //services.AddDbContext<IkarusContext>(/*options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient*/);
 
             services.Configure<MvcOptions>(options => {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllHeaders"));
             });
-            
+
+
+           
+
+
             //services.AddTransient<BLL.Interfaces.IUserManagement, BLL.Users.UserManagement>();
             
             // Inject JWT Settings
