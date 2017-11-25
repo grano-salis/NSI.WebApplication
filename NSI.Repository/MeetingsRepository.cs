@@ -27,7 +27,10 @@ namespace NSI.Repository
                     var entity_meeting = Mappers.MeetingsRepository.MapToDbEntity(model);
                     foreach (var userMeeting in model.UserMeeting)
                     {
-                        entity_meeting.UserMeeting.Add(Mappers.MeetingsRepository.MapToDbEntity(userMeeting.UserId, entity_meeting.MeetingId));
+                        entity_meeting.UserMeeting.Add(new UserMeeting()
+                        {
+                            UserId = userMeeting.UserId
+                        });
                         userIds.Add(userMeeting.UserId);
                     }
                     _dbContext.Meeting.Add(entity_meeting);

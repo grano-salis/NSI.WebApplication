@@ -55,13 +55,9 @@ namespace NSI.Tests
                 UserMeeting = usersOnMeeting
             };
 
-            var mockDbContext = new Mock<IkarusContext>();
-            mockDbContext.Setup(x => x.Meeting.Add(new Meeting()));
-            mockDbContext.Setup(x => x.SaveChanges()).Returns(1);
-
-
-            var meetingRepo = new MeetingsRepository(mockDbContext.Object);
-            var meetingManipulation = new MeetingsManipulation(meetingRepo);
+            var meetingRepo = new Mock<IMeetingsRepository>();
+            meetingRepo.Setup(x => x.Insert(meeting)).Returns(meeting);
+            var meetingManipulation = new MeetingsManipulation(meetingRepo.Object);
 
 
             var controller = new MeetingsController(meetingManipulation);
