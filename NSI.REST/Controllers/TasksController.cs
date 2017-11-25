@@ -8,6 +8,10 @@ using NSI.BLL;
 using NSI.DC.TaskRepository;
 using NSI.BLL.Interfaces;
 using NSI.Repository;
+using System.Net.Http;
+using System.Net;
+using NSI.REST.Models;
+using NSI.REST.Middleware;
 
 namespace NSI.REST.Controllers
 {
@@ -17,42 +21,99 @@ namespace NSI.REST.Controllers
     {
         ITaskManipulation _taskRepository { get; set; }
 
-        public TasksController()
+        public TasksController(ITaskManipulation taskManipulation)
         {
-            _taskRepository = new TaskManipulation();
+            _taskRepository = taskManipulation;
         }
 
         // GET: api/Tasks
         [HttpGet]
-        public IEnumerable<TaskDto> Get()
+        public IActionResult Get()
         {
-           return _taskRepository.GetTasks();
-
+           return Ok(_taskRepository.GetTasks());
         }
 
         // GET: api/Tasks/5
         [HttpGet("{id}", Name = "Get")]
-        public TaskDto Get(int id)
+        public IActionResult Get(int id)
         {
-            return _taskRepository.GetTaksById(id);
+            return Ok(_taskRepository.GetTaksById(id));
         }
         
         // POST: api/Tasks
         [HttpPost]
-        public void Post([FromBody]string value)
-        {
+        public IActionResult Post([FromBody]TasksCreateModel model)
+        {           
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            TaskDto taskDto = new TaskDto()
+            {
+                Description=model.Description,
+                DueDate=model.DueDate,
+                Title=model.Title,
+                UserId=model.UserId
+            };
+
+            try
+            {
+                var task = _taskRepository.CreateTask(taskDto);
+                if (task != null)
+                    return Ok(task);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return NoContent();
         }
-        
+
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]TasksEditModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            TaskDto taskDto = new TaskDto()
+            {
+                Description = model.Description,
+                DueDate = model.DueDate,
+                Title = model.Title,
+                UserId = model.UserId
+            };
+
+            try
+            {
+
+                if (_taskRepository.EditTask(id, taskDto))
+                    return Ok();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                if (_taskRepository.DeleteTaskById(id))
+                    return Ok();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

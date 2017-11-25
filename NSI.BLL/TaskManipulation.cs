@@ -10,14 +10,10 @@ namespace NSI.BLL
 {
     public class TaskManipulation : ITaskManipulation
     {
-        TaskRepository _taskRepository;
+        ITaskRepository _taskRepository;
 
-        public TaskManipulation()
-        {
-            _taskRepository = new TaskRepository(new IkarusEntities.IkarusContext());
-        }
 
-        public TaskManipulation(TaskRepository taskRepository)
+        public TaskManipulation(ITaskRepository taskRepository)
         {
             _taskRepository = taskRepository;
         }
@@ -30,6 +26,11 @@ namespace NSI.BLL
         public bool DeleteTaskById(int taskId)
         {
             return _taskRepository.DeleteTaskById(taskId);
+        }
+
+        public bool EditTask(int taskId, TaskDto task)
+        {
+            return _taskRepository.EditTask(taskId, task);
         }
 
         public TaskDto GetTaksById(int taskId)

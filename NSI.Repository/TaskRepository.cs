@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using NSI.Repository.Interfaces;
 
 namespace NSI.Repository
 {
-    public partial class TaskRepository
+    public partial class TaskRepository:ITaskRepository
     {
         private readonly IkarusContext _dbContext;
 
@@ -17,49 +18,81 @@ namespace NSI.Repository
         }
 
         public TaskDto CreateTask(TaskDto taskDto) {
-            var task = Mappers.TaskRepository.MapToDbEntity(taskDto);
-            _dbContext.Add(task);
-            if (_dbContext.SaveChanges() != 0)
-                return Mappers.TaskRepository.MapToDto(task);
+            try
+            {
+                var task = Mappers.TaskRepository.MapToDbEntity(taskDto);
+                _dbContext.Add(task);
+                if (_dbContext.SaveChanges() != 0)
+                    return Mappers.TaskRepository.MapToDto(task);
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
             return null;
 
         }
-        //Not tested
+
         public TaskDto GetTaskById(int taskId) {
-            var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
-            if (task != null)
+            try
             {
-                return Mappers.TaskRepository.MapToDto(task);
+                var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
+                if (task != null)
+                {
+                    return Mappers.TaskRepository.MapToDto(task);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!"); throw new Exception();
             }
             return null;
         }
-        //Not tested
+
         public ICollection<TaskDto> GetTasks()
         {
-            var tasks = _dbContext.Task;
-            if (tasks != null)
+            try
             {
-                ICollection<TaskDto> tasksDto = new List<TaskDto>();
-                foreach (var item in tasks)
+                var tasks = _dbContext.Task;
+                if (tasks != null)
                 {
-                    tasksDto.Add(Mappers.TaskRepository.MapToDto(item));
+                    ICollection<TaskDto> tasksDto = new List<TaskDto>();
+                    foreach (var item in tasks)
+                    {
+                        tasksDto.Add(Mappers.TaskRepository.MapToDto(item));
+                    }
+                    return tasksDto;
                 }
-                return tasksDto;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
             }
             return null;
         }
-        //Not tested
+
         public bool DeleteTaskById(int taskId) {
-            var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
-            if (task != null)
+            try
             {
-                if (_dbContext.Task.Remove(task) != null)
+                var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
+                if (task != null)
                 {
-                    _dbContext.SaveChanges();
-                    return true;
+                    if (_dbContext.Task.Remove(task) != null)
+                    {
+                        _dbContext.SaveChanges();
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
         }
 
         public ICollection<TaskDto> SearchTasks(TaskDto searchCriteria)
@@ -73,5 +106,28 @@ namespace NSI.Repository
             return null;
 
          }
+
+        public bool EditTask(int taskId, TaskDto task)
+        {
+            try
+            {
+                var taskTmp = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
+                if (taskTmp != null)
+                {
+                    taskTmp.Description = task.Description ?? taskTmp.Description;
+                    taskTmp.DueDate = task.DueDate != null ? task.DueDate : taskTmp.DueDate;
+                    taskTmp.Title = task.Title ?? taskTmp.Title;
+                    taskTmp.UserId = task.UserId != 0 ? task.UserId : taskTmp.UserId;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
+        }
     }
 }

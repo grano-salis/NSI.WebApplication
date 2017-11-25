@@ -21,7 +21,6 @@ import { NsiCalendarComponent } from './nsi-calendar/nsi-calendar.component';
     Comp1Component,
     Comp2Component,
     NsiCalendarComponent
-
   ]
 })
 export class SharedModule { }

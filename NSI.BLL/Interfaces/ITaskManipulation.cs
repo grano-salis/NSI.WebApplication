@@ -11,5 +11,6 @@ namespace NSI.BLL.Interfaces
         TaskDto CreateTask(TaskDto taskDto);
         ICollection<TaskDto> GetTasks();
         bool DeleteTaskById(int taskId);
+        bool EditTask(int taskId, TaskDto task);
     }
 }

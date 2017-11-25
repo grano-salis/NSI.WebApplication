@@ -27,9 +27,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     // this.plot();
   }
 
-  anchorClicked(event: MouseEvent) {
+  anchorClicked(event: any) {
 
-    const target = event.srcElement.id;
+    console.log("anchorClicked", event);
+
+    const target = event.target.id;
 
     const $li = $('#' + target.replace("chevron", "li")).parent();
 
