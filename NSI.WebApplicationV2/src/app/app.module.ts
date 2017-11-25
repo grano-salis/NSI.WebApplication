@@ -15,6 +15,8 @@ import {QuoteService} from "./services/quote.service";
 import { CookieService } from 'ngx-cookie-service';
 import { TasksService } from './services/tasks.service';
 import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-spinner';
+import {AlertModule} from "ngx-bootstrap";
+import {HelperService} from "./services/helper.service";
 
 @NgModule({
   imports: [
@@ -27,14 +29,16 @@ import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-
     SharedModule,
     PagesModule,
     AppRoutingModule,
-    NgLoadingSpinnerModule
+    NgLoadingSpinnerModule,
+    AlertModule.forRoot()
   ],
   declarations: [AppComponent],
   providers: [//ovdje se injecta svaki servis koji se doda
     { provide: HTTP_INTERCEPTORS, useClass: NgLoadingSpinnerInterceptor, multi: true },
     CookieService,
     QuoteService,
-    TasksService
+    TasksService,
+    HelperService
   ],
   bootstrap: [AppComponent]
 })

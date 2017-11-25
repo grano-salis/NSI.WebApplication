@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { TasksService } from '../../services/tasks.service';
-import { each } from 'lodash';
+import {Component, OnInit} from '@angular/core';
+import {TasksService} from '../../services/tasks.service';
+import {each} from 'lodash';
 import * as moment from 'moment';
-import { Logger } from '../../core/services/logger.service';
+import {Logger} from '../../core/services/logger.service';
+import {FormGroup} from "@angular/forms";
+import {HelperService} from "../../services/helper.service";
+
 declare let $: any;
 
 const logger = new Logger('Meetings');
+
 @Component({
   selector: 'app-meetings',
   templateUrl: './meetings.component.html',
@@ -30,38 +34,96 @@ export class MeetingsComponent implements OnInit {
     events: []
   };
 
+  dateSelected: boolean;
+
+  eventModel: any = {
+    dateFrom: null,
+    dateTo: null,
+    title: '',
+    desc: ''
+  };
+
+  formSubmitted: boolean;
+
+
   constructor(private tasksService: TasksService) {
 
     this.calendarConfiguration.select = (start: any, end: any) => this._onSelect(start, end);
   }
 
+
+  // ****************
+  // Public methods
+  // ****************
   ngOnInit() {
     this.loadTasks();
   }
 
-  public onCalendarReady(calendar: any): void {
+  submitEvent(form: any){
+
+    this.formSubmitted = true;
+
+    if(form.invalid) {
+      return;
+    }
+    let eventData = {
+      start: this.eventModel.dateFrom,
+      end: this.eventModel.dateTo,
+      title: this.eventModel.title
+    };
+
+    $(this._calendar).fullCalendar('renderEvent', eventData, true);
+    this.dateSelected = false;
+    this.formSubmitted = false;
+
+    //todo: add service
+  }
+
+  cancelNewEvent(){
+    this.eventModel = {
+      dateFrom: null,
+      dateTo: null,
+      title: '',
+      desc: ''
+    };
+    this.dateSelected = false;
+  }
+
+  onCalendarReady(calendar: any): void {
     this._calendar = calendar;
     $(this._calendar).fullCalendar('option', 'contentHeight', 650);
   }
 
+  // ****************
+  // Private methods
+  // ****************
   private _onSelect(start: any, end: any): void {
 
     if (this._calendar != null) {
-      const title = prompt('Event Title:');
-      let eventData;
-      if (title) {
-        eventData = {
-          title: title,
-          start: start,
-          end: end
-        };
-        $(this._calendar).fullCalendar('renderEvent', eventData, true);
-      }
+
+      this.dateSelected = true;
+
+      HelperService.scrollToTop();
+
+      this.eventModel = {
+        dateFrom: start,
+        dateTo: end
+      };
+
+
+      // if (title) {
+      //   eventData = {
+      //     title: title,
+      //     start: start,
+      //     end: end
+      //   };
+      //   $(this._calendar).fullCalendar('renderEvent', eventData, true);
+      // }
       $(this._calendar).fullCalendar('unselect');
     }
   }
 
-  loadTasks(): any {
+  private loadTasks(): any {
     this.tasksService.getTasks()
       .subscribe((r: any) => {
         const tasks = r;
@@ -79,7 +141,7 @@ export class MeetingsComponent implements OnInit {
       });
   }
 
-  getData() {
+  private getData() {
     return [
       {
         title: 'All Day Event',
@@ -104,4 +166,7 @@ export class MeetingsComponent implements OnInit {
       }
     ];
   }
+
+
+
 }
