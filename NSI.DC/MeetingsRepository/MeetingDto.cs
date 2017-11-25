@@ -16,5 +16,8 @@ namespace NSI.DC.MeetingsRepository
 
         [DataMember]
         public DateTime? To { get; set; }
+
+        [DataMember]
+        public IEnumerable<UserMeetingDto> UserMeeting { get; set; }
     }
 }

@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IkarusEntities;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using NSI.BLL;
 using NSI.BLL.Interfaces;
 using NSI.DC.MeetingsRepository;
+using NSI.Repository;
+using NSI.Repository.Interfaces;
 using NSI.REST.Controllers;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace NSI.Tests
@@ -33,25 +38,44 @@ namespace NSI.Tests
             int id = 123;
             DateTime from = DateTime.Now;
             DateTime to = DateTime.Now.AddDays(10);
-       
-            var mockRepo = new Mock<IMeetingsManipulation>();
-            var controller = new MeetingsController(mockRepo.Object);
 
-            // Act
-            var result = controller.Post(new MeetingDto()
+            var usersOnMeeting = new List<UserMeetingDto>()
+                {
+                    new UserMeetingDto()
+                    {
+                        UserId = 1
+                    }
+                };
+
+            var meeting = new MeetingDto()
             {
                 MeetingId = id,
                 From = from,
-                To = to
-            });
+                To = to,
+                UserMeeting = usersOnMeeting
+            };
+
+            var mockDbContext = new Mock<IkarusContext>();
+            mockDbContext.Setup(x => x.Meeting.Add(new Meeting()));
+            mockDbContext.Setup(x => x.SaveChanges()).Returns(1);
+
+
+            var meetingRepo = new MeetingsRepository(mockDbContext.Object);
+            var meetingManipulation = new MeetingsManipulation(meetingRepo);
+
+
+            var controller = new MeetingsController(meetingManipulation);
+
+            // Act
+            var result = controller.Post(meeting);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returned = Assert.IsType<MeetingDto>(okResult.Value);
-            mockRepo.Verify();
             Assert.Equal(id, returned.MeetingId);
             Assert.Equal(from, returned.From);
             Assert.Equal(to, returned.To);
+            Assert.Equal(usersOnMeeting, returned.UserMeeting);
         }
     }
 }

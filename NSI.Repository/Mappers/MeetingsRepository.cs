@@ -15,18 +15,37 @@ namespace NSI.Repository.Mappers
                 MeetingId = model.MeetingId,
                 From = model.From,
                 To = model.To,
-                CreatedByUser = null,
                 CreatedByUserId = 1,
-                UserMeeting = null // should call MapToEntity for every user
+                DateCreated = DateTime.UtcNow
             };
         }
 
-        public static MeetingDto MapToDto(Meeting entity)
+        public static UserMeeting MapToDbEntity(int user_id, int meeting_id)
         {
-            return new MeetingDto(){
+            return new UserMeeting()
+            {
+                UserId = user_id,
+                MeetingId = meeting_id
+            };
+        }
+
+        public static MeetingDto MapToDto(Meeting entity, IEnumerable<UserInfo> users)
+        {
+            List<UserMeetingDto> userMeetings = new List<UserMeetingDto>();
+            foreach (var item in users)
+            {
+                userMeetings.Add(new UserMeetingDto()
+                {
+                    UserId = item.UserId,
+                    UserName = item.Username
+                });
+            }
+            return new MeetingDto()
+            {
                 MeetingId = entity.MeetingId,
                 From = entity.From,
-                To = entity.To
+                To = entity.To,
+                UserMeeting = userMeetings
             };
         }
     }
