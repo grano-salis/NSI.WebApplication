@@ -18,6 +18,9 @@ using NSI.REST.Middleware;
 using NSI.BLL.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
+using NSI.BLL.Interfaces;
+using NSI.BLL;
+using IkarusEntities;
 
 namespace NSI.REST
 {
@@ -46,7 +49,10 @@ namespace NSI.REST
 
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
+            services.AddScoped<IkarusContext, IkarusContext>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
+            services.AddScoped<IMeetingsRepository, MeetingsRepository>();
+            services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();
             services.AddMvc();
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
 
