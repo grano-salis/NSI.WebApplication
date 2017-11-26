@@ -50,6 +50,8 @@ namespace NSI.REST
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
             services.AddScoped<IkarusContext, IkarusContext>();
+            services.AddScoped<IAddressManipulation, AddressManipulation>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<IMeetingsRepository, MeetingsRepository>();
             services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();

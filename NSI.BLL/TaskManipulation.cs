@@ -20,7 +20,7 @@ namespace NSI.BLL
 
         public TaskDto CreateTask(TaskDto taskDto)
         {
-           return _taskRepository.CreateTask(taskDto);
+            return _taskRepository.CreateTask(taskDto);
         }
 
         public bool DeleteTaskById(int taskId)
