@@ -11,7 +11,11 @@ namespace NSI.Repository
             return new Transaction()
             {
                 TransactionId = transaction.TransactionId,
-                Amount = transaction.Amount
+                Amount = transaction.Amount,
+                DateCreated = transaction.DateCreated,
+                PricingPackageId = transaction.PricingPackageId,
+                PaymentGatewayId = transaction.PaymentGatewayId,
+                CustomerId = transaction.CustomerId
             };
         }
 
@@ -20,8 +24,11 @@ namespace NSI.Repository
             return new TransactionDto()
             {
                 TransactionId = transaction.TransactionId,
-                Amount = transaction.Amount
-
+                Amount = transaction.Amount,
+                DateCreated = transaction.DateCreated,
+                PricingPackageId = transaction.PricingPackageId,
+                PaymentGatewayId = transaction.PaymentGatewayId,
+                CustomerId = transaction.CustomerId
             };
         }
 

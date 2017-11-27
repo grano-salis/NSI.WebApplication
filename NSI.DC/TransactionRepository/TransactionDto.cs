@@ -8,9 +8,16 @@ namespace NSI.DC.TransactionRepository
     {
         [DataMember]
         public int TransactionId { get; set; }
-
         [DataMember]
         public decimal Amount { get; set; }
+        [DataMember]
+        public DateTime DateCreated { get; set; }
+        [DataMember]
+        public int PaymentGatewayId { get; set; }
+        [DataMember]
+        public int PricingPackageId { get; set; }
+        [DataMember]
+        public int CustomerId { get; set; }
 
     }
 }

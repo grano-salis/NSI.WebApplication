@@ -14,7 +14,6 @@ namespace NSI.Repository
 
         public TransactionRepository(IkarusContext dbContext)
         {
-            System.Console.WriteLine("tu smo!");
             _dbContext = dbContext;
 
         }
@@ -26,17 +25,18 @@ namespace NSI.Repository
 
         }
 
-        ICollection<TransactionDto> ITransactionRepository.GetAllTransactions()
+        IEnumerable<TransactionDto> ITransactionRepository.GetAllTransactions()
         {
-            return _dbContext.Transaction != null ? (ICollection<TransactionDto>)_dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x)) : null;
+            return _dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x));
+            //return _dbContext.Transaction != null ? (ICollection<TransactionDto>)_dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x)) : new ;
         }
 
-        long ITransactionRepository.SaveTransaction(TransactionDto transaction)
+        TransactionDto ITransactionRepository.SaveTransaction(TransactionDto transaction)
         {
-            var t = _dbContext.Transaction.Add(TransactionRepository.MapToDbEntity(transaction));
-            return _dbContext.SaveChanges();
+            var newTransaction = MapToDbEntity(transaction);
+            _dbContext.Transaction.Add(newTransaction);
+            if (_dbContext.SaveChanges() != 0) return MapToDto(newTransaction);
+            return null;
         }
-
-
     }
 }

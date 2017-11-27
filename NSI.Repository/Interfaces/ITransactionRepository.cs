@@ -6,9 +6,8 @@ namespace NSI.Repository.Interfaces
     public interface ITransactionRepository
     {
         TransactionDto GetTransaction(int transactionId);
-        ICollection<TransactionDto> GetAllTransactions();
-        //IEnumerable<TransactionDto> SearchTransactions(DocumentSearchCriteriaDto searchCriteria);
-        long SaveTransaction(TransactionDto transaction);
+        IEnumerable<TransactionDto> GetAllTransactions();
+        TransactionDto SaveTransaction(TransactionDto transaction);
 
     }
 }

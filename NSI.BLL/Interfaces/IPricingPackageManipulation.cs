@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using NSI.DC.PricingPackageRepository;
 
-namespace NSI.Repository.Interfaces
+namespace NSI.BLL.Interfaces
 {
-    public interface IPricingPackageRepository
+    public interface IPricingPackageManipulation
     {
         PricingPackageDto GetPricingPackage(int pricingPackageId);
-        IEnumerable<PricingPackageDto> GetAllPricingPackages();
+        IEnumerable<PricingPackageDto> GetPricingPackages();
         PricingPackageDto SavePricingPackage(PricingPackageDto pricingPackage);
-        bool DeletePricingPackage(int id);
+        bool DeletePricingPackageById(int pricingPackageId);
     }
 }

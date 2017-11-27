@@ -14,9 +14,17 @@ namespace NSI.BLL
             _transactionRepository = transactionRepository;
         }
 
-        public ICollection<TransactionDto> GetTransactions()
+        public TransactionDto GetTransaction(int transactionId){
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<TransactionDto> GetTransactions()
         {
             return _transactionRepository.GetAllTransactions();
+        }
+
+        public TransactionDto SaveTransaction(TransactionDto transaction){
+            return _transactionRepository.SaveTransaction(transaction);
         }
     }
 }
