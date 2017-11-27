@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { each } from 'lodash';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {each} from 'lodash';
 import * as moment from 'moment';
-import { Logger } from '../../core/services/logger.service';
+import {Logger} from '../../core/services/logger.service';
 declare let $: any;
 
 const logger = new Logger('contacts');
@@ -10,15 +10,19 @@ const logger = new Logger('contacts');
   templateUrl: './contacts.component.html',
   styleUrls: []
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent implements OnInit, AfterViewInit {
 
 
   constructor() {
-
   }
+
 
   ngOnInit() {
+
   }
 
+  ngAfterViewInit() {
+    $('#datatable').dataTable();
+  }
 
 }
