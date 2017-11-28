@@ -9,58 +9,19 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-
           <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Phone</th>
-              <th>Mobile</th>
+              <th>Name</th>
               <th>Email</th>
-              <th>Adress </th>
+              <th>Phone</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Admira</td>
-              <td>Husić</td>
-              <td>00</td>
-              <td>11</td>
-              <td>admira@india.com</td>
-              <td>Adresa 1</td>
-            </tr>
-            <tr>
-              <td>Vejsil</td>
-              <td>Hrustić</td>
-              <td>00</td>
-              <td>11</td>
-              <td>vejsil@india.com</td>
-              <td>Adresa 1</td>
-            </tr>
-            <tr>
-              <td>Adna</td>
-              <td>Tahić</td>
-              <td>00</td>
-              <td>11</td>
-              <td>adna@india.com</td>
-              <td>Adresa 1</td>
-            </tr>
-            <tr>
-              <td>Merima</td>
-              <td>Čišija</td>
-              <td>00</td>
-              <td>11</td>
-              <td>merima@india.com</td>
-              <td>Adresa 1</td>
-            </tr>
-            <tr>
-              <td>Aida</td>
-              <td>Kanlić</td>
-              <td>00</td>
-              <td>11</td>
-              <td>aida@india.com</td>
-              <td>Adresa 1</td>
+            <tr *ngFor="let contact of contacts">
+              <td>{{contact.FirstName}} {{contact.LastName}}</td>
+              <td>{{contact.Email}}</td>
+              <td>{{contact.Phone}}</td>
             </tr>
             </tbody>
           </table>
