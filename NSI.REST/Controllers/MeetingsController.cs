@@ -28,9 +28,8 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var result = _meetingsManipulation.Create(model);
-                if (result != null)
-                    return Ok(result);
+                _meetingsManipulation.Create(model);
+                return Ok("New meeting created");
             }
             catch(Exception ex)
             {
