@@ -2,10 +2,12 @@ export class Meeting {
 
     title: string;
     date: string;
-    users: string[];
+    from: string;
+    to: string;
+    userMeeting: any[];
 
     constructor() {
-        this.users = [];
+        this.userMeeting = [];
     }
 
 }

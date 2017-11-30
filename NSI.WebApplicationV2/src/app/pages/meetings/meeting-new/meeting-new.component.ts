@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Meeting } from './meeting';
+import { MeetingsService } from '../../../services/meetings.service';
 
 @Component({
   selector: 'app-meeting-new',
@@ -14,7 +15,7 @@ export class MeetingNewComponent {
   filteredList: string[];
   model: Meeting;
 
-  constructor() {
+  constructor(private meetingsService: MeetingsService) {
     this.query = '';
     this.filteredList = [];
     this.model = new Meeting();
@@ -30,19 +31,30 @@ export class MeetingNewComponent {
     }
   }
 
-  add(item:string) {
-    this.model.users.push(item);
+  add(item: string) {
+    this.model.userMeeting.push(item);
     this.query = '';
     this.filteredList = [];
   }
 
-  remove(item:string){
-    this.model.users.splice(this.model.users.indexOf(item),1);
-}
+  remove(item: string) {
+    this.model.userMeeting.splice(this.model.userMeeting.indexOf(item), 1);
+  }
 
   onSubmit() {
     console.log("Form submitted");
     console.log(this.model);
+    // Submit fake data
+    this.model.from = '01/01/2001';
+    this.model.to = '01/01/2002'
+    this.model.userMeeting = [
+      {
+        'userId': 1,
+        'userName': 'admin'
+      }
+    ];
+    this.meetingsService.postMeeting(this.model).subscribe((r: any) => console.log('Hazime imamo bingo: ' + r),
+      (error: any) => console.log("Error: " + error.message));
   }
 
   newMeeting() {

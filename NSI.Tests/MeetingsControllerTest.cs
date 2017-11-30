@@ -56,7 +56,7 @@ namespace NSI.Tests
             };
 
             var meetingRepo = new Mock<IMeetingsRepository>();
-            meetingRepo.Setup(x => x.Insert(meeting)).Returns(meeting);
+            meetingRepo.Setup(x => x.Insert(meeting));
             var meetingManipulation = new MeetingsManipulation(meetingRepo.Object);
 
 
@@ -66,12 +66,7 @@ namespace NSI.Tests
             var result = controller.Post(meeting);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
-            var returned = Assert.IsType<MeetingDto>(okResult.Value);
-            Assert.Equal(id, returned.MeetingId);
-            Assert.Equal(from, returned.From);
-            Assert.Equal(to, returned.To);
-            Assert.Equal(usersOnMeeting, returned.UserMeeting);
+            Assert.IsType<OkObjectResult>(result);
         }
     }
 }

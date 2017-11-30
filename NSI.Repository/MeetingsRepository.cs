@@ -17,35 +17,18 @@ namespace NSI.Repository
             _dbContext = dbContext;
         }
 
-        public MeetingDto Insert(MeetingDto model)
+        public void Insert(MeetingDto model)
         {
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            try
             {
-                try
-                {
-                    var userIds = new List<int>();
-                    var entity_meeting = Mappers.MeetingsRepository.MapToDbEntity(model);
-                    foreach (var userMeeting in model.UserMeeting)
-                    {
-                        entity_meeting.UserMeeting.Add(new UserMeeting()
-                        {
-                            UserId = userMeeting.UserId
-                        });
-                        userIds.Add(userMeeting.UserId);
-                    }
-                    _dbContext.Meeting.Add(entity_meeting);
-                    if (_dbContext.SaveChanges() != 0)
-                    {
-                        transaction.Commit();
-                        return Mappers.MeetingsRepository.MapToDto(entity_meeting, _dbContext.UserInfo.Where(x => userIds.Contains(x.UserId)));
-                    }
-                    return null;
-                }
-                catch(Exception)
-                {
-                    transaction.Rollback();
-                    throw new Exception("Something went wrong with database");
-                }
+                var entity_meeting = Mappers.MeetingsRepository.MapToDbEntity(model);
+                _dbContext.Meeting.Add(entity_meeting);
+                _dbContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                // log exception
+                throw new Exception("Something went wrong with database");
             }
         }
     }

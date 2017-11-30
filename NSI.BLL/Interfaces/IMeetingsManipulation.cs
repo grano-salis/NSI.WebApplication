@@ -7,6 +7,6 @@ namespace NSI.BLL.Interfaces
 {
     public interface IMeetingsManipulation
     {
-        MeetingDto Create(MeetingDto model);
+        void Create(MeetingDto model);
     }
 }
