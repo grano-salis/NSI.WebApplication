@@ -26,8 +26,8 @@
     <div class="menu_section">
       <h3>General</h3>
       <ul class="nav side-menu">
-        <li (click)="anchorClicked($event)">
-          <a id="homeli">
+        <li>
+          <a id="homeli" (click)="anchorClicked($event)">
             <i class="fa fa-home"></i> Home
             <span id="homechevron" class="fa fa-chevron-down"></span>
           </a>
@@ -40,13 +40,13 @@
             </li>
           </ul>
         </li>
-        <li (click)="anchorClicked($event)">
-          <a id="meetingsli">
+        <li >
+          <a id="meetingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Meetings
             <span id="meetingschevron" class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
-            <li [routerLink]="['/meetings']" routerLinkActive="active">
+            <li [routerLink]="['/meetings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <a>Overview</a>
             </li>
             <li [routerLink]="['/meetings/new']" routerLinkActive="active">

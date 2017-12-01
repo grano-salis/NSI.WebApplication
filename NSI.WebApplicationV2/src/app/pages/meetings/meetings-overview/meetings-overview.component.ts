@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {TasksService} from '../../services/tasks.service';
+import {TasksService} from '../../../services/tasks.service';
 import {each} from 'lodash';
 import * as moment from 'moment';
-import {Logger} from '../../core/services/logger.service';
-import {FormGroup} from "@angular/forms";
-import {HelperService} from "../../services/helper.service";
+import {Logger} from '../../../core/services/logger.service';
+import {HelperService} from "../../../services/helper.service";
 
 declare let $: any;
 
@@ -12,8 +11,8 @@ const logger = new Logger('Meetings');
 
 @Component({
   selector: 'app-meetings',
-  templateUrl: './meetings.component.html',
-  styleUrls: ['./meetings.component.scss']
+  templateUrl: './meetings-overview.component.html',
+  styleUrls: ['./meetings-overview.component.scss']
 })
 export class MeetingsComponent implements OnInit {
 
@@ -62,7 +61,7 @@ export class MeetingsComponent implements OnInit {
   submitEvent(form: any){
 
     this.formSubmitted = true;
-
+    $(this._calendar).fullCalendar('unselect');
     if(form.invalid) {
       return;
     }
@@ -75,7 +74,7 @@ export class MeetingsComponent implements OnInit {
     $(this._calendar).fullCalendar('renderEvent', eventData, true);
     this.dateSelected = false;
     this.formSubmitted = false;
-
+    $(this._calendar).fullCalendar('unselect');
     //todo: add service
   }
 
@@ -119,7 +118,7 @@ export class MeetingsComponent implements OnInit {
       //   };
       //   $(this._calendar).fullCalendar('renderEvent', eventData, true);
       // }
-      $(this._calendar).fullCalendar('unselect');
+
     }
   }
 
