@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using NSI.Repository.Interfaces;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository
 {
@@ -27,8 +28,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
             return null;
 
@@ -45,8 +46,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!"); throw new Exception();
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!"); 
             }
             return null;
         }
@@ -68,8 +69,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
             return null;
         }
@@ -90,8 +91,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
         }
 
@@ -125,8 +126,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
         }
     }
