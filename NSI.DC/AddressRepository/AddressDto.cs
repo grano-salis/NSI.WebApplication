@@ -28,5 +28,7 @@ namespace NSI.DC.AddressRepository
         public DateTime? DateCreated { get; set; }
         [DataMember]
         public DateTime? DateModified { get; set; }
+        [DataMember]
+        public bool IsDeleted { get; set; }
     }
 }

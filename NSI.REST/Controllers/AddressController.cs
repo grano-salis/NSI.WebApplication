@@ -37,7 +37,7 @@ namespace NSI.REST.Controllers
 
         // POST: api/address
         [HttpPost]
-        public IActionResult Post([FromBody]AddressCreateModels model)
+        public IActionResult PostAddress([FromBody]AddressCreateModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -68,6 +68,54 @@ namespace NSI.REST.Controllers
                 //return BadRequest(ex.Message);
             }
             return NoContent();
+        }
+
+        // DELETE: api/address/1
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAddress(int id)
+        {
+            try
+            {
+                if (AddressRepository.DeleteAddressById(id)) return Ok();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // PUT: api/address/1
+        [HttpPut("{id}")]
+        public IActionResult PutAddress(int id, [FromBody]AddressEditModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            AddressDto addressDto = new AddressDto()
+            {
+                Address1 = model.Address1,
+                Address2 = model.Address2,
+                City = model.City,
+                ZipCode = model.ZipCode,
+                AddressTypeId = model.AddressTypeId,
+                DateModified = DateTime.Now,
+                IsDeleted = (bool)model.IsDeleted
+            };
+
+            try
+            {
+
+                if (AddressRepository.EditAddress(id, addressDto)) return Ok();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException);
+            }
         }
     }
 }
