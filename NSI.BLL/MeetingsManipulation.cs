@@ -25,5 +25,10 @@ namespace NSI.BLL
         {
             return _meetingsRepository.GetMeetings();
         }
+
+        public void Update(int meetingId, MeetingDto model)
+        {
+            _meetingsRepository.Update(meetingId, model);
+        }
     }
 }

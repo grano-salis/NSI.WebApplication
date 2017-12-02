@@ -46,5 +46,25 @@ namespace NSI.REST.Controllers
             return BadRequest();
 
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] MeetingDto model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _meetingsManipulation.Update(id, model);
+                return Ok("Meeting updated");
+            }
+            catch (Exception ex)
+            {
+                // log exception
+            }
+
+            return BadRequest();
+        }
     }
 }

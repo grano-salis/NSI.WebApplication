@@ -53,5 +53,38 @@ namespace NSI.Repository
             }
             return null;
         }
+        public void Update(int meetingId, MeetingDto model)
+        {
+            try
+            {
+                var meetingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
+                if (meetingTmp != null)
+                {
+                    //remove all users for this meeting from UserMeeting table
+                    var atendees = _dbContext.UserMeeting.Where(x => x.MeetingId == meetingId).ToList();
+                    if (atendees != null)
+                        _dbContext.UserMeeting.RemoveRange(atendees);
+
+                    //update data
+                    meetingTmp.DateModified = DateTime.Now;
+                    meetingTmp.From = model.From != null ? model.From : meetingTmp.From;
+                    meetingTmp.To = model.To != null ? model.To : meetingTmp.To;
+
+                    //update users
+                    foreach (var item in model.UserMeeting)
+                        meetingTmp.UserMeeting.Add(new UserMeeting() { UserId = item.UserId, MeetingId = meetingId });
+
+                    _dbContext.SaveChanges();
+
+                }
+            }
+            catch (Exception e)
+            {
+                //log ex
+                throw new Exception("Database error!");
+
+            }
+        }
+
+        }
     }
-}
