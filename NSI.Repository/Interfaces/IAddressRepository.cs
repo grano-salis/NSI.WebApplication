@@ -7,7 +7,7 @@ namespace NSI.Repository.Interfaces
 {
     public interface IAddressRepository
     {
-        AddressDto CreateAddress(AddressDto taskDto);
+        AddressDto CreateAddress(AddressDto addressDto);
         ICollection<AddressDto> SearchAddreses(AddressDto searchCriteria);
         AddressDto GetAddressById(int addressId);
         ICollection<AddressDto> GetAddreses();
