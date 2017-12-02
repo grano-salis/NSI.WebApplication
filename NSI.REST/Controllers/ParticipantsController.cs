@@ -27,6 +27,7 @@ namespace NSI.REST.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet]
         public IActionResult GetConversationParticipants(int conversationId)
         {
             try

@@ -5,6 +5,7 @@ using System.Text;
 using NSI.DC.TaskRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
+using NSI.BLL.Helpers;
 
 namespace NSI.BLL
 {
@@ -41,6 +42,12 @@ namespace NSI.BLL
         public ICollection<TaskDto> GetTasks()
         {
             return _taskRepository.GetTasks();
+        }
+
+        public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize)
+        {
+            var tasks=_taskRepository.SearchTasks(searchCriteria);
+            return PagingHelper<TaskDto>.PagedList(tasks, pageNumber, pageSize);
         }
     }
 }

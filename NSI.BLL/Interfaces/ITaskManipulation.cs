@@ -12,5 +12,6 @@ namespace NSI.BLL.Interfaces
         ICollection<TaskDto> GetTasks();
         bool DeleteTaskById(int taskId);
         bool EditTask(int taskId, TaskDto task);
+        ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize);
     }
 }
