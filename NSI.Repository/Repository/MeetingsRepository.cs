@@ -31,5 +31,27 @@ namespace NSI.Repository
                 throw new Exception("Something went wrong with database");
             }
         }
+        public ICollection<MeetingDto> GetMeetings()
+        {
+            try
+            {
+                var meetings = _dbContext.Meeting;
+                if (meetings != null)
+                {
+                    ICollection<MeetingDto> meetingDto = new List<MeetingDto>();
+                    foreach (var item in meetings)
+                    {
+                        meetingDto.Add(Mappers.MeetingsRepository.MapToDto(item));
+                    }
+                    return meetingDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
     }
 }

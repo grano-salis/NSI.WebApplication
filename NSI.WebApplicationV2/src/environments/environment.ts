@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   version: '(dev)',
-  serverUrl: 'http://localhost:59737', //ovo je url za nas development Rest API...
+  serverUrl: 'http://localhost:59738', //ovo je url za nas development Rest API...
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',

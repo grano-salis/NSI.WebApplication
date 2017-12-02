@@ -20,5 +20,10 @@ namespace NSI.BLL
         {
             _meetingsRepository.Insert(model);
         }
+
+        public ICollection<MeetingDto> GetMeetings()
+        {
+            return _meetingsRepository.GetMeetings();
+        }
     }
 }

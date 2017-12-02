@@ -8,5 +8,6 @@ namespace NSI.Repository.Interfaces
     public interface IMeetingsRepository
     {
         void Insert(MeetingDto model);
+        ICollection<MeetingDto> GetMeetings();
     }
 }
