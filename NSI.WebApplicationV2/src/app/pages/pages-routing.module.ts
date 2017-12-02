@@ -11,8 +11,9 @@ const routes: Routes = [
     children: [
       {path: 'home', loadChildren: './home/home.module#HomeModule'},
       {path: 'about', loadChildren: './about/about.module#AboutModule'},
-      {path: 'meetings', loadChildren: './meetings/meetings.module#MeetingsModule'} ,
-      {path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule'}
+      {path: 'meetings', loadChildren: './meetings/meetings.module#MeetingsModule'},
+      {path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule'},
+      {path: 'address', loadChildren: './address/address.module#AddressModule'}
     ]
   }
 ];

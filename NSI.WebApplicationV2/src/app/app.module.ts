@@ -9,15 +9,16 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import {PagesModule} from "./pages/pages.module";
-import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
-import {QuoteService} from "./services/quote.service";
+import {PagesModule} from './pages/pages.module';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {QuoteService} from './services/quote.service';
 import { CookieService } from 'ngx-cookie-service';
 import { TasksService } from './services/tasks.service';
 import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-spinner';
-import {AlertModule} from "ngx-bootstrap";
-import {HelperService} from "./services/helper.service";
+import {AlertModule} from 'ngx-bootstrap';
+import {HelperService} from './services/helper.service';
 import { MeetingsService } from './services/meetings.service';
+import { AddressService } from './services/address.service';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { MeetingsService } from './services/meetings.service';
     QuoteService,
     TasksService,
     HelperService,
-    MeetingsService
+    MeetingsService,
+    AddressService
   ],
   bootstrap: [AppComponent]
 })
