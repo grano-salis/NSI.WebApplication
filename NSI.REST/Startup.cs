@@ -59,6 +59,8 @@ namespace NSI.REST
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IContactsRepository, ContactsRepository>();
             services.AddScoped<IContactsManipulation, ContactsManipulation>();
+			services.AddScoped<ICaseInfoManipulation, CaseInfoManipulation>();
+			services.AddScoped<ICaseInfoRepository, CaseInfoRepository>();
 
             services.AddMvc();
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
