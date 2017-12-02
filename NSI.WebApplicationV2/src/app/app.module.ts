@@ -17,6 +17,7 @@ import { TasksService } from './services/tasks.service';
 import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-spinner';
 import {AlertModule} from "ngx-bootstrap";
 import {HelperService} from "./services/helper.service";
+import { MeetingsService } from './services/meetings.service';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import {HelperService} from "./services/helper.service";
     CookieService,
     QuoteService,
     TasksService,
-    HelperService
+    HelperService,
+    MeetingsService
   ],
   bootstrap: [AppComponent]
 })

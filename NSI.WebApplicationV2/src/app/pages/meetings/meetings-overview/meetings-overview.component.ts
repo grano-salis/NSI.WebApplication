@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {TasksService} from '../../services/tasks.service';
+import {TasksService} from '../../../services/tasks.service';
 import {each} from 'lodash';
 import * as moment from 'moment';
-import {Logger} from '../../core/services/logger.service';
-import {FormGroup} from "@angular/forms";
-import {HelperService} from "../../services/helper.service";
+import {Logger} from '../../../core/services/logger.service';
+import {HelperService} from "../../../services/helper.service";
+import {MeetingsService} from "../../../services/meetings.service";
 
 declare let $: any;
 
@@ -12,8 +12,8 @@ const logger = new Logger('Meetings');
 
 @Component({
   selector: 'app-meetings',
-  templateUrl: './meetings.component.html',
-  styleUrls: ['./meetings.component.scss']
+  templateUrl: './meetings-overview.component.html',
+  styleUrls: ['./meetings-overview.component.scss']
 })
 export class MeetingsComponent implements OnInit {
 
@@ -46,7 +46,7 @@ export class MeetingsComponent implements OnInit {
   formSubmitted: boolean;
 
 
-  constructor(private tasksService: TasksService) {
+  constructor(private meetingsService: MeetingsService) {
 
     this.calendarConfiguration.select = (start: any, end: any) => this._onSelect(start, end);
   }
@@ -56,14 +56,14 @@ export class MeetingsComponent implements OnInit {
   // Public methods
   // ****************
   ngOnInit() {
-    this.loadTasks();
+    this.loadMeetings();
   }
 
-  submitEvent(form: any){
+  submitEvent(form: any) {
 
     this.formSubmitted = true;
-
-    if(form.invalid) {
+    $(this._calendar).fullCalendar('unselect');
+    if (form.invalid) {
       return;
     }
     let eventData = {
@@ -75,11 +75,11 @@ export class MeetingsComponent implements OnInit {
     $(this._calendar).fullCalendar('renderEvent', eventData, true);
     this.dateSelected = false;
     this.formSubmitted = false;
-
+    $(this._calendar).fullCalendar('unselect');
     //todo: add service
   }
 
-  cancelNewEvent(){
+  cancelNewEvent() {
     this.eventModel = {
       dateFrom: null,
       dateTo: null,
@@ -119,20 +119,19 @@ export class MeetingsComponent implements OnInit {
       //   };
       //   $(this._calendar).fullCalendar('renderEvent', eventData, true);
       // }
-      $(this._calendar).fullCalendar('unselect');
+
     }
   }
 
-  private loadTasks(): any {
-    this.tasksService.getTasks()
+  private loadMeetings(): any {
+    this.meetingsService.getMeetings()
       .subscribe((r: any) => {
-        const tasks = r;
         const temp: any[] = [];
-        each(tasks, (task) => {
+        each(r, (item) => {
           temp.push({
-            title: task.title,
-            start: task.dateCreated,
-            end: task.dueDate,
+            title: 'Meeting ID: ' + item.meetingId,
+            start: item.from,
+            end: item.to,
             color: this.color
           });
         });
@@ -166,7 +165,6 @@ export class MeetingsComponent implements OnInit {
       }
     ];
   }
-
 
 
 }

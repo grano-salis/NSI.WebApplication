@@ -13,8 +13,4 @@
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>
