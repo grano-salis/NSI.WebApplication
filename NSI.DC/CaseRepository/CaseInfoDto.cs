@@ -19,16 +19,38 @@ namespace NSI.DC.CaseRepository
 
 		[DataMember]
 		public decimal? Value { get; set; }
-		public char? Judge { get; set; }
-		public string Court { get; set; }
-		public string CounterParty { get; set; }
-		public string Note { get; set; }
-		public DateTime DateCreated { get; set; }
-		public DateTime? DateModified { get; set; }
-		public bool? IsDeleted { get; set; }
-		public int CaseCategory { get; set; }
-		public int CustomerId { get; set; }
-		public int ClientId { get; set; }
-		public int CreatedByUserId { get; set; }
+
+        [DataMember]
+        public char? Judge { get; set; }
+
+        [DataMember]
+        public string Court { get; set; }
+
+        [DataMember]
+        public string CounterParty { get; set; }
+
+        [DataMember]
+        public string Note { get; set; }
+
+        [DataMember]
+        public DateTime DateCreated { get; set; }
+
+        [DataMember]
+        public DateTime? DateModified { get; set; }
+
+        [DataMember]
+        public bool? IsDeleted { get; set; }
+
+        [DataMember]
+        public int CaseCategory { get; set; }
+
+        [DataMember]
+        public int CustomerId { get; set; }
+
+        [DataMember]
+        public int ClientId { get; set; }
+
+        [DataMember]
+        public int CreatedByUserId { get; set; }
 	}
 }
