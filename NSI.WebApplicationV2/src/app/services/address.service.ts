@@ -12,7 +12,7 @@ export class AddressService {
    }
 
    getAddreses(params?: any): Observable<any> {
-     return this.http.get(`${this._url}/api/addreses`);
+     return this.http.get(`${this._url}/api/address`);
    }
 
 }

@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace NSI.DC.AddressRepository
+namespace NSI.REST.Models
 {
-    [DataContract]
-    public class AddressDto
+    public class AddressCreateModels
     {
-        [DataMember]
         public int AddressId { get; set; }
-        [DataMember]
+        [Required]
         public string Address1 { get; set; }
-        [DataMember]
         public string Address2 { get; set; }
-        [DataMember]
+        [Required]
         public string City { get; set; }
-        [DataMember]
+        [Required]
         public string ZipCode { get; set; }
-        [DataMember]
-        public int AddressTypeId { get; set; }
-        [DataMember]
-        public int CreatedByUserId { get; set; }
-        [DataMember]
-        public DateTime? DateCreated { get; set; }
-        [DataMember]
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime DateCreated { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime? DateModified { get; set; }
+        public bool? IsDeleted { get; set; }
+        public int AddressTypeId { get; set; }
+        public int CreatedByUserId { get; set; }
     }
 }
