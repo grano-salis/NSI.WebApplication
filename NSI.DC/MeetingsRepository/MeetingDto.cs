@@ -12,6 +12,9 @@ namespace NSI.DC.MeetingsRepository
         public int MeetingId { get; set; }
 
         [DataMember]
+        public string Title { get; set; }
+
+        [DataMember]
         public DateTime From { get; set; }
 
         [DataMember]

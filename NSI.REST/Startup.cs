@@ -66,6 +66,11 @@ namespace NSI.REST
 			services.AddScoped<ICaseInfoRepository, CaseInfoRepository>();
             services.AddScoped<IConversationsRepository, ConversationsRepository>();
             services.AddScoped<IConversationsManipulation, ConversationsManipulation>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersManipulation, UsersManipulation>();
+            services.AddScoped<IHearingsRepository, HearingsRepository>();
+            services.AddScoped<IHearingsManipulation, HearingsManipulation>();
+            
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);             

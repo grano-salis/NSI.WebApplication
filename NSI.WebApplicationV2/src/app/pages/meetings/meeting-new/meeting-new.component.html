@@ -58,13 +58,13 @@
             <div class="suggestions" *ngIf="filteredList.length > 0">
               <ul *ngFor="let item of filteredList">
                 <li>
-                  <a (click)="add(item)">{{item}}</a>
+                  <a (click)="add(item)">{{item.userName}}</a>
                 </li>
               </ul>
             </div>
             <div *ngFor="let item of model.userMeeting">
               <div class="selected">
-                <span>{{item}}</span>
+                <span>{{item.userName}}</span>
                 <a (click)="remove(item)">x</a>
               </div>
             </div>
