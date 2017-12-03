@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace IkarusEntities
 {
-    public partial class ikarusContext : DbContext
+    public partial class IkarusContext : DbContext
     {
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<AddressType> AddressType { get; set; }
