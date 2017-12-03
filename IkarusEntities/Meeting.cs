@@ -11,6 +11,7 @@ namespace IkarusEntities
         }
 
         public int MeetingId { get; set; }
+        public string Title { get; set; }
         public DateTime From { get; set; }
         public DateTime? To { get; set; }
         public DateTime DateCreated { get; set; }
