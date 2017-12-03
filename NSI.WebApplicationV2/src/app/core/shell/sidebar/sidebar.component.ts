@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   anchorClicked(event: any) {
 
-    console.log("anchorClicked", event);
+    // console.log("anchorClicked", event);
 
     const target = event.target.id;
 

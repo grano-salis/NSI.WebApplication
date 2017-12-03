@@ -3,6 +3,7 @@ using NSI.DC.MeetingsRepository;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace NSI.Repository.Mappers
 {
@@ -13,39 +14,28 @@ namespace NSI.Repository.Mappers
             return new Meeting()
             {
                 MeetingId = model.MeetingId,
+                Title = model.Title,
                 From = model.From,
                 To = model.To,
                 CreatedByUserId = 1,
-                DateCreated = DateTime.UtcNow
+                DateCreated = DateTimeOffset.UtcNow,
+                UserMeeting = model.UserMeeting.Select(x => new UserMeeting() { UserId = x.UserId }).ToList()
             };
         }
 
-        public static UserMeeting MapToDbEntity(int user_id, int meeting_id)
+        public static MeetingDto MapToDto(Meeting entity)
         {
-            return new UserMeeting()
-            {
-                UserId = user_id,
-                MeetingId = meeting_id
-            };
-        }
-
-        public static MeetingDto MapToDto(Meeting entity, IEnumerable<UserInfo> users)
-        {
-            List<UserMeetingDto> userMeetings = new List<UserMeetingDto>();
-            foreach (var item in users)
-            {
-                userMeetings.Add(new UserMeetingDto()
-                {
-                    UserId = item.UserId,
-                    UserName = item.Username
-                });
-            }
             return new MeetingDto()
             {
                 MeetingId = entity.MeetingId,
+                Title = entity.Title,
                 From = entity.From,
                 To = entity.To,
-                UserMeeting = userMeetings
+                UserMeeting = entity.UserMeeting.Select(x => new UserMeetingDto()
+                {
+                    UserId = x.UserId,
+                    UserName = x.User.Username
+                })
             };
         }
     }

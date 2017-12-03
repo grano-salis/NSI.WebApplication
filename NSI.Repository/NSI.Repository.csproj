@@ -11,10 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repository\" />
+    <ProjectReference Include="..\NSI.Logger\NSI.Logger.csproj" />
   </ItemGroup>
 
 </Project>

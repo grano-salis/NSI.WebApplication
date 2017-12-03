@@ -115,5 +115,30 @@ namespace NSI.REST.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // PUT: api/Tasks/5
+        [HttpPost]
+        [Route("search")]
+        public IActionResult Search([FromBody]TasksEditModel model, int pageNumber, int pageSize)
+        {
+
+
+            try
+            {
+                TaskSearchCriteriaDto taskDto = new TaskSearchCriteriaDto()
+                {
+                    Description = model.Description,
+                    DueDate = model.DueDate,
+                    Title = model.Title,
+                    UserId = model.UserId
+                };
+
+                return Ok(_taskRepository.SearchTasks(taskDto, pageNumber, pageSize));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

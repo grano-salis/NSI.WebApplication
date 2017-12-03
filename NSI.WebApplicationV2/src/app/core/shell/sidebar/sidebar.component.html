@@ -26,30 +26,47 @@
     <div class="menu_section">
       <h3>General</h3>
       <ul class="nav side-menu">
-        <li (click)="anchorClicked($event)">
-          <a id="homeli" >
+        <li>
+          <a id="homeli" (click)="anchorClicked($event)">
             <i class="fa fa-home"></i> Home
             <span id="homechevron" class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
-            <li  [routerLink]="['/home']" routerLinkActive="active">
+            <li [routerLink]="['/home']" routerLinkActive="active">
               <a>Home</a>
             </li>
             <li [routerLink]="['/about']" routerLinkActive="active">
-              <a >About</a>
+              <a>About</a>
             </li>
           </ul>
         </li>
-        <li [routerLink]="['/meetings']" routerLinkActive="current-page">
-          <a>
+        <li >
+          <a id="meetingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Meetings
+            <span id="meetingschevron" class="fa fa-chevron-down"></span>
           </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/meetings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a>Overview</a>
+            </li>
+            <li [routerLink]="['/meetings/new']" routerLinkActive="active">
+              <a>New meeting</a>
+            </li>
+          </ul>
         </li>
         <li [routerLink]="['/contacts']" routerLinkActive="current-page">
           <a>
             <i class="fa fa-user"></i> Contacts
           </a>
         </li>
+
+
+        <li [routerLink]="['/address']" routerLinkActive="current-page">
+          <a>
+            <i class="fa fa-user"></i> Address
+          </a>
+        </li>
+
         <!-- <li>
           <a id="formsli" (click)="anchorClicked($event)">
             <i class="fa fa-edit"></i> Forms

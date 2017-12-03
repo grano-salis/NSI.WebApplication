@@ -21,6 +21,9 @@ using NSI.Repository;
 using NSI.BLL.Interfaces;
 using NSI.BLL;
 using IkarusEntities;
+using Swashbuckle.AspNetCore.Swagger;
+using NSI.Repository.Repository;
+using AutoMapper;
 
 namespace NSI.REST
 {
@@ -59,9 +62,33 @@ namespace NSI.REST
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IContactsRepository, ContactsRepository>();
             services.AddScoped<IContactsManipulation, ContactsManipulation>();
+			services.AddScoped<ICaseInfoManipulation, CaseInfoManipulation>();
+			services.AddScoped<ICaseInfoRepository, CaseInfoRepository>();
+            services.AddScoped<IConversationsRepository, ConversationsRepository>();
+            services.AddScoped<IConversationsManipulation, ConversationsManipulation>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersManipulation, UsersManipulation>();
+            services.AddScoped<IHearingsRepository, HearingsRepository>();
+            services.AddScoped<IHearingsManipulation, HearingsManipulation>();
+            
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);             
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
+
+            //Add AutoMapper
+            services.AddAutoMapper();
+
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info {
+                    Title = "NSI API",
+                    Version = "v1",
+                    Description = "Postojece metode u NSI.Rest aplikaciji",
+                TermsOfService = "None"
+                });
+            });
 
             services.Configure<MvcOptions>(options => {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllHeaders"));
@@ -118,6 +145,14 @@ namespace NSI.REST
                     new System.Globalization.CultureInfo("en-US"),
                     new System.Globalization.CultureInfo("en")
                 }
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSI API V1");
             });
 
             app.UseExHandler();

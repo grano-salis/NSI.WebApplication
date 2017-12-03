@@ -29,7 +29,8 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw ex;
+                //throw new Exception("Database error!");
             }
             return null;
 

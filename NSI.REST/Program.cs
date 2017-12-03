@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace NSI.REST
 {
@@ -22,7 +24,25 @@ namespace NSI.REST
                 .UseApplicationInsights()
                 .Build();
 
+            OpenBrowser("http://localhost:59738/swagger");
+
             host.Run();
+        }
+
+        public static void OpenBrowser(string url)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}")); // Works ok on windows
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Process.Start("xdg-open", url);  // Works ok on linux
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process.Start("open", url); // Not tested
+            }
         }
     }
 }

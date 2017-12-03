@@ -24,5 +24,11 @@ namespace NSI.DC.AddressRepository
         public int AddressTypeId { get; set; }
         [DataMember]
         public int CreatedByUserId { get; set; }
+        [DataMember]
+        public DateTime? DateCreated { get; set; }
+        [DataMember]
+        public DateTime? DateModified { get; set; }
+        [DataMember]
+        public bool IsDeleted { get; set; }
     }
 }

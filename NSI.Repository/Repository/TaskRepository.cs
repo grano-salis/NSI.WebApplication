@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using NSI.Repository.Interfaces;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository
 {
@@ -27,8 +28,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
             return null;
 
@@ -45,8 +46,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!"); throw new Exception();
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!"); 
             }
             return null;
         }
@@ -68,8 +69,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
             return null;
         }
@@ -90,22 +91,39 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
         }
 
-        public ICollection<TaskDto> SearchTasks(TaskDto searchCriteria)
+        public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria)
         {
             if (searchCriteria == null)
             {
-                throw new ArgumentNullException("searchCriteria");
+                Logger.Logger.LogError("SearchTasks searchCriteria is null!");
+                throw new ArgumentNullException("SearchTasks searchCriteria");
             }
+            var tasks = from task in _dbContext.Task select task;
 
+            if (!string.IsNullOrEmpty(searchCriteria.Description))
+                tasks = tasks.Where(x => x.Description.Contains(searchCriteria.Description));
 
-            return null;
+            if (!string.IsNullOrEmpty(searchCriteria.Title))
+                tasks = tasks.Where(x => x.Title.Contains(searchCriteria.Title));
 
-         }
+            if (searchCriteria.UserId!=0)
+                tasks = tasks.Where(x => x.UserId==searchCriteria.UserId);
+
+            if (searchCriteria.DueDate!=null)
+                tasks = tasks.Where(x => x.DueDate.Value.Date == searchCriteria.DueDate.Value.Date);
+
+            ICollection<TaskDto> tasksDto = new List<TaskDto>();
+            foreach (var item in tasks)
+            {
+                tasksDto.Add(Mappers.TaskRepository.MapToDto(item));
+            }
+            return tasksDto;
+        }
 
         public bool EditTask(int taskId, TaskDto task)
         {
@@ -125,8 +143,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
             }
         }
     }
