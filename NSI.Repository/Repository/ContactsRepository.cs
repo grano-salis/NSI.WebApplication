@@ -35,7 +35,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw new Exception(ex.Message);
             }
             return null;
         }
@@ -46,6 +46,7 @@ namespace NSI.Repository
             {
                 var contact = Mappers.ContactRepository.MapToDbEntity(contactDto);
                 contact.ModifiedDate = contact.CreatedDate = DateTime.Now;
+                contact.IsDeleted = false;
                 _dbContext.Add(contact);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.ContactRepository.MapToDto(contact);
@@ -53,7 +54,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw new Exception(ex.Message);
             }
             return null;
         }
@@ -75,7 +76,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw new Exception(ex.Message);
             }
         }
 
@@ -92,7 +93,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!"); throw new Exception();
+                throw new Exception(ex.Message); 
             }
             return null;
         }
@@ -118,7 +119,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw new Exception(ex.Message);
             }
         }
     }
