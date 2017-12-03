@@ -3,11 +3,12 @@ using NSI.DC.ContactsRepository;
 using NSI.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NSI.Repository
 {
-    public class ContactsRepository: IContactsRepository
+    public class ContactsRepository : IContactsRepository
     {
         private readonly IkarusContext _dbContext;
 
@@ -20,7 +21,7 @@ namespace NSI.Repository
         {
             try
             {
-                var contacts = _dbContext.Contact;
+                var contacts = _dbContext.Contact.Where(x => x.IsDeleted == false);
                 if (contacts != null)
                 {
                     ICollection<ContactDto> contactDto = new List<ContactDto>();
@@ -28,7 +29,7 @@ namespace NSI.Repository
                     {
                         contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
-                    return contactDto;             
+                    return contactDto;
                 }
             }
             catch (Exception ex)
@@ -37,6 +38,88 @@ namespace NSI.Repository
                 throw new Exception("Database error!");
             }
             return null;
+        }
+
+        public ContactDto CreateContact(ContactDto contactDto)
+        {
+            try
+            {
+                var contact = Mappers.ContactRepository.MapToDbEntity(contactDto);
+                contact.CreatedDate = DateTime.Now;
+                _dbContext.Add(contact);
+                if (_dbContext.SaveChanges() != 0)
+                    return Mappers.ContactRepository.MapToDto(contact);
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
+
+        public bool DeleteContactById(int contactId)
+        {
+            try
+            {
+                var contact = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId);
+                if (contact != null)
+                {
+                    contact.IsDeleted = true;
+                    _dbContext.SaveChanges();
+                    return true;
+
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
+        }
+
+        public ContactDto GetContactById(int contactId)
+        {
+            try
+            {
+                var contact = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId && x.IsDeleted == false);
+                if (contact != null)
+                {
+                    return Mappers.ContactRepository.MapToDto(contact);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!"); throw new Exception();
+            }
+            return null;
+        }
+
+        public bool EditContactById(int contactId, ContactDto contact)
+        {
+            try
+            {
+                var contactTmp = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId);
+                if (contactTmp != null)
+                {
+                    contactTmp.Email = contact.Email;
+                    contactTmp.FirsttName = contact.FirsttName;
+                    contactTmp.LastName = contact.LastName;
+                    contactTmp.Mobile = contact.Mobile;
+                    contactTmp.AddressId = contact.AddressId;
+                    contactTmp.ModifiedDate = DateTime.Now;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
         }
     }
 }
