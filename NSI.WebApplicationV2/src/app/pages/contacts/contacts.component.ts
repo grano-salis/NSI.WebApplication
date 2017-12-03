@@ -11,50 +11,23 @@ const logger = new Logger('contacts');
   templateUrl: './contacts.component.html',
   styleUrls: []
 })
-export class ContactsComponent implements OnInit, AfterViewInit {
+export class ContactsComponent implements OnInit {
   contacts: any[];
 
   constructor(private contactsService: ContactsService) {
-    this.contacts = [{
-      'FirstName': 'Admira',
-      'LastName': 'Husic',
-      'Email': 'admira@nsi.com',
-      'Phone': '1'
-    },
-      {
-        'FirstName': 'Vejsil',
-        'LastName': 'Hrustic',
-        'Email': 'vejs@nsi.com',
-        'Phone': '2'
-      },
-      {
-        'FirstName': 'Aida',
-        'LastName': 'Kanlic',
-        'Email': 'aida@nsi.com',
-        'Phone': '3'
-      },
-      {
-        'FirstName': 'Merima',
-        'LastName': 'Cisija',
-        'Email': 'merima@nsi.com',
-        'Phone': '4'
-      },
-      {
-        'FirstName': 'Adna',
-        'LastName': 'Tahic',
-        'Email': 'adna@nsi.com',
-        'Phone': '5'
-      }];
-  }
+    setTimeout(function () {
+      $(function () {
+        $('#datatable').dataTable();
+      });
+    }, 400);
 
+  }
 
   ngOnInit() {
+    const _this = this;
     this.contactsService.getContacts().subscribe((contacts: any) => {
+      _this.contacts = contacts;
     });
-  }
-
-  ngAfterViewInit() {
-    $('#datatable').dataTable();
   }
 
 }
