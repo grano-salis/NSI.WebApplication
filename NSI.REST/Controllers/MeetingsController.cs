@@ -66,5 +66,24 @@ namespace NSI.REST.Controllers
 
             return BadRequest();
         }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteMeeting(int id)
+        {
+            try
+            {
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _meetingsManipulation.Delete(id);
+                return Ok("Meeting deleted");
+            }
+            catch(Exception ex)
+            {
+                //log ex
+            }
+
+            return BadRequest();
+        }
     }
 }

@@ -86,5 +86,23 @@ namespace NSI.Repository
             }
         }
 
+        public void Delete(int meetingId)
+        {
+            try
+            {
+                var mettingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
+                if (mettingTmp != null)
+                {
+                    mettingTmp.IsDeleted = true;
+                    _dbContext.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                //log exception
+                throw new Exception("Database error!");
+            }
+        }
+
         }
     }

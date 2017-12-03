@@ -30,5 +30,9 @@ namespace NSI.BLL
         {
             _meetingsRepository.Update(meetingId, model);
         }
+        public void Delete(int meetingId)
+        {
+            _meetingsRepository.Delete(meetingId);
+        }
     }
 }
