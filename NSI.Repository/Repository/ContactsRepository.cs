@@ -45,7 +45,7 @@ namespace NSI.Repository
             try
             {
                 var contact = Mappers.ContactRepository.MapToDbEntity(contactDto);
-                contact.CreatedDate = DateTime.Now;
+                contact.ModifiedDate = contact.CreatedDate = DateTime.Now;
                 _dbContext.Add(contact);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.ContactRepository.MapToDto(contact);
