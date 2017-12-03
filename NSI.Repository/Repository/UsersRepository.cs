@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace NSI.Repository.Repository
 {
-    class UsersRepository : IUsersRepository
+    public class UsersRepository : IUsersRepository
     {
         private readonly IkarusContext _dbContext;
 
