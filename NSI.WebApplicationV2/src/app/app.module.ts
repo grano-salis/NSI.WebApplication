@@ -19,6 +19,7 @@ import {AlertModule} from 'ngx-bootstrap';
 import {HelperService} from './services/helper.service';
 import { MeetingsService } from './services/meetings.service';
 import { AddressService } from './services/address.service';
+import { UsersService } from './services/users.service';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { AddressService } from './services/address.service';
     TasksService,
     HelperService,
     MeetingsService,
-    AddressService
+    AddressService,
+    UsersService
   ],
   bootstrap: [AppComponent]
 })

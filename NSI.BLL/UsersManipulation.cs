@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NSI.BLL
 {
-    class UsersManipulation : IUsersManipulation
+    public class UsersManipulation : IUsersManipulation
     {
         private readonly IUsersRepository _usersRepository;
 
