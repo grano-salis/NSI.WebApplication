@@ -23,12 +23,14 @@ namespace IkarusEntities
         public virtual DbSet<Hearing> Hearing { get; set; }
         public virtual DbSet<Meeting> Meeting { get; set; }
         public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Note> Note { get; set; }
         public virtual DbSet<Participant> Participant { get; set; }
         public virtual DbSet<PaymentGateway> PaymentGateway { get; set; }
         public virtual DbSet<PricingPackage> PricingPackage { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<UserCase> UserCase { get; set; }
+        public virtual DbSet<UserHearing> UserHearing { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserMeeting> UserMeeting { get; set; }
 
@@ -482,6 +484,25 @@ namespace IkarusEntities
                     .HasConstraintName("Relationship74");
             });
 
+            modelBuilder.Entity<Note>(entity =>
+            {
+                entity.Property(e => e.NoteId).ValueGeneratedNever();
+
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.HasOne(d => d.CreatedByUser)
+                    .WithMany(p => p.Note)
+                    .HasForeignKey(d => d.CreatedByUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("NoteUserFK");
+
+                entity.HasOne(d => d.Hearing)
+                    .WithMany(p => p.Note)
+                    .HasForeignKey(d => d.HearingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("NoteHearingFK");
+            });
+
             modelBuilder.Entity<Participant>(entity =>
             {
                 entity.HasIndex(e => e.ConversationId)
@@ -606,6 +627,23 @@ namespace IkarusEntities
                     .HasConstraintName("HasCases");
             });
 
+            modelBuilder.Entity<UserHearing>(entity =>
+            {
+                entity.HasKey(e => new { e.UserHearingId, e.HearingId, e.UserId });
+
+                entity.HasOne(d => d.Hearing)
+                    .WithMany(p => p.UserHearing)
+                    .HasForeignKey(d => d.HearingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("UserHearingHearingFK");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserHearing)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("UserHearingUserFK");
+            });
+
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -656,6 +694,8 @@ namespace IkarusEntities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship29");
             });
+
+
         }
 
         public override int SaveChanges()
