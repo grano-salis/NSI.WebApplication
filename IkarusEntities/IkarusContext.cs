@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace IkarusEntities
 {
-    public partial class IkarusContext : DbContext
+    public partial class ikarusContext : DbContext
     {
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<AddressType> AddressType { get; set; }
@@ -453,8 +453,6 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.CreatedByUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship70");
-
-                entity.HasQueryFilter(x => EF.Property<bool>(x, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -572,8 +570,6 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("AssignedTo");
-
-                entity.HasQueryFilter(x => EF.Property<bool>(x, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -694,54 +690,6 @@ namespace IkarusEntities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship29");
             });
-
-
-        }
-
-        public override int SaveChanges()
-        {
-            OnBeforeSaving();
-            return base.SaveChanges();
-        }
-
-        private void OnBeforeSaving()
-        {
-            foreach (var entry in ChangeTracker.Entries<Task>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.CurrentValues["IsDeleted"] = false;
-                        entry.CurrentValues["DateCreated"] = DateTime.Now;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.CurrentValues["IsDeleted"] = true;
-                        break;
-                    case EntityState.Modified:
-                        entry.CurrentValues["DateModified"] = DateTime.Now;
-                        break;
-                }
-            }
-            foreach (var entry in ChangeTracker.Entries<Meeting>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.CurrentValues["IsDeleted"] = false;
-                        entry.CurrentValues["DateCreated"] = DateTime.Now;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.CurrentValues["IsDeleted"] = true;
-                        break;
-                    case EntityState.Modified:
-                        entry.CurrentValues["DateModified"] = DateTime.Now;
-                        break;
-                }
-            }
         }
     }
 }
