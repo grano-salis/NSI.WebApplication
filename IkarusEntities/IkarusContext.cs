@@ -23,12 +23,14 @@ namespace IkarusEntities
         public virtual DbSet<Hearing> Hearing { get; set; }
         public virtual DbSet<Meeting> Meeting { get; set; }
         public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Note> Note { get; set; }
         public virtual DbSet<Participant> Participant { get; set; }
         public virtual DbSet<PaymentGateway> PaymentGateway { get; set; }
         public virtual DbSet<PricingPackage> PricingPackage { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<UserCase> UserCase { get; set; }
+        public virtual DbSet<UserHearing> UserHearing { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserMeeting> UserMeeting { get; set; }
 
@@ -451,8 +453,6 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.CreatedByUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship70");
-
-                entity.HasQueryFilter(x => EF.Property<bool>(x, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -480,6 +480,25 @@ namespace IkarusEntities
                     .WithMany(p => p.Message)
                     .HasForeignKey(d => d.CreatedByUserId)
                     .HasConstraintName("Relationship74");
+            });
+
+            modelBuilder.Entity<Note>(entity =>
+            {
+                entity.Property(e => e.NoteId).HasDefaultValueSql("nextval('\"Note_NoteId_seq\"'::regclass)");
+
+                entity.Property(e => e.Text).IsRequired();
+
+                entity.HasOne(d => d.CreatedByUser)
+                    .WithMany(p => p.Note)
+                    .HasForeignKey(d => d.CreatedByUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("NoteUserFK");
+
+                entity.HasOne(d => d.Hearing)
+                    .WithMany(p => p.Note)
+                    .HasForeignKey(d => d.HearingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("NoteHearingFK");
             });
 
             modelBuilder.Entity<Participant>(entity =>
@@ -551,8 +570,6 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("AssignedTo");
-
-                entity.HasQueryFilter(x => EF.Property<bool>(x, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -606,6 +623,25 @@ namespace IkarusEntities
                     .HasConstraintName("HasCases");
             });
 
+            modelBuilder.Entity<UserHearing>(entity =>
+            {
+                entity.HasKey(e => new { e.UserHearingId, e.HearingId, e.UserId });
+
+                entity.Property(e => e.UserHearingId).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.Hearing)
+                    .WithMany(p => p.UserHearing)
+                    .HasForeignKey(d => d.HearingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("UserHearingHearingFK");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserHearing)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("UserHearingUserFK");
+            });
+
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -656,52 +692,6 @@ namespace IkarusEntities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship29");
             });
-        }
-
-        public override int SaveChanges()
-        {
-            OnBeforeSaving();
-            return base.SaveChanges();
-        }
-
-        private void OnBeforeSaving()
-        {
-            foreach (var entry in ChangeTracker.Entries<Task>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.CurrentValues["IsDeleted"] = false;
-                        entry.CurrentValues["DateCreated"] = DateTime.Now;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.CurrentValues["IsDeleted"] = true;
-                        break;
-                    case EntityState.Modified:
-                        entry.CurrentValues["DateModified"] = DateTime.Now;
-                        break;
-                }
-            }
-            foreach (var entry in ChangeTracker.Entries<Meeting>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.CurrentValues["IsDeleted"] = false;
-                        entry.CurrentValues["DateCreated"] = DateTime.Now;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.CurrentValues["IsDeleted"] = true;
-                        break;
-                    case EntityState.Modified:
-                        entry.CurrentValues["DateModified"] = DateTime.Now;
-                        break;
-                }
-            }
         }
     }
 }
