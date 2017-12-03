@@ -12,6 +12,7 @@ namespace IkarusEntities
         public string DocumentPath { get; set; }
         public string DocumentContent { get; set; }
         public int? CreatedByUserId { get; set; }
+        public string Description { get; set; }
 
         public CaseInfo Case { get; set; }
         public UserInfo CreatedByUser { get; set; }
