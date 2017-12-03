@@ -484,7 +484,7 @@ namespace IkarusEntities
 
             modelBuilder.Entity<Note>(entity =>
             {
-                entity.Property(e => e.NoteId).ValueGeneratedNever();
+                entity.Property(e => e.NoteId).HasDefaultValueSql("nextval('\"Note_NoteId_seq\"'::regclass)");
 
                 entity.Property(e => e.Text).IsRequired();
 
@@ -626,6 +626,8 @@ namespace IkarusEntities
             modelBuilder.Entity<UserHearing>(entity =>
             {
                 entity.HasKey(e => new { e.UserHearingId, e.HearingId, e.UserId });
+
+                entity.Property(e => e.UserHearingId).ValueGeneratedOnAdd();
 
                 entity.HasOne(d => d.Hearing)
                     .WithMany(p => p.UserHearing)
