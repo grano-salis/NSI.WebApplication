@@ -30,16 +30,46 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-           return Ok(_taskRepository.GetTasks());
+            try
+            {
+                return Ok(_taskRepository.GetTasks());
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
+
+        [HttpGet]
+        [Route("getWithPaging")]
+        public IActionResult GetWithPaging(int pageNumber, int pageSize)
+        {
+            try
+            {
+                return Ok(_taskRepository.GetTasks(pageNumber, pageSize));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         // GET: api/Tasks/5
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
-            return Ok(_taskRepository.GetTaksById(id));
+            try
+            {
+                return Ok(_taskRepository.GetTaksById(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        
+
         // POST: api/Tasks
         [HttpPost]
         public IActionResult Post([FromBody]TasksCreateModel model)
@@ -116,13 +146,10 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // PUT: api/Tasks/5
-        [HttpPost]
+        [HttpGet]
         [Route("search")]
-        public IActionResult Search([FromBody]TasksEditModel model, int pageNumber, int pageSize)
+        public IActionResult Search([FromBody]TasksSearchModel model, int pageNumber, int pageSize)
         {
-
-
             try
             {
                 TaskSearchCriteriaDto taskDto = new TaskSearchCriteriaDto()
@@ -130,7 +157,8 @@ namespace NSI.REST.Controllers
                     Description = model.Description,
                     DueDate = model.DueDate,
                     Title = model.Title,
-                    UserId = model.UserId
+                    UserId = model.UserId,
+                    TaskId=model.TaskId ?? 0
                 };
 
                 return Ok(_taskRepository.SearchTasks(taskDto, pageNumber, pageSize));
