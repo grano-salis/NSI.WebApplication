@@ -23,8 +23,20 @@ export class MeetingsService {
 
   }
 
+  putMeeting(id: number, meeting: Meeting): Observable<any>{
+    let body = JSON.stringify(meeting);
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    return this.http.put(this._url + "/" + id, body, {headers: headers});
+  }
+
   getMeetings(params?: any): Observable<any> {
     return this.http.get(this._url);
+  }
+
+  getMeetingById(id: number): Observable<any>{
+
+    return this.http.get(this._url + "/" + id);
   }
 
 }

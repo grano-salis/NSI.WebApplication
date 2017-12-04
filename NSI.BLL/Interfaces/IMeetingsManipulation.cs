@@ -11,5 +11,6 @@ namespace NSI.BLL.Interfaces
         ICollection<MeetingDto> GetMeetings();
         void Update(int meetingId, MeetingDto model);
         void Delete(int meetingId);
+        MeetingDto GetMeetingById(int id);
     }
 }

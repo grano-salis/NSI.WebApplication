@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Meeting } from './meeting';
 import { MeetingsService } from '../../../services/meetings.service';
 import { UsersService } from '../../../services/users.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-meeting-new',
@@ -15,8 +16,10 @@ export class MeetingNewComponent {
   query: string;
   filteredList: string[];
   model: Meeting;
+  id: number;
+  public edit: boolean = false;
 
-  constructor(private meetingsService: MeetingsService, private usersService: UsersService) {
+  constructor(private meetingsService: MeetingsService, private usersService: UsersService, private route: ActivatedRoute) {
     this.query = '';
     this.filteredList = [];
     this.model = new Meeting();
@@ -55,4 +58,31 @@ export class MeetingNewComponent {
     this.model = new Meeting();
   }
 
+  //edit-update
+  ngOnInit() {
+    this.id = +this.route.snapshot.paramMap.get('id');
+    this.meetingsService.getMeetingById(this.id).subscribe(data => {
+      if(data != null)
+      {
+        this.edit = true;
+        
+        this.model.title = data.title;
+        this.model.date = data.from + " " + data.to;
+        this.model.userMeeting = data.userMeeting;
+      }
+      console.log(this.edit); 
+    });
+    
+ }
+
+  updateMeeting(){
+    let toArray = this.model.date.split(" ");
+    this.model.from = toArray[0];
+    this.model.to = toArray[1];
+    console.log(this.model.from);
+    console.log(this.model.to);
+    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
+    (error: any) => console.log("Error: " + error.message));
+
+  }
 }
