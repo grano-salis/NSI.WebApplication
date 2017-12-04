@@ -177,5 +177,19 @@ namespace NSI.Tests
             Assert.IsType<OkObjectResult>(resultCreated);
             Assert.IsType<OkObjectResult>(resultUpdated);
         }
+
+        [Fact]
+        public void GetAll_ReturnsAllHearings()
+        {
+            // Arrange & Act
+            var mockRepo = new Mock<IHearingsManipulation>();
+            var controller = new HearingsController(mockRepo.Object);
+
+            // Act
+            var result = controller.GetAll();
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
     }
 }

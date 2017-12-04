@@ -58,5 +58,20 @@ namespace NSI.REST.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                return Ok(_hearingsManipulation.GetHearings());
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+            }
+
+            return BadRequest();
+        }
     }
 }
