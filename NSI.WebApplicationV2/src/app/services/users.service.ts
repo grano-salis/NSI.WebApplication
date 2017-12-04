@@ -21,4 +21,10 @@ export class UsersService {
       return this.http.get(this._url + '/meetings', { headers: this.headers, params: params});
   }
 
+  getForHearings(username:string) : Observable<any> {
+    let params = new HttpParams();
+    params = params.append('username', username);
+    return this.http.get(this._url + '/hearings', { headers: this.headers, params: params});
+}
+
 }

@@ -1,4 +1,5 @@
 ﻿using NSI.BLL.Interfaces;
+using NSI.DC.HearingsRepository;
 using NSI.DC.MeetingsRepository;
 using NSI.Repository.Interfaces;
 using System;
@@ -19,6 +20,11 @@ namespace NSI.BLL
         public ICollection<UserMeetingDto> GetForMeetings(string username)
         {
             return _usersRepository.GetForMeetings(username);
+        }
+
+        public ICollection<UserHearingDto> GetForHearings(string username)
+        {
+            return _usersRepository.GetForHearings(username);
         }
     }
 }
