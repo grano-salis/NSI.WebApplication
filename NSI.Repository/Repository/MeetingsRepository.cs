@@ -5,6 +5,7 @@ using System.Text;
 using NSI.DC.MeetingsRepository;
 using IkarusEntities;
 using System.Linq;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository
 {
@@ -27,7 +28,7 @@ namespace NSI.Repository
             }
             catch(Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Something went wrong with database");
             }
         }
@@ -48,7 +49,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
             return null;
@@ -66,6 +67,7 @@ namespace NSI.Repository
                         _dbContext.UserMeeting.RemoveRange(atendees);
 
                     //update data
+                    meetingTmp.Title = model.Title != null ? model.Title : meetingTmp.Title;
                     meetingTmp.DateModified = DateTime.Now;
                     meetingTmp.From = model.From != null ? model.From : meetingTmp.From;
                     meetingTmp.To = model.To != null ? model.To : meetingTmp.To;
@@ -80,7 +82,7 @@ namespace NSI.Repository
             }
             catch (Exception e)
             {
-                //log ex
+                Logger.Logger.LogError(e.Message);
                 throw new Exception("Database error!");
 
             }
@@ -97,12 +99,29 @@ namespace NSI.Repository
                     _dbContext.SaveChanges();
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //log exception
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
         }
 
+        public MeetingDto GetMeetingById(int id)
+        {
+            try
+            {
+                var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id);
+                if (meeting != null)
+                {
+                    return Mappers.MeetingsRepository.MapToDto(meeting);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
+            }
+            return null;
         }
+    }
     }
