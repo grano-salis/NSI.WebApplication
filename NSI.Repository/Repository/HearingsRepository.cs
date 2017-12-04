@@ -27,7 +27,7 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Something went wrong with database");
             }
         }
@@ -66,6 +66,7 @@ namespace NSI.Repository.Repository
             }
             catch(Exception ex)
             {
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
         }
@@ -87,6 +88,7 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
             return null;

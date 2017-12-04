@@ -6,6 +6,7 @@ using NSI.BLL.Interfaces;
 using NSI.DC.HearingsRepository;
 using NSI.Repository;
 using NSI.Repository.Interfaces;
+using NSI.Repository.Repository;
 using NSI.REST.Controllers;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void Create_ReturnsNewlyCreatedMeeting()
+        public void Create_ReturnsNewlyCreatedHearing()
         {
             // Arrange
             int id = 123;
@@ -99,7 +100,7 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void Update_ReturnsUpdatedMeeting()
+        public void Update_ReturnsUpdatedHearing()
         {
             // Arrange
             int id = 123;
@@ -178,12 +179,15 @@ namespace NSI.Tests
             Assert.IsType<OkObjectResult>(resultUpdated);
         }
 
+        IkarusContext db = new IkarusContext();
+        IHearingsRepository ihr => new HearingsRepository(db);
+        IHearingsManipulation ihm => new HearingsManipulation(ihr);
         [Fact]
         public void GetAll_ReturnsAllHearings()
         {
             // Arrange & Act
-            var mockRepo = new Mock<IHearingsManipulation>();
-            var controller = new HearingsController(mockRepo.Object);
+            
+            var controller = new HearingsController(ihm);
 
             // Act
             var result = controller.GetAll();
