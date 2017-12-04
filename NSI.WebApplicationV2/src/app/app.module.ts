@@ -49,6 +49,7 @@ import { HearingsService } from './services/hearings.service'
     AddressService,
     UsersService,
     ContactsService,
+    HearingsService
     //DocumentsService
   ],
   bootstrap: [AppComponent]
