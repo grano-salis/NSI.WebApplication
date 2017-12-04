@@ -15,7 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using NSI.REST.Middleware;
-using NSI.BLL.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
 using NSI.BLL.Interfaces;

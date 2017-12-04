@@ -1,11 +1,8 @@
-﻿using NSI.DC.Common;
+﻿using System.Collections;
+using NSI.DC.Common;
 using NSI.DC.DocumentRepository;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NSI.BLL.DocumentRepository
+namespace NSI.BLL.Interfaces
 {
     public interface IDocumentManipulation
     {
@@ -14,5 +11,7 @@ namespace NSI.BLL.DocumentRepository
         ICollection GetCustomerDocuments(int customerId, Paging paging);
         REST.Models.DocumentsPagingResultModel GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query);
         DocumentDto SaveDocument();
+        bool DeleteDocument(int id);
+        bool EditDocument(int id, DocumentDto documentDto);
     }
 }

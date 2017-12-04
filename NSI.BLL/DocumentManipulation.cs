@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections;
+using NSI.BLL.Interfaces;
 using NSI.DC.Common;
 using NSI.DC.DocumentRepository;
-using System.Collections;
-using NSI.Repository;
 using NSI.Repository.Interfaces;
 
-namespace NSI.BLL.DocumentRepository
+namespace NSI.BLL
 {
     public class DocumentManipulation : IDocumentManipulation
     {
-        IDocumentRepository _documentRepository;
+        private readonly IDocumentRepository _documentRepository;
         public DocumentManipulation(IDocumentRepository documentRepository)
         {
             _documentRepository = documentRepository;
@@ -20,7 +18,6 @@ namespace NSI.BLL.DocumentRepository
         public REST.Models.DocumentsPagingResultModel GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query)
         {
             return _documentRepository.GetAllDocuments(query);
-            throw new NotImplementedException();
         }
 
         public ICollection GetCaseDocuments(int caseId)
@@ -41,6 +38,20 @@ namespace NSI.BLL.DocumentRepository
         public DocumentDto SaveDocument()
         {
             throw new NotImplementedException();
+        }
+
+        public bool DeleteDocument(int id)
+        {
+            return _documentRepository.DeleteDocument(id);
+        }
+
+        public bool EditDocument(int id, DocumentDto documentDto)
+        {
+            var document = _documentRepository.GetDocument(id);
+            if (document == null) return false;
+            document.LastModified = DateTime.UtcNow;
+            _documentRepository.Update(document);
+            return true;
         }
     }
 }
