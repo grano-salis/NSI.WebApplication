@@ -27,6 +27,12 @@ namespace NSI.REST.Controllers
             return Ok(_meetingsManipulation.GetMeetings());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_meetingsManipulation.GetMeetingById(id));
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] MeetingDto model)
         {
@@ -41,7 +47,7 @@ namespace NSI.REST.Controllers
             }
             catch(Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
             }
             return BadRequest();
 
@@ -61,7 +67,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
             }
 
             return BadRequest();
@@ -80,7 +86,7 @@ namespace NSI.REST.Controllers
             }
             catch(Exception ex)
             {
-                //log ex
+                Logger.Logger.LogError(ex.Message);
             }
 
             return BadRequest();

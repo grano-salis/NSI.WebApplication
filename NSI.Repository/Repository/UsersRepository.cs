@@ -5,6 +5,7 @@ using System.Text;
 using NSI.DC.MeetingsRepository;
 using IkarusEntities;
 using System.Linq;
+using NSI.DC.HearingsRepository;
 
 namespace NSI.Repository.Repository
 {
@@ -27,5 +28,17 @@ namespace NSI.Repository.Repository
                                         })
                                         .ToList();
         }
+
+        public ICollection<UserHearingDto> GetForHearings(string username)
+        {
+            return _dbContext.UserInfo.Where(x => x.Username.Contains(username))
+                                        .Select(x => new UserHearingDto()
+                                        {
+                                            UserId = x.UserId,
+                                            UserName = x.Username
+                                        })
+                                        .ToList();
+        }
+
     }
 }

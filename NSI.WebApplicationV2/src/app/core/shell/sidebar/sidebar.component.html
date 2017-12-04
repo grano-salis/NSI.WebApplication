@@ -56,6 +56,18 @@
           </ul>
         </li>
 
+        <li >
+          <a id="hearingsli" (click)="anchorClicked($event)">
+            <i class="fa fa-calendar-check-o"></i> Hearings
+            <span id="hearingschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/hearings/new']" routerLinkActive="active">
+              <a>New hearing</a>
+            </li>
+          </ul>
+        </li>
+
         <li [routerLink]="['/contacts']" routerLinkActive="current-page">
           <a>
             <i class="fa fa-address-book-o"></i> Contacts

@@ -6,7 +6,9 @@ import { MeetingNewComponent } from './meeting-new/meeting-new.component';
 
 const routes: Routes = [
   { path: '', component: MeetingsComponent, data: { title: extract('Meetings') } },
-  { path: 'new', component: MeetingNewComponent }
+  { path: 'new', component: MeetingNewComponent },
+  { path: 'edit/:id', component: MeetingNewComponent},
+  { path: 'delete/:id', component: MeetingNewComponent}
 ];
 
 @NgModule({
