@@ -50,7 +50,7 @@ import { HearingsService } from './services/hearings.service'
     UsersService,
     ContactsService,
     HearingsService
-    //DocumentsService
+    DocumentsService
   ],
   bootstrap: [AppComponent]
 })
