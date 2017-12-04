@@ -33,10 +33,30 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
             }
             return BadRequest();
 
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] HearingDto model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _hearingsManipulation.Update(id, model);
+                return Ok("Hearing updated");
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+            }
+
+            return BadRequest();
         }
     }
 }
