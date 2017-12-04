@@ -11,5 +11,6 @@ namespace NSI.Repository.Interfaces
         void Update(int meetingId, MeetingDto model);
         ICollection<MeetingDto> GetMeetings();
         void Delete(int meetingId);
+        MeetingDto GetMeetingById(int id);
     }
 }

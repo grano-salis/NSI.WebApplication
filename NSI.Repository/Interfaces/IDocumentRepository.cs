@@ -10,6 +10,6 @@ namespace NSI.Repository.Interfaces
         DocumentDto GetDocument(int documentId);
         IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
         long SaveDocument(DocumentDto document);
-        
+        REST.Models.DocumentsPagingResultModel GetAllDocuments(REST.Models.DocumentsPagingQueryModel query);
     }
 }

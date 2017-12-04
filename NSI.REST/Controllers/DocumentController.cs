@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSI.BLL.DocumentRepository;
+using NSI.REST.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,8 +19,24 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            
             return new string[] { "value1", "value2" };
         }
+
+        [HttpPost]
+        [Route("paging")]
+        public DocumentsPagingResultModel GetDocumentsByPage(Models.DocumentsPagingQueryModel queryDto)
+        {
+            try
+            {
+                return _documentRepository.GetDocumentsByPage(queryDto);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         // GET api/values/5
         [HttpGet("{id}")]

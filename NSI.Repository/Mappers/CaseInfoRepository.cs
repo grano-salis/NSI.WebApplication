@@ -12,7 +12,9 @@ namespace NSI.Repository.Mappers
 		{
 			return new CaseInfo
 			{
-				CaseCategory=caseInfoDto.CaseCategory,
+                DateCreated = caseInfoDto.DateCreated,
+                DateModified = caseInfoDto.DateModified,
+                CaseCategory =caseInfoDto.CaseCategory,
 				CaseId=caseInfoDto.CaseId,
 				CaseNumber=caseInfoDto.CaseNumber
 			};
@@ -22,7 +24,9 @@ namespace NSI.Repository.Mappers
 		{
 			return new CaseInfoDto()
 			{
-				CaseCategory=caseInfo.CaseCategory,
+                DateCreated = caseInfo.DateCreated,
+                DateModified = caseInfo.DateModified,
+                CaseCategory =caseInfo.CaseCategory,
 				CaseId=caseInfo.CaseId,
 				CaseNumber=caseInfo.CaseNumber
 			};

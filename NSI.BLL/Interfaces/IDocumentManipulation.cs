@@ -12,6 +12,7 @@ namespace NSI.BLL.DocumentRepository
         DocumentDto GetDocumentById(int documentId);
         ICollection GetCaseDocuments(int caseId);
         ICollection GetCustomerDocuments(int customerId, Paging paging);
+        REST.Models.DocumentsPagingResultModel GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query);
         DocumentDto SaveDocument();
     }
 }

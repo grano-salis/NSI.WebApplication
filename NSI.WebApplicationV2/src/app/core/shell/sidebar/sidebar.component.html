@@ -40,6 +40,7 @@
             </li>
           </ul>
         </li>
+
         <li >
           <a id="meetingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Meetings
@@ -54,12 +55,18 @@
             </li>
           </ul>
         </li>
+
         <li [routerLink]="['/contacts']" routerLinkActive="current-page">
           <a>
-            <i class="fa fa-user"></i> Contacts
+            <i class="fa fa-address-book-o"></i> Contacts
           </a>
         </li>
 
+        <li [routerLink]="['/documents']" routerLinkActive="current-page">
+          <a>
+            <i class="fa fa-folder-o"></i> Documents
+          </a>
+        </li>
 
         <li [routerLink]="['/address']" routerLinkActive="current-page">
           <a>

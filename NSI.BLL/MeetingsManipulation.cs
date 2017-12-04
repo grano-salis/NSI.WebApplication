@@ -34,5 +34,10 @@ namespace NSI.BLL
         {
             _meetingsRepository.Delete(meetingId);
         }
+
+        public MeetingDto GetMeetingById(int id)
+        {
+            return _meetingsRepository.GetMeetingById(id);
+        }
     }
 }

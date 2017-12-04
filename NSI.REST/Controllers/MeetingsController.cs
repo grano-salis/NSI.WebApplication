@@ -24,7 +24,21 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_meetingsManipulation.GetMeetings());
+            var meetings = _meetingsManipulation.GetMeetings();
+            if ( meetings != null)
+                return Ok(meetings);
+
+            return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var meeting = _meetingsManipulation.GetMeetingById(id);
+            if ( meeting != null)
+                return Ok(meeting);
+
+            return NoContent();
         }
 
         [HttpPost]
@@ -41,7 +55,7 @@ namespace NSI.REST.Controllers
             }
             catch(Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
             }
             return BadRequest();
 
@@ -61,7 +75,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
             }
 
             return BadRequest();
@@ -80,7 +94,7 @@ namespace NSI.REST.Controllers
             }
             catch(Exception ex)
             {
-                //log ex
+                Logger.Logger.LogError(ex.Message);
             }
 
             return BadRequest();

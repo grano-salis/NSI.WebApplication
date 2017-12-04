@@ -20,5 +20,15 @@ namespace NSI.BLL
         {
             _hearingsRepository.Insert(model);
         }
+
+        public void Update(int hearingId, HearingDto model)
+        {
+            _hearingsRepository.Update(hearingId, model);
+        }
+
+        public ICollection<HearingDto> GetHearings()
+        {
+            return _hearingsRepository.GetHearings();
+        }
     }
 }
