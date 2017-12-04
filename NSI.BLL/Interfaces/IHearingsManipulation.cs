@@ -8,5 +8,6 @@ namespace NSI.BLL.Interfaces
     public interface IHearingsManipulation
     {
         void Create(HearingDto model);
+        void Update(int hearingId, HearingDto model);
     }
 }
