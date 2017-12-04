@@ -24,13 +24,21 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_meetingsManipulation.GetMeetings());
+            var meetings = _meetingsManipulation.GetMeetings();
+            if ( meetings != null)
+                return Ok(meetings);
+
+            return NoContent();
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(_meetingsManipulation.GetMeetingById(id));
+            var meeting = _meetingsManipulation.GetMeetingById(id);
+            if ( meeting != null)
+                return Ok(meeting);
+
+            return NoContent();
         }
 
         [HttpPost]

@@ -62,16 +62,12 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            try
-            {
-                return Ok(_hearingsManipulation.GetHearings());
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-            }
+            var hearings = _hearingsManipulation.GetHearings();
+            if (hearings != null)
+                return Ok(hearings);
 
-            return BadRequest();
+
+            return NoContent();
         }
     }
 }
