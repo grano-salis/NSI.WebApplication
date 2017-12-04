@@ -72,7 +72,6 @@ export class MeetingNewComponent {
       }
       console.log(this.edit); 
     });
-    
  }
 
   updateMeeting(){
@@ -84,5 +83,11 @@ export class MeetingNewComponent {
     this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
     (error: any) => console.log("Error: " + error.message));
 
+  }
+
+  deleteMeeting(){
+    console.log(this.id);
+    this.meetingsService.deleteMeetingById(this.id).subscribe((r:any) => console.log('Brisemo meeting:' + r),
+  (error: any) => console.log("Error: " + error.message));
   }
 }

@@ -78,6 +78,7 @@
                         <button type="button" class="btn btn-success" (click)="updateMeeting()" *ngIf="edit" [disabled]="!meetingForm.form.valid">Update</button>
                         <button type="submit" class="btn btn-success" *ngIf="!edit" [disabled]="!meetingForm.form.valid">Submit</button>
                         <button type="reset" class="btn btn-default" (click)="newMeeting(); meetingForm.reset()">New meeting</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteMeeting()" [disabled]="!meetingForm.form.valid">Delete</button>
                     </div>
                 </div>
 

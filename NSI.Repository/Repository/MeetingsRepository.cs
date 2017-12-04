@@ -36,7 +36,7 @@ namespace NSI.Repository
         {
             try
             {
-                var meetings = _dbContext.Meeting;
+                var meetings = _dbContext.Meeting.Where(x => x.IsDeleted == false);
                 if (meetings != null)
                 {
                     ICollection<MeetingDto> meetingDto = new List<MeetingDto>();
@@ -58,7 +58,7 @@ namespace NSI.Repository
         {
             try
             {
-                var meetingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
+                var meetingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId && x.IsDeleted == false);
                 if (meetingTmp != null)
                 {
                     //remove all users for this meeting from UserMeeting table
@@ -92,10 +92,12 @@ namespace NSI.Repository
         {
             try
             {
-                var mettingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
-                if (mettingTmp != null)
+                if (meetingId < 0) throw new Exception("id must be positive");
+                var meetingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
+                if (meetingTmp != null)
                 {
-                    mettingTmp.IsDeleted = true;
+                    meetingTmp.IsDeleted = true;
+                    meetingTmp.DateModified = DateTime.Now;
                     _dbContext.SaveChanges();
                 }
             }
@@ -110,7 +112,7 @@ namespace NSI.Repository
         {
             try
             {
-                var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id);
+                var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id && x.IsDeleted == false);
                 if (meeting != null)
                 {
                     return Mappers.MeetingsRepository.MapToDto(meeting);
