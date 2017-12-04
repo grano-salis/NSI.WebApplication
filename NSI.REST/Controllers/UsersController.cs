@@ -24,5 +24,14 @@ namespace NSI.REST.Controllers
         {
             return Ok(_usersManipulation.GetForMeetings(username));
         }
+
+        [HttpGet]
+        [Route("hearings")]
+        public IActionResult GetForHearings(string username)
+        {
+            return Ok(_usersManipulation.GetForHearings(username));
+        }
+
+
     }
 }
