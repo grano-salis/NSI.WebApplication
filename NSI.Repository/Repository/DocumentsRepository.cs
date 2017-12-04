@@ -16,6 +16,18 @@ namespace NSI.Repository
         {
             _dbContext = dbContext;
         }
+
+        REST.Models.DocumentsPagingResultModel IDocumentRepository.GetAllDocuments(REST.Models.DocumentsPagingQueryModel query)
+        {
+            var result = new REST.Models.DocumentsPagingResultModel();
+            result.ItemsPerPage = 10;
+            var documents = _dbContext.Document.Where(doc => typeof(Document).GetProperty(query.FilterBy).GetValue(doc, null).ToString().Contains(query.Search)).Select(d => DocumentRepository.MapToDto(d));
+            result.TotalItems = documents.Count();
+            result.Results = documents.Take(result.ItemsPerPage).ToList();
+            return result;
+        }
+
+
         DocumentDto IDocumentRepository.GetDocument(int documentId)
         {
             Document document =  _dbContext.Document.FirstOrDefault(x => x.DocumentId == documentId);

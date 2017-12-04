@@ -16,6 +16,13 @@ namespace NSI.BLL.DocumentRepository
         {
             _documentRepository = documentRepository;
         }
+
+        public REST.Models.DocumentsPagingResultModel GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query)
+        {
+            return _documentRepository.GetAllDocuments(query);
+            throw new NotImplementedException();
+        }
+
         public ICollection GetCaseDocuments(int caseId)
         {
             throw new NotImplementedException();

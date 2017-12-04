@@ -20,6 +20,7 @@ import {HelperService} from './services/helper.service';
 import { MeetingsService } from './services/meetings.service';
 import { AddressService } from './services/address.service';
 import { UsersService } from './services/users.service';
+import { DocumentsService } from './services/documents.service';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { UsersService } from './services/users.service';
     HelperService,
     MeetingsService,
     AddressService,
-    UsersService
+    UsersService,
+    //DocumentsService
   ],
   bootstrap: [AppComponent]
 })
