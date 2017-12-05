@@ -25,6 +25,7 @@
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
     <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
     <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
+    <ProjectReference Include="..\NSI.Logger\NSI.Logger.csproj" />
   </ItemGroup>
 
 </Project>
