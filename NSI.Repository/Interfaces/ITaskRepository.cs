@@ -8,9 +8,10 @@ namespace NSI.Repository.Interfaces
     public interface ITaskRepository
     {
         TaskDto CreateTask(TaskDto taskDto);
-        ICollection<TaskDto> SearchTasks(TaskDto searchCriteria);
+        ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria);
         TaskDto GetTaskById(int taskId);
         ICollection<TaskDto> GetTasks();
         bool DeleteTaskById(int taskId);
+        bool EditTask(int taskId, TaskDto task);
     }
 }

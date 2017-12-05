@@ -5,26 +5,23 @@ using System.Text;
 using NSI.DC.TaskRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
+using NSI.BLL.Helpers;
 
 namespace NSI.BLL
 {
     public class TaskManipulation : ITaskManipulation
     {
-        TaskRepository _taskRepository;
+        ITaskRepository _taskRepository;
 
-        public TaskManipulation()
-        {
-            _taskRepository = new TaskRepository(new IkarusEntities.IkarusContext());
-        }
 
-        public TaskManipulation(TaskRepository taskRepository)
+        public TaskManipulation(ITaskRepository taskRepository)
         {
             _taskRepository = taskRepository;
         }
 
         public TaskDto CreateTask(TaskDto taskDto)
         {
-           return _taskRepository.CreateTask(taskDto);
+            return _taskRepository.CreateTask(taskDto);
         }
 
         public bool DeleteTaskById(int taskId)
@@ -32,14 +29,29 @@ namespace NSI.BLL
             return _taskRepository.DeleteTaskById(taskId);
         }
 
+        public bool EditTask(int taskId, TaskDto task)
+        {
+            return _taskRepository.EditTask(taskId, task);
+        }
+
         public TaskDto GetTaksById(int taskId)
         {
             return _taskRepository.GetTaskById(taskId);
         }
 
-        public ICollection<TaskDto> GetTasks()
+        public ICollection<TaskDto> GetTasks(int? pageNumber = null, int? pageSize = null)
         {
-            return _taskRepository.GetTasks();
+            var tasks= _taskRepository.GetTasks();
+            if (pageNumber != null && pageSize != null)
+            {
+               return PagingHelper<TaskDto>.PagedList(tasks, (int)pageNumber, (int)pageSize);
+            }
+            return tasks;
+        }
+
+        public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize)
+        {
+            return PagingHelper<TaskDto>.PagedList(_taskRepository.SearchTasks(searchCriteria), pageNumber, pageSize);
         }
     }
 }

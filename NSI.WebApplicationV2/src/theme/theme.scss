@@ -4,7 +4,12 @@
  */
 
 @import "gentelella/custom-theme";
+@import "spacing-helpers";
 
 .fc-day-number {
     line-height: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
