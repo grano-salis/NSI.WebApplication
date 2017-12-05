@@ -6,6 +6,7 @@ using NSI.BLL.Interfaces;
 using NSI.DC.HearingsRepository;
 using NSI.Repository;
 using NSI.Repository.Interfaces;
+using NSI.Repository.Repository;
 using NSI.REST.Controllers;
 using System;
 using System.Collections.Generic;
@@ -99,7 +100,7 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void Update_ReturnsUpdatedMeeting()
+        public void Update_ReturnsUpdatedHearing()
         {
             // Arrange
             int id = 123;
@@ -191,5 +192,22 @@ namespace NSI.Tests
              // Assert
              Assert.IsType<OkObjectResult>(result);
          }
-}
+
+        IkarusContext db = new IkarusContext();
+        IHearingsRepository ihr => new HearingsRepository(db);
+        IHearingsManipulation ihm => new HearingsManipulation(ihr);
+
+        [Fact]
+        public void GetAll_ReturnsAllHearings()
+        {
+            // Arrange & Act
+            var controller = new HearingsController(ihm);
+
+            // Act
+            var result = controller.GetAll();
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+    }
 }
