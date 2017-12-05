@@ -32,8 +32,8 @@ export class HearingsService {
 
   getHearingById(id: number): Observable<any>{
     let params = new HttpParams();
-    params = params.append('id', 'id');
-    return this.http.get(this._url, {headers: this.headers, params: params});
+    params = params.append('id', String(id));
+    return this.http.get(this._url + '/' + id);  //{headers: this.headers, params: params});
   }
 
 }

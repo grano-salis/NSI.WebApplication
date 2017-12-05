@@ -56,6 +56,7 @@ export class HearingNewComponent {
       this.hearingsService.getHearingById(this.id).subscribe(data => {
         if (data != null)
         {
+          console.log(data);
           this.edit = true;
           this.model.hearingDate = data.hearingDate;
           this.model.userHearing = data.userHearing;
