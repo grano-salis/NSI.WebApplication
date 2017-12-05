@@ -28,6 +28,7 @@ using AutoMapper;
 using IkarusEntities;
 using NSI.BLL.Interfaces;
 using NSI.BLL;
+//using NSI.REST.Hubs;
 
 namespace NSI.REST
 {
@@ -82,6 +83,8 @@ namespace NSI.REST
             services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
             services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
+
+            services.AddSignalR();
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -174,6 +177,10 @@ namespace NSI.REST
             //enableti ovaj dio na produkciji
             //dodati neki flag
             //app.UseAuthHandler();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<InitialHub>("chat");
+            });
 
             app.UseMvc();
         }
