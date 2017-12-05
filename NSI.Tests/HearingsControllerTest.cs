@@ -31,7 +31,7 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void Create_ReturnsNewlyCreatedMeeting()
+        public void Create_ReturnsNewlyCreatedHearing()
         {
             // Arrange
             int id = 123;
@@ -177,5 +177,19 @@ namespace NSI.Tests
             Assert.IsType<OkObjectResult>(resultCreated);
             Assert.IsType<OkObjectResult>(resultUpdated);
         }
-    }
+
+        [Fact]
+         public void GetHearingsByCase_ReturnsCase()
+         {
+             // Arrange & Act
+             var mockRepo = new Mock<IHearingsManipulation>();
+             var controller = new HearingsController(mockRepo.Object);
+ 
+             // Act
+             var result = controller.GetHearingsByCase(3);
+ 
+             // Assert
+             Assert.IsType<OkObjectResult>(result);
+         }
+}
 }

@@ -58,5 +58,19 @@ namespace NSI.REST.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("{caseId}", Name = "GetHearingsByCase")]
+        public IActionResult GetHearingsByCase(int caseId)
+        {
+            try
+            {
+                return Ok(_hearingsManipulation.GetHearingsByCase(caseId));
+            }
+            catch(Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+            }
+            return BadRequest();
+        }
     }
 }
