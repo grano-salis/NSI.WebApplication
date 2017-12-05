@@ -8,6 +8,7 @@ namespace NSI.BLL.Interfaces
     {
         PricingPackageDto GetPricingPackage(int pricingPackageId);
         IEnumerable<PricingPackageDto> GetPricingPackages();
+        IEnumerable<PricingPackageDto> GetActivePricingPackages();
         PricingPackageDto SavePricingPackage(PricingPackageDto pricingPackage);
         bool DeletePricingPackageById(int pricingPackageId);
     }

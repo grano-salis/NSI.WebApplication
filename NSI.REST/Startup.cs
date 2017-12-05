@@ -55,6 +55,10 @@ namespace NSI.REST
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionManipulation, TransactionManipulation>();
+            services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();
+            services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
+            services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
+            services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
 
             services.AddMvc();
 

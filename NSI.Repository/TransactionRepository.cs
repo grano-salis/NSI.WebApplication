@@ -31,6 +31,14 @@ namespace NSI.Repository
             //return _dbContext.Transaction != null ? (ICollection<TransactionDto>)_dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x)) : new ;
         }
 
+        IEnumerable<TransactionDto> ITransactionRepository.GetAllTransactionsByCustomer(int customerId)
+        {
+            var r=_dbContext.Transaction.Where(x => x.CustomerId == customerId).Select(x => TransactionRepository.MapToDto(x)).ToList();
+
+            return r;
+            //return _dbContext.Transaction != null ? (ICollection<TransactionDto>)_dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x)) : new ;
+        }
+
         TransactionDto ITransactionRepository.SaveTransaction(TransactionDto transaction)
         {
             var newTransaction = MapToDbEntity(transaction);

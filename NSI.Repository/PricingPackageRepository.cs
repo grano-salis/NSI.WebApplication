@@ -29,12 +29,19 @@ namespace NSI.Repository
             return _dbContext.PricingPackage.ToList().Select(x => PricingPackageRepository.MapToDto(x));
         }
 
+
+
         PricingPackageDto IPricingPackageRepository.SavePricingPackage(PricingPackageDto pricingPackage)
         {
             var newPricingPackage = MapToDbEntity(pricingPackage);
             _dbContext.PricingPackage.Add(newPricingPackage);
             if (_dbContext.SaveChanges() != 0) return MapToDto(newPricingPackage);
             return null;
+        }
+
+        IEnumerable<PricingPackageDto> IPricingPackageRepository.GetActivePricingPackages()
+        {
+            return _dbContext.PricingPackage.Where(x => x.IsActive == true).Select(p => MapToDto(p)).ToList();
         }
 
         bool IPricingPackageRepository.DeletePricingPackage(int pricingPackageId)
@@ -45,5 +52,6 @@ namespace NSI.Repository
             if (_dbContext.SaveChanges() != 0) return true;
             return false;
         }
+
     }
 }

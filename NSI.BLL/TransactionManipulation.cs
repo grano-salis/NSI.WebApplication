@@ -15,12 +15,17 @@ namespace NSI.BLL
         }
 
         public TransactionDto GetTransaction(int transactionId){
-            throw new NotImplementedException();
+            return _transactionRepository.GetTransaction(transactionId);
         }
 
         public IEnumerable<TransactionDto> GetTransactions()
         {
             return _transactionRepository.GetAllTransactions();
+        }
+
+        public IEnumerable<TransactionDto> GetAllTransactionsByCustomer(int customerId)
+        {
+            return _transactionRepository.GetAllTransactionsByCustomer(customerId);
         }
 
         public TransactionDto SaveTransaction(TransactionDto transaction){

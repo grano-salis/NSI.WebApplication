@@ -7,7 +7,7 @@ namespace NSI.Repository.Interfaces
     {
         TransactionDto GetTransaction(int transactionId);
         IEnumerable<TransactionDto> GetAllTransactions();
+        IEnumerable<TransactionDto> GetAllTransactionsByCustomer(int customerId);
         TransactionDto SaveTransaction(TransactionDto transaction);
-
     }
 }

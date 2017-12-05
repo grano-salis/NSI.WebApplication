@@ -25,6 +25,10 @@ namespace NSI.BLL
             return _pricingPackageRepository.GetAllPricingPackages();
         }
 
+        public IEnumerable<PricingPackageDto> GetActivePricingPackages()
+        {
+            return _pricingPackageRepository.GetActivePricingPackages();
+        }
         public PricingPackageDto SavePricingPackage(PricingPackageDto pricingPackage)
         {
             return _pricingPackageRepository.SavePricingPackage(pricingPackage);

@@ -8,6 +8,7 @@ namespace NSI.Repository.Interfaces
     {
         PricingPackageDto GetPricingPackage(int pricingPackageId);
         IEnumerable<PricingPackageDto> GetAllPricingPackages();
+        IEnumerable<PricingPackageDto> GetActivePricingPackages();
         PricingPackageDto SavePricingPackage(PricingPackageDto pricingPackage);
         bool DeletePricingPackage(int id);
     }

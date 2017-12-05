@@ -8,6 +8,7 @@ namespace NSI.BLL.Interfaces
     {
         TransactionDto GetTransaction(int transactionId);
         IEnumerable<TransactionDto> GetTransactions();
+        IEnumerable<TransactionDto> GetAllTransactionsByCustomer(int customerId);
         TransactionDto SaveTransaction(TransactionDto transaction);
     }
 }

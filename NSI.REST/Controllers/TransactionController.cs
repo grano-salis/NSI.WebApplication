@@ -23,11 +23,23 @@ namespace NSI.REST.Controllers
         {
             return _transactionManipulation.GetTransactions();
         }
+        [Route("ByCustomer/{customerId}")]
+        [HttpGet("{customerId}")]
+        public IEnumerable<TransactionDto> GetTransactionsByCustomer(int customerId)
+        {
+            System.Console.WriteLine("iiiiiiiiiiiiiiiiiiiiii?");
+            System.Console.WriteLine(customerId);
+            return _transactionManipulation.GetAllTransactionsByCustomer(customerId);
+        }
 
         [HttpGet("{id}")]
-        public TransactionDto GetTransaction(int id)
+        public IActionResult GetTransaction(int id)
         {
-            return _transactionManipulation.GetTransaction(id);
+            var transaction = _transactionManipulation.GetTransaction(id);
+            if(transaction == null){
+                return BadRequest(id);
+            }
+            return Ok(transaction);
         }
 
         [HttpPost]
@@ -36,6 +48,8 @@ namespace NSI.REST.Controllers
             try{
                 if (ModelState.IsValid)
                 {
+                    // Ovdje bi vjerovatno trebalo povuci pricingpackage radi eventualne provjere
+                    transaction.DateCreated = new DateTime();
                     var result = _transactionManipulation.SaveTransaction(transaction);
                     if (result != null) return Ok(result);
                 }
