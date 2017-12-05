@@ -23,4 +23,15 @@ export class HearingsService {
 
   }
 
+  putHearing(id: number, hearing: Hearing): Observable<any>{
+    let body = JSON.stringify(hearing);
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    return this.http.put(this._url + "/" + id, body, {headers: headers});
+  }
+
+  getHearingById(id: number): Observable<any>{
+    return this.http.get(this._url + "/" + id);
+  }
+
 }

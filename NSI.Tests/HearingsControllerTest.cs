@@ -211,6 +211,32 @@ namespace NSI.Tests
         }
 
         [Fact]
+        public void GetHearingById_ReturnsNoContent()
+        {
+            var controller = new HearingsController(ihm);
+
+            // Act
+            var result = controller.Get(0);
+
+            // Assert
+            Assert.IsType<NoContentResult>(result);
+
+        }
+
+        [Fact]
+        public void GetHearingById_ReturnsOK()
+        {
+            var controller = new HearingsController(ihm);
+
+            // Act
+            var result = controller.Get(1);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
+        }
+
+        [Fact]
         public void Delete_ReturnsBadRequest_GivenInvalidModel()
         {
             // Arrange & Act

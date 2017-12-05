@@ -5,6 +5,7 @@ using System.Text;
 using NSI.DC.HearingsRepository;
 using IkarusEntities;
 using System.Linq;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository.Repository
 {
@@ -114,6 +115,25 @@ namespace NSI.Repository.Repository
                 Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
+            return null;
+        }
+
+        public HearingDto GetHearingById(int id)
+        {
+            try
+            {
+                var hearing = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == id);
+                if (hearing != null)
+                {
+                    return Mappers.HearingsRepository.MapToDto(hearing);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
+            }
+
             return null;
         }
 

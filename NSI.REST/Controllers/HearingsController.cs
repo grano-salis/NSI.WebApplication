@@ -83,6 +83,16 @@ namespace NSI.REST.Controllers
             return NoContent();
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var hearing = _hearingsManipulation.GetHearingById(id);
+            if (hearing != null)
+                return Ok(hearing);
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteHearing(int id)
         {

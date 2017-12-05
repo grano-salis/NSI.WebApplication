@@ -2,7 +2,8 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="x_panel">
     <div class="x_title">
-      <h2>Create A Hearing</h2>
+      <h2 *ngIf="!edit">Create a new hearing</h2>
+      <h2 *ngIf="edit">Update an existing hearing</h2>
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -64,8 +65,9 @@
 
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <button type="submit" class="btn btn-success" [disabled]="!hearingForm.form.valid">Submit</button>
-            <button type="reset" class="btn btn-default" (click)="newHearing(); hearingForm.reset()">New meeting</button>
+            <button type="button" class="btn btn-success" (click)="updateHearing()" *ngIf="edit" [disabled]="!hearingForm.form.valid">Update</button>
+            <button type="submit" class="btn btn-success" *ngIf="!edit" [disabled]="!hearingForm.form.valid">Submit</button>
+            <button type="reset" class="btn btn-default" (click)="newHearing(); hearingForm.reset()">New hearing</button>
           </div>
         </div>
 
