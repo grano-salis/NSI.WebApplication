@@ -6,7 +6,7 @@ using System.Text;
 namespace NSI.DC.TaskRepository
 {
     [DataContract]
-    class TaskSearchCriteriaDto
+    public class TaskSearchCriteriaDto
     {
         [DataMember]
         public long TaskId { get; set; }
@@ -19,15 +19,6 @@ namespace NSI.DC.TaskRepository
 
         [DataMember]
         public string Description { get; set; }
-
-        [DataMember]
-        public DateTime DateCreated { get; set; }
-
-        [DataMember]
-        public DateTime? DateModified { get; set; }
-
-        [DataMember]
-        public bool? IsDeleted { get; set; }
 
         [DataMember]
         public long? UserId { get; set; }

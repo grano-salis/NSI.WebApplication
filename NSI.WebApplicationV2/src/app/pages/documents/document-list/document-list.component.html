@@ -1,0 +1,159 @@
+<div class="row" style="border: 2px solid #ecf0f1; border-radius: 60px;">
+	<br>
+	<div class="col-md-1"></div>
+	<div class="col-md-10">
+		<div class="row">
+			<div class="col-md-4">
+				<h4> Document Overview </h4>
+			</div>
+		<div class="col-md-1"></div>
+		<div class="col-md-7">
+			<div class="row">
+				<div class="col-md-2">
+					<h6 style="float: right"><b>Filter By:</b></h6>
+				</div>
+				<div class="col-md-5">
+					<select class="form-control" id="category">
+						<option value="title"> Title </option>
+						<option value="case"> Case </option>
+						<option value="category"> Category </option>
+						<option value="description"> Description </option>
+						<option value="created"> Created </option>
+						<option value="lastModified"> Last Modified </option>
+					</select>
+				</div>
+				<div class="col-md-5">
+					<div class="input-group stylish-input-group">
+						<input type="text" class="form-control"  placeholder="Search" >
+							<span class="input-group-addon">
+								<button type="submit">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>  
+							</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Open</th>
+				<th>Title</th>
+				<th>Case</th>
+				<th>Category</th>
+				<th>Description</th>
+				<th>Created</th>
+				<th>Last Modified</th>
+				<th>History</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><p data-placement="top" data-toggle="tooltip" title="View" class="text-center">
+					<button class="btn-default" data-title="View" data-toggle="modal" data-target="#edit" style="border-radius: 5px;">
+						<span><img style="max-height: 20px;" src="http://techguylabs.com/sites/techguylabs.com/files/styles/tgl-4col/public/segment/Pdf_by_mimooh.svg_.png"></span></button></p></td>
+				
+				<td>NSI dokumentacija.docx</td>
+				<td>12345678</td>
+				<th>Invoice</th>
+				<td>Description ...</td>
+				<td>16/11/2017 16:43</td>
+				<td>16/11/2017 16:43</td>
+			
+				<td><p data-placement="top" data-toggle="tooltip" title="History" class="text-center">
+					<button class="btn btn-primary btn-xs" data-title="History" data-toggle="modal" data-target="#edit">
+						<span class="glyphicon glyphicon-book"></span></button></p></td>
+				<td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
+					<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+						<span class="glyphicon glyphicon-pencil"></span></button></p></td>
+				<td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
+					<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+						<span class="glyphicon glyphicon-trash"></span></button></p></td>
+			</tr>
+
+			<tr class="cloud">
+				<td><p data-placement="top" data-toggle="tooltip" title="View" class="text-center">
+					<button class="btn-default" data-title="View" data-toggle="modal" data-target="#edit" style="border-radius: 5px;">
+						<span><img style="max-height: 20px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Picture_font_awesome.svg/512px-Picture_font_awesome.svg.png"></span></button></p></td>
+				
+				<td>NSI erd.jpg</td>
+				<td>12345678</td>
+				<th>Evidence</th>
+				<td data-toggle="tooltip" data-placement="top" title="Hooray!">Description ...</td>
+				<td>16/11/2017 15:43</td>
+				<td>16/11/2017 16:48</td>
+				
+				<td><p data-placement="top" data-toggle="tooltip" title="History" class="text-center">
+					<button class="btn btn-primary btn-xs" data-title="History" data-toggle="modal" data-target="#edit">
+						<span class="glyphicon glyphicon-book"></span></button></p></td>
+				<td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
+					<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+						<span class="glyphicon glyphicon-pencil"></span></button></p></td>
+				<td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
+					<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+						<span class="glyphicon glyphicon-trash"></span></button></p></td>
+			</tr>
+
+			<tr>
+				<td><p data-placement="top" data-toggle="tooltip" title="View" class="text-center">
+					<button class="btn-default" data-title="View" data-toggle="modal" data-target="#edit" style="border-radius: 5px;">
+						<span><img style="max-height: 20px;" src="https://cdn2.iconfinder.com/data/icons/game-center-mixed-icons/512/note.png"></span></button></p></td>
+				
+				<td>NSI biljeske.txt</td>
+				<td>12345678</td>
+				<th>Evidence</th>
+				<td>Description ...</td>
+				<td>16/11/2017 12:43</td>
+				<td>16/11/2017 16:41</td>
+				
+				<td><p data-placement="top" data-toggle="tooltip" title="History" class="text-center">
+					<button class="btn btn-primary btn-xs" data-title="History" data-toggle="modal" data-target="#edit">
+						<span class="glyphicon glyphicon-book"></span></button></p></td>
+				<td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
+					<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+						<span class="glyphicon glyphicon-pencil"></span></button></p></td>
+				<td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
+					<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+						<span class="glyphicon glyphicon-trash"></span></button></p></td>
+			</tr>
+            </tbody> 
+        </table>
+        
+        <app-document-modal></app-document-modal>
+          
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4 text-center">
+                <ul class="pagination">
+                    <li>
+                        <a href="#">Prev</a>
+                    </li>
+                    <li>
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">4</a>
+                    </li>
+                    <li>
+                        <a href="#">5</a>
+                    </li>
+                    <li>
+                        <a href="#">Next</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>

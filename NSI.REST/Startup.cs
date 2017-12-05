@@ -18,6 +18,16 @@ using NSI.REST.Middleware;
 using NSI.BLL.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
+using NSI.BLL.Interfaces;
+using NSI.BLL;
+using IkarusEntities;
+using Swashbuckle.AspNetCore.Swagger;
+using NSI.Repository.Repository;
+using AutoMapper;
+
+using IkarusEntities;
+using NSI.BLL.Interfaces;
+using NSI.BLL;
 
 namespace NSI.REST
 {
@@ -46,16 +56,61 @@ namespace NSI.REST
 
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
+            services.AddDbContext<IkarusContext>();
+
+            services.AddScoped<IAddressManipulation, AddressManipulation>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
-            services.AddMvc();
+            services.AddScoped<IMeetingsRepository, MeetingsRepository>();
+            services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();
+            services.AddScoped<ITaskManipulation, TaskManipulation>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<IContactsRepository, ContactsRepository>();
+            services.AddScoped<IContactsManipulation, ContactsManipulation>();
+      			services.AddScoped<ICaseInfoManipulation, CaseInfoManipulation>();
+      			services.AddScoped<ICaseInfoRepository, CaseInfoRepository>();
+            services.AddScoped<IConversationsRepository, ConversationsRepository>();
+            services.AddScoped<IConversationsManipulation, ConversationsManipulation>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersManipulation, UsersManipulation>();
+            services.AddScoped<IHearingsRepository, HearingsRepository>();
+            services.AddScoped<IHearingsManipulation, HearingsManipulation>();
+            services.AddScoped<IDocumentManipulation, DocumentManipulation>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionManipulation, TransactionManipulation>();
+            services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();
+            services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
+            services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
+            services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
+
+            services.AddMvc().AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
+
+            //Add AutoMapper
+            services.AddAutoMapper();
+
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info {
+                    Title = "NSI API",
+                    Version = "v1",
+                    Description = "Postojece metode u NSI.Rest aplikaciji",
+                TermsOfService = "None"
+                });
+            });
 
             services.Configure<MvcOptions>(options => {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllHeaders"));
             });
-            
+
+
+
+
+
             //services.AddTransient<BLL.Interfaces.IUserManagement, BLL.Users.UserManagement>();
-            
+
             // Inject JWT Settings
             var jwtAppSettings = Configuration.GetSection("JwtIssuerOptions");
             services.Configure<JwtIssuerOptions>(opt =>
@@ -81,7 +136,7 @@ namespace NSI.REST
                 o.AddPolicy("AllowAllHeaders", corsBuilder.Build());
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +160,14 @@ namespace NSI.REST
                     new System.Globalization.CultureInfo("en-US"),
                     new System.Globalization.CultureInfo("en")
                 }
+            });
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "NSI API V1");
             });
 
             app.UseExHandler();

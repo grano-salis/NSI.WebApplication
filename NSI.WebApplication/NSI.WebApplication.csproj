@@ -44,6 +44,7 @@
     <TypeScriptCompile Include="app\shared\shared.module.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\AddressModule\shared\" />
     <Folder Include="app\core\" />
     <Folder Include="Views\" />
   </ItemGroup>
