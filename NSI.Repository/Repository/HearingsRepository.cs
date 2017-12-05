@@ -27,7 +27,7 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Something went wrong with database");
             }
         }
@@ -66,6 +66,7 @@ namespace NSI.Repository.Repository
             }
             catch(Exception ex)
             {
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
         }
@@ -87,7 +88,30 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Logger.Logger.LogError(ex.Message);
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
+
+        public ICollection<HearingDto> GetHearings()
+        {
+            try
+            {
+                var hearings = _dbContext.Hearing;
+                if (hearings != null)
+                {
+                    ICollection<HearingDto> hearingDto = new List<HearingDto>();
+                    foreach (var item in hearings)
+                    {
+                        hearingDto.Add(Mappers.HearingsRepository.MapToDto(item));
+                    }
+                    return hearingDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
             return null;

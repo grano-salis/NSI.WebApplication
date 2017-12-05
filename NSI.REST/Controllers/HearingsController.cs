@@ -72,5 +72,15 @@ namespace NSI.REST.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var hearings = _hearingsManipulation.GetHearings();
+            if (hearings != null)
+                return Ok(hearings);
+
+            return NoContent();
+        }
     }
 }

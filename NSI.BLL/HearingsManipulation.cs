@@ -30,5 +30,10 @@ namespace NSI.BLL
         {
             return _hearingsRepository.GetHearingsByCase(caseId);
         }
+
+        public ICollection<HearingDto> GetHearings()
+        {
+            return _hearingsRepository.GetHearings();
+        }
     }
 }
