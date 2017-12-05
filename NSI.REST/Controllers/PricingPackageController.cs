@@ -31,8 +31,7 @@ namespace NSI.REST.Controllers
             return Ok(pricingPackage);
         }
 
-        [Route("Active")]
-        [HttpGet]
+        [HttpGet("Active")]
         public IEnumerable<PricingPackageDto> GetActivePackages()
         {
             return _pricingPackageManipulation.GetActivePricingPackages();
