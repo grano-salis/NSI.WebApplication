@@ -32,7 +32,7 @@ export class ContactsComponent implements OnInit {
   }
 
   addContact() {
-    console.log('hamooo');
+    // TODO
   }
 
 }
