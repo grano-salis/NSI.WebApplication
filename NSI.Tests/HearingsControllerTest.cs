@@ -179,23 +179,22 @@ namespace NSI.Tests
             Assert.IsType<OkObjectResult>(resultUpdated);
         }
 
+        IkarusContext db = new IkarusContext();
+        IHearingsRepository ihr => new HearingsRepository(db);
+        IHearingsManipulation ihm => new HearingsManipulation(ihr);
+
         [Fact]
          public void GetHearingsByCase_ReturnsCase()
          {
              // Arrange & Act
-             var mockRepo = new Mock<IHearingsManipulation>();
-             var controller = new HearingsController(mockRepo.Object);
- 
-             // Act
+             var controller = new HearingsController(ihm);
+
+            // Act
              var result = controller.GetHearingsByCase(3);
  
              // Assert
              Assert.IsType<OkObjectResult>(result);
          }
-
-        IkarusContext db = new IkarusContext();
-        IHearingsRepository ihr => new HearingsRepository(db);
-        IHearingsManipulation ihm => new HearingsManipulation(ihr);
 
         [Fact]
         public void GetAll_ReturnsAllHearings()

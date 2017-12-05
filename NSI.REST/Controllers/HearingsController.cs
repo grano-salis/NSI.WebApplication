@@ -59,7 +59,8 @@ namespace NSI.REST.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/case/{caseId}", Name = "GetHearingsByCase")]
+        [HttpGet]
+        [Route("case/{caseId}")]
         public IActionResult GetHearingsByCase(int caseId)
         {
             try
