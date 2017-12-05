@@ -116,5 +116,25 @@ namespace NSI.Repository.Repository
             }
             return null;
         }
+
+        public void Delete(int hearingId)
+        {
+            try
+            {
+                if (hearingId < 0) throw new Exception("id must be positive");
+                var hearingTmp = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == hearingId);
+                if (hearingTmp != null)
+                {
+                    hearingTmp.IsDeleted = true;
+                    hearingTmp.DateModified = DateTime.Now;
+                    _dbContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                throw new Exception("Database error!");
+            }
+        }
     }
 }

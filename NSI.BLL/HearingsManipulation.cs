@@ -35,5 +35,10 @@ namespace NSI.BLL
         {
             return _hearingsRepository.GetHearings();
         }
+
+        public void Delete(int hearingId)
+        {
+            _hearingsRepository.Delete(hearingId);
+        }
     }
 }

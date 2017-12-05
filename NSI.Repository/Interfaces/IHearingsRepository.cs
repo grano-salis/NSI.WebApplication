@@ -11,5 +11,6 @@ namespace NSI.Repository.Interfaces
         void Update(int hearingId, HearingDto model);
         ICollection<HearingDto> GetHearingsByCase(int caseId);
         ICollection<HearingDto> GetHearings();
+        void Delete(int hearingId);
     }
 }

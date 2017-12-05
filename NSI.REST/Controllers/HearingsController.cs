@@ -82,5 +82,25 @@ namespace NSI.REST.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteHearing(int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _hearingsManipulation.Delete(id);
+                return Ok("Meeting deleted");
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+            }
+
+            return BadRequest();
+        }
     }
 }
