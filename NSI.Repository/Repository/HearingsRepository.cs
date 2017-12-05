@@ -69,5 +69,28 @@ namespace NSI.Repository.Repository
                 throw new Exception("Database error!");
             }
         }
+
+        public ICollection<HearingDto> GetHearingsByCase(int caseId)
+        {
+            try
+            {
+                var Hearings = _dbContext.Hearing.Where(x => x.CaseId == caseId);
+                if (Hearings != null)
+                {
+                    ICollection<HearingDto> HearingDtos = new List<HearingDto>();
+                    foreach (var item in Hearings)
+                    {
+                        HearingDtos.Add(Mappers.HearingsRepository.MapToDto(item));
+                    }
+                    return HearingDtos;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
     }
 }

@@ -2,10 +2,8 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ShellComponent } from './shell/shell.component';
-import { HeaderComponent } from './shell/header/header.component';
 import { AuthenticationService } from './authentication/authentication.service';
 import { AuthenticationGuard } from './authentication/authentication.guard';
 import { I18nService } from './services/i18n.service';
@@ -20,11 +18,9 @@ import { TopnavbarComponent } from './shell/topnavbar/topnavbar.component';
     CommonModule,
     HttpClientModule,
     TranslateModule,
-    NgbModule,
     RouterModule
   ],
   declarations: [
-    HeaderComponent,
     ShellComponent,
     SidebarComponent,
     TopnavbarComponent
