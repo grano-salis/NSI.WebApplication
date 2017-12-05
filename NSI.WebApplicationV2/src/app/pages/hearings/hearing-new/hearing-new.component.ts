@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Hearing } from './hearing';
 import { HearingsService } from '../../../services/hearings.service';
 import { UsersService } from '../../../services/users.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hearing-new',
@@ -18,8 +19,10 @@ export class HearingNewComponent {
     model: Hearing;
     date: string;
     noteText: string;
+    id: number;
+    public edit: boolean = false;
   
-    constructor(private hearingsService: HearingsService, private usersService: UsersService) {
+    constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute) {
       this.query = '';
       this.filteredList = [];
       this.notes = [];
@@ -45,6 +48,27 @@ export class HearingNewComponent {
   
     remove(item: string) {
       this.model.userHearing.splice(this.model.userHearing.indexOf(item), 1);
+    }
+
+    //edit-update
+    ngOnInit(){
+      this.id = +this.route.snapshot.paramMap.get('id');
+      this.hearingsService.getHearingById(this.id).subscribe(data => {
+        if (data != null)
+        {
+          console.log(data);
+          this.edit = true;
+          this.model.hearingDate = data.hearingDate;
+          this.model.userHearing = data.userHearing;
+          this.model.note = data.note;
+        }
+        console.log(this.edit);
+      });
+    }
+
+    updateHearing(){
+      this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
+      (error: any) => console.log("Error: " + error.message));
     }
   
     onSubmit() {

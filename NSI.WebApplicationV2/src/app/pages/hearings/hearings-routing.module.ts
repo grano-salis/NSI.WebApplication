@@ -5,7 +5,8 @@ import { extract } from '../../core/services/i18n.service';
 import { HearingNewComponent } from './hearing-new/hearing-new.component';
 
 const routes: Routes = [
-  { path: 'new', component: HearingNewComponent }
+  { path: 'new', component: HearingNewComponent },
+  { path: 'edit/:id', component: HearingNewComponent}
 ];
 
 @NgModule({

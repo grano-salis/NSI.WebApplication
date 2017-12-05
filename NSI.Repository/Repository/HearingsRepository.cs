@@ -5,6 +5,7 @@ using System.Text;
 using NSI.DC.HearingsRepository;
 using IkarusEntities;
 using System.Linq;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository.Repository
 {
@@ -27,7 +28,7 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                // log exception
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Something went wrong with database");
             }
         }
@@ -66,6 +67,7 @@ namespace NSI.Repository.Repository
             }
             catch(Exception ex)
             {
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
         }
@@ -87,10 +89,72 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception("Database error!");
             }
             return null;
+        }
+
+        public ICollection<HearingDto> GetHearings()
+        {
+            try
+            {
+                var hearings = _dbContext.Hearing;
+                if (hearings != null)
+                {
+                    ICollection<HearingDto> hearingDto = new List<HearingDto>();
+                    foreach (var item in hearings)
+                    {
+                        hearingDto.Add(Mappers.HearingsRepository.MapToDto(item));
+                    }
+                    return hearingDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
+
+        public HearingDto GetHearingById(int id)
+        {
+            try
+            {
+                var hearing = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == id);
+                if (hearing != null)
+                {
+                    return Mappers.HearingsRepository.MapToDto(hearing);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException("Database error!");
+            }
+
+            return null;
+        }
+
+        public void Delete(int hearingId)
+        {
+            try
+            {
+                if (hearingId < 0) throw new Exception("id must be positive");
+                var hearingTmp = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == hearingId);
+                if (hearingTmp != null)
+                {
+                    hearingTmp.IsDeleted = true;
+                    hearingTmp.DateModified = DateTime.Now;
+                    _dbContext.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                throw new Exception("Database error!");
+            }
         }
     }
 }
