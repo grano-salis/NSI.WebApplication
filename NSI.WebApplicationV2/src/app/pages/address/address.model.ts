@@ -7,7 +7,7 @@ export class Address {
   city: string;
   created_by_user_id: number;
   date_created: string;
-  date_modfied: string;
+  date_modifed: string;
   is_deleted: boolean;
   zip_code: number;
   public Address(address_1: string, address_2: string, address_id: number,
@@ -20,7 +20,7 @@ export class Address {
     this.city = city;
     this.created_by_user_id = this.created_by_user_id;
     this.date_created = this.date_created;
-    this.date_modfied = this.date_modfied;
+    this.date_modifed = this.date_modifed;
     this.is_deleted = this.is_deleted;
     this.zip_code = this.zip_code;
   }
