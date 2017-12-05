@@ -62,7 +62,7 @@ export class HearingNewComponent {
           this.model.note = data.note;
         }
         console.log(this.edit);
-      })
+      });
     }
 
     updateHearing(){
