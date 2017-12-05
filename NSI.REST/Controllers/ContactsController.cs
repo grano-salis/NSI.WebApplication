@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSI.DC.ContactsRepository;
+using NSI.Repository;
 
 namespace NSI.REST.Controllers
 {
@@ -42,9 +43,26 @@ namespace NSI.REST.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            ContactDto contactDto = new ContactDto()
+            {
+                TaskId = model.TaskId,
+                Contact1 = model.Contact1,
+                FirsttName = model.FirsttName,
+                LastName = model.LastName,
+                Phone = model.Phone,
+                Mobile = model.Mobile,
+                Email = model.Email,
+                AddressId = model.AddressId,
+                CreatedDate = model.CreatedDate,
+                ModifiedDate = model.ModifiedDate,
+                IsDeleted = model.IsDeleted,
+                CreatedByUserId = model.CreatedByUserId
+            };
+
             try
             {
-                var contact = contactsRepository.CreateContact(model);
+                var contact = contactsRepository.CreateContact(contactDto);
                 if (contact != null)
                     return Ok(contact);
                 else

@@ -28,6 +28,11 @@ export class ContactsComponent implements OnInit {
     this.contactsService.getContacts().subscribe((contacts: any) => {
       _this.contacts = contacts;
     });
+
+  }
+
+  addContact() {
+    console.log('hamooo');
   }
 
 }
