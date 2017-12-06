@@ -29,7 +29,7 @@ export class ConversationsComponent implements OnInit {
       this._hubConnection = new HubConnection('http://localhost:59738/chat');
 
       this._hubConnection.on('Send', (data: any) => {
-          const received =  data;
+          const received = data;
           this.messages.push(received);
       });
 
@@ -40,5 +40,7 @@ export class ConversationsComponent implements OnInit {
       .catch(err => {
           console.log('Error while establishing connection')
       });
-    }
+
+      
+  }
 }
