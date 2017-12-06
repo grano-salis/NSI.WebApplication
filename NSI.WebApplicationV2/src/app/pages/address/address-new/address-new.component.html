@@ -1,8 +1,3 @@
-<p>
-  address-new works!
-</p>
-
-
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
@@ -23,7 +18,7 @@
                 <div class="control-group">
                   <div class="controls">
                     <div class="input-prepend input-group">
-                      <input type="text" required class="form-control">
+                      <input type="text" required class="form-control" id="address1" name="address1" [(ngModel)]="address.address1">
                     </div>
                   </div>
                 </div>
@@ -39,7 +34,23 @@
                 <div class="control-group">
                   <div class="controls">
                     <div class="input-prepend input-group">
-                      <input type="text" required class="form-control">
+                      <input type="text" required class="form-control" id="address2" name="address2" [(ngModel)]="address.address2">
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Address type id<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <fieldset>
+                <div class="control-group">
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input type="text" required class="form-control" id="addresstypeid" name="addresstypeid" [(ngModel)]="address.addressTypeId">
                     </div>
                   </div>
                 </div>
@@ -55,7 +66,23 @@
                 <div class="control-group">
                   <div class="controls">
                     <div class="input-prepend input-group">
-                      <input type="text" required class="form-control">
+                      <input type="text" required class="form-control" id="city" name="city" [(ngModel)]="address.city">
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Created by user id<span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <fieldset>
+                <div class="control-group">
+                  <div class="controls">
+                    <div class="input-prepend input-group">
+                      <input type="text" required class="form-control" id="createdbyuserid" name="createdbyuserid" [(ngModel)]="address.createdByUserId">
                     </div>
                   </div>
                 </div>
@@ -71,7 +98,7 @@
                 <div class="control-group">
                   <div class="controls">
                     <div class="input-prepend input-group">
-                      <input type="text" required class="form-control">
+                      <input type="number" required class="form-control" id="zipcode" name="zipcode" [(ngModel)]="address.zipcode">
                     </div>
                   </div>
                 </div>
