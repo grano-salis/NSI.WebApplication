@@ -14,6 +14,7 @@ const routes: Routes = [
       {path: 'meetings', loadChildren: './meetings/meetings.module#MeetingsModule'},
       {path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule'},
       {path: 'documents', loadChildren: './documents/documents.module#DocumentsModule'},
+      {path: 'address', loadChildren: './address/address.module#AddressModule'},
       {path: 'address', loadChildren: './address/address.module#AddressModule'}
     ]
   }

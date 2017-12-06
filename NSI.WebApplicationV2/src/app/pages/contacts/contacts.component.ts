@@ -3,7 +3,7 @@ import {each} from 'lodash';
 import * as moment from 'moment';
 import {Logger} from '../../core/services/logger.service';
 import {ContactsService} from "../../services/contacts.service";
-
+import { Router } from '@angular/router';
 declare let $: any;
 
 const logger = new Logger('contacts');
@@ -16,7 +16,7 @@ const logger = new Logger('contacts');
 export class ContactsComponent implements OnInit {
   contacts: any[];
 
-  constructor(private contactsService: ContactsService) {
+  constructor(private contactsService: ContactsService, private router: Router) {
     setTimeout(function () {
       $(function () {
         $('#datatable').dataTable();
@@ -34,6 +34,7 @@ export class ContactsComponent implements OnInit {
 
   addContact() {
     console.log('add contact');
+    this.router.navigate(['/contacts/new']);
   }
 
 }
