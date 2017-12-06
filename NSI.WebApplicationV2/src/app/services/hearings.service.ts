@@ -36,4 +36,8 @@ export class HearingsService {
     return this.http.get(this._url + '/' + id);  //{headers: this.headers, params: params});
   }
 
+  deleteHearingById(id: number): Observable<any> {
+    return this.http.delete(this._url + "/" + id);
+  }
+
 }

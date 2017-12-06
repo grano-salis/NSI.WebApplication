@@ -86,4 +86,9 @@ export class HearingNewComponent {
       this.model = new Hearing();
     }
 
+    deleteHearing() {
+      this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => console.log('Brisemo hearing:' + r),
+        (error: any) => console.log("Error: " + error.message));
+    }
+
 }
