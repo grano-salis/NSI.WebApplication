@@ -27,6 +27,7 @@
         "../node_modules/gentelella/vendors/font-awesome/css/font-awesome.min.css",
         "../node_modules/gentelella/vendors/iCheck/skins/flat/green.css",
         "../node_modules/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css",
+        "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
         "main.scss"
       ],
       "scripts": [
@@ -48,6 +49,7 @@
         "../node_modules/gentelella/vendors/datatables.net-responsive/js/dataTables.responsive.min.js",
         "../node_modules/gentelella/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js",
         "../node_modules/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js",
+        "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "../node_modules/gentelella/vendors/jszip/dist/jszip.min.js",
         "../node_modules/gentelella/build/js/custom.min.js"
       ],

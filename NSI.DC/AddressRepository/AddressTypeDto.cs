@@ -15,12 +15,10 @@ namespace NSI.DC.AddressRepository
         [DataMember]
         public string AddressTypeName { get; set; }
         [DataMember]
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         [DataMember]
         public DateTime? ModifiedDate { get; set; }
         [DataMember]
         public bool? IsDeleted { get; set; }
-        [DataMember]
-        public int? CustomerId { get; set; }
     }
 }

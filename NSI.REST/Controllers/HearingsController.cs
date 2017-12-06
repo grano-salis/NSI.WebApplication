@@ -58,5 +58,62 @@ namespace NSI.REST.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route("case/{caseId}")]
+        public IActionResult GetHearingsByCase(int caseId)
+        {
+            try
+            {
+                var hearings = _hearingsManipulation.GetHearingsByCase(caseId);
+                if (hearings != null)
+                    return Ok(hearings);
+            }
+            catch(Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+            }
+            return NoContent();
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var hearings = _hearingsManipulation.GetHearings();
+            if (hearings != null)
+                return Ok(hearings);
+
+            return NoContent();
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var hearing = _hearingsManipulation.GetHearingById(id);
+            if (hearing != null)
+                return Ok(hearing);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteHearing(int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _hearingsManipulation.Delete(id);
+                return Ok("Meeting deleted");
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+            }
+
+            return BadRequest();
+        }
     }
 }

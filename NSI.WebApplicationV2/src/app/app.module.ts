@@ -19,7 +19,7 @@ import {HelperService} from './services/helper.service';
 import { MeetingsService } from './services/meetings.service';
 import { AddressService } from './services/address.service';
 import { UsersService } from './services/users.service';
-import {ContactsService} from "./services/contacts.service";
+import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
 import { HearingsService } from './services/hearings.service'
 
