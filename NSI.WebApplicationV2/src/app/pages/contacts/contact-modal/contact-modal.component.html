@@ -1,0 +1,60 @@
+<div class="modal fade" id="edit" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          ×
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+          Edit Contact
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="form_name">First name</label>
+              <input id="form_name" type="text" name="name" class="form-control" [value]=selected_contact.firsttName (input)="selected_contact.firsttName = $event.target.value" required="required" data-error="First name is required.">
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="form_lastname">Last Name </label>
+              <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="" [value]=selected_contact.lastName (input)="selected_contact.lastName = $event.target.value" required="required" data-error="Lastname is required.">
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="form_email">Email *</label>
+              <input id="form_email" type="email" name="email" class="form-control" [value]=selected_contact.email (input)="selected_contact.email = $event.target.value" required="required" data-error="Valid email is required.">
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="form_phone">Phone</label>
+              <input id="form_phone" type="tel" name="phone" [value]="selected_contact.phone" (input)="selected_contact.phone = $event.target.value" class="form-control">
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" (click)="updateContact()">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

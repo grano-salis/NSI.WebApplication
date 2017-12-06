@@ -13,6 +13,7 @@ const logger = new Logger('contacts');
 })
 export class ContactsComponent implements OnInit {
   contacts: any[];
+  selected_contact: any;
 
   constructor(private contactsService: ContactsService) {
     setTimeout(function () {
@@ -28,6 +29,11 @@ export class ContactsComponent implements OnInit {
     this.contactsService.getContacts().subscribe((contacts: any) => {
       _this.contacts = contacts;
     });
+  }
+
+  selectContact ( contact: any ){
+    this.selected_contact=contact;
+    console.log(this.selected_contact);
   }
 
 }

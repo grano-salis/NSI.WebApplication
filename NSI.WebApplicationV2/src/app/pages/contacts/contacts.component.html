@@ -15,6 +15,9 @@
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Show</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -22,12 +25,27 @@
               <td>{{contact.lastName}} {{contact.firsttName}}</td>
               <td>{{contact.email}}</td>
               <td>{{contact.phone}}</td>
+              <td>
+                <button _ngcontent-c10="" style="display: block;margin: auto;" class="btn btn-primary btn-xs" data-target="#show" data-title="Show" data-toggle="modal">
+                <span _ngcontent-c10="" class="glyphicon glyphicon-user"></span>
+                </button>
+              </td>
+
+              <td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
+                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" (click)="selectContact(contact)">
+                  <span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+              <td _ngcontent-c7=""><p _ngcontent-c7="" class="text-center" data-placement="top" data-toggle="tooltip" title="Delete">
+                <button _ngcontent-c7="" class="btn btn-danger btn-xs" data-target="#delete" data-title="Delete" data-toggle="modal">
+                  <span _ngcontent-c7="" class="glyphicon glyphicon-trash"></span></button></p></td>
             </tr>
             </tbody>
           </table>
         </div>
+        <app-contact-modal [selected_contact]="selected_contact"></app-contact-modal>
       </div>
     </div>
     <div class="col-md-1 col-sm-1"></div>
   </div>
 </div>
+

@@ -15,4 +15,8 @@ export class ContactsService {
      return this.http.get(`${this._url}/api/contacts`);
    }
 
+  editContact( id: any, body:any): Observable<any> {
+    return this.http.get(`${this._url}/api/contacts/`+id.toString(), body);
+  }
+
 }
