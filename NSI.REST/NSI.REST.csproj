@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +27,6 @@
     <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
     <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
     <ProjectReference Include="..\NSI.Logger\NSI.Logger.csproj" />
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>
