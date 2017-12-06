@@ -17,6 +17,8 @@ const routes: Routes = [
       {path: 'documents', loadChildren: './documents/documents.module#DocumentsModule'},
       {path: 'address', loadChildren: './address/address.module#AddressModule'},
       {path: 'hearings', loadChildren: './hearings/hearings.module#HearingsModule'},
+      {path: 'transactions', loadChildren: './transactions/transactions.module#TransactionsModule'},
+      {path: 'pricingpackages', loadChildren: './pricing-packages/pricing-packages.module#PricingPackagesModule'}
     ]
   }
 ];
