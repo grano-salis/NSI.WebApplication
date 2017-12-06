@@ -1,40 +1,75 @@
-
-<div class="container">
-  <div id="signup">
-    <div class="signup-screen">
-      <div class="space-bot text-center">
-        <h1>Sign up</h1>
-        <div class="divider"></div>
-      </div>
-      <form class="form-register" method="post" name="register" novalidate>
-        <div class="input-field col s6">
-          <input id="first-name" type="text" class="validate" required>
-          <label for="first-name">First Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="last-name" type="text" class="validate" required>
-          <label for="last-name">Last Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="email" type="email" name="email" ng-model="email" class="validate" required>
-          <label for="email">Email</label>
-        </div>
-        <p class="alert alert-danger" ng-show="form-register.email.$error.email">Your email is invalid.</p>
-        <div class="input-field col s6">
-          <input id="password" type="password" name="password" ng-model="password" ng-minlength='6' class="validate" required>
-          <label for="password">Password</label>
-        </div>
-        <p class="alert alert-danger" ng-show="form-register.password.$error.minlength || form.password.$invalid">Your password must be at least 6 characters.</p>
-        <div class="space-top text-center">
-          <button ng-disabled="form-register.$invalid" class="waves-effect waves-light btn done">
-            <i class="material-icons left">done</i> Done
-          </button>
-          <button type="button" class="waves-effect waves-light btn cancel">
-            <i class="material-icons left">clear</i>Cancel
-          </button>
-        </div>
-      </form>
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2>Create new contact</h2>
+      <div class="clearfix"></div>
     </div>
-  </div>
-</div>
+    <div class="x_content">
+      <form (ngSubmit)="onSubmit()" #contactForm="ngForm" class="form-horizontal form-label-left">
+        <!-- Title -->
+        <div class="form-group">
+        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstname">First name
+          <span class="required">*</span>
+        </label>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <input type="text" id="firstname" required [(ngModel)]="model.firsttName"  name="First name" #title="ngModel" class="form-control col-md-7 col-xs-12">
+        </div>
+      </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">Last name
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="lastname" required [(ngModel)]="model.lastName"  name="Lastname" #title="ngModel" class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Phone
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="phone" required [(ngModel)]="model.phone"  name="Last name" #title="ngModel" class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Emal
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="email" required [(ngModel)]="model.email"  name="Last name" #title="ngModel" class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile">Mobile
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="mobile" required [(ngModel)]="model.mobile"  name="Mobile" #title="ngModel" class="form-control col-md-7 col-xs-12">
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile">Address
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="address" required [(ngModel)]="model.addressId"  name="Address" #title="ngModel" class="form-control col-md-7 col-xs-12">
+          </div>
+
+        </div>
+
+        <!-- Submit -->
+        <div class="ln_solid"></div>
+        <div class="form-group">
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+        <button type="button" class="btn btn-default" (click)="newContact();">Submit</button>
+        </div>
+        </div>
+
 

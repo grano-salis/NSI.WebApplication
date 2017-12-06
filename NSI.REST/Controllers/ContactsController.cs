@@ -38,12 +38,21 @@ namespace NSI.REST.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]ContactDto model)
         {
+            Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
+               
+                ICollection<ContactDto> contacts = contactsRepository.GetContacts();
+                var biggest = 0;
+                foreach(ContactDto x in contacts)
+                {
+                    if (x.Contact1 > biggest) biggest = x.Contact1;
+                }
+                model.Contact1 = biggest + 1;
                 var contact = contactsRepository.CreateContact(model);
                 if (contact != null)
                     return Ok(contact);

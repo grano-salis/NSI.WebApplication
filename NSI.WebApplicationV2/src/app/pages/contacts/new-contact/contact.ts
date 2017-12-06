@@ -1,13 +1,15 @@
 export class Contact {
 
-  FirsttName: string;
-  LastName: string;
-  Phone: string;
-  Mobile: string;
-  Email: string;
-  AddressId: number;
-  CreatedDate: Date;
-  ModifiedDate: Date;
-  IsDeleted: boolean;
-  CreatedByUserId: number;
+  taskId: number;
+  contact1: number;
+  firsttName: string;
+  lastName: string;
+  phone: string;
+  mobile: string;
+  email: string;
+  addressId: number;
+  createdDate: Date;
+  modifiedDate: Date;
+  isDeleted: boolean;
+  createdByUserId: number;
 }
