@@ -8,12 +8,12 @@ export class Address {
   addressTypeId: number;
   city: string;
   createdByUserId: number;
-  dateCreated: string;
-  dateModified: string;
+  dateCreated: Date;
+  dateModified: Date;
   isDeleted: boolean;
   zipCode: number;
 
-  public Address(address_1: string, address_2: string, address_id: number, address_type_id: number, city: string, created_by_user_id: number, date_created: string, date_modified: string, is_deleted: boolean, zip_code: number) {
+  public Address(address_1: string, address_2: string, address_id: number, address_type_id: number, city: string, created_by_user_id: number, date_created: Date, date_modified: Date, is_deleted: boolean, zip_code: number) {
     this.addressId = address_id;
     this.address1 = address_1;
     this.address2 = address_2;

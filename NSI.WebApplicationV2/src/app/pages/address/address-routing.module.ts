@@ -9,7 +9,9 @@ import {AddressListComponent} from './address-list/address-list.component';
 const routes: Routes = [
   { path: '', component: AddressComponent, data: { title: extract('Address') } },
   { path: 'new', component: AddressNewComponent },
-  { path: 'list', component: AddressListComponent}
+  { path: 'list', component: AddressListComponent },
+ // { path: 'new', component: AddressTypeNewComponent },
+ // { path: 'list', component: AddressTypeListComponent }
 ];
 
 @NgModule({
