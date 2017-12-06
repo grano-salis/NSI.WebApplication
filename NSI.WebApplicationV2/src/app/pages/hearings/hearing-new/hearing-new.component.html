@@ -11,17 +11,18 @@
                 <form (ngSubmit)="onSubmit()" #hearingForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Hearing Date<span class="required">*</span>
-          </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="hearingDate">Hearing date
+                            <span class="required">*</span>
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <fieldset>
                                 <div class="control-group">
                                     <div class="controls">
                                         <div class="input-prepend input-group">
                                             <span class="add-on input-group-addon">
-                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                    </span>
-                                            <input type="text" name="date" id="date" required [(ngModel)]="model.hearingDate" class="form-control">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" name="hearingDate" id="hearingDate" required [(ngModel)]="model.hearingDate" #hearingDate="ngModel" class="form-control">
                                         </div>
                                     </div>
                                 </div>
