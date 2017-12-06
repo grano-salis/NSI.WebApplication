@@ -15,6 +15,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Options</th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +23,10 @@
               <td>{{contact.lastName}} {{contact.firsttName}}</td>
               <td>{{contact.email}}</td>
               <td>{{contact.phone}}</td>
+              <td>
+                <a href="#delete-contact{{contact.contact1}}" data-toggle="modal" data-target="#delete-contact{{contact.contact1}}">Delete contact</a>
+                <app-delete-contact-modal (deleteFun)="DeleteElement(contact)" [contact]="contact"></app-delete-contact-modal>
+              </td>
             </tr>
             </tbody>
           </table>

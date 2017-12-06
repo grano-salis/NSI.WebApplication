@@ -15,4 +15,7 @@ export class ContactsService {
      return this.http.get(`${this._url}/api/contacts`);
    }
 
+  deleteContact(params?: number): Observable<any> {
+    return this.http.delete(`${this._url}/api/contacts/` + params.toString());
+  }
 }

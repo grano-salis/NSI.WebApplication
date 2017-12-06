@@ -1,0 +1,12 @@
+.customBtn {
+  background: #e2e2e2;
+}
+
+.customBtn .glyphicon-trash {
+  color: red;
+}
+
+.button-wrappers {
+  display: block;
+  margin-top: 20px;
+}
