@@ -13,7 +13,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
-var AddressService = (function () {
+var AddressService = /** @class */ (function () {
     function AddressService(http) {
         this.http = http;
     }
@@ -21,11 +21,11 @@ var AddressService = (function () {
         return this.http.get('url')
             .map(function (response) { return response.json(); });
     };
+    AddressService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [http_1.Http])
+    ], AddressService);
     return AddressService;
 }());
-AddressService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
-], AddressService);
 exports.AddressService = AddressService;
 //# sourceMappingURL=address.service.js.map
