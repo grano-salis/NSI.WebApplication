@@ -22,11 +22,16 @@ export class ConversationsComponent implements OnInit {
       const data = `Sent: ${this.message}`;
 
       this._hubConnection.invoke('Send', data);
-      this.messages.push(data);
+      //this.messages.push(data);
   }
 
   ngOnInit() {
-      /*this._hubConnection = new HubConnection('/chat');
+      this._hubConnection = new HubConnection('http://localhost:59738/chat');
+
+      this._hubConnection.on('Send', (data: any) => {
+          const received =  data;
+          this.messages.push(received);
+      });
 
       this._hubConnection.start()
       .then(() => {
@@ -35,27 +40,5 @@ export class ConversationsComponent implements OnInit {
       .catch(err => {
           console.log('Error while establishing connection')
       });
-
-      this._hubConnection.on('Send', (data: any) => {
-          const received = `Received: ${data}`;
-          this.messages.push(received);
-      });
-      */
-
-      this._hubConnection = new HubConnection('/chat');
-      
-      this._hubConnection.on('Send', (data: any) => {
-        const received = `Received: ${data}`;
-        this.messages.push(received);
-    });
-      
-      
-      this._hubConnection.start()
-                .then(() => this._hubConnection.invoke('Send', 'Hello'));
-                /*.catch(err => {
-                    console.log('Error while establishing connection')
-                });*/
-     
-  }
-
+    }
 }
