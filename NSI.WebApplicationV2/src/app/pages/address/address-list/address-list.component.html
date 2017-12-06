@@ -5,16 +5,16 @@
     <div class="col-md-10 col-sm-10 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
-          <h2>Contacts</h2>
+          <h2>Addressessadaaa</h2>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
           <table class="table table-hover">
             <thead>
             <tr>
+              <th>Address id</th>
               <th>Address 1</th>
               <th>Address 2</th>
-              <th>Address id</th>
               <th>Address Type id</th>
               <th>City</th>
               <th>Created by User id</th>
@@ -25,19 +25,19 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>Adresa 1</td>
-              <td>Adresa 2</td>
-              <td>1</td>
-              <td>1</td>
-              <td>Travnik</td>
-              <td>1</td>
-              <td>2017-5-17</td>
-              <td>2017-5-17</td>
-              <td>false</td>
-              <td>72278</td>
-            </tr>
-            </tbody>
+              <tr *ngFor="let address of addresses">
+              <td>{{address.addressId}}</td>
+              <td>{{address.address1}}</td>
+              <td>{{address.address2}}</td>
+              <td>{{address.addressTypeId}}</td>
+              <td>{{address.city}}</td>
+              <td>{{address.createdByUserId}}</td>
+              <td>{{address.dateCreated}}</td>
+              <td>{{address.dateModified}}</td>
+              <td>{{address.isDeleted}}</td>
+              <td>{{address.zipCode}}</td>
+              </tr>
+             </tbody>
           </table>
         </div>
       </div>

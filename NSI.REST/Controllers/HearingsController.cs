@@ -59,18 +59,21 @@ namespace NSI.REST.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{caseId}", Name = "GetHearingsByCase")]
+        [HttpGet]
+        [Route("case/{caseId}")]
         public IActionResult GetHearingsByCase(int caseId)
         {
             try
             {
-                return Ok(_hearingsManipulation.GetHearingsByCase(caseId));
+                var hearings = _hearingsManipulation.GetHearingsByCase(caseId);
+                if (hearings != null)
+                    return Ok(hearings);
             }
             catch(Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
             }
-            return BadRequest();
+            return NoContent();
         }
 
         [HttpGet]

@@ -56,13 +56,14 @@ export class HearingNewComponent {
       this.hearingsService.getHearingById(this.id).subscribe(data => {
         if (data != null)
         {
+          console.log(data);
           this.edit = true;
           this.model.hearingDate = data.hearingDate;
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
         }
         console.log(this.edit);
-      })
+      });
     }
 
     updateHearing(){
@@ -83,6 +84,11 @@ export class HearingNewComponent {
   
     newHearing() {
       this.model = new Hearing();
+    }
+
+    deleteHearing() {
+      this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => console.log('Brisemo hearing:' + r),
+        (error: any) => console.log("Error: " + error.message));
     }
 
 }

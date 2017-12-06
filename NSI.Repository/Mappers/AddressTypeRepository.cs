@@ -15,9 +15,7 @@ namespace NSI.Repository.Mappers
             {
                 AddressTypeId = addressTypeDto.AddressTypeId,
                 AddressTypeName = addressTypeDto.AddressTypeName,
-                ModifiedDate = addressTypeDto.ModifiedDate,
-                IsDeleted = addressTypeDto.IsDeleted,
-                CustomerId = addressTypeDto.CustomerId
+                IsDeleted = addressTypeDto.IsDeleted
             };
         }
 
@@ -27,9 +25,7 @@ namespace NSI.Repository.Mappers
             {
                 AddressTypeId = addressType.AddressTypeId,
                 AddressTypeName = addressType.AddressTypeName,
-                ModifiedDate = addressType.ModifiedDate,
-                IsDeleted = addressType.IsDeleted,
-                CustomerId = addressType.CustomerId
+                IsDeleted = addressType.IsDeleted
             };
         }
     }

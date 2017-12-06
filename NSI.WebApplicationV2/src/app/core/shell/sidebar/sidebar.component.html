@@ -94,6 +94,12 @@
             <li [routerLink]="['/address/list']" routerLinkActive="active">
               <a>List of address</a>
             </li>
+            <li [routerLink]="['/address/type/new']" routerLinkActive="active">
+              <a>New address type</a>
+            </li>
+            <li [routerLink]="['/address/type/list']" routerLinkActive="active">
+              <a>List of address types</a>
+            </li>
           </ul>
         </li>
 
@@ -107,13 +113,13 @@
           </a>
         </li>
         -->
-        
+
         <li [routerLink]="['/organization']" routerLinkActive="current-page">
           <a>
             <i class="fa fa-calendar-o"></i> Organizations
           </a>
         </li>
-        
+
         <!-- <li>
           <a id="formsli" (click)="anchorClicked($event)">
             <i class="fa fa-edit"></i> Forms
