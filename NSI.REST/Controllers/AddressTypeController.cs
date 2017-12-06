@@ -55,7 +55,6 @@ namespace NSI.REST.Controllers
             {
                 AddressTypeName = model.AddressTypeName,
                 CreatedDate = DateTime.Now,
-                CustomerId = model.CustomerId,
                 ModifiedDate = DateTime.Now
             };
 
@@ -102,7 +101,6 @@ namespace NSI.REST.Controllers
             {
                 AddressTypeName = model.AddressTypeName,
                 CreatedDate = model.CreatedDate,
-                CustomerId = model.CustomerId,
                 ModifiedDate = model.ModifiedDate
             };
 
