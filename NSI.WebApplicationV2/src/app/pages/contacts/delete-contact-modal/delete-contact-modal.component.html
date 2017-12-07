@@ -1,0 +1,27 @@
+<div class="modal fade" id="delete-contact{{contact.contact1}}" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header modal_header_color">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delete contact</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row margin_both">
+          <div class="col-md-10 col-md-offset-1 col-xs-12">
+            <span>Are you sure you want to delete contact <strong>{{contact.firsttName + ' ' + contact.lastName}}</strong> ?</span>
+          </div>
+        </div>
+
+      <div class="ln_solid"></div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-6 col-md-offset-4 col-sm-offset-2 col-xs-offset-2">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)='deleteContact(contact.contact1)' data-dismiss="modal">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

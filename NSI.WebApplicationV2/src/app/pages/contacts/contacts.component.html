@@ -4,17 +4,24 @@
     <div class="col-md-1 col-sm-1"></div>
     <div class="col-md-10 col-sm-10 col-xs-12">
       <div class="x_panel">
-        <div class="x_title">
+        <div class="x_title ">
           <h2>Contacts</h2>
+          <button  class="right btn btn-default button-contact" (click)="newContact()" data-title="New" data-toggle="modal" data-target="#open-contact">
+            <i class="fa fa-plus"></i>
+          </button>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-          <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+          <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0"
+                 width="100%">
             <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
+              <th class="option">Show</th>
+              <th class="option">Edit</th>
+              <th class="option">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -22,12 +29,48 @@
               <td>{{contact.lastName}} {{contact.firsttName}}</td>
               <td>{{contact.email}}</td>
               <td>{{contact.phone}}</td>
+              <td>
+                <p data-placement="top" data-toggle="tooltip" title="Show" class="text-center">
+                  <button class="btn btn-primary btn-xs" data-title="Show" data-toggle="modal" data-target="#show-contact"
+                          (click)="showContact(contact)">
+                    <i class="fa fa-list"></i>
+                  </button>
+                </p>
+              </td>
+
+              <td>
+                <p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
+                  <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"
+                          (click)="editContact(contact)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                </p>
+              </td>
+
+              <td ><p class="text-center" data-placement="top" data-toggle="tooltip"
+                                      title="Delete">
+                <a href="#delete-contact{{contact.contact1}}" _ngcontent-c7="" class="btn btn-danger btn-xs"
+                   data-target="#delete-contact{{contact.contact1}}" data-title="Delete" data-toggle="modal">
+                  <i class="fa fa-trash"></i>
+                </a></p>
+                <app-delete-contact-modal (deleteFun)="DeleteElement(contact)"
+                                          [contact]="contact"></app-delete-contact-modal>
+              </td>
             </tr>
             </tbody>
           </table>
         </div>
+
+
+        <app-contact-modal [temp_contact]="temp_contact" (onClose)="close()"></app-contact-modal>
+        <new-contact-component [temp_contact]="temp_contact" (onClose)="closeNew()"> </new-contact-component>
+
+        <show-contact-component [temp_contact]="temp_contact"> </show-contact-component>
       </div>
     </div>
     <div class="col-md-1 col-sm-1"></div>
   </div>
 </div>
+
+
+
