@@ -4,8 +4,11 @@
     <div class="col-md-1 col-sm-1"></div>
     <div class="col-md-10 col-sm-10 col-xs-12">
       <div class="x_panel">
-        <div class="x_title">
+        <div class="x_title ">
           <h2>Contacts</h2>
+          <button  class="right btn btn-default button-contact" (click)="newContact()" data-title="New" data-toggle="modal" data-target="#open-contact">
+            <i class="fa fa-plus"></i>
+          </button>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
@@ -27,17 +30,20 @@
               <td>{{contact.email}}</td>
               <td>{{contact.phone}}</td>
               <td>
-                <button style="display: block;margin: auto;" class="btn btn-primary btn-xs"
-                        data-target="#show" data-title="Show" data-toggle="modal">
-                  <span class="glyphicon glyphicon-user"></span>
-                </button>
+                <p data-placement="top" data-toggle="tooltip" title="Show" class="text-center">
+                  <button class="btn btn-primary btn-xs" data-title="Show" data-toggle="modal" data-target="#show-contact"
+                          (click)="showContact(contact)">
+                    <i class="fa fa-list"></i>
+                  </button>
+                </p>
               </td>
 
               <td>
                 <p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
                   <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"
                           (click)="editContact(contact)">
-                    <span class="glyphicon glyphicon-pencil"></span></button>
+                    <i class="fa fa-edit"></i>
+                  </button>
                 </p>
               </td>
 
@@ -45,7 +51,8 @@
                                       title="Delete">
                 <a href="#delete-contact{{contact.contact1}}" _ngcontent-c7="" class="btn btn-danger btn-xs"
                    data-target="#delete-contact{{contact.contact1}}" data-title="Delete" data-toggle="modal">
-                  <span _ngcontent-c7="" class="glyphicon glyphicon-trash"></span></a></p>
+                  <i class="fa fa-trash"></i>
+                </a></p>
                 <app-delete-contact-modal (deleteFun)="DeleteElement(contact)"
                                           [contact]="contact"></app-delete-contact-modal>
               </td>
@@ -53,17 +60,17 @@
             </tbody>
           </table>
         </div>
-        <div data-toggle="modal" data-tartet="open-contact">
-          <button class="btn btn-default button-contact" >
-            <p class="p-contact"> New contact </p> <i class="material-icons icons-contact" >add</i>
-          </button>
-        </div>
+
+
         <app-contact-modal [temp_contact]="temp_contact" (onClose)="close()"></app-contact-modal>
+        <new-contact-component [temp_contact]="temp_contact" (onClose)="closeNew()"> </new-contact-component>
+
+        <show-contact-component [temp_contact]="temp_contact"> </show-contact-component>
       </div>
     </div>
     <div class="col-md-1 col-sm-1"></div>
   </div>
 </div>
 
-<new-contact-component> </new-contact-component>
+
 

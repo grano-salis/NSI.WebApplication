@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Contact} from './contact';
 import {ContactsService} from '../../../services/contacts.service';
 import {ActivatedRoute} from '@angular/router';
@@ -9,16 +9,23 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: []
 })
 export class NewContactComponent {
-  model: Contact;
+  @Input() temp_contact: any;
+  @Output() onClose: EventEmitter<any> = new EventEmitter();
+  @ViewChild('closeBtn') closeBtn: ElementRef;
+
   constructor(private contactsService: ContactsService, private route: ActivatedRoute) {
-    this.model = new Contact();
+    this.temp_contact = new Contact();
   }
 
   newContact() {
-    this.model.taskId = 0;
-    this.model.contact1 = 100;
-    this.model.createdByUserId = 1;
-    this.contactsService.postContact(this.model).subscribe((r: any) => console.log('Novi kontakt: ' + r),
+    this.temp_contact.taskId = 1;
+    this.temp_contact.addressId = 1;
+    this.temp_contact.createdByUserId = 1;
+    this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {
+        this.temp_contact.contact1 = r.contact1;
+        this.closeBtn.nativeElement.click();
+        this.onClose.next(this.temp_contact);
+      },
       (error: any) => console.log('Error: ', error.message));
 
   }

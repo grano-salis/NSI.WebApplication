@@ -1,7 +1,6 @@
 export class Contact {
 
   taskId: number;
-  contact1: number;
   firsttName: string;
   lastName: string;
   phone: string;

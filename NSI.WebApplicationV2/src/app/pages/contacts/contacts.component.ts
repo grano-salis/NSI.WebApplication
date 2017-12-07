@@ -11,10 +11,10 @@ class Contact {
 
   constructor() {
     this.firsttName = '';
-      this.lastName = '';
-      this.phone = '';
-      this.email = '';
-      this.mobile = '';
+    this.lastName = '';
+    this.phone = '';
+    this.email = '';
+    this.mobile = '';
   }
 }
 
@@ -30,21 +30,12 @@ export class ContactsComponent implements OnInit {
 
 
   constructor(private contactsService: ContactsService) {
+    const _this = this;
     setTimeout(function () {
       $(function () {
-        $('#datatable').dataTable(
-          {   'bAutoWidth': false,
-          'aoColumns': [
-          { 'bSortable': true },
-          { 'bSortable': true },
-          { 'bSortable': true },
-          { 'bSortable': false },
-          { 'bSortable': false },
-          { 'bSortable': false }
-        ]}
-        );
+        _this.initTable();
       });
-    }, 1000);
+    }, 700);
     this.temp_contact = new Contact();
   }
 
@@ -63,13 +54,62 @@ export class ContactsComponent implements OnInit {
     this.temp_contact = Object.assign({}, contact);
   }
 
+  newContact() {
+    this.temp_contact = new Contact();
+  }
+
+  showContact(contact: any) {
+    this.temp_contact = Object.assign({}, contact);
+  }
+
   close() {
+    const _this = this;
     this.contacts[this.contacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
+    $('#datatable').dataTable().fnDestroy();
+    setTimeout(function () {
+      $(function () {
+        _this.initTable();
+      });
+    }, 100);
+  }
+
+  closeNew() {
+    const _this = this;
+    this.contacts.push(this.temp_contact);
+    $('#datatable').dataTable().fnDestroy();
+    setTimeout(function () {
+      $(function () {
+        _this.initTable();
+      });
+    }, 100);
+
   }
 
   DeleteElement(contactToDelete: any) {
-    const index = this.contacts.indexOf(contactToDelete);
+    const _this = this;
+    const index = this.contacts.findIndex((c: any) => c.contact1 === contactToDelete.contact1)
     this.contacts.splice(index, 1);
+    $('#datatable').dataTable().fnDestroy();
+    setTimeout(function () {
+      $(function () {
+        _this.initTable();
+      });
+    }, 100);
   }
 
+  initTable() {
+    $('#datatable').dataTable(
+      {
+        'bAutoWidth': false,
+        'aoColumns': [
+          {'bSortable': true},
+          {'bSortable': true},
+          {'bSortable': true},
+          {'bSortable': false},
+          {'bSortable': false},
+          {'bSortable': false}
+        ]
+      }
+    );
+  }
 }
