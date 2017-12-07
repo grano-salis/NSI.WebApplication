@@ -25,9 +25,9 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/fullcalendar/dist/fullcalendar.min.css",
         "../node_modules/gentelella/vendors/font-awesome/css/font-awesome.min.css",
-        "../node_modules/gentelella/vendors/nprogress/nprogress.css",
         "../node_modules/gentelella/vendors/iCheck/skins/flat/green.css",
         "../node_modules/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css",
+        "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
         "main.scss"
       ],
       "scripts": [
@@ -36,7 +36,6 @@
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/fullcalendar/dist/fullcalendar.min.js",
         "../node_modules/gentelella/vendors/fastclick/lib/fastclick.js",
-        "../node_modules/gentelella/vendors/nprogress/nprogress.js",
         "../node_modules/gentelella/vendors/iCheck/icheck.min.js",
         "../node_modules/gentelella/vendors/datatables.net/js/jquery.dataTables.min.js",
         "../node_modules/gentelella/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js",
@@ -50,6 +49,7 @@
         "../node_modules/gentelella/vendors/datatables.net-responsive/js/dataTables.responsive.min.js",
         "../node_modules/gentelella/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js",
         "../node_modules/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js",
+        "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "../node_modules/gentelella/vendors/jszip/dist/jszip.min.js",
         "../node_modules/gentelella/build/js/custom.min.js"
       ],

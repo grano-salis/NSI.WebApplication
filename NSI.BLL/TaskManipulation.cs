@@ -39,15 +39,19 @@ namespace NSI.BLL
             return _taskRepository.GetTaskById(taskId);
         }
 
-        public ICollection<TaskDto> GetTasks()
+        public ICollection<TaskDto> GetTasks(int? pageNumber = null, int? pageSize = null)
         {
-            return _taskRepository.GetTasks();
+            var tasks= _taskRepository.GetTasks();
+            if (pageNumber != null && pageSize != null)
+            {
+               return PagingHelper<TaskDto>.PagedList(tasks, (int)pageNumber, (int)pageSize);
+            }
+            return tasks;
         }
 
         public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize)
         {
-            var tasks=_taskRepository.SearchTasks(searchCriteria);
-            return PagingHelper<TaskDto>.PagedList(tasks, pageNumber, pageSize);
+            return PagingHelper<TaskDto>.PagedList(_taskRepository.SearchTasks(searchCriteria), pageNumber, pageSize);
         }
     }
 }

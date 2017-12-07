@@ -9,7 +9,7 @@ namespace NSI.BLL.Interfaces
     {
         TaskDto GetTaksById(int taskId);
         TaskDto CreateTask(TaskDto taskDto);
-        ICollection<TaskDto> GetTasks();
+        ICollection<TaskDto> GetTasks(int? pageNumber=null, int? pageSize=null);
         bool DeleteTaskById(int taskId);
         bool EditTask(int taskId, TaskDto task);
         ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize);

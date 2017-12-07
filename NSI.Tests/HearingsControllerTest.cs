@@ -182,11 +182,24 @@ namespace NSI.Tests
         IkarusContext db = new IkarusContext();
         IHearingsRepository ihr => new HearingsRepository(db);
         IHearingsManipulation ihm => new HearingsManipulation(ihr);
+
+        [Fact]
+         public void GetHearingsByCase_ReturnsCase()
+         {
+             // Arrange & Act
+             var controller = new HearingsController(ihm);
+
+            // Act
+             var result = controller.GetHearingsByCase(3);
+ 
+             // Assert
+             Assert.IsType<OkObjectResult>(result);
+         }
+
         [Fact]
         public void GetAll_ReturnsAllHearings()
         {
             // Arrange & Act
-            
             var controller = new HearingsController(ihm);
 
             // Act
@@ -195,5 +208,100 @@ namespace NSI.Tests
             // Assert
             Assert.IsType<OkObjectResult>(result);
         }
+
+        [Fact]
+        public void GetHearingById_ReturnsNoContent()
+        {
+            var controller = new HearingsController(ihm);
+
+            // Act
+            var result = controller.Get(0);
+
+            // Assert
+            Assert.IsType<NoContentResult>(result);
+
+        }
+
+        [Fact]
+        public void GetHearingById_ReturnsOK()
+        {
+            var controller = new HearingsController(ihm);
+
+            // Act
+            var result = controller.Get(1);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
+        }
+
+        [Fact]
+        public void Delete_ReturnsBadRequest_GivenInvalidModel()
+        {
+            // Arrange & Act
+            var mockRepo = new Mock<IHearingsManipulation>();
+            var controller = new HearingsController(mockRepo.Object);
+            controller.ModelState.AddModelError("error", "some error");
+
+            // Act
+            var result = controller.DeleteHearing(100);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+
+        }
+
+        [Fact]
+        public void Delete_ReturnsOK()
+        {
+            // Arrange
+            int id = 123;
+            DateTime hearingDate = DateTime.Now;
+
+            int createdByUserId = 1;
+            int caseId = 3;
+
+            var usersOnHearing = new List<UserHearingDto>()
+            {
+                new UserHearingDto()
+                {
+                    UserId = 1
+                }
+            };
+
+            var notes = new List<NoteDto>()
+            {
+                new NoteDto
+                {
+                    Text = "test test",
+                    CreatedByUserId = 1,
+                    HearingId = 123
+                }
+            };
+
+            var hearing = new HearingDto()
+            {
+                HearingId = id,
+                HearingDate = hearingDate,
+                CreatedByUserId = createdByUserId,
+                CaseId = caseId,
+                UserHearing = usersOnHearing,
+                Note = notes
+            };
+
+            var hearingRepo = new Mock<IHearingsRepository>();
+            hearingRepo.Setup(x => x.Insert(hearing));
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+
+
+            var controller = new HearingsController(hearingManipulation);
+
+            // Act
+            var result = controller.DeleteHearing(3);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
     }
 }

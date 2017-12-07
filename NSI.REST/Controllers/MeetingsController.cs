@@ -25,7 +25,7 @@ namespace NSI.REST.Controllers
         public IActionResult GetAll()
         {
             var meetings = _meetingsManipulation.GetMeetings();
-            if ( meetings != null)
+            if (meetings != null)
                 return Ok(meetings);
 
             return NoContent();
@@ -35,7 +35,7 @@ namespace NSI.REST.Controllers
         public IActionResult Get(int id)
         {
             var meeting = _meetingsManipulation.GetMeetingById(id);
-            if ( meeting != null)
+            if (meeting != null)
                 return Ok(meeting);
 
             return NoContent();

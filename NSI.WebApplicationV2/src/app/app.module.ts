@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +21,7 @@ import { AddressService } from './services/address.service';
 import { UsersService } from './services/users.service';
 import {ContactsService} from "./services/contacts.service";
 import { DocumentsService } from './services/documents.service';
+import { HearingsService } from './services/hearings.service'
 
 @NgModule({
   imports: [
@@ -29,7 +29,6 @@ import { DocumentsService } from './services/documents.service';
     FormsModule,
     HttpClientModule,
     TranslateModule.forRoot(),
-    NgbModule.forRoot(),
     CoreModule,
     SharedModule,
     PagesModule,
@@ -48,6 +47,7 @@ import { DocumentsService } from './services/documents.service';
     AddressService,
     UsersService,
     ContactsService,
+    HearingsService
     //DocumentsService
   ],
   bootstrap: [AppComponent]

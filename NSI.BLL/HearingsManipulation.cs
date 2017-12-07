@@ -26,9 +26,24 @@ namespace NSI.BLL
             _hearingsRepository.Update(hearingId, model);
         }
 
+        public ICollection<HearingDto> GetHearingsByCase(int caseId)
+        {
+            return _hearingsRepository.GetHearingsByCase(caseId);
+        }
+
         public ICollection<HearingDto> GetHearings()
         {
             return _hearingsRepository.GetHearings();
+        }
+
+        public HearingDto GetHearingById(int id)
+        {
+            return _hearingsRepository.GetHearingById(id);
+        }
+
+        public void Delete(int hearingId)
+        {
+            _hearingsRepository.Delete(hearingId);
         }
     }
 }

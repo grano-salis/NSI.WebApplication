@@ -39,4 +39,8 @@ export class MeetingsService {
     return this.http.get(this._url + "/" + id);
   }
 
+  deleteMeetingById(id: number): Observable<any> {
+    return this.http.delete(this._url + "/" + id);
+  }
+
 }
