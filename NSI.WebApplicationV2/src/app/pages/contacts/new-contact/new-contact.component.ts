@@ -4,13 +4,12 @@ import {ContactsService} from '../../../services/contacts.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-contacts',
+  selector: 'new-contact-component',
   templateUrl: './new-contact-component.html',
   styleUrls: []
 })
 export class NewContactComponent {
   model: Contact;
-  contactForm: any;
   constructor(private contactsService: ContactsService, private route: ActivatedRoute) {
     this.model = new Contact();
   }

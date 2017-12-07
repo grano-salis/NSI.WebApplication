@@ -34,7 +34,6 @@ export class ContactsComponent implements OnInit {
 
   addContact() {
     console.log('add contact');
-    this.router.navigate(['/contacts/new']);
   }
 
 }

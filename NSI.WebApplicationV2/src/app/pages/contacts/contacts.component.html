@@ -26,13 +26,16 @@
             </tbody>
           </table>
         </div>
-        <button class="btn btn-default button-contact" (click)="addContact()">
-          <p class="p-contact"> New contact </p> <i class="material-icons icons-contact" >add</i>
-        </button>
+        <div data-toggle="modal" data-tartet="open-contact">
+          <button class="btn btn-default button-contact" >
+            <p class="p-contact"> New contact </p> <i class="material-icons icons-contact" >add</i>
+          </button>
+        </div>
       </div>
-
     </div>
     <div class="col-md-1 col-sm-1"></div>
 
   </div>
 </div>
+
+<new-contact-component> </new-contact-component>
