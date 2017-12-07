@@ -22,7 +22,9 @@ import { UsersService } from './services/users.service';
 import {ContactsService} from "./services/contacts.service";
 import { DocumentsService } from './services/documents.service';
 import { HearingsService } from './services/hearings.service';
-import { TransactionsService } from './services/transactions.service'
+import { TransactionsService } from './services/transactions.service';
+import { PaymentGatewaysService } from './services/payment-gateways.service';
+import { PricingPackagesService } from './services/pricing-packages.service'
 
 @NgModule({
   imports: [
@@ -49,7 +51,9 @@ import { TransactionsService } from './services/transactions.service'
     UsersService,
     ContactsService,
     HearingsService,
-    TransactionsService
+    TransactionsService,
+    PaymentGatewaysService,
+    PricingPackagesService
     //DocumentsService
   ],
   bootstrap: [AppComponent]

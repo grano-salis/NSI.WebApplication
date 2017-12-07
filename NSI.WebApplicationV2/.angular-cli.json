@@ -51,6 +51,7 @@
         "../node_modules/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js",
         "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "../node_modules/gentelella/vendors/jszip/dist/jszip.min.js",
+        "../node_modules/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js",
         "../node_modules/gentelella/build/js/custom.min.js"
       ],
       "environmentSource": "environments/environment.ts",
