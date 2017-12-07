@@ -6,7 +6,8 @@ import { HearingNewComponent } from './hearing-new/hearing-new.component';
 
 const routes: Routes = [
   { path: 'new', component: HearingNewComponent },
-  { path: 'edit/:id', component: HearingNewComponent}
+  { path: 'edit/:id', component: HearingNewComponent},
+  { path: 'delete/:id', component: HearingNewComponent}
 ];
 
 @NgModule({

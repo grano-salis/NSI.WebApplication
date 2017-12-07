@@ -4,6 +4,7 @@ import { ContactModalComponent } from './contact-modal/contact-modal.component';
 import { ContactsRoutingModule } from './contacts-routing.module';
 import { ContactsComponent } from './contacts.component';
 import { SharedModule } from '../../shared/shared.module';
+import {DeleteContactModalComponent} from './delete-contact-modal/delete-contact-modal.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { SharedModule } from '../../shared/shared.module';
   ],
   declarations: [
     ContactsComponent,
-    ContactModalComponent
-  ]
+    ContactModalComponent,
+  DeleteContactModalComponent]
 })
 export class ContactsModule { }

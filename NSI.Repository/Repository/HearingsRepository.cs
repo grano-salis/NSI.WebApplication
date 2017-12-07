@@ -37,7 +37,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                var hearingTmp = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == hearingId);
+                var hearingTmp = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == hearingId && x.IsDeleted == false);
                 if(hearingTmp != null)
                 {
                     //remove all users for this hearing from UserHearing table
@@ -76,7 +76,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                var Hearings = _dbContext.Hearing.Where(x => x.CaseId == caseId);
+                var Hearings = _dbContext.Hearing.Where(x => x.CaseId == caseId && x.IsDeleted == false);
                 if (Hearings != null)
                 {
                     ICollection<HearingDto> HearingDtos = new List<HearingDto>();
@@ -99,7 +99,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                var hearings = _dbContext.Hearing;
+                var hearings = _dbContext.Hearing.Where(x => x.IsDeleted == false);
                 if (hearings != null)
                 {
                     ICollection<HearingDto> hearingDto = new List<HearingDto>();
@@ -122,7 +122,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                var hearing = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == id);
+                var hearing = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == id && x.IsDeleted == false);
                 if (hearing != null)
                 {
                     return Mappers.HearingsRepository.MapToDto(hearing);
@@ -142,7 +142,7 @@ namespace NSI.Repository.Repository
             try
             {
                 if (hearingId < 0) throw new Exception("id must be positive");
-                var hearingTmp = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == hearingId);
+                var hearingTmp = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == hearingId && x.IsDeleted == false);
                 if (hearingTmp != null)
                 {
                     hearingTmp.IsDeleted = true;

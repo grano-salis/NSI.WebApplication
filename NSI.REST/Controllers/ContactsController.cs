@@ -87,7 +87,7 @@ namespace NSI.REST.Controllers
             {
                 if (contactsRepository.DeleteContactById(id))
                 {
-                    return Ok();
+                    return Ok(id);
 
                 }
                 return NoContent();

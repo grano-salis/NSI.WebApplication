@@ -23,6 +23,7 @@ class Contact {
 }
 
 const logger = new Logger('contacts');
+declare var $: any;
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -55,6 +56,11 @@ export class ContactsComponent implements OnInit {
 
   close() {
     this.contacts[this.contacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
+  }
+
+  DeleteElement(contactToDelete: any) {
+    const index = this.contacts.indexOf(contactToDelete);
+    this.contacts.splice(index, 1);
   }
 
 }

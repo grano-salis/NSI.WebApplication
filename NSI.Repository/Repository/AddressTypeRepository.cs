@@ -119,7 +119,7 @@ namespace NSI.Repository
                 var AddressTypeTmp = _dbContext.AddressType.FirstOrDefault(x => x.AddressTypeId == AddressTypeId);
                 if (AddressTypeTmp != null)
                 {
-                    AddressTypeTmp.AddressTypeName = AddressType.AddressTypeName ?? AddressTypeTmp.AddressTypeName;
+                    AddressTypeTmp.AddressTypeName= AddressType.AddressTypeName ?? AddressTypeTmp.AddressTypeName;
                     _dbContext.SaveChanges();
                     return true;
                 }

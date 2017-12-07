@@ -119,7 +119,7 @@ namespace NSI.Repository
                 if (AddressTmp != null)
                 {
                     AddressTmp.Address1 = Address.Address1 ?? AddressTmp.Address1;
-                    AddressTmp.Address2 = Address.Address2 != null ? Address.Address2 : AddressTmp.Address2;
+                    AddressTmp.Address2 = Address.Address2 ?? AddressTmp.Address2;
                     AddressTmp.City = Address.City ?? AddressTmp.City;
                     _dbContext.SaveChanges();
                     return true;

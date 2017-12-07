@@ -23,8 +23,8 @@ namespace NSI.REST.Controllers
         {
             return _transactionManipulation.GetTransactions();
         }
-        [Route("ByCustomer/{customerId}")]
-        [HttpGet("{customerId}")]
+
+        [HttpGet("ByCustomer/{customerId}")]
         public IEnumerable<TransactionDto> GetTransactionsByCustomer(int customerId)
         {
             System.Console.WriteLine("iiiiiiiiiiiiiiiiiiiiii?");

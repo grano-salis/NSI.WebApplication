@@ -30,4 +30,7 @@ export class ContactsService {
     return this.http.put(`${this._url}/api/contacts/` + body.contact1, contact);
   }
 
+  deleteContact(params?: number): Observable<any> {
+    return this.http.delete(`${this._url}/api/contacts/` + params.toString());
+  }
 }
