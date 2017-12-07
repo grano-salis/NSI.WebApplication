@@ -1,10 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {each} from 'lodash';
-import * as moment from 'moment';
-import {Logger} from '../../core/services/logger.service';
+import {Component, OnInit} from '@angular/core';
 import {ContactsService} from '../../services/contacts.service';
 declare let $: any;
-
 
 class Contact {
   firsttName: any;
@@ -22,8 +18,6 @@ class Contact {
   }
 }
 
-const logger = new Logger('contacts');
-declare var $: any;
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -34,12 +28,23 @@ export class ContactsComponent implements OnInit {
   contacts: any[];
   temp_contact: any;
 
+
   constructor(private contactsService: ContactsService) {
     setTimeout(function () {
       $(function () {
-        $('#datatable').dataTable();
+        $('#datatable').dataTable(
+          {   'bAutoWidth': false,
+          'aoColumns': [
+          { 'bSortable': true },
+          { 'bSortable': true },
+          { 'bSortable': true },
+          { 'bSortable': false },
+          { 'bSortable': false },
+          { 'bSortable': false }
+        ]}
+        );
       });
-    }, 400);
+    }, 1000);
     this.temp_contact = new Contact();
   }
 
@@ -50,7 +55,7 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  selectContact(contact: any) {
+  editContact(contact: any) {
     this.temp_contact = Object.assign({}, contact);
   }
 

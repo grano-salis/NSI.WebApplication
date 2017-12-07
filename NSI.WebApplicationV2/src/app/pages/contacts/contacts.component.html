@@ -16,9 +16,9 @@
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
-              <th>Show</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th class="option">Show</th>
+              <th class="option">Edit</th>
+              <th class="option">Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -27,21 +27,21 @@
               <td>{{contact.email}}</td>
               <td>{{contact.phone}}</td>
               <td>
-                <button _ngcontent-c10="" style="display: block;margin: auto;" class="btn btn-primary btn-xs"
+                <button style="display: block;margin: auto;" class="btn btn-primary btn-xs"
                         data-target="#show" data-title="Show" data-toggle="modal">
-                  <span _ngcontent-c10="" class="glyphicon glyphicon-user"></span>
+                  <span class="glyphicon glyphicon-user"></span>
                 </button>
               </td>
 
               <td>
                 <p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
                   <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"
-                          (click)="selectContact(contact)">
+                          (click)="editContact(contact)">
                     <span class="glyphicon glyphicon-pencil"></span></button>
                 </p>
               </td>
 
-              <td _ngcontent-c7=""><p _ngcontent-c7="" class="text-center" data-placement="top" data-toggle="tooltip"
+              <td ><p class="text-center" data-placement="top" data-toggle="tooltip"
                                       title="Delete">
                 <a href="#delete-contact{{contact.contact1}}" _ngcontent-c7="" class="btn btn-danger btn-xs"
                    data-target="#delete-contact{{contact.contact1}}" data-title="Delete" data-toggle="modal">
@@ -49,19 +49,6 @@
                 <app-delete-contact-modal (deleteFun)="DeleteElement(contact)"
                                           [contact]="contact"></app-delete-contact-modal>
               </td>
-              <td>
-                <button _ngcontent-c10="" style="display: block;margin: auto;" class="btn btn-primary btn-xs" data-target="#show" data-title="Show" data-toggle="modal">
-                <span _ngcontent-c10="" class="glyphicon glyphicon-user"></span>
-                </button>
-              </td>
-
-              <td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
-                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" (click)="selectContact(contact)">
-                  <span class="glyphicon glyphicon-pencil"></span></button></p></td>
-
-              <td _ngcontent-c7=""><p _ngcontent-c7="" class="text-center" data-placement="top" data-toggle="tooltip" title="Delete">
-                <button _ngcontent-c7="" class="btn btn-danger btn-xs" data-target="#delete" data-title="Delete" data-toggle="modal">
-                  <span _ngcontent-c7="" class="glyphicon glyphicon-trash"></span></button></p></td>
             </tr>
             </tbody>
           </table>
