@@ -60,6 +60,8 @@ namespace NSI.REST
 
             services.AddScoped<IAddressManipulation, AddressManipulation>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressTypeManipulation, AddressTypeManipulation>();
+            services.AddScoped<IAddressTypeRepository, AddressTypeRepository>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<IMeetingsRepository, MeetingsRepository>();
             services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();
