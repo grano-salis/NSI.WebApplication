@@ -1,0 +1,87 @@
+<div class="modal fade" id="open-contact" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="x_title">
+          <h2>Create new contact</h2>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="modal-body">
+            <!-- Title -->
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="firstname">First name
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="firstname" required [(ngModel)]="model.firsttName" name="First name"
+                       #title="ngModel" class="form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">Last name
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="lastname" required [(ngModel)]="model.lastName" name="Lastname" #title="ngModel"
+                       class="form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Phone
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="phone" required [(ngModel)]="model.phone" name="Last name" #title="ngModel"
+                       class="form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phone">Emal
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="email" required [(ngModel)]="model.email" name="Last name" #title="ngModel"
+                       class="form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile">Mobile
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="mobile" required [(ngModel)]="model.mobile" name="Mobile" #title="ngModel"
+                       class="form-control col-md-7 col-xs-12">
+              </div>
+
+            </div>
+
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile">Address
+                <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="text" id="address" required [(ngModel)]="model.addressId" name="Address" #title="ngModel"
+                       class="form-control col-md-7 col-xs-12">
+              </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="ln_solid"></div>
+            <div class="form-group">
+              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="button" class="btn btn-default" (click)="newContact();">Submit</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

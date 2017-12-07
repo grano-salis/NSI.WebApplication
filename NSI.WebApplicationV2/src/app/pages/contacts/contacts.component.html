@@ -53,10 +53,17 @@
             </tbody>
           </table>
         </div>
+        <div data-toggle="modal" data-tartet="open-contact">
+          <button class="btn btn-default button-contact" >
+            <p class="p-contact"> New contact </p> <i class="material-icons icons-contact" >add</i>
+          </button>
+        </div>
         <app-contact-modal [temp_contact]="temp_contact" (onClose)="close()"></app-contact-modal>
       </div>
     </div>
     <div class="col-md-1 col-sm-1"></div>
   </div>
 </div>
+
+<new-contact-component> </new-contact-component>
 

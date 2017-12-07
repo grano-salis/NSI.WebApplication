@@ -55,6 +55,10 @@ export class ContactsComponent implements OnInit {
     });
   }
 
+  addContact() {
+    console.log('add contact');
+  }
+
   editContact(contact: any) {
     this.temp_contact = Object.assign({}, contact);
   }
