@@ -63,36 +63,36 @@ export class ContactsComponent implements OnInit {
   }
 
   close() {
-    const _this = this;
+    const __this = this;
     this.contacts[this.contacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
     $('#datatable').dataTable().fnDestroy();
     setTimeout(function () {
       $(function () {
-        _this.initTable();
+        __this.initTable();
       });
     }, 100);
   }
 
   closeNew() {
-    const _this = this;
+    const __this = this;
     this.contacts.push(this.temp_contact);
     $('#datatable').dataTable().fnDestroy();
     setTimeout(function () {
       $(function () {
-        _this.initTable();
+        __this.initTable();
       });
     }, 100);
 
   }
 
   DeleteElement(contactToDelete: any) {
-    const _this = this;
+    const __this = this;
     const index = this.contacts.findIndex((c: any) => c.contact1 === contactToDelete.contact1)
     this.contacts.splice(index, 1);
     $('#datatable').dataTable().fnDestroy();
     setTimeout(function () {
       $(function () {
-        _this.initTable();
+        __this.initTable();
       });
     }, 100);
   }
