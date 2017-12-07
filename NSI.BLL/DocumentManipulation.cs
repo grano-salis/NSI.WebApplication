@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using IkarusEntities;
 using NSI.BLL.Interfaces;
 using NSI.DC.Common;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
+using NSI.REST.Models;
 
 namespace NSI.BLL
 {
@@ -15,7 +17,7 @@ namespace NSI.BLL
             _documentRepository = documentRepository;
         }
 
-        public REST.Models.DocumentsPagingResultModel GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query)
+        public PagingResultModel<DocumentDto> GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query)
         {
             return _documentRepository.GetAllDocuments(query);
         }

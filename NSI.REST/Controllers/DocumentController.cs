@@ -33,7 +33,7 @@ namespace NSI.REST.Controllers
 
         [HttpPost]
         [Route("paging")]
-        public DocumentsPagingResultModel GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
+        public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
         {
             try
             {

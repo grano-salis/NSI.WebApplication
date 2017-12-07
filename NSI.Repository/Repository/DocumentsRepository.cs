@@ -4,6 +4,7 @@ using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
+using NSI.REST.Models;
 
 namespace NSI.Repository.Repository
 {
@@ -16,9 +17,9 @@ namespace NSI.Repository.Repository
             _dbContext = dbContext;
         }
 
-        REST.Models.DocumentsPagingResultModel IDocumentRepository.GetAllDocuments(REST.Models.DocumentsPagingQueryModel query)
+        PagingResultModel<DocumentDto> IDocumentRepository.GetAllDocuments(DocumentsPagingQueryModel query)
         {
-            var result = new REST.Models.DocumentsPagingResultModel
+            var result = new PagingResultModel<DocumentDto>
             {
                 ItemsPerPage = 10
             };

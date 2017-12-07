@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace NSI.REST.Models
 {
-    public class DocumentsPagingResultModel
+    public class PagingResultModel<T> where T : class
     {
-        public DocumentsPagingResultModel()
+        public PagingResultModel()
         {
-            Results = new List<DocumentDto>();
+            Results = new List<T>();
         }
         public int TotalItems { get; set; }
         public int ItemsPerPage { get; set; }
-        public IList<DocumentDto> Results { get; set; }
+        public IList<T> Results { get; set; }
     }
 }
