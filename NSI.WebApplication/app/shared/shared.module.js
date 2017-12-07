@@ -14,24 +14,24 @@ var common_1 = require("@angular/common");
 var platform_browser_1 = require("@angular/platform-browser");
 var validation_service_1 = require("./services/validation.service");
 var interceptor_service_1 = require("./services/interceptor.service");
-var SharedModule = (function () {
+var SharedModule = /** @class */ (function () {
     function SharedModule() {
     }
+    SharedModule = __decorate([
+        core_1.NgModule({
+            imports: [platform_browser_1.BrowserModule, common_1.CommonModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, router_1.RouterModule],
+            declarations: [],
+            providers: [validation_service_1.ValidationService, {
+                    provide: interceptor_service_1.Interceptor,
+                    useFactory: function (backend, defaultOptions) {
+                        return new interceptor_service_1.Interceptor(backend, defaultOptions);
+                    },
+                    deps: [http_1.XHRBackend, http_1.RequestOptions]
+                }],
+            exports: [platform_browser_1.BrowserModule, forms_1.ReactiveFormsModule, forms_1.FormsModule, common_1.CommonModule, http_1.HttpModule, common_1.CommonModule, router_1.RouterModule]
+        })
+    ], SharedModule);
     return SharedModule;
 }());
-SharedModule = __decorate([
-    core_1.NgModule({
-        imports: [platform_browser_1.BrowserModule, common_1.CommonModule, forms_1.FormsModule, forms_1.ReactiveFormsModule, http_1.HttpModule, router_1.RouterModule],
-        declarations: [],
-        providers: [validation_service_1.ValidationService, {
-                provide: interceptor_service_1.Interceptor,
-                useFactory: function (backend, defaultOptions) {
-                    return new interceptor_service_1.Interceptor(backend, defaultOptions);
-                },
-                deps: [http_1.XHRBackend, http_1.RequestOptions]
-            }],
-        exports: [platform_browser_1.BrowserModule, forms_1.ReactiveFormsModule, forms_1.FormsModule, common_1.CommonModule, http_1.HttpModule, common_1.CommonModule, router_1.RouterModule]
-    })
-], SharedModule);
 exports.SharedModule = SharedModule;
 //# sourceMappingURL=shared.module.js.map

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NSI.DC.AddressRepository
+namespace NSI.DC.AddressTypeRepository
 {
     [DataContract]
     public class AddressTypeDto
@@ -20,5 +20,7 @@ namespace NSI.DC.AddressRepository
         public DateTime? ModifiedDate { get; set; }
         [DataMember]
         public bool? IsDeleted { get; set; }
+        [DataMember]
+        public int? CustomerId { get; set; }
     }
 }

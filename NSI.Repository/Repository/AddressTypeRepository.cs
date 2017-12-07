@@ -1,5 +1,5 @@
 ﻿using IkarusEntities;
-using NSI.DC.AddressRepository;
+using NSI.DC.AddressTypeRepository;
 using System;
 using System.Collections.Generic;
 using System.Text;
