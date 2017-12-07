@@ -14,7 +14,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="form_name">First name</label>
-              <input id="form_name" type="text" name="name" class="form-control" [value]=selected_contact.firsttName (input)="selected_contact.firsttName = $event.target.value" required="required" data-error="First name is required.">
+              <input id="form_name" type="text" name="name" class="form-control" [value]=temp_contact.firsttName (input)="temp_contact.firsttName = $event.target.value" required="required" data-error="First name is required.">
               <div class="help-block with-errors"></div>
             </div>
           </div>
@@ -23,7 +23,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="form_lastname">Last Name </label>
-              <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="" [value]=selected_contact.lastName (input)="selected_contact.lastName = $event.target.value" required="required" data-error="Lastname is required.">
+              <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="" [value]=temp_contact.lastName (input)="temp_contact.lastName = $event.target.value" required="required" data-error="Lastname is required.">
               <div class="help-block with-errors"></div>
             </div>
           </div>
@@ -32,7 +32,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="form_email">Email *</label>
-              <input id="form_email" type="email" name="email" class="form-control" [value]=selected_contact.email (input)="selected_contact.email = $event.target.value" required="required" data-error="Valid email is required.">
+              <input id="form_email" type="email" name="email" class="form-control" [value]=temp_contact.email (input)="temp_contact.email = $event.target.value" required="required" data-error="Valid email is required.">
               <div class="help-block with-errors"></div>
             </div>
           </div>
@@ -41,7 +41,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="form_phone">Phone</label>
-              <input id="form_phone" type="tel" name="phone" [value]="selected_contact.phone" (input)="selected_contact.phone = $event.target.value" class="form-control">
+              <input id="form_phone" type="tel" name="phone" [value]="temp_contact.phone" (input)="temp_contact.phone = $event.target.value" class="form-control">
               <div class="help-block with-errors"></div>
             </div>
           </div>
@@ -50,7 +50,7 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" (click)="updateContact()">
+          <button type="button" class="btn btn-primary" (click)="updateContact()" data-dismiss="modal">
             Save changes
           </button>
         </div>

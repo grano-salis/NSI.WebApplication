@@ -1,4 +1,4 @@
-import { Component , Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ContactsService} from "../../../services/contacts.service";
 
 
@@ -7,24 +7,26 @@ import {ContactsService} from "../../../services/contacts.service";
   templateUrl: './contact-modal.component.html',
   styleUrls: []
 })
-export class ContactModalComponent {
-  @Input() selected_contact : any;
+export class ContactModalComponent implements OnInit, AfterViewInit {
+  @Input() temp_contact: any;
+  @Output() onClose: EventEmitter<any> = new EventEmitter();
 
-  constructor(private contactsService: ContactsService){
-  }
-
-  ngOnInit(){
+  constructor(private contactsService: ContactsService) {
 
   }
 
-  updateContact(){
-    console.log(this.selected_contact);
-    this.contactsService.editContact(this.selected_contact.contact1, this.selected_contact).subscribe((contact: any) => {
-      this.selected_contact = contact;
+  ngAfterViewInit() {
+  }
+
+  ngOnInit() {
+
+  }
+
+  updateContact() {
+    this.contactsService.editContact(this.temp_contact).subscribe((contact: any) => {
+      this.onClose.next(this.temp_contact); // emit event
     });
   }
-
-
 
 
 }

@@ -2,8 +2,25 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {each} from 'lodash';
 import * as moment from 'moment';
 import {Logger} from '../../core/services/logger.service';
-import {ContactsService} from "../../services/contacts.service";
+import {ContactsService} from '../../services/contacts.service';
 declare let $: any;
+
+
+class Contact {
+  firsttName: any;
+  lastName: any;
+  phone: any;
+  email: any;
+  mobile: any;
+
+  constructor() {
+    this.firsttName = '';
+      this.lastName = '';
+      this.phone = '';
+      this.email = '';
+      this.mobile = '';
+  }
+}
 
 const logger = new Logger('contacts');
 @Component({
@@ -11,9 +28,10 @@ const logger = new Logger('contacts');
   templateUrl: './contacts.component.html',
   styleUrls: []
 })
+
 export class ContactsComponent implements OnInit {
   contacts: any[];
-  selected_contact: any;
+  temp_contact: any;
 
   constructor(private contactsService: ContactsService) {
     setTimeout(function () {
@@ -21,7 +39,7 @@ export class ContactsComponent implements OnInit {
         $('#datatable').dataTable();
       });
     }, 400);
-
+    this.temp_contact = new Contact();
   }
 
   ngOnInit() {
@@ -31,9 +49,12 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  selectContact ( contact: any ){
-    this.selected_contact=contact;
-    console.log(this.selected_contact);
+  selectContact(contact: any) {
+    this.temp_contact = Object.assign({}, contact);
+  }
+
+  close() {
+    this.contacts[this.contacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
   }
 
 }
