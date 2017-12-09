@@ -23,7 +23,7 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/do");
 require("rxjs/add/operator/finally");
-var Interceptor = /** @class */ (function (_super) {
+var Interceptor = (function (_super) {
     __extends(Interceptor, _super);
     function Interceptor(backend, defaultOptions) {
         var _this = _super.call(this, backend, defaultOptions) || this;
@@ -111,11 +111,11 @@ var Interceptor = /** @class */ (function (_super) {
             alert("Error");
         }
     };
-    Interceptor = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.ConnectionBackend, http_1.RequestOptions])
-    ], Interceptor);
     return Interceptor;
 }(http_1.Http));
+Interceptor = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.ConnectionBackend, http_1.RequestOptions])
+], Interceptor);
 exports.Interceptor = Interceptor;
 //# sourceMappingURL=interceptor.service.js.map

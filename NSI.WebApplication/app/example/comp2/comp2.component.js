@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var example_service_1 = require("../services/example.service");
-var Comp2Component = /** @class */ (function () {
+var Comp2Component = (function () {
     function Comp2Component(route, exampleService) {
         this.route = route;
         this.exampleService = exampleService;
@@ -22,15 +22,15 @@ var Comp2Component = /** @class */ (function () {
         this.id = +this.route.snapshot.params['id'];
         this.exampleService.getDataFromRest().subscribe(function (x) { return _this.dataFromRest = x; });
     };
-    Comp2Component = __decorate([
-        core_1.Component({
-            selector: 'comp2-selector',
-            template: "\n    <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n        Other {{id}}\n        <br/>        \n        Some content\n        <br/>\n        Data from REST: {{dataFromRest}}\n    </div>\n    "
-        }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            example_service_1.ExampleService])
-    ], Comp2Component);
     return Comp2Component;
 }());
+Comp2Component = __decorate([
+    core_1.Component({
+        selector: 'comp2-selector',
+        template: "\n    <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n        Other {{id}}\n        <br/>        \n        Some content\n        <br/>\n        Data from REST: {{dataFromRest}}\n    </div>\n    "
+    }),
+    __metadata("design:paramtypes", [router_1.ActivatedRoute,
+        example_service_1.ExampleService])
+], Comp2Component);
 exports.Comp2Component = Comp2Component;
 //# sourceMappingURL=comp2.component.js.map
