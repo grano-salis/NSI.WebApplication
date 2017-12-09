@@ -30,11 +30,14 @@ namespace NSI.REST.Controllers
 
         // GET: api/Tasks
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
+        public IActionResult GetTasks(
+            [FromQuery] int? page, 
+            [FromQuery] int? pageSize)
         {
             try
             {
-                return Ok(new NSIResponse<ICollection<TaskDto>>{ Data = _taskRepository.GetTasks(), Message= "Success" });
+                return Ok(new NSIResponse<ICollection<TaskDto>>{ Data = _taskRepository.GetTasks(page, pageSize), Message= "Success" });
             }
             catch(NSIException ex)
             {
@@ -50,32 +53,9 @@ namespace NSI.REST.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("getWithPaging")]
-        public IActionResult GetWithPaging(int pageNumber, int pageSize)
-        {
-            try
-            {
-                return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.GetTasks(pageNumber, pageSize), Message = "Success" });
-            }
-            catch (NSIException ex)
-            {
-                Logger.Logger.LogError(ex);
-                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
-                    return NoContent();
-                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex);
-                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
-            }
-        }
-
-
         // GET: api/Tasks/5
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        public IActionResult GetTaskById([FromRoute] int id)
         {
             try
             {
@@ -97,7 +77,7 @@ namespace NSI.REST.Controllers
 
         // POST: api/Tasks
         [HttpPost]
-        public IActionResult Post([FromBody]TasksCreateModel model)
+        public IActionResult InsertTask([FromBody]TasksCreateModel model)
         {
             try
             {
@@ -132,7 +112,7 @@ namespace NSI.REST.Controllers
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]TasksEditModel model)
+        public IActionResult ChangeTask(int id, [FromBody]TasksEditModel model)
         {
             try
             {
@@ -167,7 +147,7 @@ namespace NSI.REST.Controllers
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteTask(int id)
         {
             try
             {
