@@ -29,7 +29,7 @@ namespace NSI.REST.Controllers
             _mapper = mapper;
 		}
 
-		// GET: api/CaseInfo
+		// GET: api/case/info
 		[HttpGet]
 		public IActionResult Get()
 		{
@@ -37,16 +37,15 @@ namespace NSI.REST.Controllers
 			return Ok(caseinfos);
 		}
 
-        //      // GET: api/CaseInfo/5
+        // GET: api/case/info/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            //return Ok(_caseInfoRepository.GetCaseInfoById(id));
-            var caseinfo = _mapper.Map<CaseInfoDto>(_caseInfoRepository.GetCaseInfoDtoById(id));
+            var caseinfo = _mapper.Map<CaseInfoDto>(_caseInfoRepository.GetCaseInfoById(id));
             return Ok(caseinfo);
         }
 
-        // POST: api/CaseInfo
+        //POST: api/case/info
         [HttpPost]
         public IActionResult Post([FromBody]CaseInfoDto _caseInfoDto)
         {
@@ -54,22 +53,6 @@ namespace NSI.REST.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            //CaseInfoDto caseInfoDto = new CaseInfoDto()
-            //{
-            //    CaseNumber = model.CaseNumber,
-            //    CourtNumber = model.CourtNumber,
-            //    Value = model.Value,
-            //    Judge = model.Judge,
-            //    Court = model.Court,
-            //    CounterParty=model.CounterParty,
-            //    Note = model.Note,
-            //     CaseCategory=model.CaseCategory,
-            //    CustomerId=model.CustomerId,
-            //    ClientId=model.ClientId,
-            //    CreatedByUserId=model.CreatedByUserId
-            //};
-
             try
             {
                 var caseInfo = _caseInfoRepository.CreateCaseInfo(_caseInfoDto);
@@ -83,16 +66,33 @@ namespace NSI.REST.Controllers
             return NoContent();
         }
 
-        // PUT: api/CaseInfo/5
+        // PUT: api/case/info/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public bool Put(int id, [FromBody]CaseInfoDto _caseInfoDto)
         {
+            try
+            {
+                return _caseInfoRepository.EditCaseInfoById(id, _caseInfoDto);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
         
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/case/info/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
+            try
+            {
+                return _caseInfoRepository.DeleteCaseInfoById(id);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
+
     }
 }

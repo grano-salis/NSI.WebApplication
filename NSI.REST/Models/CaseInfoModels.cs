@@ -11,25 +11,19 @@ namespace NSI.REST.Models
         public int CaseId { get; set; }
 
         [Required]
-        //[StringLength(100)]
         public string CaseNumber { get; set; }
 
         [Required]
         public string CourtNumber { get; set; }
 
-        //[Required]
         public decimal? Value { get; set; }
 
-        //[Required]
         public char? Judge { get; set; }
 
-        //[Required]
         public string Court { get; set; }
 
-        //[Required]
         public string CounterParty { get; set; }
 
-        //[Required]
         public string Note { get; set; }
 
         [Required]
@@ -53,7 +47,6 @@ namespace NSI.REST.Models
         public int CaseId { get; set; }
 
         [Required]
-        //[StringLength(100)]
         public string CaseNumber { get; set; }
 
         [Required]
@@ -85,8 +78,6 @@ namespace NSI.REST.Models
 
         [Required]
         public int CreatedByUserId { get; set; }
-
-
 
     }
 

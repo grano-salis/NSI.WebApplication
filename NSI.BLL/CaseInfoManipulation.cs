@@ -22,14 +22,22 @@ namespace NSI.BLL
 			return _caseInfoRepository.CreateCaseInfo(caseInfoDto);
 		}
 
-		public CaseInfo GetCaseInfoDtoById(int caseId)
+		public CaseInfo GetCaseInfoById(int caseId)
 		{
-			return _caseInfoRepository.GetCaseInfoDtoById(caseId);
+			return _caseInfoRepository.GetCaseInfoById(caseId);
 		}
 
         public IEnumerable<CaseInfo> GetCaseInfos()
 		{
 			return _caseInfoRepository.GetCaseInfos();
 		}
+
+        public bool  DeleteCaseInfoById(int caseId) {
+            return _caseInfoRepository.DeleteCaseInfoById(caseId);
+        }
+        public bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto) {
+            return _caseInfoRepository.EditCaseInfoById(caseId, caseInfoDto);
+        }
+
 	}
 }

@@ -74,7 +74,6 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 throw;
             }
             return null;

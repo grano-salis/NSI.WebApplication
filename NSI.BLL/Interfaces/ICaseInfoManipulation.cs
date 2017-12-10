@@ -9,7 +9,9 @@ namespace NSI.BLL.Interfaces
     public interface ICaseInfoManipulation
     {
         CaseInfo CreateCaseInfo(CaseInfoDto caseInfoDto);
-        CaseInfo GetCaseInfoDtoById(int caseId);
+        CaseInfo GetCaseInfoById(int caseId);
         IEnumerable<CaseInfo> GetCaseInfos();
+        bool DeleteCaseInfoById(int caseId);
+        bool EditCaseInfoById(int caseId, CaseInfoDto caseInfo);
 	}
 }
