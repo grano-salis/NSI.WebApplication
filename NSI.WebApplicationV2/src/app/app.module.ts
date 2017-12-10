@@ -52,8 +52,8 @@ import {AddressTypeService} from './services/addressType.service';
     AddressTypeService,
     UsersService,
     ContactsService,
-    HearingsService
-    //DocumentsService
+    HearingsService,
+    DocumentsService
   ],
   bootstrap: [AppComponent]
 })

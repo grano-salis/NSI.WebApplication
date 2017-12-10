@@ -1,14 +1,14 @@
-﻿using NSI.Repository.Interfaces;
-using System;
-using NSI.DC.DocumentRepository;
+﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using IkarusEntities;
+using NSI.DC.DocumentRepository;
+using NSI.Repository.Interfaces;
+using NSI.REST.Models;
 
-namespace NSI.Repository
+namespace NSI.Repository.Repository
 {
-    public partial class DocumentsRepository : IDocumentRepository
+    public class DocumentsRepository : IDocumentRepository
     {
         private readonly IkarusContext _dbContext;
 
@@ -17,14 +17,30 @@ namespace NSI.Repository
             _dbContext = dbContext;
         }
 
-        REST.Models.DocumentsPagingResultModel IDocumentRepository.GetAllDocuments(REST.Models.DocumentsPagingQueryModel query)
+        PagingResultModel<DocumentDto> IDocumentRepository.GetAllDocuments(DocumentsPagingQueryModel query)
         {
-            var result = new REST.Models.DocumentsPagingResultModel();
-            result.ItemsPerPage = 10;
+            var result = new PagingResultModel<DocumentDto>
+            {
+                ItemsPerPage = 10
+            };
             var documents = _dbContext.Document.Where(doc => typeof(Document).GetProperty(query.FilterBy).GetValue(doc, null).ToString().Contains(query.Search)).Select(d => DocumentRepository.MapToDto(d));
             result.TotalItems = documents.Count();
             result.Results = documents.Take(result.ItemsPerPage).ToList();
             return result;
+        }
+
+        public bool DeleteDocument(int id)
+        {
+            var document = _dbContext.Document.FirstOrDefault(d => d.CaseId == id);
+            var response = _dbContext.Remove(document);
+            //implement deleting history
+            return response != null;
+        }
+
+        public void Update(DocumentDto document)
+        {
+            _dbContext.Update(document);
+            //go to history and add record
         }
 
 
