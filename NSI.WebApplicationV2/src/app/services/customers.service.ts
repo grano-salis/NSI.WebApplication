@@ -29,4 +29,12 @@ export class CustomersService {
 		});
 	}
 
+	updateCustomer(customer: Customer): Observable<any> {
+		return this.http.put(`${this._url}/api/customer/${customer.customerId}`, customer);
+	}
+
+	createCustomer(customer: Customer): Observable<any> {
+		return this.http.post(`${this._url}/api/customer`, customer);
+	}
+
 }
