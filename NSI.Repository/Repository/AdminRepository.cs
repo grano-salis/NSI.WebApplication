@@ -272,6 +272,172 @@ namespace NSI.Repository
             }
             return null;
         }
-        
+
+        public bool DeleteDocumentCategoryById(int documentCategoryId)
+        {
+            try
+            {
+                var docuemntCategory = _dbContext.DocumentCategory.FirstOrDefault(x => x.DocumentCategoryId == documentCategoryId);
+                if (docuemntCategory != null)
+                {
+                    docuemntCategory.IsDeleted = true;
+                    _dbContext.SaveChanges();
+                    return true;
+
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public DocumentCategoryDto GetDocumentCategoryById(int documentCategoryId)
+        {
+            try
+            {
+                var documentCategory = _dbContext.DocumentCategory.FirstOrDefault(x => x.DocumentCategoryId == documentCategoryId && x.IsDeleted == false);
+                if (documentCategory != null)
+                {
+                    return Mappers.AdminRepository.MapToDtoDocument(documentCategory);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
+
+        public bool EditDocumentCategoryById(int documentCategoryId, DocumentCategoryDto documentCategoryDto)
+        {
+            try
+            {
+                var documentCategory = _dbContext.DocumentCategory.FirstOrDefault(x => x.DocumentCategoryId == documentCategoryId);
+                if (documentCategory != null)
+                {
+                    documentCategory.DocumentCategoryTitle = documentCategoryDto.DocumentCategoryTitle;
+                    documentCategory.CustomerId = documentCategoryDto.CustomerId;
+                    documentCategory.DateModified = DateTime.Now;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //File Type
+
+        public ICollection<FileTypeDto> GetFileTypes()
+        {
+            try
+            {
+                var fileTypes = _dbContext.FileType.Where(x => x.IsDeleted == false);
+                if (fileTypes != null)
+                {
+                    ICollection<FileTypeDto> fileTypeDto = new List<FileTypeDto>();
+                    foreach (var item in fileTypes)
+                    {
+                        fileTypeDto.Add(Mappers.AdminRepository.MapToDtoFile(item));
+                    }
+                    return fileTypeDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
+
+        public FileTypeDto CreateFileType(FileTypeDto fileTypeDto)
+        {
+            try
+            {
+                var fileType = Mappers.AdminRepository.MapToDbEntityFile(fileTypeDto);
+                fileType.DateModified = clientType.DateCreated = DateTime.Now;
+                fileType.IsDeleted = false;
+                _dbContext.Add(fileType);
+                if (_dbContext.SaveChanges() != 0)
+                    return Mappers.AdminRepository.MapToDtoFile(fileType);
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
+
+        public bool DeleteFileTypeById(int fileTypeId)
+        {
+            try
+            {
+                var fileType = _dbContext.FileType.FirstOrDefault(x => x.FileTypeId == fileTypeId);
+                if (fileType != null)
+                {
+                    fileType.IsDeleted = true;
+                    _dbContext.SaveChanges();
+                    return true;
+
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public FileTypeDto GetFileTypeById(int fileTypeId)
+        {
+            try
+            {
+                var fileType = _dbContext.FileType.FirstOrDefault(x => x.FileTypeId == fileTypeId && x.IsDeleted == false);
+                if (fileType != null)
+                {
+                    return Mappers.AdminRepository.MapToDtoClient(fileType);
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
+
+        public bool EditFileTypeById(int fileTypeId, FileTypeDto fileTypeDto)
+        {
+            try
+            {
+                var fileType = _dbContext.FileType.FirstOrDefault(x => x.FileTypeId == fileTypeId);
+                if (fileType != null)
+                {
+                    fileType.FileTypeName = fileTypeDto.ClientTypeName;
+                    fileType.Extension = fileTypeDto.Extension;
+                    fileType.IconPath = fileTypeDto.IconPath;
+                    fileType.DateModified = DateTime.Now;
+                    _dbContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception(ex.Message);
+            }
+        }   
     }
 }

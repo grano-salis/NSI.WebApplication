@@ -16,5 +16,14 @@ namespace NSI.DC.AdminRepository
 
         [DataMember]
         public string IconPath { get; set; }
+
+        [DataMember]
+        public bool IsDeleted { get; set; }
+
+        [DataMember]
+        public DateTime DateCreated { get; set; }
+
+        [DataMember]
+        public DateTime DateModified { get; set; }
     }
 }

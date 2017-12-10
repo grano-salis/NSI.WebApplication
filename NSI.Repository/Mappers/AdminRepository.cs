@@ -100,7 +100,10 @@ namespace NSI.Repository.Mappers
             {
                 FileTypeId = fileTypeDto.FileTypeId,
                 Extension = fileTypeDto.Extension,
-                IconPath = fileTypeDto.IconPath
+                IconPath = fileTypeDto.IconPath,
+                IsDeleted = fileTypeDto.IsDeleted, 
+                DateCreated = fileTypeDto.DateCreated,
+                DateModified = fileTypeDto.DateModified
             };
         }
 
@@ -110,7 +113,10 @@ namespace NSI.Repository.Mappers
             {
                 FileTypeId = fileType.FileTypeId,
                 Extension = fileType.Extension,
-                IconPath = fileType.IconPath
+                IconPath = fileType.IconPath,
+                IsDeleted = fileType.IsDeleted, 
+                DateCreated = fileType.DateCreated,
+                DateModified = fileType.DateModified
             };
         }
 
