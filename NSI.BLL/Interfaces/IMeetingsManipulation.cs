@@ -7,9 +7,9 @@ namespace NSI.BLL.Interfaces
 {
     public interface IMeetingsManipulation
     {
-        void CreateMeeting(MeetingDto model);
+        MeetingDto CreateMeeting(MeetingDto model);
         ICollection<MeetingDto> GetMeetings();
-        void EditMeeting(int meetingId, MeetingDto model);
+        MeetingDto EditMeeting(int meetingId, MeetingDto model);
         void RemoveMeeting(int meetingId);
         MeetingDto GetMeetingById(int id);
     }

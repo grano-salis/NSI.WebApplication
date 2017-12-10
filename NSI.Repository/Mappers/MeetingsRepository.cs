@@ -30,12 +30,7 @@ namespace NSI.Repository.Mappers
                 MeetingId = entity.MeetingId,
                 Title = entity.Title,
                 From = entity.From,
-                To = entity.To,
-                UserMeeting = entity.UserMeeting.Select(x => new UserMeetingDto()
-                {
-                    UserId = x.UserId,
-                    UserName = x.User.Username
-                })
+                To = entity.To
             };
         }
     }
