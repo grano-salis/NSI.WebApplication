@@ -33,6 +33,8 @@ namespace IkarusEntities
         public virtual DbSet<UserHearing> UserHearing { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserMeeting> UserMeeting { get; set; }
+        public virtual DbSet<Phone> Phone { get; set; }
+        public virtual DbSet<Email> Email { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
