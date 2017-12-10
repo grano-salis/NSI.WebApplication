@@ -307,6 +307,7 @@ namespace IkarusEntities
                     .HasConstraintName("Relationship71");
             });
 
+
             modelBuilder.Entity<Conversation>(entity =>
             {
                 entity.HasIndex(e => e.UserId)
@@ -648,30 +649,22 @@ namespace IkarusEntities
 
             modelBuilder.Entity<Phone>(entity =>
             {
-                entity.HasKey(e => e.PhoneId);
-
-                entity.Property(e => e.PhoneNumber).IsRequired().HasDefaultValue("false");
-
                 entity.HasOne(d => d.Contact)
                     .WithMany(p => p.Phone)
                     .HasForeignKey(d => d.ContactId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Relationship301");
-
+                    .HasConstraintName("Phone_ContactId_fkey");
             });
 
             modelBuilder.Entity<Email>(entity =>
             {
-                entity.HasKey(e => e.EmailId);
-
-                entity.Property(e => e.EmailAddress).IsRequired().HasDefaultValue("false");
+                entity.Property(e => e.EmailAddress).IsRequired();
 
                 entity.HasOne(d => d.Contact)
                     .WithMany(p => p.Email)
                     .HasForeignKey(d => d.ContactId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Relationship3001");
-
+                    .HasConstraintName("ContactId");
             });
 
             modelBuilder.Entity<UserInfo>(entity =>

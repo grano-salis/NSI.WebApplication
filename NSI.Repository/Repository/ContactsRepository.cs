@@ -21,13 +21,14 @@ namespace NSI.Repository
         {
             try
             {
-                var a = _dbContext.Phone;
                 var contacts = _dbContext.Contact.Where(x => x.IsDeleted == false);
                 if (contacts != null)
                 {
                     ICollection<ContactDto> contactDto = new List<ContactDto>();
                     foreach (var item in contacts)
                     {
+                        _dbContext.Entry(item).Collection(p => p.Phone).Load();
+                        _dbContext.Entry(item).Collection(p => p.Email).Load();
                         contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
                     return contactDto;
@@ -86,6 +87,8 @@ namespace NSI.Repository
             try
             {
                 var contact = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId && x.IsDeleted == false);
+                _dbContext.Entry(contact).Collection(p => p.Phone).Load();
+                _dbContext.Entry(contact).Collection(p => p.Email).Load();
                 if (contact != null)
                 {
                     return Mappers.ContactRepository.MapToDto(contact);
@@ -110,6 +113,18 @@ namespace NSI.Repository
                     contactTmp.LastName = contact.LastName;
                     contactTmp.AddressId = contact.AddressId;
                     contactTmp.ModifiedDate = DateTime.Now;
+                    //delete all phones and emails
+                    _dbContext.RemoveRange(_dbContext.Phone.Where(x => x.ContactId == contactTmp.Contact1));
+                    _dbContext.RemoveRange(_dbContext.Email.Where(x => x.ContactId == contactTmp.Contact1));
+                    //create new phones and emails
+                    foreach(var emailDto in contact.Emails)
+                    {
+                        _dbContext.Add(new Email() { ContactId = contactTmp.Contact1, EmailAddress = emailDto.EmailAddress });
+                    }
+                    foreach (var phoneDto in contact.Phones)
+                    {
+                        _dbContext.Add(new Phone() { ContactId = contactTmp.Contact1, PhoneNumber = phoneDto.PhoneNumber });
+                    }
                     _dbContext.SaveChanges();
                     return true;
                 }

@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
 
-namespace IkarusEntities
+namespace NSI.DC.ContactsRepository
 {
-    public partial class Email
+    [DataContract]
+    public class EmailDto
     {
+        [DataMember]
         public int EmailId { get; set; }
+        [DataMember]
         public int ContactId { get; set; }
+        [DataMember]
         public string EmailAddress { get; set; }
-        public bool IsDeleted { get; set; }
-
-        public Contact Contact { get; set; }
     }
 }
