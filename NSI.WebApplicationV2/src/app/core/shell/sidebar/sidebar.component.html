@@ -68,7 +68,20 @@
           </ul>
         </li>
 
-
+        <li>
+          <a id="casesli" (click)="anchorClicked($event)">
+            <i class="fa fa-edit"></i> Cases
+            <span id="caseschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/cases/new']" routerLinkActive="active">
+              <a>New case</a>
+            </li>
+            <li [routerLink]="['/cases/all']" routerLinkActive="active">
+              <a>New case</a>
+            </li>
+          </ul>
+        </li>
 
         <li [routerLink]="['/contacts']" routerLinkActive="current-page">
           <a>
