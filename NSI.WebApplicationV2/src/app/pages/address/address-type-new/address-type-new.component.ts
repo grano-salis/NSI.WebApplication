@@ -16,12 +16,14 @@ export class AddressTypeNewComponent implements OnInit {
   date_created: Date = new Date();
   date_modified: Date = new Date();
   is_deleted = false;
+  customer_id = 1;
 
   constructor(private addressTypeService: AddressTypeService) {
     this.addressType = new AddressType();
     this.addressType.createdDate = this.date_created;
     this.addressType.modifiedDate = this.date_modified;
     this.addressType.isDeleted = this.is_deleted;
+    this.addressType.customerId = this.customer_id;
   }
 
   ngOnInit() {
