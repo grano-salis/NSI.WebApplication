@@ -14,7 +14,7 @@ export class CustomersService {
    }
 
    getCustomers(params?: any): Observable<Customer[]> {
-	   return this.http.get(`${this._url}/api/customer`).map((res: Response) => {
+	   return this.http.get(`${this._url}/api/customer`).map(res => {
 			 return <Customer[]>(res);
 	   });
    }
@@ -24,7 +24,7 @@ export class CustomersService {
 	}
 
 	getCustomer(id: number): Observable<Customer> {
-		return this.http.get(`${this._url}/api/customer/${id}`).map((res: Response) => {
+		return this.http.get(`${this._url}/api/customer/${id}`).map(res => {
 			return <Customer>(res);
 		});
 	}
