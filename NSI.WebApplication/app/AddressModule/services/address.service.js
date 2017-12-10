@@ -14,7 +14,7 @@ var http_1 = require("@angular/http");
 var Observable_1 = require("rxjs/Observable");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/catch");
-var AddressService = /** @class */ (function () {
+var AddressService = (function () {
     function AddressService(http) {
         this.http = http;
         this.url = 'api/address';
@@ -47,11 +47,11 @@ var AddressService = /** @class */ (function () {
         console.error(errMsg);
         return Observable_1.Observable.throw(errMsg);
     };
-    AddressService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http])
-    ], AddressService);
     return AddressService;
 }());
+AddressService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], AddressService);
 exports.AddressService = AddressService;
 //# sourceMappingURL=address.service.js.map
