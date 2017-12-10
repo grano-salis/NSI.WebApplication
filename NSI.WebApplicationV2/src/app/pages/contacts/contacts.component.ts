@@ -68,38 +68,20 @@ export class ContactsComponent implements OnInit {
   }
 
   close() {
-    const __this = this;
-    this.contacts[this.contacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
-    $('#datatable').dataTable().fnDestroy();
-    setTimeout(function () {
-      $(function () {
-        __this.initTable();
-      });
-    }, 100);
+    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] =
+      this.temp_contact;
+    this.search();
   }
 
   closeNew() {
-    const __this = this;
-    this.contacts.push(this.temp_contact);
-    $('#datatable').dataTable().fnDestroy();
-    setTimeout(function () {
-      $(function () {
-        __this.initTable();
-      });
-    }, 100);
-
+    this.allContacts.push(this.temp_contact);
+    this.search();
   }
 
   DeleteElement(contactToDelete: any) {
-    const __this = this;
-    const index = this.contacts.findIndex((c: any) => c.contact1 === contactToDelete.contact1);
-    this.contacts.splice(index, 1);
-    $('#datatable').dataTable().fnDestroy();
-    setTimeout(function () {
-      $(function () {
-        __this.initTable();
-      });
-    }, 100);
+    const index = this.allContacts.findIndex((c: any) => c.contact1 === contactToDelete.contact1);
+    this.allContacts.splice(index, 1);
+    this.search();
   }
 
   initTable() {
@@ -126,10 +108,24 @@ export class ContactsComponent implements OnInit {
     this.contacts = this.allContacts.filter((contact: any) => {
       if (this.filterColumn === 'name') {
         return contact.firsttName.toLocaleLowerCase().includes(filterValue) ||
-          contact.lastName.toLocaleLowerCase().includes(filterValue);
+          contact.lastName.toLocaleLowerCase().includes(filterValue) ||
+          (contact.lastName + ' ' + contact.firsttName).toLocaleLowerCase().includes(filterValue) ||
+          (contact.firsttName + ' ' + contact.lastName).toLocaleLowerCase().includes(filterValue);
       }
       return contact[this.filterColumn].toLocaleLowerCase().includes(filterValue);
     });
+    $('#datatable').dataTable().fnDestroy();
+    setTimeout(function () {
+      $(function () {
+        __this.initTable();
+      });
+    }, 100);
+  }
+
+  changeFilterColumn() {
+    const __this = this;
+    this.filterValue = '';
+    this.contacts = this.allContacts;
     $('#datatable').dataTable().fnDestroy();
     setTimeout(function () {
       $(function () {
