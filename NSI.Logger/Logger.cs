@@ -1,7 +1,6 @@
 ﻿using log4net;
 using log4net.Config;
 using log4net.Repository;
-using System;
 using System.IO;
 using System.Reflection;
 using System.Xml;
@@ -31,15 +30,6 @@ namespace NSI.Logger
             log.Error(message);
         }
 
-        public static void LogError(Exception exception)
-        {
-            if (logRepository == null)
-            {
-                InitLogger();
-            }
-            log.Error(exception);
-        }
-
         public static void LogInfo(string message)
         {
             if (logRepository == null)
@@ -48,5 +38,6 @@ namespace NSI.Logger
             }
             log.Info(message);
         }
+
     }
 }

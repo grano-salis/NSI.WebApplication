@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NSI.BLL.Interfaces;
-using NSI.DC.AddressTypeRepository;
+using NSI.DC.AddressRepository;
 using NSI.REST.Models;
 using System;
 using System.Collections.Generic;
@@ -13,25 +13,33 @@ namespace NSI.REST.Controllers
     [Route("api/addresstype")]
     public class AddressTypeController : Controller
     {
-        IAddressTypeManipulation _addressTypeManipulation { get; set; }
+        IAddressTypeManipulation AddressTypeRepository { get; set; }
 
         public AddressTypeController(IAddressTypeManipulation addressTypeManipulation)
         {
-            _addressTypeManipulation = addressTypeManipulation;
+            this.AddressTypeRepository = addressTypeManipulation;
         }
 
         // GET: api/addresstype
         [HttpGet]
         public IActionResult GetAddressTypes()
         {
-            return Ok(_addressTypeManipulation.GetAddressTypes());
+            try
+            {
+                return Ok(AddressTypeRepository.GetAddressTypes());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+                return null;
+            }
         }
 
         // GET: api/addresstypes/1
         [HttpGet("{id}", Name = "GetAddressType")]
         public IActionResult GetAddressType(int id)
         {
-            return Ok(_addressTypeManipulation.GetAddressTypeById(id));
+            return Ok(AddressTypeRepository.GetAddressTypeById(id));
         }
 
         // POST: api/addresstype
@@ -52,7 +60,7 @@ namespace NSI.REST.Controllers
 
             try
             {
-                var addressType = _addressTypeManipulation.CreateAddressType(addressTypeDto);
+                var addressType = AddressTypeRepository.CreateAddressType(addressTypeDto);
                 if (addressType != null)
                     return Ok(addressType);
             }
@@ -70,7 +78,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (_addressTypeManipulation.DeleteAddressTypeById(id)) return Ok();
+                if (AddressTypeRepository.DeleteAddressTypeById(id)) return Ok();
 
                 return NoContent();
             }
@@ -99,7 +107,7 @@ namespace NSI.REST.Controllers
             try
             {
 
-                if (_addressTypeManipulation.EditAddressType(id, addressTypeDto)) return Ok();
+                if (AddressTypeRepository.EditAddressType(id, addressTypeDto)) return Ok();
                 return NoContent();
             }
             catch (Exception ex)

@@ -109,7 +109,6 @@ namespace NSI.Repository
                     contactTmp.FirsttName = contact.FirsttName;
                     contactTmp.LastName = contact.LastName;
                     contactTmp.Mobile = contact.Mobile;
-                    contactTmp.Phone = contact.Phone;
                     contactTmp.AddressId = contact.AddressId;
                     contactTmp.ModifiedDate = DateTime.Now;
                     _dbContext.SaveChanges();

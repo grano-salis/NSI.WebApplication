@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AddressType } from '../addressType.model';
-import { AddressTypeService } from '../../../services/addressType.service';
 
 @Component({
   selector: 'app-address-type-list',
@@ -9,18 +7,9 @@ import { AddressTypeService } from '../../../services/addressType.service';
 })
 export class AddressTypeListComponent implements OnInit {
 
-  private addressTypes: AddressType[];
-
-  constructor(private addressTypeService: AddressTypeService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.loadAddressTypes();
-  }
-
-  loadAddressTypes(): any {
-    this.addressTypeService.getAddressTypes().subscribe((addressTypes: any) => {
-      this.addressTypes = addressTypes;
-    });
   }
 
 }
