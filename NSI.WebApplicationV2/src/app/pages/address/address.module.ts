@@ -9,13 +9,15 @@ import { AddressListComponent } from './address-list/address-list.component';
 import {FormsModule} from '@angular/forms';
 import { AddressTypeListComponent } from './address-type-list/address-type-list.component';
 import { AddressTypeNewComponent } from './address-type-new/address-type-new.component';
+import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     AddressRoutingModule,
-    FormsModule
+    FormsModule,
+    Ng4GeoautocompleteModule.forRoot()
   ],
   declarations: [AddressComponent, AddressNewComponent, AddressListComponent, AddressTypeNewComponent, AddressTypeListComponent]
 })
