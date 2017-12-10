@@ -1,7 +1,7 @@
 ﻿using NSI.DC.DocumentRepository;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using IkarusEntities;
+using NSI.REST.Models;
 
 namespace NSI.Repository.Interfaces
 {
@@ -10,6 +10,8 @@ namespace NSI.Repository.Interfaces
         DocumentDto GetDocument(int documentId);
         IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
         long SaveDocument(DocumentDto document);
-        REST.Models.DocumentsPagingResultModel GetAllDocuments(REST.Models.DocumentsPagingQueryModel query);
+        PagingResultModel<DocumentDto> GetAllDocuments(DocumentsPagingQueryModel query);
+        bool DeleteDocument(int id);
+        void Update(DocumentDto document);
     }
 }
