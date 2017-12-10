@@ -1,0 +1,93 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2 *ngIf="!edit">Create new meeting</h2>
+            <h2 *ngIf="edit">Update existing meeting</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <form (ngSubmit)="onSubmit()" #meetingForm="ngForm" class="form-horizontal form-label-left">
+                <!-- Title -->
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">Title
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input type="text" id="title" required [(ngModel)]="model.title" name="title" #title="ngModel" class="form-control col-md-7 col-xs-12">
+                    </div>
+                    <div class='col-md-3 col-sm-3 col-xs-12'>
+                        <div class='' [hidden]="title.valid || title.pristine">
+                            Title is required
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dates -->
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="date">Date
+                        <span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <fieldset>
+                            <div class="control-group">
+                                <div class="controls col-md-6 col-xs-12">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" name="from" id="from" required [(ngModel)]="model.from" #from="ngModel" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="controls col-md-6 col-xs-12">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon">
+                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                        </span>
+                                        <input type="text" name="to" id="to" required [(ngModel)]="model.to" #to="ngModel" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <!-- Users -->
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users-list">Users
+                        <!-- <span class="required">*</span> -->
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="users-list" name='users-list' #usersList=ngModel type="text" class="filter-input form-control col-md-7 col-xs-12"
+                            [(ngModel)]=query (keyup)=filter()>
+                        <div class="suggestions" *ngIf="filteredList.length > 0">
+                            <ul *ngFor="let item of filteredList">
+                                <li>
+                                    <a (click)="add(item)">{{item.userName}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div *ngFor="let item of model.userMeeting">
+                            <div class="selected">
+                                <span>{{item.userName}}</span>
+                                <a (click)="remove(item)">x</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="button" class="btn btn-success" (click)="updateMeeting()" *ngIf="edit" [disabled]="!meetingForm.form.valid">Update</button>
+                        <button type="submit" class="btn btn-success" *ngIf="!edit">Submit</button>
+                        <button type="reset" class="btn btn-default" (click)="newMeeting(); meetingForm.reset()">New meeting</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteMeeting()" [disabled]="!meetingForm.form.valid">Delete</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -11,7 +11,12 @@ const routes: Routes = [
     children: [
       {path: 'home', loadChildren: './home/home.module#HomeModule'},
       {path: 'about', loadChildren: './about/about.module#AboutModule'},
-      {path: 'meetings', loadChildren: './meetings/meetings.module#MeetingsModule'}
+      {path: 'meetings', loadChildren: './meetings/meetings.module#MeetingsModule'},
+      {path: 'organization', loadChildren: './organization/oraganization.module#OrganizationModule'},
+      {path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule'},
+      {path: 'documents', loadChildren: './documents/documents.module#DocumentsModule'},
+      {path: 'address', loadChildren: './address/address.module#AddressModule'},
+      {path: 'hearings', loadChildren: './hearings/hearings.module#HearingsModule'},
     ]
   }
 ];

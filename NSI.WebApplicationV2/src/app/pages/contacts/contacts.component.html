@@ -1,0 +1,33 @@
+<div role="main">
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="col-md-1 col-sm-1"></div>
+    <div class="col-md-10 col-sm-10 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Contacts</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let contact of contacts">
+              <td>{{contact.lastName}} {{contact.firsttName}}</td>
+              <td>{{contact.email}}</td>
+              <td>{{contact.phone}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 col-sm-1"></div>
+  </div>
+</div>

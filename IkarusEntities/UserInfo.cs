@@ -16,9 +16,11 @@ namespace IkarusEntities
             Hearing = new HashSet<Hearing>();
             Meeting = new HashSet<Meeting>();
             Message = new HashSet<Message>();
+            Note = new HashSet<Note>();
             Participant = new HashSet<Participant>();
             Task = new HashSet<Task>();
             UserCase = new HashSet<UserCase>();
+            UserHearing = new HashSet<UserHearing>();
             UserMeeting = new HashSet<UserMeeting>();
         }
 
@@ -43,9 +45,11 @@ namespace IkarusEntities
         public ICollection<Hearing> Hearing { get; set; }
         public ICollection<Meeting> Meeting { get; set; }
         public ICollection<Message> Message { get; set; }
+        public ICollection<Note> Note { get; set; }
         public ICollection<Participant> Participant { get; set; }
         public ICollection<Task> Task { get; set; }
         public ICollection<UserCase> UserCase { get; set; }
+        public ICollection<UserHearing> UserHearing { get; set; }
         public ICollection<UserMeeting> UserMeeting { get; set; }
     }
 }

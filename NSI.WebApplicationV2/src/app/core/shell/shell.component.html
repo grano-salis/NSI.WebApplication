@@ -2,10 +2,10 @@
 <div class="container body" style="width: 100%; padding:0;">
     <div class="main_container">
         <app-topnavbar></app-topnavbar>
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col menu_fixed">
             <app-sidebar></app-sidebar>
         </div>
-        <div class="right_col">
+        <div class="right_col" [style.minHeight.vh]="100">
             <router-outlet></router-outlet>
         </div>
 

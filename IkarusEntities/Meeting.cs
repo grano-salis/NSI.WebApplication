@@ -17,6 +17,7 @@ namespace IkarusEntities
         public DateTimeOffset? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
         public int CreatedByUserId { get; set; }
+        public string Title { get; set; }
 
         public UserInfo CreatedByUser { get; set; }
         public ICollection<UserMeeting> UserMeeting { get; set; }
