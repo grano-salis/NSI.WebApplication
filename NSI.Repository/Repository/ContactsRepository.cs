@@ -21,6 +21,7 @@ namespace NSI.Repository
         {
             try
             {
+                var a = _dbContext.Phone;
                 var contacts = _dbContext.Contact.Where(x => x.IsDeleted == false);
                 if (contacts != null)
                 {
@@ -105,10 +106,8 @@ namespace NSI.Repository
                 var contactTmp = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId);
                 if (contactTmp != null)
                 {
-                    contactTmp.Email = contact.Email;
                     contactTmp.FirsttName = contact.FirsttName;
                     contactTmp.LastName = contact.LastName;
-                    contactTmp.Mobile = contact.Mobile;
                     contactTmp.AddressId = contact.AddressId;
                     contactTmp.ModifiedDate = DateTime.Now;
                     _dbContext.SaveChanges();

@@ -646,6 +646,34 @@ namespace IkarusEntities
                     .HasConstraintName("UserHearingUserFK");
             });
 
+            modelBuilder.Entity<Phone>(entity =>
+            {
+                entity.HasKey(e => e.PhoneId);
+
+                entity.Property(e => e.PhoneNumber).IsRequired().HasDefaultValue("false");
+
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Phone)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Relationship301");
+
+            });
+
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.HasKey(e => e.EmailId);
+
+                entity.Property(e => e.EmailAddress).IsRequired().HasDefaultValue("false");
+
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Email)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Relationship3001");
+
+            });
+
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -656,6 +684,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.Username)
                     .HasName("Username")
                     .IsUnique();
+            
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 

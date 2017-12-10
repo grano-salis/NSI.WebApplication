@@ -16,13 +16,10 @@ namespace NSI.Repository.Mappers
                 CreatedByUserId = contactDto.CreatedByUserId,
                 CreatedDate = contactDto.CreatedDate,
                 AddressId = contactDto.AddressId,
-                Email = contactDto.Email,
                 FirsttName = contactDto.FirsttName,
                 IsDeleted = contactDto.IsDeleted,
                 LastName = contactDto.LastName,
-                Mobile = contactDto.Mobile,
                 ModifiedDate = contactDto.ModifiedDate,
-                Phone = contactDto.Phone
             };
         }
 
@@ -34,13 +31,10 @@ namespace NSI.Repository.Mappers
                 CreatedByUserId = contact.CreatedByUserId,
                 CreatedDate = contact.CreatedDate,
                 AddressId = contact.AddressId,
-                Email = contact.Email,
                 FirsttName = contact.FirsttName,
                 IsDeleted = contact.IsDeleted,
                 LastName = contact.LastName,
-                Mobile = contact.Mobile,
                 ModifiedDate = contact.ModifiedDate,
-                Phone = contact.Phone
             };
         }
 
