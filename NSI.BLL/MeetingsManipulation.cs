@@ -18,9 +18,9 @@ namespace NSI.BLL
             _meetingsRepository = meetingsRepository;
         }
 
-        public void CreateMeeting(MeetingDto model)
+        public MeetingDto CreateMeeting(MeetingDto model)
         {
-            _meetingsRepository.InsertMeeting(model);
+            return _meetingsRepository.InsertMeeting(model);
         }
 
         public ICollection<MeetingDto> GetMeetings()
@@ -28,10 +28,10 @@ namespace NSI.BLL
             return _meetingsRepository.GetMeetings();
         }
 
-        public void EditMeeting(int meetingId, MeetingDto model)
+        public MeetingDto EditMeeting(int meetingId, MeetingDto model)
         {
             ValidationHelper.IntegerGreaterThanZero(meetingId, name: "Meeting id");
-            _meetingsRepository.UpdateMeeting(meetingId, model);
+            return _meetingsRepository.UpdateMeeting(meetingId, model);
         }
         public void RemoveMeeting(int meetingId)
         {

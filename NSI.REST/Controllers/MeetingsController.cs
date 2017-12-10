@@ -65,10 +65,9 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _meetingsManipulation.CreateMeeting(model);
-                return Ok(new NSIResponse<object>()
+                return Ok(new NSIResponse<MeetingDto>()
                 {
-                    Data = null,
+                    Data = _meetingsManipulation.CreateMeeting(model),
                     Message = "New meeting created"
                 });
             }
@@ -89,10 +88,9 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _meetingsManipulation.EditMeeting(id, model);
-                return Ok(new NSIResponse<object>()
+                return Ok(new NSIResponse<MeetingDto>()
                 {
-                    Data = null,
+                    Data = _meetingsManipulation.EditMeeting(id, model),
                     Message = "Meeting updated"
                 });
             }

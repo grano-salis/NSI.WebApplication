@@ -22,7 +22,6 @@ namespace NSI.Repository
         {
             return _dbContext.Meeting.Where(x => x.IsDeleted == false)
                 .Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
-
         }
 
         public MeetingDto GetMeetingById(int id)
@@ -32,14 +31,19 @@ namespace NSI.Repository
             return Mappers.MeetingsRepository.MapToDto(meeting);
         }
 
-        public void InsertMeeting(MeetingDto model)
+        public MeetingDto InsertMeeting(MeetingDto model)
         {
             var entity_meeting = Mappers.MeetingsRepository.MapToDbEntity(model);
             _dbContext.Meeting.Add(entity_meeting);
-            _dbContext.SaveChanges();
+            if (_dbContext.SaveChanges() > 0)
+            {
+                return Mappers.MeetingsRepository.MapToDto(entity_meeting);
+            }
+            throw new NSIException("Erro while inserting new meeting");
+            
         }
 
-        public void UpdateMeeting(int meetingId, MeetingDto model)
+        public MeetingDto UpdateMeeting(int meetingId, MeetingDto model)
         {
             var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId && x.IsDeleted == false);
             if (meeting == null) throw new NSIException("Meeting not found");
@@ -58,7 +62,13 @@ namespace NSI.Repository
             foreach (var item in model.UserMeeting)
                 meeting.UserMeeting.Add(new UserMeeting() { UserId = item.UserId, MeetingId = meetingId });
 
-            _dbContext.SaveChanges();
+
+            if (_dbContext.SaveChanges() > 0)
+            {
+                return Mappers.MeetingsRepository.MapToDto(meeting);
+            }
+            throw new NSIException("Erro while updating new meeting");
+
         }
 
         public void DeleteMeeting(int meetingId)
@@ -68,7 +78,10 @@ namespace NSI.Repository
 
             meeting.IsDeleted = true;
             meeting.DateModified = DateTime.Now;
-            _dbContext.SaveChanges();
+            if(_dbContext.SaveChanges() == 0)
+            {
+                throw new NSIException("Error while deleting meeting");
+            }
         }
     }
 }

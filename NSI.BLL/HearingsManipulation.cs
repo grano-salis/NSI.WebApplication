@@ -1,4 +1,5 @@
-﻿using NSI.BLL.Interfaces;
+﻿using NSI.BLL.Helpers;
+using NSI.BLL.Interfaces;
 using NSI.DC.HearingsRepository;
 using NSI.Repository.Interfaces;
 using System;
@@ -16,18 +17,20 @@ namespace NSI.BLL
             _hearingsRepository = hearingsRepository;
         }
 
-        public void Create(HearingDto model)
+        public HearingDto CreateHearing(HearingDto model)
         {
-            _hearingsRepository.Insert(model);
+            return _hearingsRepository.InsertHearing(model);
         }
 
-        public void Update(int hearingId, HearingDto model)
+        public HearingDto UpdateHearing(int hearingId, HearingDto model)
         {
-            _hearingsRepository.Update(hearingId, model);
+            ValidationHelper.IntegerGreaterThanZero(hearingId, name: "Hearing id");
+            return _hearingsRepository.UpdateHearing(hearingId, model);
         }
 
         public ICollection<HearingDto> GetHearingsByCase(int caseId)
         {
+            ValidationHelper.IntegerGreaterThanZero(caseId, name: "Case id");
             return _hearingsRepository.GetHearingsByCase(caseId);
         }
 
@@ -36,14 +39,16 @@ namespace NSI.BLL
             return _hearingsRepository.GetHearings();
         }
 
-        public HearingDto GetHearingById(int id)
+        public HearingDto GetHearingById(int hearingId)
         {
-            return _hearingsRepository.GetHearingById(id);
+            ValidationHelper.IntegerGreaterThanZero(hearingId, name: "Hearing id");
+            return _hearingsRepository.GetHearingById(hearingId);
         }
 
         public void Delete(int hearingId)
         {
-            _hearingsRepository.Delete(hearingId);
+            ValidationHelper.IntegerGreaterThanZero(hearingId, name: "Hearing id");
+            _hearingsRepository.DeleteHearing(hearingId);
         }
     }
 }
