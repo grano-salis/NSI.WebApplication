@@ -70,7 +70,7 @@ namespace NSI.Tests
             };
 
             var hearingRepo = new Mock<IHearingsRepository>();
-            hearingRepo.Setup(x => x.Insert(hearing));
+            hearingRepo.Setup(x => x.InsertHearing(hearing));
             var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
 
 
@@ -160,7 +160,7 @@ namespace NSI.Tests
             };
 
             var hearingRepo = new Mock<IHearingsRepository>();
-            hearingRepo.Setup(x => x.Insert(hearing));
+            hearingRepo.Setup(x => x.InsertHearing(hearing));
             var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
 
 
@@ -290,7 +290,7 @@ namespace NSI.Tests
             };
 
             var hearingRepo = new Mock<IHearingsRepository>();
-            hearingRepo.Setup(x => x.Insert(hearing));
+            hearingRepo.Setup(x => x.InsertHearing(hearing));
             var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
 
 

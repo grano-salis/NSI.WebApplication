@@ -56,7 +56,7 @@ namespace NSI.Tests
             };
 
             var meetingRepo = new Mock<IMeetingsRepository>();
-            meetingRepo.Setup(x => x.Insert(meeting));
+            meetingRepo.Setup(x => x.InsertMeeting(meeting));
             var meetingManipulation = new MeetingsManipulation(meetingRepo.Object);
 
 
@@ -109,7 +109,7 @@ namespace NSI.Tests
             };
 
             var meetingRepo = new Mock<IMeetingsRepository>();
-            meetingRepo.Setup(x => x.Insert(meeting));
+            meetingRepo.Setup(x => x.InsertMeeting(meeting));
             var meetingManipulation = new MeetingsManipulation(meetingRepo.Object);
             var controller = new MeetingsController(meetingManipulation);
 
@@ -204,7 +204,7 @@ namespace NSI.Tests
             };
 
             var meetingRepo = new Mock<IMeetingsRepository>();
-            meetingRepo.Setup(x => x.Insert(meeting));
+            meetingRepo.Setup(x => x.InsertMeeting(meeting));
             var meetingManipulation = new MeetingsManipulation(meetingRepo.Object);
             var controller = new MeetingsController(meetingManipulation);
 

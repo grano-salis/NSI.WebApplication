@@ -31,9 +31,9 @@
         "main.scss"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/jquery/dist/jquery.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/moment/min/moment.min.js",
         "../node_modules/fullcalendar/dist/fullcalendar.min.js",
         "../node_modules/gentelella/vendors/fastclick/lib/fastclick.js",
         "../node_modules/gentelella/vendors/iCheck/icheck.min.js",
