@@ -1,4 +1,4 @@
-﻿using NSI.DC.AddressTypeRepository;
+﻿using NSI.DC.AddressRepository;
 using System;
 using System.Collections.Generic;
 using System.Text;

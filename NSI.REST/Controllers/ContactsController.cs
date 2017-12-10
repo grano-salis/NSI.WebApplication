@@ -38,15 +38,13 @@ namespace NSI.REST.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]ContactDto model)
         {
-            Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
-               
-               var contact = contactsRepository.CreateContact(model);
+                var contact = contactsRepository.CreateContact(model);
                 if (contact != null)
                     return Ok(contact);
                 else
@@ -89,7 +87,7 @@ namespace NSI.REST.Controllers
             {
                 if (contactsRepository.DeleteContactById(id))
                 {
-                    return Ok(id);
+                    return Ok();
 
                 }
                 return NoContent();
