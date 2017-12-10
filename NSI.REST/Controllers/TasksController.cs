@@ -12,6 +12,8 @@ using System.Net.Http;
 using System.Net;
 using NSI.REST.Models;
 using NSI.REST.Middleware;
+using NSI.DC.Exceptions;
+using NSI.DC.Response;
 
 namespace NSI.REST.Controllers
 {
@@ -28,130 +30,154 @@ namespace NSI.REST.Controllers
 
         // GET: api/Tasks
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
+        public IActionResult GetTasks(
+            [FromQuery] int? page, 
+            [FromQuery] int? pageSize)
         {
             try
             {
-                return Ok(_taskRepository.GetTasks());
+                return Ok(new NSIResponse<ICollection<TaskDto>>{ Data = _taskRepository.GetTasks(page, pageSize), Message= "Success" });
+            }
+            catch(NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if(ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });                
             }
             catch (Exception ex)
             {
-
-                return BadRequest(ex.Message);
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
-
-        [HttpGet]
-        [Route("getWithPaging")]
-        public IActionResult GetWithPaging(int pageNumber, int pageSize)
-        {
-            try
-            {
-                return Ok(_taskRepository.GetTasks(pageNumber, pageSize));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
 
         // GET: api/Tasks/5
         [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id)
+        public IActionResult GetTaskById([FromRoute] int id)
         {
             try
             {
-                return Ok(_taskRepository.GetTaksById(id));
+                return Ok(new NSIResponse<TaskDto> { Data = _taskRepository.GetTaksById(id), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
 
         // POST: api/Tasks
         [HttpPost]
-        public IActionResult Post([FromBody]TasksCreateModel model)
-        {           
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            TaskDto taskDto = new TaskDto()
-            {
-                Description=model.Description,
-                DueDate=model.DueDate,
-                Title=model.Title,
-                UserId=model.UserId
-            };
-
+        public IActionResult InsertTask([FromBody]TasksCreateModel model)
+        {
             try
             {
-                var task = _taskRepository.CreateTask(taskDto);
-                if (task != null)
-                    return Ok(task);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                TaskDto taskDto = new TaskDto()
+                {
+                    Description = model.Description,
+                    DueDate = model.DueDate,
+                    Title = model.Title,
+                    UserId = model.UserId
+                };
+
+                return Ok(new NSIResponse<TaskDto> { Data = _taskRepository.CreateTask(taskDto), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message= "Parameter error!"});
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-            return NoContent();
         }
 
         // PUT: api/Tasks/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]TasksEditModel model)
+        public IActionResult ChangeTask(int id, [FromBody]TasksEditModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            TaskDto taskDto = new TaskDto()
-            {
-                Description = model.Description,
-                DueDate = model.DueDate,
-                Title = model.Title,
-                UserId = model.UserId
-            };
-
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-                if (_taskRepository.EditTask(id, taskDto))
-                    return Ok();
-                return NoContent();
+                TaskDto taskDto = new TaskDto()
+                {
+                    Description = model.Description,
+                    DueDate = model.DueDate,
+                    Title = model.Title,
+                    UserId = model.UserId
+                };
+
+                return Ok(new NSIResponse<TaskDto> { Data = _taskRepository.EditTask(id, taskDto), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteTask(int id)
         {
             try
             {
                 if (_taskRepository.DeleteTaskById(id))
-                    return Ok();
-                return NoContent();
+                    return Ok(new NSIResponse<object> { Data = null, Message = "Success" });
+                return Ok(new NSIResponse<object> { Data = null, Message= "Failed" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("search")]
         public IActionResult Search([FromBody]TasksSearchModel model, int pageNumber, int pageSize)
         {
             try
             {
+                if (model == null)
+                    throw new NSIException("TaskSearchModel is null", DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+
                 TaskSearchCriteriaDto taskDto = new TaskSearchCriteriaDto()
                 {
                     Description = model.Description,
@@ -161,11 +187,19 @@ namespace NSI.REST.Controllers
                     TaskId=model.TaskId ?? 0
                 };
 
-                return Ok(_taskRepository.SearchTasks(taskDto, pageNumber, pageSize));
+                return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.SearchTasks(taskDto, pageNumber, pageSize), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message= "Parameter error!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
     }

@@ -11,7 +11,7 @@ declare let $: any;
 })
 export class AddressListComponent implements OnInit {
 
-  private addresses: Address[];
+  public addresses: Address[];
 
   constructor(private addressService: AddressService) {
   }

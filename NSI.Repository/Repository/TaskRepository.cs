@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using NSI.Repository.Interfaces;
 using NSI.DC.Exceptions;
+using NSI.DC.Exceptions.Enums;
 
 namespace NSI.Repository
 {
@@ -19,81 +20,62 @@ namespace NSI.Repository
         }
 
         public TaskDto CreateTask(TaskDto taskDto) {
-            try
-            {
-                var task = Mappers.TaskRepository.MapToDbEntity(taskDto);
-                _dbContext.Add(task);
-                if (_dbContext.SaveChanges() != 0)
-                    return Mappers.TaskRepository.MapToDto(task);
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new NSIException("Database error!");
-            }
-            return null;
 
+            if (taskDto == null)
+                throw new NSIException("Parameter taskDto is null!", Level.Error, ErrorType.InvalidParameter);
+
+            var task = Mappers.TaskRepository.MapToDbEntity(taskDto);
+            _dbContext.Add(task);
+            if (_dbContext.SaveChanges() != 0)
+                return Mappers.TaskRepository.MapToDto(task);
+
+            throw new NSIException("No data in database!", Level.Info, ErrorType.MissingData);
         }
 
         public TaskDto GetTaskById(int taskId) {
-            try
+            if (taskId == 0)
+                throw new NSIException("Parameter taskId is invalid!", Level.Error, ErrorType.InvalidParameter);
+
+            var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
+            if (task != null)
             {
-                var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
-                if (task != null)
-                {
-                    return Mappers.TaskRepository.MapToDto(task);
-                }
+                return Mappers.TaskRepository.MapToDto(task);
             }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new NSIException("Database error!"); 
-            }
-            return null;
+
+            throw new NSIException("No result for parameter taskId=" + taskId.ToString(), Level.Info, ErrorType.MissingData);
         }
 
         public ICollection<TaskDto> GetTasks()
         {
-            try
+            var tasks = _dbContext.Task;
+            if (tasks != null)
             {
-                var tasks = _dbContext.Task;
-                if (tasks != null)
+                ICollection<TaskDto> tasksDto = new List<TaskDto>();
+                foreach (var item in tasks)
                 {
-                    ICollection<TaskDto> tasksDto = new List<TaskDto>();
-                    foreach (var item in tasks)
-                    {
-                        tasksDto.Add(Mappers.TaskRepository.MapToDto(item));
-                    }
-                    return tasksDto;
+                    tasksDto.Add(Mappers.TaskRepository.MapToDto(item));
                 }
+                return tasksDto;
             }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new NSIException("Database error!");
-            }
-            return null;
+            throw new NSIException("No data in database!", Level.Info, ErrorType.MissingData);
         }
 
         public bool DeleteTaskById(int taskId) {
-            try
+            if (taskId == 0)
+                throw new NSIException("Parameter taskId is invalid!", Level.Error, ErrorType.InvalidParameter);
+
+            var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
+            if (task != null)
             {
-                var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
-                if (task != null)
+                if (_dbContext.Task.Remove(task) != null)
                 {
-                    if (_dbContext.Task.Remove(task) != null)
-                    {
-                        _dbContext.SaveChanges();
-                        return true;
-                    }
+                    _dbContext.SaveChanges();
+                    return true;
                 }
                 return false;
             }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new NSIException("Database error!");
-            }
+
+            throw new NSIException("No data for parameter taskId="+taskId.ToString(), Level.Info, ErrorType.MissingData);
         }
 
         public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria)
@@ -101,7 +83,7 @@ namespace NSI.Repository
             if (searchCriteria == null)
             {
                 Logger.Logger.LogError("SearchTasks searchCriteria is null!");
-                throw new ArgumentNullException("SearchTasks searchCriteria");
+                throw new NSIException("Parameter searchCriteria is null!", Level.Error,ErrorType.InvalidParameter);
             }
             var tasks = from task in _dbContext.Task select task;
 
@@ -125,27 +107,22 @@ namespace NSI.Repository
             return tasksDto;
         }
 
-        public bool EditTask(int taskId, TaskDto task)
+        public TaskDto EditTask(int taskId, TaskDto task)
         {
-            try
+            if (taskId == 0 || task==null)
+                throw new NSIException("Parameter is invalid!", Level.Error, ErrorType.InvalidParameter);
+
+            var taskTmp = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
+            if (taskTmp != null)
             {
-                var taskTmp = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
-                if (taskTmp != null)
-                {
-                    taskTmp.Description = task.Description ?? taskTmp.Description;
-                    taskTmp.DueDate = task.DueDate != null ? task.DueDate : taskTmp.DueDate;
-                    taskTmp.Title = task.Title ?? taskTmp.Title;
-                    taskTmp.UserId = task.UserId != 0 ? task.UserId : taskTmp.UserId;
-                    _dbContext.SaveChanges();
-                    return true;
-                }
-                return false;
+                taskTmp.Description = task.Description ?? taskTmp.Description;
+                taskTmp.DueDate = task.DueDate != null ? task.DueDate : taskTmp.DueDate;
+                taskTmp.Title = task.Title ?? taskTmp.Title;
+                taskTmp.UserId = task.UserId != 0 ? task.UserId : taskTmp.UserId;
+                _dbContext.SaveChanges();
+                return Mappers.TaskRepository.MapToDto(taskTmp);
             }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new NSIException("Database error!");
-            }
+            throw new NSIException("No data for parameter taskId=" + taskId.ToString(), Level.Info, ErrorType.MissingData);
         }
     }
 }

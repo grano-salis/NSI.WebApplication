@@ -17,6 +17,6 @@ import { AddressTypeNewComponent } from './address-type-new/address-type-new.com
     AddressRoutingModule,
     FormsModule
   ],
-  declarations: [AddressComponent, AddressNewComponent, AddressListComponent, AddressTypeListComponent, AddressTypeNewComponent]
+  declarations: [AddressComponent, AddressNewComponent, AddressListComponent, AddressTypeNewComponent, AddressTypeListComponent]
 })
 export class AddressModule { }
