@@ -45,5 +45,20 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: content-box;
-  width: 95%;
+  width: 100%;
+}
+
+.div-inline-beauty{
+  display: inline-flex;
+  width: 72%;
+}
+
+.button-beauty{
+  margin-left: 7px;
+  margin-top: 7px;
+  width: calc(24% - 50px);
+}
+
+.label-beauty{
+  margin-bottom: 0px;
 }
