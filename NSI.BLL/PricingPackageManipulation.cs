@@ -39,7 +39,7 @@ namespace NSI.BLL
             return _pricingPackageRepository.DeletePricingPackage(pricingPackageId);
         }
 
-        PricingPackageDto GetUserPricingPackage(int userId)
+        public PricingPackageDto GetUserPricingPackage(int userId)
         {
             return _pricingPackageRepository.GetUserPricingPackage(userId);
         }
