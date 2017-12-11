@@ -35,7 +35,7 @@ namespace NSI.Repository.Mappers
                 {
                     UserId = x.UserId,
                     UserName = x.User.Username
-                })
+                }).ToList()
             };
         }
     }
