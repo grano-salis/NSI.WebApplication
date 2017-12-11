@@ -6,7 +6,8 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div *ngIf="customer" class="x_panel">
           <div class="x_title">
-						<h2>Edit organization</h2>
+						<h2 *ngIf="newOrg">New organization</h2>
+						<h2 *ngIf="!newOrg">Edit organization</h2>
             <ul class="nav navbar-right panel_toolbox">
               <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
               </li>
@@ -87,8 +88,8 @@
               <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                   <button class="btn btn-primary" type="button">Cancel</button>
-                  <button class="btn btn-primary" type="reset">Update</button>
-                  <button type="submit" class="btn btn-success">Submit</button>
+                  <button *ngIf="!newOrg" class="btn btn-primary" type="reset" (click)="onUpdateClick()">Update</button>
+                  <button *ngIf="newOrg" type="submit" class="btn btn-success" (click)="onSubmitClick()">Submit</button>
                 </div>
               </div>
 

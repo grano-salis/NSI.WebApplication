@@ -124,11 +124,20 @@
           </a>
         </li>
         -->
-
-        <li [routerLink]="['/organization']" routerLinkActive="current-page">
-          <a>
+        
+        <li routerLinkActive="current-page">
+          <a id="organizationli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Organizations
+            <span id="organizationchevron" class="fa fa-chevron-down"></span>
           </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/organization/new']" routerLinkActive="active">
+              <a>New organization</a>
+            </li>
+            <li [routerLink]="['/organization']" routerLinkActive="active">
+              <a>List of organizations</a>
+            </li>
+          </ul>
         </li>
 
 
