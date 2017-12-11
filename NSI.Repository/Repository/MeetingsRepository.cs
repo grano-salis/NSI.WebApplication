@@ -6,6 +6,7 @@ using NSI.DC.MeetingsRepository;
 using IkarusEntities;
 using System.Linq;
 using NSI.DC.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace NSI.Repository
 {
@@ -20,13 +21,16 @@ namespace NSI.Repository
 
         public ICollection<MeetingDto> GetMeetings()
         {
-            return _dbContext.Meeting.Where(x => x.IsDeleted == false)
-                .Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
+            var meetings = _dbContext.Meeting.Where(x => x.IsDeleted == false)
+                .Include(x => x.UserMeeting).ThenInclude(userMeeting => userMeeting.User);
+            return meetings.Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
         }
 
         public MeetingDto GetMeetingById(int id)
         {
-            var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id && x.IsDeleted == false);
+            var meeting = _dbContext.Meeting.Where(x => x.MeetingId == id && x.IsDeleted == false)
+                .Include(x => x.UserMeeting).ThenInclude(userMeeting => userMeeting.User)
+                .FirstOrDefault();
             if (meeting == null) throw new NSIException("Meeting not found");
             return Mappers.MeetingsRepository.MapToDto(meeting);
         }
