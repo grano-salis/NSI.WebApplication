@@ -10,6 +10,11 @@ namespace NSI.Repository.Mappers
     {
         public static Address MapToDbEntity(AddressDto addressDto)
         {
+            if (addressDto == null)
+            {
+                throw new ArgumentNullException(nameof(addressDto), "AddressDto argument is not provided!");
+            }
+
             return new Address()
             {
                 AddressId = addressDto.AddressId,
@@ -24,6 +29,11 @@ namespace NSI.Repository.Mappers
 
         public static AddressDto MapToDto(Address address)
         {
+            if (address == null)
+            {
+                throw new ArgumentNullException(nameof(address), "Address argument is not provided!");
+            }
+
             return new AddressDto()
             {
                 AddressId = address.AddressId,

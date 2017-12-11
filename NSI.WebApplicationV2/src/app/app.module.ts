@@ -21,7 +21,11 @@ import { AddressService } from './services/address.service';
 import { UsersService } from './services/users.service';
 import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
-import { HearingsService } from './services/hearings.service'
+import { HearingsService } from './services/hearings.service';
+import {AddressTypeService} from './services/addressType.service';
+
+
+
 
 @NgModule({
   imports: [
@@ -45,6 +49,7 @@ import { HearingsService } from './services/hearings.service'
     HelperService,
     MeetingsService,
     AddressService,
+    AddressTypeService,
     UsersService,
     ContactsService,
     HearingsService,
