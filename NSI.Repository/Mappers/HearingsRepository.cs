@@ -39,7 +39,7 @@ namespace NSI.Repository.Mappers
                 {
                     UserId = x.UserId,
                     UserName = x.User.Username
-                }),
+                }).ToList(),
                 Note = entity.Note.Select(x => new NoteDto()
                 {
                     Text = x.Text,

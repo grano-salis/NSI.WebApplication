@@ -41,7 +41,7 @@ namespace NSI.Repository
             _dbContext.Meeting.Add(entity_meeting);
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.MeetingsRepository.MapToDto(entity_meeting);
+                return GetMeetingById(entity_meeting.MeetingId);
             }
             throw new NSIException("Erro while inserting new meeting");
             
@@ -69,7 +69,7 @@ namespace NSI.Repository
 
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.MeetingsRepository.MapToDto(meeting);
+                return GetMeetingById(meeting.MeetingId);
             }
             throw new NSIException("Erro while updating new meeting");
 

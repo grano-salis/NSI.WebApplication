@@ -25,7 +25,7 @@ namespace NSI.Repository.Repository
             _dbContext.Hearing.Add(entity);
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.HearingsRepository.MapToDto(entity);
+                return GetHearingById(entity.HearingId);
             }
             throw new NSIException("Erro while inserting new hearing");
         }
@@ -59,7 +59,7 @@ namespace NSI.Repository.Repository
 
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.HearingsRepository.MapToDto(entity);
+                return GetHearingById(entity.HearingId);
             }
 
             throw new NSIException("Erro while updating hearing");
