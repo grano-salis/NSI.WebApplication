@@ -105,9 +105,10 @@
                     <div class="form-group">
                       <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Servis za placanje <span class="required">*</span></label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
-                        <select class="form-control" name="">
-                          <option value="">Paypal</option>
-                          <option value="">Stripe</option>
+                        <select class="form-control" [(ngModel)]="transaction.PaymentGatewayId">
+                          <!--
+                          <option value="2">Paypal</option>
+                          <option value="1">Stripe</option>-->
                         </select>
                       </div>
                     </div>
