@@ -33,6 +33,8 @@ namespace IkarusEntities
         public virtual DbSet<UserHearing> UserHearing { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserMeeting> UserMeeting { get; set; }
+        public virtual DbSet<Phone> Phone { get; set; }
+        public virtual DbSet<Email> Email { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -305,6 +307,7 @@ namespace IkarusEntities
                     .HasConstraintName("Relationship71");
             });
 
+
             modelBuilder.Entity<Conversation>(entity =>
             {
                 entity.HasIndex(e => e.UserId)
@@ -570,6 +573,8 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("AssignedTo");
+
+                entity.HasQueryFilter(x => EF.Property<bool>(x, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -642,6 +647,26 @@ namespace IkarusEntities
                     .HasConstraintName("UserHearingUserFK");
             });
 
+            modelBuilder.Entity<Phone>(entity =>
+            {
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Phone)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Phone_ContactId_fkey");
+            });
+
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.Property(e => e.EmailAddress).IsRequired();
+
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Email)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ContactId");
+            });
+
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -652,6 +677,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.Username)
                     .HasName("Username")
                     .IsUnique();
+            
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -693,5 +719,34 @@ namespace IkarusEntities
                     .HasConstraintName("Relationship29");
             });
         }
+
+        public override int SaveChanges()
+        {
+            OnBeforeSaving();
+            return base.SaveChanges();
+        }
+
+        private void OnBeforeSaving()
+        {
+            foreach (var entry in ChangeTracker.Entries<Task>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.CurrentValues["IsDeleted"] = false;
+                        entry.CurrentValues["DateCreated"] = DateTime.Now;
+                        break;
+
+                    case EntityState.Deleted:
+                        entry.State = EntityState.Modified;
+                        entry.CurrentValues["IsDeleted"] = true;
+                        break;
+                    case EntityState.Modified:
+                        entry.CurrentValues["DateModified"] = DateTime.Now;
+                        break;
+                }
+            }
+        }
+
     }
 }

@@ -8,12 +8,12 @@ namespace NSI.REST.Models
 {
     public class AddressTypeCreateModel
     {
+        public int AddressTypeId { get; set; }
         [Required]
         public string AddressTypeName { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; }
-        [Required]
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
         public bool? IsDeleted { get; set; }
@@ -22,6 +22,7 @@ namespace NSI.REST.Models
 
     public class AddressTypeEditModel
     {
+        public int AddressTypeId { get; set; }
         public string AddressTypeName { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreatedDate { get; set; }

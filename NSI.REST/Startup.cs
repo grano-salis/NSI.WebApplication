@@ -15,7 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using NSI.REST.Middleware;
-using NSI.BLL.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository;
 using NSI.BLL.Interfaces;
@@ -24,6 +23,10 @@ using IkarusEntities;
 using Swashbuckle.AspNetCore.Swagger;
 using NSI.Repository.Repository;
 using AutoMapper;
+
+using IkarusEntities;
+using NSI.BLL.Interfaces;
+using NSI.BLL;
 
 namespace NSI.REST
 {
@@ -52,9 +55,12 @@ namespace NSI.REST
 
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
-            services.AddScoped<IkarusContext, IkarusContext>();
+            services.AddDbContext<IkarusContext>();
+
             services.AddScoped<IAddressManipulation, AddressManipulation>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressTypeManipulation, AddressTypeManipulation>();
+            services.AddScoped<IAddressTypeRepository, AddressTypeRepository>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<IMeetingsRepository, MeetingsRepository>();
             services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();
@@ -62,18 +68,24 @@ namespace NSI.REST
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<IContactsRepository, ContactsRepository>();
             services.AddScoped<IContactsManipulation, ContactsManipulation>();
-			services.AddScoped<ICaseInfoManipulation, CaseInfoManipulation>();
-			services.AddScoped<ICaseInfoRepository, CaseInfoRepository>();
+      			services.AddScoped<ICaseInfoManipulation, CaseInfoManipulation>();
+      			services.AddScoped<ICaseInfoRepository, CaseInfoRepository>();
             services.AddScoped<IConversationsRepository, ConversationsRepository>();
             services.AddScoped<IConversationsManipulation, ConversationsManipulation>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped<IUsersManipulation, UsersManipulation>();
             services.AddScoped<IHearingsRepository, HearingsRepository>();
             services.AddScoped<IHearingsManipulation, HearingsManipulation>();
-            
+            services.AddScoped<IDocumentManipulation, DocumentManipulation>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ITransactionManipulation, TransactionManipulation>();
+            services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();
+            services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
+            services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
+            services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
 
             services.AddMvc().AddJsonOptions(
-                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);             
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
 
             //Add AutoMapper
@@ -93,9 +105,13 @@ namespace NSI.REST
             services.Configure<MvcOptions>(options => {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAllHeaders"));
             });
-            
+
+
+
+
+
             //services.AddTransient<BLL.Interfaces.IUserManagement, BLL.Users.UserManagement>();
-            
+
             // Inject JWT Settings
             var jwtAppSettings = Configuration.GetSection("JwtIssuerOptions");
             services.Configure<JwtIssuerOptions>(opt =>
@@ -121,7 +137,7 @@ namespace NSI.REST
                 o.AddPolicy("AllowAllHeaders", corsBuilder.Build());
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

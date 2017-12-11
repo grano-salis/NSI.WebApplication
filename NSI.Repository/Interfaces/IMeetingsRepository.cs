@@ -7,10 +7,11 @@ namespace NSI.Repository.Interfaces
 {
     public interface IMeetingsRepository
     {
-        void Insert(MeetingDto model);
-        void Update(int meetingId, MeetingDto model);
+        MeetingDto InsertMeeting(MeetingDto model);
+        MeetingDto UpdateMeeting(int meetingId, MeetingDto model);
         ICollection<MeetingDto> GetMeetings();
-        void Delete(int meetingId);
+        void DeleteMeeting(int meetingId);
         MeetingDto GetMeetingById(int id);
+        ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria);
     }
 }

@@ -78,8 +78,6 @@
           </ul>
         </li>
 
-
-
         <li [routerLink]="['/contacts']" routerLinkActive="current-page">
           <a>
             <i class="fa fa-address-book-o"></i> Contacts
@@ -92,9 +90,41 @@
           </a>
         </li>
 
+        <li>
+          <a id="addressli" (click)="anchorClicked($event)">
+            <i class="fa fa-home"></i> Address
+            <span id="addresschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/address/new']">
+              <a>New address</a>
+            </li>
+            <li [routerLink]="['/address/list']">
+              <a>List of address</a>
+            </li>
+            <li [routerLink]="['/address/type/new']">
+              <a>New address type</a>
+            </li>
+            <li [routerLink]="['/address/type/list']">
+              <a>List of address types</a>
+            </li>
+          </ul>
+        </li>
+
+
+
+
+        <!--
         <li [routerLink]="['/address']" routerLinkActive="current-page">
           <a>
             <i class="fa fa-user"></i> Address
+          </a>
+        </li>
+        -->
+
+        <li [routerLink]="['/organization']" routerLinkActive="current-page">
+          <a>
+            <i class="fa fa-calendar-o"></i> Organizations
           </a>
         </li>
 

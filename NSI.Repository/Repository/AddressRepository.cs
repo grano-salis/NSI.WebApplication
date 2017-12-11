@@ -1,10 +1,9 @@
 ﻿using IkarusEntities;
 using NSI.DC.AddressRepository;
+using NSI.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using NSI.Repository.Interfaces;
 
 namespace NSI.Repository
 {
@@ -19,6 +18,11 @@ namespace NSI.Repository
 
         public AddressDto CreateAddress(AddressDto addressDto)
         {
+            if (addressDto == null)
+            {
+                throw new ArgumentNullException(nameof(addressDto), "AddresDto argument is not provided!");
+            }
+
             try
             {
                 var address = Mappers.AddressRepository.MapToDbEntity(addressDto);
@@ -29,11 +33,10 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw ex;
-                //throw new Exception("Database error!");
+                throw;
             }
-            return null;
 
+            return null;
         }
 
         public AddressDto GetAddressById(int addressId)
@@ -49,7 +52,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!"); throw new Exception();
+                throw;
             }
             return null;
         }
@@ -72,7 +75,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw;
             }
             return null;
         }
@@ -95,7 +98,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw;
             }
         }
 
@@ -103,24 +106,27 @@ namespace NSI.Repository
         {
             if (searchCriteria == null)
             {
-                throw new ArgumentNullException("searchCriteria");
+                throw new ArgumentNullException(nameof(searchCriteria), "Argument SearchCriteria is not provided!");
             }
 
-
             return null;
-
         }
 
-        public bool EditAddress(int AddressId, AddressDto Address)
+        public bool EditAddress(int addressId, AddressDto address)
         {
+            if (address == null)
+            {
+                throw new ArgumentNullException(nameof(address), "Address argument is not provided!");
+            }
+
             try
             {
-                var AddressTmp = _dbContext.Address.FirstOrDefault(x => x.AddressId == AddressId);
+                var AddressTmp = _dbContext.Address.FirstOrDefault(x => x.AddressId == addressId);
                 if (AddressTmp != null)
                 {
-                    AddressTmp.Address1 = Address.Address1 ?? AddressTmp.Address1;
-                    AddressTmp.Address2 = Address.Address2 != null ? Address.Address2 : AddressTmp.Address2;
-                    AddressTmp.City = Address.City ?? AddressTmp.City;
+                    AddressTmp.Address1 = address.Address1 ?? AddressTmp.Address1;
+                    AddressTmp.Address2 = address.Address2 ?? AddressTmp.Address2;
+                    AddressTmp.City = address.City ?? AddressTmp.City;
                     _dbContext.SaveChanges();
                     return true;
                 }
@@ -129,7 +135,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception("Database error!");
+                throw;
             }
         }
     }

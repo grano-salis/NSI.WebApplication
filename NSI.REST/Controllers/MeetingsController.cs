@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NSI.BLL.Interfaces;
+using NSI.DC.Exceptions;
 using NSI.DC.MeetingsRepository;
+using NSI.DC.Response;
+using NSI.REST.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +27,34 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_meetingsManipulation.GetMeetings());
+            try {
+                return Ok(new NSIResponse<ICollection<MeetingDto>>() {
+                    Data = _meetingsManipulation.GetMeetings(),
+                    Message = "Success"
+                });
+            }
+            catch(Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(_meetingsManipulation.GetMeetingById(id));
+            try { 
+                var meeting = _meetingsManipulation.GetMeetingById(id);
+                if (meeting != null)
+                    return Ok(meeting);
+
+                return NoContent();
+            }
+            catch(NSIException ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -42,14 +66,17 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _meetingsManipulation.Create(model);
-                return Ok("New meeting created");
+                return Ok(new NSIResponse<MeetingDto>()
+                {
+                    Data = _meetingsManipulation.CreateMeeting(model),
+                    Message = "New meeting created"
+                });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-            return BadRequest();
 
         }
 
@@ -62,15 +89,17 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _meetingsManipulation.Update(id, model);
-                return Ok("Meeting updated");
+                return Ok(new NSIResponse<MeetingDto>()
+                {
+                    Data = _meetingsManipulation.EditMeeting(id, model),
+                    Message = "Meeting updated"
+                });
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-
-            return BadRequest();
         }
         [HttpDelete("{id}")]
         public IActionResult DeleteMeeting(int id)
@@ -81,15 +110,83 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _meetingsManipulation.Delete(id);
-                return Ok("Meeting deleted");
+                _meetingsManipulation.RemoveMeeting(id);
+                return Ok(new NSIResponse<object>()
+                {
+                    Data = null,
+                    Message = "Meeting deleted"
+                });
             }
             catch(Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-
-            return BadRequest();
         }
+
+        [HttpGet("getMeetingWithPaging")]
+        [ProducesResponseType(typeof(NSIResponse<ICollection<MeetingDto>>), 200)]
+        public IActionResult GetMeetings(
+         [FromQuery] int? page,
+         [FromQuery] int? pageSize)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>> { Data = _meetingsManipulation.GetMeetings(page, pageSize), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        [Route("searchMeeting")]
+        public IActionResult Search([FromBody]MeetingsSearchModel model, int pageNumber, int pageSize)
+        {
+            try
+            {
+                if (model == null)
+                    throw new NSIException("MeetingSearchModel is null", DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+
+                MeetingDto meetingDto = new MeetingDto()
+                {
+                    MeetingId = model.MeetingId,
+                    To = model.To,
+                    Title = model.Title,
+                    From = model.From,
+                    UserMeeting = model.UserMeeting.Select(x => new UserMeetingDto()
+                    {
+                        UserId = x.UserId,
+                        UserName = x.UserName
+                    })
+                };
+
+                return Ok(new NSIResponse<ICollection<MeetingDto>> { Data = _meetingsManipulation.SearchMeetings(meetingDto, pageNumber, pageSize), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+
     }
 }

@@ -1,17 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Meeting } from './meeting';
 import { MeetingsService } from '../../../services/meetings.service';
 import { UsersService } from '../../../services/users.service';
 import { ActivatedRoute } from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-meeting-new',
   templateUrl: './meeting-new.component.html',
   styleUrls: ['./meeting-new.component.scss']
 })
-export class MeetingNewComponent {
+export class MeetingNewComponent implements OnInit, AfterViewInit {
 
-  users = ["user 1", "user 2", "user 3", "user 5", "user 4"]
+  ngAfterViewInit(): void {
+    $('#from').datetimepicker();
+    $('#to').datetimepicker({
+      useCurrent: false //Important! See issue #1075
+    });
+    $("#from").on("dp.change", function (e: any) {
+      $('#to').data("DateTimePicker").minDate(e.date);
+    });
+    $("#to").on("dp.change", function (e: any) {
+      $('#from').data("DateTimePicker").maxDate(e.date);
+    });
+  }
 
   query: string;
   filteredList: string[];
@@ -24,6 +37,7 @@ export class MeetingNewComponent {
     this.filteredList = [];
     this.model = new Meeting();
   }
+
 
   filter() {
     if (this.query.length > 2) {
@@ -47,9 +61,9 @@ export class MeetingNewComponent {
   }
 
   onSubmit() {
-    console.log("Form submitted");
-    this.model.from = '01/01/2001';
-    this.model.to = '01/01/2002';
+    this.model.from = new Date($('#from').val()).toLocaleString()
+    this.model.to = new Date($('#to').val()).toLocaleString()
+    console.log(this.model);
     this.meetingsService.postMeeting(this.model).subscribe((r: any) => console.log('Hazime imamo bingo: ' + r),
       (error: any) => console.log("Error: " + error.message));
   }
@@ -62,32 +76,37 @@ export class MeetingNewComponent {
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
     this.meetingsService.getMeetingById(this.id).subscribe(data => {
-      if(data != null)
-      {
+      if (data != null) {
         this.edit = true;
-        
+
         this.model.title = data.title;
-        this.model.date = data.from + " " + data.to;
+        this.model.from = new Date(data.from).toLocaleString();
+        this.model.to = new Date(data.to).toLocaleString();
         this.model.userMeeting = data.userMeeting;
       }
-      console.log(this.edit); 
+      console.log(this.edit);
     });
- }
 
-  updateMeeting(){
-    let toArray = this.model.date.split(" ");
-    this.model.from = toArray[0];
-    this.model.to = toArray[1];
-    console.log(this.model.from);
-    console.log(this.model.to);
+    let dateFrom = this.route.snapshot.queryParamMap.get("dateFrom");
+    let dateTo = this.route.snapshot.queryParamMap.get("dateTo");
+
+    if(dateFrom && dateTo) {
+      this.model.from = new Date(Number.parseInt(dateFrom)).toLocaleString();
+      this.model.to = new Date(Number.parseInt(dateTo)).toLocaleString();
+    }
+  }
+
+  updateMeeting() {
+    this.model.from = new Date($('#from').val()).toLocaleString()
+    this.model.to = new Date($('#to').val()).toLocaleString()
     this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
-    (error: any) => console.log("Error: " + error.message));
+      (error: any) => console.log("Error: " + error.message));
 
   }
 
-  deleteMeeting(){
+  deleteMeeting() {
     console.log(this.id);
-    this.meetingsService.deleteMeetingById(this.id).subscribe((r:any) => console.log('Brisemo meeting:' + r),
-  (error: any) => console.log("Error: " + error.message));
+    this.meetingsService.deleteMeetingById(this.id).subscribe((r: any) => console.log('Brisemo meeting:' + r),
+      (error: any) => console.log("Error: " + error.message));
   }
 }

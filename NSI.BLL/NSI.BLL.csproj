@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
     <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
+    <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
   </ItemGroup>
 
 </Project>

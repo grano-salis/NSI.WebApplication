@@ -10,4 +10,15 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TransactionRepository\" />
+    <Folder Include="PricingPackageRepository\" />
+    <Folder Include="PaymentGatewayRepository\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
+  </ItemGroup>
 </Project>

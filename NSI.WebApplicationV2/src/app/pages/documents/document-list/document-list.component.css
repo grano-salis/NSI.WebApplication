@@ -1,20 +1,52 @@
 .cloud {
-	background-color: #ecf0f1
+  background-color: #ecf0f1
 }
 
-#imaginary_container{
-    margin-top:20%; 
+#imaginary_container {
+  margin-top: 20%;
 }
 
-.stylish-input-group .input-group-addon{
-    background: white !important; 
+.stylish-input-group .input-group-addon {
+  background: white !important;
 }
-.stylish-input-group .form-control{
-	border-right:0; 
-	box-shadow:0 0 0; 
-	border-color:#ccc;
+
+.stylish-input-group .form-control {
+  border-right: 0;
+  box-shadow: 0 0 0;
+  border-color: #ccc;
 }
+
+.stylish-input-group button {
+  border: 0;
+  background: transparent;
+}
+
 .stylish-input-group button{
     border:0;
     background:transparent;
+}
+
+.border-radius-table {
+    border: 2px solid #ecf0f1; 
+    border-radius: 60px;
+}
+
+.table > tbody > tr > td, .glyphicon {
+    vertical-align: middle;
+}
+
+.table, .glyphicon {
+    font-size: 12px;
+}
+
+td, small {
+    font-size: 13px;
+}
+
+p, button, td, button {
+    margin: 0px;
+}	
+
+select {
+    margin-bottom: 10px;
 }
