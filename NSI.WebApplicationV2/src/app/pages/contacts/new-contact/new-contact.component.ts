@@ -19,8 +19,6 @@ export class NewContactComponent {
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private contactsService: ContactsService, private route: ActivatedRoute) {
-    this.phone = 0;
-    this.email = 0;
     this.phones = new Array();
     this.emails = new Array();
     this.temp_contact = new Contact();
@@ -40,22 +38,18 @@ export class NewContactComponent {
   }
 
   newPhone() {
-    this.phone++;
-    this.phones.push(this.phone.toString());
+    this.phones.push((this.phones.length + 1 ).toString());
   }
 
   newEmail() {
-    this.email++;
-    this.emails.push(this.email.toString());
+    this.emails.push((this.emails.length + 1 ).toString());
   }
 
   deletePhone() {
-    this.phone--;
     this.phones.pop();
   }
 
   deleteEmail() {
-    this.email--;
     this.emails.pop();
   }
 }
