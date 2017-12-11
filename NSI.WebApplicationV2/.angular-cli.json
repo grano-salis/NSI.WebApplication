@@ -28,6 +28,7 @@
         "../node_modules/gentelella/vendors/iCheck/skins/flat/green.css",
         "../node_modules/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css",
         "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+        "../node_modules/ngx-toastr/toastr.css",
         "main.scss"
       ],
       "scripts": [
