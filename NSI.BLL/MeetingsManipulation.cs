@@ -44,5 +44,20 @@ namespace NSI.BLL
             ValidationHelper.IntegerGreaterThanZero(meetingId, name: "Meeting id");
             return _meetingsRepository.GetMeetingById(meetingId);
         }
+
+        public ICollection<MeetingDto> GetMeetings(int? pageNumber = null, int? pageSize = null)
+        {
+            var meetings = _meetingsRepository.GetMeetings();
+            if (pageNumber != null && pageSize != null)
+            {
+                return PagingHelper<MeetingDto>.PagedList(meetings, (int)pageNumber, (int)pageSize);
+            }
+            return meetings;
+        }
+
+        public ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria, int pageNumber, int pageSize)
+        {
+            return PagingHelper<MeetingDto>.PagedList(_meetingsRepository.SearchMeetings(searchCriteria), pageNumber, pageSize);
+        }
     }
 }

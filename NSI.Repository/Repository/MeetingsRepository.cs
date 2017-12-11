@@ -7,6 +7,7 @@ using IkarusEntities;
 using System.Linq;
 using NSI.DC.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using NSI.DC.Exceptions.Enums;
 
 namespace NSI.Repository
 {
@@ -87,5 +88,32 @@ namespace NSI.Repository
                 throw new NSIException("Error while deleting meeting");
             }
         }
+
+        public ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria)
+        {
+            if (searchCriteria == null)
+            {
+                Logger.Logger.LogError("Meetings searchCriteria is null!");
+                throw new NSIException("Parameter searchCriteria is null!", Level.Error, ErrorType.InvalidParameter);
+            }
+            var meetings = from meeting in _dbContext.Meeting select meeting;
+
+            if (searchCriteria.MeetingId != 0)
+                meetings = meetings.Where(x => x.MeetingId == searchCriteria.MeetingId);
+
+            if (!string.IsNullOrEmpty(searchCriteria.Title))
+                meetings = meetings.Where(x => x.Title.Contains(searchCriteria.Title));
+
+            if (searchCriteria.To != null)
+                meetings = meetings.Where(x => x.To.Value.Date == searchCriteria.To.Value.Date);
+
+            ICollection<MeetingDto> meetingsDto = new List<MeetingDto>();
+            foreach (var item in meetings)
+            {
+                meetingsDto.Add(Mappers.MeetingsRepository.MapToDto(item));
+            }
+            return meetingsDto;
+        }
+
     }
 }

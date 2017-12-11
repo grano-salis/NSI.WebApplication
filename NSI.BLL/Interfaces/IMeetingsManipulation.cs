@@ -12,5 +12,7 @@ namespace NSI.BLL.Interfaces
         MeetingDto EditMeeting(int meetingId, MeetingDto model);
         void RemoveMeeting(int meetingId);
         MeetingDto GetMeetingById(int id);
+        ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria, int pageNumber, int pageSize);
+        ICollection<MeetingDto> GetMeetings(int? page, int? pageSize);
     }
 }

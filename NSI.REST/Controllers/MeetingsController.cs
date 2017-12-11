@@ -3,6 +3,7 @@ using NSI.BLL.Interfaces;
 using NSI.DC.Exceptions;
 using NSI.DC.MeetingsRepository;
 using NSI.DC.Response;
+using NSI.REST.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,5 +123,70 @@ namespace NSI.REST.Controllers
                 return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
+
+        [HttpGet("getMeetingWithPaging")]
+        [ProducesResponseType(typeof(NSIResponse<ICollection<MeetingDto>>), 200)]
+        public IActionResult GetMeetings(
+         [FromQuery] int? page,
+         [FromQuery] int? pageSize)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>> { Data = _meetingsManipulation.GetMeetings(page, pageSize), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        [Route("searchMeeting")]
+        public IActionResult Search([FromBody]MeetingsSearchModel model, int pageNumber, int pageSize)
+        {
+            try
+            {
+                if (model == null)
+                    throw new NSIException("MeetingSearchModel is null", DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+
+                MeetingDto meetingDto = new MeetingDto()
+                {
+                    MeetingId = model.MeetingId,
+                    To = model.To,
+                    Title = model.Title,
+                    From = model.From,
+                    UserMeeting = model.UserMeeting.Select(x => new UserMeetingDto()
+                    {
+                        UserId = x.UserId,
+                        UserName = x.UserName
+                    })
+                };
+
+                return Ok(new NSIResponse<ICollection<MeetingDto>> { Data = _meetingsManipulation.SearchMeetings(meetingDto, pageNumber, pageSize), Message = "Success" });
+            }
+            catch (NSIException ex)
+            {
+                Logger.Logger.LogError(ex);
+                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+                    return NoContent();
+                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex);
+                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+
     }
 }
