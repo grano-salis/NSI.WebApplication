@@ -19,6 +19,6 @@ import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
     FormsModule,
     Ng4GeoautocompleteModule.forRoot()
   ],
-  declarations: [AddressComponent, AddressNewComponent, AddressListComponent, AddressTypeNewComponent, AddressTypeListComponent]
+  declarations: [AddressComponent, AddressNewComponent, AddressListComponent, AddressTypeListComponent, AddressTypeNewComponent]
 })
 export class AddressModule { }

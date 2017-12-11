@@ -17,7 +17,6 @@ namespace NSI.REST.Models
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
         public bool? IsDeleted { get; set; }
-        public int? CustomerId { get; set; }
     }
 
     public class AddressTypeEditModel
@@ -29,6 +28,5 @@ namespace NSI.REST.Models
         [DataType(DataType.Date)]
         public DateTime? ModifiedDate { get; set; }
         public bool? IsDeleted { get; set; }
-        public int? CustomerId { get; set; }
     }
 }

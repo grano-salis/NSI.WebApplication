@@ -12,6 +12,6 @@ namespace NSI.Repository.Interfaces
         TaskDto GetTaskById(int taskId);
         ICollection<TaskDto> GetTasks();
         bool DeleteTaskById(int taskId);
-        TaskDto EditTask(int taskId, TaskDto task);
+        bool EditTask(int taskId, TaskDto task);
     }
 }

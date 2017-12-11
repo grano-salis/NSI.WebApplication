@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Hearing} from '../../hearings/hearing-new/hearing';
 import {Address} from '../address.model';
 import {AddressService} from '../../../services/address.service';
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
@@ -46,7 +47,7 @@ export class AddressNewComponent implements OnInit {
   onSubmit() {
     console.log('Usao');
     console.log(this.address);
-    console.log('Prosao');
+    console.log();
 
     this.addressService.postAddress(this.address).subscribe((r: any) => console.log('Post method address: ' + r),
       (error: any) => console.log('Error: ' + error.message));

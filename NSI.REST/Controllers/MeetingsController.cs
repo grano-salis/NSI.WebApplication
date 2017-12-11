@@ -73,7 +73,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex);
+                Logger.Logger.LogError(ex.Message);
                 return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
 

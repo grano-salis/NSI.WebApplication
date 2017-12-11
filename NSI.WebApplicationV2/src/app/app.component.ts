@@ -10,6 +10,7 @@ import { Logger } from './core/services/logger.service';
 import { I18nService } from './core/services/i18n.service';
 
 const log = new Logger('App');
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
