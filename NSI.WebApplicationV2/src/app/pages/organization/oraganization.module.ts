@@ -1,6 +1,7 @@
 import { CustomersDetailsComponent } from './CustomerDetails/CustomersDetailsComponent';
 import { CustomersListComponent } from './CustomersList/customersListComponent';
 import { CustomersService } from '../../services/customers.service';
+import { PricingPackagesService } from '../../services/pricing-package.service';
 import { OrganizationRoutingModule } from './oraganization-routing.module';
 import { SharedModule } from './../../shared/shared.module';
 import { CommonModule } from '@angular/common';
@@ -15,6 +16,6 @@ import { FormsModule } from '@angular/forms';
     OrganizationRoutingModule
   ],
   declarations: [CustomersListComponent, CustomersDetailsComponent],
-	providers: [CustomersService]
+	providers: [CustomersService, PricingPackagesService]
 })
 export class OrganizationModule { }

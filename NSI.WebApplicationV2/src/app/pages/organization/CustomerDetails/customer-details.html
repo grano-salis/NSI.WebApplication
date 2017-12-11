@@ -69,9 +69,8 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Pricing packet<span class="required">*</span>
                         </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text">
-                              <option>10 dolara</option>
-                              <option>20 dolara</option>
+									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.pricingPackage?.pricingPackageId" (ngModelChange)="customer.pricingPackage.pricingPackageId">
+										<option *ngFor="let package of pricingPackages" value="package.pricingPackageId">{{package.pricingPackageName}} ({{package.price}})</option>
                           </select>
                 </div>
               </div>
