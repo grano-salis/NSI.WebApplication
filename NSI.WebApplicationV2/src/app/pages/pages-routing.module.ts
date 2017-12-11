@@ -16,6 +16,8 @@ const routes: Routes = [
       {path: 'documents', loadChildren: './documents/documents.module#DocumentsModule'},
       {path: 'address', loadChildren: './address/address.module#AddressModule'},
       {path: 'hearings', loadChildren: './hearings/hearings.module#HearingsModule'},
+      {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'}
+      
     ]
   }
 ];

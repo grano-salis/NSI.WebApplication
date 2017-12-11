@@ -55,7 +55,17 @@
             </li>
           </ul>
         </li>
-
+        <li>
+          <a id="tasksli" (click)="anchorClicked($event)">
+            <i class="fa fa-tasks"></i> Tasks
+            <span id="taskschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/tasks']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a>Overview</a>
+            </li>
+          </ul>
+        </li>
         <li >
           <a id="hearingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-check-o"></i> Hearings
