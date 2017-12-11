@@ -5,7 +5,7 @@ import {ContactsService} from "../../../services/contacts.service";
 @Component({
   selector: 'app-contact-modal',
   templateUrl: './contact-modal.component.html',
-  styleUrls: []
+  styleUrls: ['../contacts.component.css']
 })
 export class ContactModalComponent implements OnInit, AfterViewInit {
   @Input() temp_contact: any;

@@ -13,16 +13,16 @@
         <div class="modal-body">
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
-              <label for="form_name">First name</label>
-              <input id="form_name" type="text" name="name" class="form-control"  [(ngModel)]="temp_contact.firsttName"
-                     required data-error="First name is required.">
+              <label for="form_name"> <b> First name </b> </label>
+              <input id="form_name" type="text" name="name" class="form-control form-input-beauty"  [(ngModel)]="temp_contact.firsttName"
+                     required data-error="First name is required." placeholder="First name">
               <div class="help-block with-errors"></div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
-              <label for="form_lastname">Last Name </label>
-              <input id="form_lastname" name="surname" class="form-control" placeholder=""
+              <label for="form_lastname"> <b> Last Name </b> </label>
+              <input id="form_lastname" name="surname" class="form-control form-input-beauty" placeholder="Last name"
                      [(ngModel)]="temp_contact.lastName"
                      required data-error="Last name is required.">
               <div class="help-block with-errors"></div>
@@ -30,9 +30,9 @@
           </div>
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
-              <label for="form_email">Email *</label>
-              <input id="form_email" type="email" name="email" class="form-control"  [(ngModel)]="temp_contact.email"
-                     required
+              <label for="form_email"> <b>Email </b></label>
+              <input id="form_email" type="email" name="email" class="form-control form-input-beauty"  [(ngModel)]="temp_contact.email"
+                     required placeholder="Email"
                      data-error="Valid email is required.">
               <div class="help-block with-errors"></div>
             </div>
@@ -40,16 +40,16 @@
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
               <label for="form_phone">Phone</label>
-              <input id="form_phone" type="tel" name="phone" [(ngModel)]="temp_contact.phone"
-                     class="form-control">
+              <input  id="form_phone" type="tel" name="phone" [(ngModel)]="temp_contact.phone"
+                     class="form-control form-input-beauty" placeholder="Phone">
               <div class="help-block with-errors"></div>
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
-              <label for="form_mobile">Mobile</label>
+              <label for="form_mobile" >Mobile</label>
               <input id="form_mobile" type="tel" name="mobile" [(ngModel)]="temp_contact.mobile"
-                     class="form-control">
+                     class="form-control form-input-beauty" placeholder="Mobile">
               <div class="help-block with-errors"></div>
             </div>
           </div>

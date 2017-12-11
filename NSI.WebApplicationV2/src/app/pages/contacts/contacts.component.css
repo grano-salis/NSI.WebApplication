@@ -32,3 +32,18 @@
   margin-bottom: 35px !important;
   height: 0;
 }
+
+.input:active {
+  border-color: darkblue;
+}
+
+.form-input-beauty:active, .form-input-beauty:focus {
+  border-color: #00aeef;
+}
+
+.form-input-beauty{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: content-box;
+  width: 95%;
+}
