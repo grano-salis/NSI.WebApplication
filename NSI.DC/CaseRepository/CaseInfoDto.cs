@@ -12,7 +12,7 @@ namespace NSI.DC.CaseRepository
 		public string CaseNumber { get; set; }
 		public string CourtNumber { get; set; }
 		public decimal? Value { get; set; }
-        public char? Judge { get; set; }
+        public string Judge { get; set; }
         public string Court { get; set; }
         public string CounterParty { get; set; }
         public string Note { get; set; }
