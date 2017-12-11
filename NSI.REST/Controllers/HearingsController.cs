@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NSI.BLL.Interfaces;
 using NSI.DC.HearingsRepository;
+using NSI.DC.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,15 +29,17 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _hearingsManipulation.Create(model);
-                return Ok("New hearing created");
+                return Ok(new NSIResponse<HearingDto>()
+                {
+                    Data = _hearingsManipulation.CreateHearing(model),
+                    Message = "New hearing created"
+                });
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-            return BadRequest();
-
         }
 
         [HttpPut("{id}")]
@@ -48,15 +51,17 @@ namespace NSI.REST.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _hearingsManipulation.Update(id, model);
-                return Ok("Hearing updated");
+                return Ok(new NSIResponse<HearingDto>()
+                {
+                    Data = _hearingsManipulation.UpdateHearing(id, model),
+                    Message = "Hearing updated"
+                });
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-
-            return BadRequest();
         }
 
         [HttpGet]
@@ -65,35 +70,54 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                var hearings = _hearingsManipulation.GetHearingsByCase(caseId);
-                if (hearings != null)
-                    return Ok(hearings);
+                return Ok(new NSIResponse<ICollection<HearingDto>>()
+                {
+                    Data = _hearingsManipulation.GetHearingsByCase(caseId),
+                    Message = "Success"
+                });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-            return NoContent();
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var hearings = _hearingsManipulation.GetHearings();
-            if (hearings != null)
-                return Ok(hearings);
+            try
+            {
+                return Ok(new NSIResponse<ICollection<HearingDto>>()
+                {
+                    Data = _hearingsManipulation.GetHearings(),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
 
-            return NoContent();
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var hearing = _hearingsManipulation.GetHearingById(id);
-            if (hearing != null)
-                return Ok(hearing);
-
-            return NoContent();
+            try
+            {
+                return Ok(new NSIResponse<HearingDto>()
+                {
+                    Data = _hearingsManipulation.GetHearingById(id),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]
@@ -106,14 +130,17 @@ namespace NSI.REST.Controllers
                     return BadRequest(ModelState);
                 }
                 _hearingsManipulation.Delete(id);
-                return Ok("Meeting deleted");
+                return Ok(new NSIResponse<object>()
+                {
+                    Data = null,
+                    Message = "Hearing deleted"
+                });
             }
             catch (Exception ex)
             {
                 Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
-
-            return BadRequest();
         }
     }
 }

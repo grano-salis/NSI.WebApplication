@@ -29,7 +29,7 @@ namespace NSI.BLL
             return _taskRepository.DeleteTaskById(taskId);
         }
 
-        public bool EditTask(int taskId, TaskDto task)
+        public TaskDto EditTask(int taskId, TaskDto task)
         {
             return _taskRepository.EditTask(taskId, task);
         }

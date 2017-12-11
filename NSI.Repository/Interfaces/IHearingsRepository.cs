@@ -7,11 +7,11 @@ namespace NSI.Repository.Interfaces
 {
     public interface IHearingsRepository
     {
-        void Insert(HearingDto Model);
-        void Update(int hearingId, HearingDto model);
+        HearingDto InsertHearing(HearingDto Model);
+        HearingDto UpdateHearing(int hearingId, HearingDto model);
         ICollection<HearingDto> GetHearingsByCase(int caseId);
         ICollection<HearingDto> GetHearings();
         HearingDto GetHearingById(int id);
-        void Delete(int hearingId);
+        void DeleteHearing(int hearingId);
     }
 }

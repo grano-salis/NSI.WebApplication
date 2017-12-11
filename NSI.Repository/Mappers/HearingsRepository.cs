@@ -34,18 +34,7 @@ namespace NSI.Repository.Mappers
                 HearingId = entity.HearingId,
                 HearingDate = entity.HearingDate,
                 CreatedByUserId = entity.CreatedByUserId,
-                CaseId = entity.CaseId,
-                UserHearing = entity.UserHearing.Select(x => new UserHearingDto()
-                {
-                    UserId = x.UserId,
-                    UserName = x.User.Username
-                }),
-                Note = entity.Note.Select(x => new NoteDto()
-                {
-                    Text = x.Text,
-                    CreatedByUserId = x.CreatedByUserId,
-                    HearingId = x.HearingId
-                })
+                CaseId = entity.CaseId
             };
         }
     }

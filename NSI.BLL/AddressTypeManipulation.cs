@@ -4,7 +4,7 @@ using System.Text;
 using NSI.Repository;
 using NSI.BLL.Interfaces;
 using NSI.Repository.Interfaces;
-using NSI.DC.AddressRepository;
+using NSI.DC.AddressTypeRepository;
 
 namespace NSI.BLL
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NSI.DC.Validators;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -21,6 +22,7 @@ namespace NSI.DC.HearingsRepository
         public int CaseId { get; set; }
         
         [DataMember]
+        [EnsureOneElement(ErrorMessage = "At least one user is required")]
         public IEnumerable<UserHearingDto> UserHearing { get; set; }
 
         [DataMember]

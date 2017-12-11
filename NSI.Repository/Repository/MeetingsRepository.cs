@@ -18,112 +18,70 @@ namespace NSI.Repository
             _dbContext = dbContext;
         }
 
-        public void Insert(MeetingDto model)
-        {
-            try
-            {
-                var entity_meeting = Mappers.MeetingsRepository.MapToDbEntity(model);
-                _dbContext.Meeting.Add(entity_meeting);
-                _dbContext.SaveChanges();
-            }
-            catch(Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new Exception("Something went wrong with database");
-            }
-        }
         public ICollection<MeetingDto> GetMeetings()
         {
-            try
-            {
-                var meetings = _dbContext.Meeting.Where(x => x.IsDeleted == false);
-                if (meetings != null)
-                {
-                    ICollection<MeetingDto> meetingDto = new List<MeetingDto>();
-                    foreach (var item in meetings)
-                    {
-                        meetingDto.Add(Mappers.MeetingsRepository.MapToDto(item));
-                    }
-                    return meetingDto;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new Exception("Database error!");
-            }
-            return null;
-        }
-        public void Update(int meetingId, MeetingDto model)
-        {
-            try
-            {
-                var meetingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId && x.IsDeleted == false);
-                if (meetingTmp != null)
-                {
-                    //remove all users for this meeting from UserMeeting table
-                    var atendees = _dbContext.UserMeeting.Where(x => x.MeetingId == meetingId).ToList();
-                    if (atendees != null)
-                        _dbContext.UserMeeting.RemoveRange(atendees);
-
-                    //update data
-                    meetingTmp.Title = model.Title != null ? model.Title : meetingTmp.Title;
-                    meetingTmp.DateModified = DateTime.Now;
-                    meetingTmp.From = model.From != null ? model.From : meetingTmp.From;
-                    meetingTmp.To = model.To != null ? model.To : meetingTmp.To;
-
-                    //update users
-                    foreach (var item in model.UserMeeting)
-                        meetingTmp.UserMeeting.Add(new UserMeeting() { UserId = item.UserId, MeetingId = meetingId });
-
-                    _dbContext.SaveChanges();
-
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Logger.LogError(e.Message);
-                throw new Exception("Database error!");
-
-            }
-        }
-
-        public void Delete(int meetingId)
-        {
-            try
-            {
-                if (meetingId < 0) throw new Exception("id must be positive");
-                var meetingTmp = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
-                if (meetingTmp != null)
-                {
-                    meetingTmp.IsDeleted = true;
-                    meetingTmp.DateModified = DateTime.Now;
-                    _dbContext.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex.Message);
-                throw new Exception("Database error!");
-            }
+            return _dbContext.Meeting.Where(x => x.IsDeleted == false)
+                .Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
         }
 
         public MeetingDto GetMeetingById(int id)
         {
-            try
+            var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id && x.IsDeleted == false);
+            if (meeting == null) throw new NSIException("Meeting not found");
+            return Mappers.MeetingsRepository.MapToDto(meeting);
+        }
+
+        public MeetingDto InsertMeeting(MeetingDto model)
+        {
+            var entity_meeting = Mappers.MeetingsRepository.MapToDbEntity(model);
+            _dbContext.Meeting.Add(entity_meeting);
+            if (_dbContext.SaveChanges() > 0)
             {
-                var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id && x.IsDeleted == false);
-                if (meeting != null)
-                {
-                    return Mappers.MeetingsRepository.MapToDto(meeting);
-                }
+                return Mappers.MeetingsRepository.MapToDto(entity_meeting);
             }
-            catch (Exception ex)
+            throw new NSIException("Erro while inserting new meeting");
+            
+        }
+
+        public MeetingDto UpdateMeeting(int meetingId, MeetingDto model)
+        {
+            var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId && x.IsDeleted == false);
+            if (meeting == null) throw new NSIException("Meeting not found");
+            //remove all users for this meeting from UserMeeting table
+            var atendees = _dbContext.UserMeeting.Where(x => x.MeetingId == meetingId).ToList();
+            if (atendees != null)
+                _dbContext.UserMeeting.RemoveRange(atendees);
+
+            //update data
+            meeting.Title = model.Title ?? meeting.Title;
+            meeting.DateModified = DateTime.Now;
+            meeting.From = model.From != null ? model.From : meeting.From;
+            meeting.To = model.To != null ? model.To : meeting.To;
+
+            //update users
+            foreach (var item in model.UserMeeting)
+                meeting.UserMeeting.Add(new UserMeeting() { UserId = item.UserId, MeetingId = meetingId });
+
+
+            if (_dbContext.SaveChanges() > 0)
             {
-                Logger.Logger.LogError(ex.Message);
-                throw new NSIException("Database error!");
+                return Mappers.MeetingsRepository.MapToDto(meeting);
             }
-            return null;
+            throw new NSIException("Erro while updating new meeting");
+
+        }
+
+        public void DeleteMeeting(int meetingId)
+        {
+            var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == meetingId);
+            if (meeting == null) throw new NSIException("Meeting not found");
+
+            meeting.IsDeleted = true;
+            meeting.DateModified = DateTime.Now;
+            if(_dbContext.SaveChanges() == 0)
+            {
+                throw new NSIException("Error while deleting meeting");
+            }
         }
     }
-    }
+}
