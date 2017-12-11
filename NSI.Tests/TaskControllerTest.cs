@@ -20,20 +20,12 @@ namespace NSI.Tests
         IkarusContext db = new IkarusContext();
         ITaskRepository itr => new TaskRepository(db);
         ITaskManipulation itm => new TaskManipulation(itr);
-        [Fact]
-        public void getAllTest()
-        {
-            var controller = new TasksController(itm);
-            var result = controller.Get();
-            Assert.IsType<OkObjectResult>(result);
-
-        }
-
+        
         [Fact]
         public void getWithPagingTest ()
         {
             var controller = new TasksController(itm);
-            var result = controller.GetWithPaging(3,1); 
+            var result = controller.GetTasks(3, 1); 
             Assert.IsType<OkObjectResult>(result);
             
         }
@@ -42,7 +34,7 @@ namespace NSI.Tests
         public void getWithPagingTest_ReturnsNoContent()
         {
             var controller = new TasksController(itm);
-            var result = controller.GetWithPaging(1, 1);
+            var result = controller.GetTasks(3, 1);
             Assert.IsType<OkObjectResult>(result);
             
 
@@ -52,7 +44,7 @@ namespace NSI.Tests
         public void getTest()
         {
             var controller = new TasksController(itm);
-            var result = controller.Get(3);
+            var result = controller.GetTaskById(3);
             Assert.IsType<OkObjectResult>(result);
         }
 
@@ -63,7 +55,7 @@ namespace NSI.Tests
             var mockRepo = new Mock<ITaskManipulation>();
             var controller = new TasksController(mockRepo.Object);
             controller.ModelState.AddModelError("error", "some error");
-            var result = controller.Post(model: null);
+            var result = controller.InsertTask(model: null);
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
@@ -111,7 +103,7 @@ namespace NSI.Tests
             taskRepo.Setup(x => x.CreateTask(task2));
             var taskManipulation = new TaskManipulation(taskRepo.Object);
             var controller = new TasksController(taskManipulation);
-            var result = controller.Post(task);
+            var result = controller.InsertTask(task);
             Assert.IsType<OkObjectResult>(result);
         }
 
@@ -121,7 +113,7 @@ namespace NSI.Tests
             var mockRepo = new Mock<ITaskManipulation>();
             var controller = new TasksController(mockRepo.Object);
             controller.ModelState.AddModelError("error", "some error");
-            var result = controller.Put(6,model: null);
+            var result = controller.ChangeTask(6,model: null);
             Assert.IsType<BadRequestObjectResult>(result);
             Assert.IsType<BadRequestObjectResult>(result);
         }
@@ -169,7 +161,7 @@ namespace NSI.Tests
             taskRepo.Setup(x => x.EditTask(id,task2));
             var taskManipulation = new TaskManipulation(taskRepo.Object);
             var controller = new TasksController(taskManipulation);
-            var result = controller.Put(id,task);
+            var result = controller.ChangeTask(id,task);
             Assert.IsType<OkObjectResult>(result);
         }
 
