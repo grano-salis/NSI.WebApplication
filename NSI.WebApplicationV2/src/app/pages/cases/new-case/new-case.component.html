@@ -1,3 +1,96 @@
-<p>
-  new-case works!
-</p>
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="x_panel">
+    <div class="x_title">
+      <h2 >Create new case</h2>
+      <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+      <form (ngSubmit)="onSubmit()" #caseForm="ngForm" class="form-horizontal form-label-left">
+        <!-- Case Number -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="caseNumber">Case Number
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="caseNumber" required [(ngModel)]="model.caseNumber" name="caseNumber" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- Court Number -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="courtNumber">Court Number
+            <span class="required">*</span>
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="courtNumber" required [(ngModel)]="model.courtNumber" name="courtNumber" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- Court -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="court">Court
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="court" required [(ngModel)]="model.court" name="court" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- Judge -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="judge">Judge
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="judge" required [(ngModel)]="model.judge" name="judge" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- counterParty -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="counterParty">Counter Party
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="counterParty" required [(ngModel)]="model.counterParty" name="counterParty" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- Note -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Note
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="text" id="note" required [(ngModel)]="model.note" name="note" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- Value -->
+        <div class="form-group">
+          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="note">Value
+          </label>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <input type="number" id="value" required [(ngModel)]="model.value" name="value" #title="ngModel"
+                   class="form-control col-md-7 col-xs-12">
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="ln_solid"></div>
+        <div class="form-group">
+          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <!--<button type="button" class="btn btn-success" (click)="updateMeeting()" *ngIf="edit" [disabled]="!meetingForm.form.valid">Update</button>-->
+            <button type="submit" class="btn btn-success">Submit</button>
+            <!--<button type="reset" class="btn btn-default" (click)="newMeeting(); meetingForm.reset()">New meeting</button>-->
+            <!--<button type="button" class="btn btn-danger" (click)="deleteMeeting()" [disabled]="!meetingForm.form.valid">Delete</button>-->
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
