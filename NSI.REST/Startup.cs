@@ -76,7 +76,6 @@ namespace NSI.REST
             services.AddScoped<IUsersManipulation, UsersManipulation>();
             services.AddScoped<IHearingsRepository, HearingsRepository>();
             services.AddScoped<IHearingsManipulation, HearingsManipulation>();
-            services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionManipulation, TransactionManipulation>();
             services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();

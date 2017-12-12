@@ -14,30 +14,31 @@ using NSI.DC.DocumentRepository;
 
 namespace NSI.REST.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/Documents")]
     public class DocumentController : Controller
     {
-        private readonly IDocumentManipulation _documentManipulation;
+        private IDocumentManipulation _documentManipulation { get; set; }
 
         public DocumentController(IDocumentManipulation documentManipulation)
         {
             _documentManipulation = documentManipulation;
         }
 
-        // GET: api/values
+        // GET: api/Documents
         [HttpGet]
-        public List<DocumentDto> Get()
+        public IActionResult Get()
         {
-            return _documentManipulation.GetAllDocuments();
+            return Ok(_documentManipulation.GetAllDocuments());
         }
 
         [HttpPost]
         [Route("paging")]
-        public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
+        public IActionResult GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
         {
             try
             {
-                return _documentManipulation.GetDocumentsByPage(queryDto);
+                return Ok(_documentManipulation.GetDocumentsByPage(queryDto));
             }
             catch (Exception ex)
             {
@@ -47,11 +48,11 @@ namespace NSI.REST.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public DocumentDto Get(int id)
+        public IActionResult Get(int id)
         {
             try
             {
-                return _documentManipulation.GetDocumentById(id);
+                return Ok(_documentManipulation.GetDocumentById(id));
             }
             catch (Exception e)
             {
@@ -85,18 +86,18 @@ namespace NSI.REST.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]DocumentDto documentDto)
+        public IActionResult Put(int id, [FromBody]DocumentDto documentDto)
         {
-            _documentManipulation.EditDocument(id, documentDto);
+            return Ok(_documentManipulation.EditDocument(id, documentDto));
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}/{currentUserId}")]
-        public void Delete(int id, int currentUserId)
+        public IActionResult Delete(int id, int currentUserId)
         {
             try
             {
-                _documentManipulation.DeleteDocument(id);
+                return Ok(_documentManipulation.DeleteDocument(id));
             }
             catch (Exception e)
             {
