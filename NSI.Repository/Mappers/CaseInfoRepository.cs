@@ -59,7 +59,8 @@ namespace NSI.Repository.Mappers
                 CaseCategory = caseInfo.CaseCategory,
                 CustomerId = caseInfo.CustomerId,
                 ClientId = caseInfo.ClientId,
-                CreatedByUserId = caseInfo.CreatedByUserId
+                CreatedByUserId = caseInfo.CreatedByUserId,
+                CaseId = caseInfo.CaseId
 			};
 		}
 
