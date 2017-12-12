@@ -100,7 +100,7 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool EditCaseCategoryById(int caseCategoryId, CaseCategoryDto caseCategoryDto)
+        public bool EditCaseCategory(int caseCategoryId, CaseCategoryDto caseCategoryDto)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool EditClientTypeById(int clientTypeId, ClientTypeDto clientTypeDto)
+        public bool EditClientType(int clientTypeId, ClientTypeDto clientTypeDto)
         {
             try
             {
@@ -312,7 +312,7 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool EditDocumentCategoryById(int documentCategoryId, DocumentCategoryDto documentCategoryDto)
+        public bool EditDocumentCategory(int documentCategoryId, DocumentCategoryDto documentCategoryDto)
         {
             try
             {
@@ -364,7 +364,7 @@ namespace NSI.Repository
             try
             {
                 var fileType = Mappers.AdminRepository.MapToDbEntityFile(fileTypeDto);
-                fileType.DateModified = clientType.DateCreated = DateTime.Now;
+                fileType.DateModified = fileType.DateCreated = DateTime.Now;
                 fileType.IsDeleted = false;
                 _dbContext.Add(fileType);
                 if (_dbContext.SaveChanges() != 0)
@@ -406,7 +406,7 @@ namespace NSI.Repository
                 var fileType = _dbContext.FileType.FirstOrDefault(x => x.FileTypeId == fileTypeId && x.IsDeleted == false);
                 if (fileType != null)
                 {
-                    return Mappers.AdminRepository.MapToDtoClient(fileType);
+                    return Mappers.AdminRepository.MapToDtoFile(fileType);
                 }
             }
             catch (Exception ex)
@@ -417,14 +417,13 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool EditFileTypeById(int fileTypeId, FileTypeDto fileTypeDto)
+        public bool EditFileType(int fileTypeId, FileTypeDto fileTypeDto)
         {
             try
             {
                 var fileType = _dbContext.FileType.FirstOrDefault(x => x.FileTypeId == fileTypeId);
                 if (fileType != null)
                 {
-                    fileType.FileTypeName = fileTypeDto.ClientTypeName;
                     fileType.Extension = fileTypeDto.Extension;
                     fileType.IconPath = fileTypeDto.IconPath;
                     fileType.DateModified = DateTime.Now;

@@ -388,7 +388,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.CustomerId)
                     .HasName("IX_Relationship78");
 
-                entity.Property(e => e.CategoryTitle).IsRequired();
+                entity.Property(e => e.DocumentCategoryTitle).IsRequired();
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.DocumentCategory)

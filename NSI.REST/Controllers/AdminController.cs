@@ -22,7 +22,7 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/caseCategory
         [HttpGet("/caseCategory")]
-        public IActionResult Get()
+        public IActionResult GetCases()
         {
             return Ok(adminRepository.GetCaseCategories());
         }
@@ -30,9 +30,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/caseCategory/1
         [HttpGet("/caseCategory/{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetCase(int id)
         {
-            return Ok(adminRepository.GetCaseCategory(id));
+            return Ok(adminRepository.GetCaseCategoryById(id));
         }
 
 
@@ -71,7 +71,7 @@ namespace NSI.REST.Controllers
             }
             try
             {
-                var caseCategory = adminRepository.EditCateCategory(id, model);
+                var caseCategory = adminRepository.EditCaseCategory(id, model);
                 if (caseCategory)
                     return Ok(caseCategory);
                 else return NoContent();
@@ -107,7 +107,7 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/clientType
         [HttpGet("/clientType")]
-        public IActionResult Get()
+        public IActionResult GetClients()
         {
             return Ok(adminRepository.GetClientTypes());
         }
@@ -115,9 +115,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/clientType/1
         [HttpGet("/clientType/{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetClient(int id)
         {
-            return Ok(adminRepository.GetClientType(id));
+            return Ok(adminRepository.GetCaseClientTypeById(id));
         }
 
 
@@ -170,7 +170,7 @@ namespace NSI.REST.Controllers
 
         // DELETE: api/admin/clientType/1
         [HttpDelete("/clientType/{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteClient(int id)
         {
             try
             {
@@ -191,7 +191,7 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/documentCategory
         [HttpGet("/documentCategory")]
-        public IActionResult Get()
+        public IActionResult GetDocuments()
         {
             return Ok(adminRepository.GetDocumentCategories());
         }
@@ -199,9 +199,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/documentCategory/1
         [HttpGet("/documentCategory/{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetDocument(int id)
         {
-            return Ok(adminRepository.GetDocumentCategory(id));
+            return Ok(adminRepository.GetDocumentCategoryById(id));
         }
 
 
@@ -242,7 +242,7 @@ namespace NSI.REST.Controllers
             {
                 var documentCategory = adminRepository.EditDocumentCategory(id, model);
                 if (documentCategory)
-                    return Ok(clientType);
+                    return Ok(documentCategory);
                 else return NoContent();
 
             }
@@ -254,7 +254,7 @@ namespace NSI.REST.Controllers
 
         // DELETE: api/admin/documentCategory/1
         [HttpDelete("/documentCategory/{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteDocument(int id)
         {
             try
             {
@@ -275,7 +275,7 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/fileType
         [HttpGet("/fileType")]
-        public IActionResult Get()
+        public IActionResult GetFiles()
         {
             return Ok(adminRepository.GetFileTypes());
         }
@@ -283,9 +283,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/admin/fileType/1
         [HttpGet("/fileType/{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetFile(int id)
         {
-            return Ok(adminRepository.GetFileType(id));
+            return Ok(adminRepository.GetFileTypeById(id));
         }
 
 
@@ -338,7 +338,7 @@ namespace NSI.REST.Controllers
 
         // DELETE: api/admin/fileType/1
         [HttpDelete("/fileType/{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteFile(int id)
         {
             try
             {

@@ -14,19 +14,19 @@ namespace NSI.BLL.Interfaces
         bool DeleteCaseCategoryById(int caseCategoryId);
         bool EditCaseCategory(int caseCategoryId, CaseCategoryDto caseCategory);
 
-        ICollection<ClientTypeDto> GetClientType();
-        ClientTypeDto CreateClientType(CaseCategoryDto model);
+        ICollection<ClientTypeDto> GetClientTypes();
+        ClientTypeDto CreateClientType(ClientTypeDto model);
         ClientTypeDto GetCaseClientTypeById(int clientTypeId);
         bool DeleteClientTypeById(int clientTypeId);
         bool EditClientType(int clientTypeId, ClientTypeDto clientType);
 
-        ICollection<DocumentCategoryDto> GetDocumentCategory();
+        ICollection<DocumentCategoryDto> GetDocumentCategories();
         DocumentCategoryDto CreateDocumentCategory(DocumentCategoryDto model);
         DocumentCategoryDto GetDocumentCategoryById(int documentCategoryId);
         bool DeleteDocumentCategoryById(int documentCategoryId);
         bool EditDocumentCategory(int documentCategoryId, DocumentCategoryDto documentCategory);
 
-        ICollection<FileTypeDto> GetFileType();
+        ICollection<FileTypeDto> GetFileTypes();
         FileTypeDto CreateFileType(FileTypeDto model);
         FileTypeDto GetFileTypeById(int fileTypeId);
         bool DeleteFileTypeById(int fileTypeId);
