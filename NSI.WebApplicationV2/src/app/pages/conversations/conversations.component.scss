@@ -1,0 +1,32 @@
+.position-left{
+   border: 1px solid #EDEDED;
+   border-radius: 20px;
+   background-color: #EDEDED;
+   color: black;
+   overflow-wrap: normal;
+   width:20%;
+   padding: 7px;
+   text-align: center;
+   float: left;
+   margin-left: 200px;
+   
+}
+.position-right{
+    border: 1px solid #26B99A;
+    background-color: #26B99A;
+    color:white;
+    border-radius: 20px;
+    overflow-wrap: normal;
+    width:20%;
+    padding: 7px;
+    text-align: center;
+    float: right;
+    margin-right: 200px;
+}
+
+.scroller{
+    height:450px;
+    max-height: 450px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

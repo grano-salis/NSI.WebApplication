@@ -19,6 +19,9 @@ namespace NSI.REST.AutoMapper
                 .ReverseMap();
             CreateMap<Participant, ParticipantGetDTO>()
                 .ReverseMap();
+            CreateMap<UserInfo, UserGetDTO>()
+                .ForMember(usrDto => usrDto.Id, usr => usr.MapFrom(src => src.UserId))
+                .ReverseMap();
         }
     }
 }

@@ -8,8 +8,11 @@ namespace NSI.Repository.Interfaces
     public interface IConversationsRepository
     {
         IEnumerable<Conversation> GetAllConversations();
-        IEnumerable<Message> GetMessagesFromConversation(int conversationId);
+        ICollection<Message> GetMessagesFromConversation(int conversationId);
         bool CheckIFConversationExists(int conversationId);
         IEnumerable<Participant> GetConversationParticipants(int conversationId);
+        Conversation GetConversationById(int id);
+        ICollection<Conversation> GetConversationByUserId(int id);
+        void SaveToExistingConversation(int conversationId, string message, int loggedUserId);
     }
 }

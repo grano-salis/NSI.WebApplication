@@ -11,5 +11,6 @@ namespace NSI.DC.Conversations
         public DateTime DateCreated { get; set; }
         // public ConversationGetDTO Conversation { get; set; }  
         public int conversationId { get; set; }
+        public UserGetDTO CreatedByUser { get; set; }
     }
 }

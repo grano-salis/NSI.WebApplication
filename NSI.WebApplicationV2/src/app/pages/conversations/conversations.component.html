@@ -1,50 +1,126 @@
 <div role="main">
-  <div class="clearfix"></div>
-  <div class="row">
-    <div class="col-md-1 col-sm-1"></div>
-    <div class="col-md-10 col-sm-10 col-xs-12">
-      <div class="x_panel">
-        <div class="x_title">
-          <h2>Conversations</h2>
-          <div class="clearfix"></div>
+    <div class="">
+
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Inbox <i class="fa fa-inbox"></i> </h3>
+            </div>
+
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+              </span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="x_content">
-          <div class="container-fluid">
-               <div class="row">
-                   <form class="form-inline" (ngSubmit)="sendMessage()" #messageForm="ngForm">
-                       <div class="form-group">
-                           <label class="sr-only" for="message">Message</label>
-                           <input type="text" class="form-control" id="message" placeholder="your message..." name="message" [(ngModel)]="message" required>
-                       </div>
-                       <button type="submit" class="btn btn-primary" [disabled]="!messageForm.valid">Send SignalR Message</button>
-                   </form>
-               </div>
-               <div class="row" *ngIf="messages.length > 0">
-                   <div class="table-responsive">
-                       <table class="table table-striped">
-                           <thead>
-                               <tr>
-                                   <th>#</th>
-                                   <th>Messages</th>
-                               </tr>
-                           </thead>
-                           <tbody>
-                               <tr *ngFor="let message of messages; let i = index">
-                                   <td>{{i + 1}}</td>
-                                   <td>{{message}}</td>
-                               </tr>
-                           </tbody>
-                       </table>
-                   </div>
-               </div>
-               <div class="row" *ngIf="messages.length <= 0">
-                   <span>No messages</span>
-               </div>
-           </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+
+                        <h2>User Messages</h2>
+
+                        <ul class="nav navbar-right panel_toolbox">
+
+                            <li>
+                                <a class="btn btn-toolbar"> Settings <i class="fa fa-gear"></i></a>
+                            </li>
+
+                            <li>
+                                <a class="btn btn-toolbar"> New message <i class="fa fa-pencil-square-o"></i></a>
+                            </li>
+
+
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                    <div class="x_content">
+                        <div class="row"></div>
+
+                        <div class="col-sm-3 mail_list_column" *ngIf='_conversations && _conversations.length'>
+
+
+                            <a *ngFor='let conversation of _conversations' (click)='loadMessages(conversation.conversationId)'>
+                                <input type='hidden' value="{{conversation.conversationId}}">
+                                <div class="mail_list">
+
+                                    <h3> {{conversation.participant[0].user.firstName + " " + conversation.participant[0].user.lastName}}
+                                        <small> {{conversation.message[0].dateCreated}}</small></h3>
+                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29  }}<span *ngIf = 'conversation.message[0].message.length > 30'>...</span> </p>
+
+                                </div>
+                            </a>
+
+                        </div>
+                        <!-- /MAIL LIST -->
+
+                        <!-- CONTENT MAIL -->
+                        <div class="col-sm-9 mail_view">
+                            <div class="inbox-body">
+
+
+                                <div class="row">
+                                    <ul class="nav navbar-right panel_toolbox">
+
+                                        <li>
+                                            <a class="btn btn-toolbar"> Add participant(s)
+                            <i class="fa fa-user"></i>
+                          </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="btn btn-toolbar"> Delete conversation
+                            <i class="fa fa-remove"></i>
+                          </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <div class="view-mail scroller" *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
+
+                                    <div class="row" *ngFor='let m of messageListSelectedConversation'>
+                                        <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)" >
+                                            {{m.message}}
+                                        </p>
+                                        
+                                        <br>
+                                        <div class="clearfix"></div>
+                                        <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'><small>{{m.createdByUser.userName}}</small></span>
+                                        
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="separator"></div>
+
+
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" placeholder="New message..." [(ngModel)] = "newMessage"></textarea>
+
+                                <button class="btn btn-success" (click) = "sendMessage()">Send <i class="fa fa-send-o"></i></button>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-</div>
-
-

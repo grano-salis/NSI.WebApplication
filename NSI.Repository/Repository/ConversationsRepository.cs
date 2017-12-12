@@ -6,6 +6,7 @@ using IkarusEntities;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using NSI.DC.Conversations;
 
 namespace NSI.Repository.Repository
 {
@@ -37,9 +38,15 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                return context.Conversation.Include(x => x.Message)
-                                           .Include(x => x.Participant)
+                var conversations = context.Conversation//.Include(x => x.Message)
+                                           .Include("Participant.User")
+                                           //x => x.Participant.)
                                            .ToList();
+
+
+                //conversations.ForEach(x => x.Message.ToList().Sort((z, y) => z.DateCreated.CompareTo(y.DateCreated)));
+                conversations.ForEach(x => x.Message = GetMessagesFromConversation(x.ConversationId));
+                return conversations;
             }   
             catch(Exception ex)
             {
@@ -52,7 +59,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                return context.Participant.Where(x => x.ConversationId == conversationId).ToList();
+                return context.Participant.Include("User").Where(x => x.ConversationId == conversationId).ToList();
             }
             catch (Exception ex)
             {
@@ -61,17 +68,62 @@ namespace NSI.Repository.Repository
             }
         }
 
-        public IEnumerable<Message> GetMessagesFromConversation(int conversationId)
+        public ICollection<Message> GetMessagesFromConversation(int conversationId)
         {
             try
             {
-                return context.Message.Where(x => x.ConversationId == conversationId).ToList();
+                return context.Message.Include("CreatedByUser").Where(x => x.ConversationId == conversationId).OrderBy(x => x.DateCreated).ToList();
             }
             catch (Exception ex)
             {
                 logger.LogError("Something went wrong in ConversationsRepository:GetMessagesFromConversation(): " + ex.Message);
                 throw new Exception(message: "Error in ConversationsRepository", innerException: ex);
             }
+        }
+
+        public Conversation GetConversationById(int id)
+        {
+            try {
+
+                return context.Conversation.Where(x => x.ConversationId == id).FirstOrDefault();
+
+            }
+            catch (Exception ex) {
+                logger.LogError("Something went wrong in ConversationsRepository:GetMessagesFromConversation(): " + ex.Message);
+                throw new Exception(message: "Error in ConversationsRepository", innerException: ex);
+            }
+        }
+
+        public ICollection<Conversation> GetConversationByUserId(int id)
+        {
+            try
+            {
+                var conversations = context.Conversation.Include("Participant.User").Where(x => x.Participant.Any(y => y.User.UserId == id)).ToList();
+
+                conversations.ForEach(x => x.Message = GetMessagesFromConversation(x.ConversationId));
+                return conversations;
+
+               
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Something went wrong in ConversationsRepository:GetMessagesFromConversation(): " + ex.Message);
+                throw new Exception(message: "Error in ConversationsRepository", innerException: ex);
+            }
+        }
+
+        public async void SaveToExistingConversation(int conversationId, string message, int loggedUserId)
+        {
+            Message m = new Message();
+            m.ConversationId = conversationId;
+            m.Message1 = message;
+            m.CreatedByUserId = loggedUserId;
+            m.DateCreated = DateTime.Now;
+            m.MessageId = context.Message.Last().MessageId + 1;
+
+            context.Message.Add(m);
+            context.SaveChangesAsync();
         }
     }
 }

@@ -70,5 +70,17 @@ namespace NSI.BLL
                 throw new Exception(message: "ConversationsBLL:GetMessagesFromConversation error", innerException: ex);
             }
         }
+        public ICollection<Conversation> GetConversationForUser(int userId)
+        {
+            try
+            {
+                return repository.GetConversationByUserId(userId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Something went wrong in ConversationsBLL:GetMessagesFromConversation: " + ex.Message);
+                throw new Exception(message: "ConversationsBLL:GetMessagesFromConversation error", innerException: ex);
+            }
+        }
     }
 }

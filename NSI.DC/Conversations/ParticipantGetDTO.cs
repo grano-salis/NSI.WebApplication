@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IkarusEntities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,7 @@ namespace NSI.DC.Conversations
         public DateTime DateCreated { get; set; }
         public DateTime LastSeenTime { get; set; }
         //public ConversationGetDTO Conversation { get; set; }
+        public UserGetDTO User { get; set; }
         public int conversationId {get; set;}
         
     }

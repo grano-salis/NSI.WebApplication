@@ -42,5 +42,37 @@ namespace NSI.REST.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpGet]
+        [Route("{id}/participants")]
+        public IActionResult GetParticipantsForConversation(int id)
+        {
+            try
+            {
+                var participants = mapper.Map<IEnumerable<ParticipantGetDTO>>(conversationManipulation.GetConversationParticipants(id));
+                return Ok(participants);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Something went wrong in ConversationsController" + ex.Message);
+                return StatusCode(500);
+            }
+        }
+        [HttpGet]
+        [Route("user/{id}")]
+        public IActionResult GetConversationForUserId(int id) {
+
+            try
+            {
+                var conversations = mapper.Map<IEnumerable<ConversationGetDTO>>(conversationManipulation.GetConversationForUser(id));
+                return Ok(conversations);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Something went wrong in ConversationsController" + ex.Message);
+                return StatusCode(500);
+            }
+
+        }
     }
 }

@@ -28,6 +28,9 @@
         "../node_modules/gentelella/vendors/iCheck/skins/flat/green.css",
         "../node_modules/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css",
         "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+        "../node_modules/gentelella/vendors/nprogress/nprogress.css",
+        "../node_modules/gentelella/vendors/google-code-prettify/bin/prettify.min.css",
+        "../node_modules/gentelella/build/css/custom.min.css",
         "main.scss"
       ],
       "scripts": [
@@ -51,7 +54,12 @@
         "../node_modules/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js",
         "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "../node_modules/gentelella/vendors/jszip/dist/jszip.min.js",
+        "../node_modules/gentelella/vendors/nprogress/nprogress.js",
+        "../node_modules/gentelella/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js",
+        "../node_modules/gentelella/vendors/jquery.hotkeys/jquery.hotkeys.js",
+        "../node_modules/gentelella/vendors/google-code-prettify/src/prettify.js",
         "../node_modules/gentelella/build/js/custom.min.js"
+    
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
