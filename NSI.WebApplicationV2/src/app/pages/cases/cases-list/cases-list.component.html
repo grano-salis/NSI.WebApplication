@@ -2,7 +2,7 @@
   <div class="clearfix"></div>
   <div class="row">
     <div class="col-md-1 col-sm-1"></div>
-    <div class="col-md-10 col-sm-10 col-xs-12">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
           <h2>Cases</h2>
@@ -38,12 +38,18 @@
               <td></td>
               <td></td>
               <td>{{case.note}}</td>
+              <td (click)="editCase(case.caseId)">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </td>
+              <td (click)="deleteCase(case.caseId)">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </td>
             <!--</tr>-->
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="col-md-1 col-sm-1"></div>
+    <!--<div class="col-md-1 col-sm-1"></div>-->
   </div>
 </div>

@@ -6,6 +6,7 @@ import {FormsModule} from '@angular/forms';
 import {NewCaseComponent} from './new-case/new-case.component';
 import {CasesRoutingModule} from './cases-routing.module';
 import {CasesListComponent} from './cases-list/cases-list.component';
+import { EditCaseComponent } from './edit-case/edit-case.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import {CasesListComponent} from './cases-list/cases-list.component';
     AlertModule,
     FormsModule
   ],
-  declarations: [NewCaseComponent, CasesListComponent]
+  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent]
 })
 export class CasesModule { }

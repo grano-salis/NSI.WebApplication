@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Case} from './case';
 import {CasesService} from '../../../services/cases.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-case',
@@ -11,7 +12,8 @@ export class NewCaseComponent implements OnInit {
 
   model: Case;
 
-  constructor(private casesService: CasesService) { }
+  constructor(private casesService: CasesService,
+              private router: Router) { }
 
   ngOnInit() {
     this.model = new Case();
@@ -28,6 +30,7 @@ export class NewCaseComponent implements OnInit {
     console.log('this.model',this.model)
     this.casesService.postCase(this.model).subscribe(data =>{
       console.log('data',data);
+      this.router.navigate(['cases/all']);
     });
   }
 }
