@@ -16,6 +16,8 @@ export class CustomersListComponent implements OnInit {
 	customers: Customer[];
 	addresses: Address[];
 	pricingPackages: PricingPackage[];
+	addressIds: number[];
+	pricingPackageIds: number[];
 
 	constructor(private customersService: CustomersService, private addressService: AddressService, private pricingPackageService: PricingPackagesService, private router: Router) {
 	}
@@ -23,15 +25,19 @@ export class CustomersListComponent implements OnInit {
 	ngOnInit() {
 		this.addresses = new Array<Address>();
 		this.pricingPackages = new Array<PricingPackage>();
+		this.addressIds = new Array<number>();
+		this.pricingPackageIds = new Array<number>();
 		this.customersService.getCustomers().subscribe(data => {
 			this.customers = data;
 			for(let customer of this.customers) {
-				if (customer.addressId) {
+				if (customer.addressId && this.addressIds.indexOf(customer.addressId) === -1) {
+					this.addressIds.push(customer.addressId);
 					this.addressService.getAddress(customer.addressId).subscribe(data => {
 						this.addresses.push(data);
 					});
 				}
-				if (customer.pricingPackageId) {
+				if (customer.pricingPackageId && this.pricingPackageIds.indexOf(customer.pricingPackageId) === -1) {
+					this.pricingPackageIds.push(customer.pricingPackageId);
 					this.pricingPackageService.getPricingPackage(customer.pricingPackageId).subscribe(data => {
 						this.pricingPackages.push(data);
 					});

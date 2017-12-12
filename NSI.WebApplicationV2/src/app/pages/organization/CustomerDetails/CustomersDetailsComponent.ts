@@ -6,6 +6,7 @@ import { PricingPackagesService } from '../../../services/pricing-package.servic
 import { AddressService } from '../../../services/address.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Address } from '../../address/address.model';
+import { Location } from '@angular/common';
 
 @Component({
     selector:'customer-details',
@@ -20,7 +21,7 @@ export class CustomersDetailsComponent implements OnInit {
 	newOrg: boolean;
 	private sub: any;
 
-	constructor(private customersService: CustomersService, private pricingPackagesService: PricingPackagesService, private addressService: AddressService, private route: ActivatedRoute, private router: Router) {
+	constructor(private customersService: CustomersService, private pricingPackagesService: PricingPackagesService, private addressService: AddressService, private route: ActivatedRoute, private router: Router, private currentLocation: Location) {
 	}
 
 	ngOnInit() {
@@ -51,6 +52,10 @@ export class CustomersDetailsComponent implements OnInit {
 			console.log(data);
 			this.router.navigate([`/organization`]);
 		});
+	}
+
+	onCancelClick() {
+		this.currentLocation.back();
 	}
 
 	onSubmitClick() {
