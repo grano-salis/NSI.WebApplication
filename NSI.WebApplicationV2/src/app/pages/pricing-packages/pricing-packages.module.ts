@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { PricingPackagesRoutingModule } from './pricing-packages-routing.module';
 import { PricingPackageListComponent } from './pricing-package-list/pricing-package-list.component';
@@ -9,7 +10,8 @@ import { PricingPackageBuyComponent } from './pricing-package-buy/pricing-packag
 @NgModule({
   imports: [
     CommonModule,
-    PricingPackagesRoutingModule
+    PricingPackagesRoutingModule,
+    FormsModule
   ],
   declarations: [PricingPackageListComponent, PricingPackageViewComponent, PricingPackageBuyComponent]
 })

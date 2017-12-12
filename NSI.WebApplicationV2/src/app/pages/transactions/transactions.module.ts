@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { TransactionsRoutingModule } from './transactions-routing.module';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
@@ -7,7 +8,8 @@ import { TransactionListComponent } from './transaction-list/transaction-list.co
 @NgModule({
   imports: [
     CommonModule,
-    TransactionsRoutingModule
+    TransactionsRoutingModule,
+    FormsModule
   ],
   declarations: [TransactionListComponent]
 })
