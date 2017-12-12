@@ -23,6 +23,7 @@ namespace NSI.Repository.Repository
             {
                 var client = Mappers.ClientRepository.MapToDbEntity(clientDTO);
                 client.DateCreated = DateTime.Now;
+                client.DateModified = null;
                 _dbContext.Add(client);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.ClientRepository.MapToDto(client);
