@@ -19,6 +19,7 @@ namespace IkarusEntities
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<DocumentCategory> DocumentCategory { get; set; }
+        public virtual DbSet<DocumentHistory> DocumentHistory { get; set; }
         public virtual DbSet<FileType> FileType { get; set; }
         public virtual DbSet<Hearing> Hearing { get; set; }
         public virtual DbSet<Meeting> Meeting { get; set; }

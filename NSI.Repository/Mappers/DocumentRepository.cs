@@ -1,12 +1,9 @@
 ﻿using IkarusEntities;
 using NSI.DC.DocumentRepository;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NSI.Repository
+namespace NSI.Repository.Mappers
 {
-    public partial class DocumentRepository
+    public class DocumentRepository
     {
         public static Document MapToDbEntity(DocumentDto document)
         {

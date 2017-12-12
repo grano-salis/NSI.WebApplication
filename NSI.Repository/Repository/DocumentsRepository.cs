@@ -4,6 +4,7 @@ using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
+using NSI.Repository.Mappers;
 using NSI.REST.Models;
 
 namespace NSI.Repository.Repository
@@ -17,7 +18,12 @@ namespace NSI.Repository.Repository
             _dbContext = dbContext;
         }
 
-        PagingResultModel<DocumentDto> IDocumentRepository.GetAllDocuments(DocumentsPagingQueryModel query)
+        public List<DocumentDto> GetAllDocuments()
+        {
+           return _dbContext.Document.Select(document => DocumentRepository.MapToDto(document)).ToList();
+        }
+
+        PagingResultModel<DocumentDto> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDto>
             {
@@ -34,14 +40,28 @@ namespace NSI.Repository.Repository
             var document = _dbContext.Document.FirstOrDefault(d => d.CaseId == id);
             //document.isDeleted = true;
             var response = _dbContext.Update(document);
-            //implement deleting history
+            AddToHistory( document);
             return response != null;
         }
 
         public void Update(DocumentDto document)
         {
             _dbContext.Update(document);
-            //go to history and add record
+            AddToHistory(DocumentRepository.MapToDbEntity(document));
+        }
+
+        private void AddToHistory(Document document)
+        {
+            //TODO get current user
+            var documentHistoryRecord = new DocumentHistory()
+            {
+                Document = document,
+                DocumentId = document.DocumentId,
+                ModifiedAt = DateTime.UtcNow,
+                ModifiedByUser = _dbContext.UserInfo.FirstOrDefault(u => u.UserId == 1),
+                ModifiedByUserId = 1
+            };
+            _dbContext.DocumentHistory.Add(documentHistoryRecord);
         }
 
 

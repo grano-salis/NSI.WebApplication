@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSI.BLL.Interfaces;
@@ -25,10 +26,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<DocumentDto> Get()
         {
-            //TODO
-            return new[] { "value1", "value2" };
+            return _documentManipulation.GetAllDocuments();
         }
 
         [HttpPost]
@@ -79,6 +79,7 @@ namespace NSI.REST.Controllers
 
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
+            _documentManipulation.SaveDocument(files, filePath);
             return Ok(new { count = files.Count, size, filePath });
         }
 
@@ -90,8 +91,8 @@ namespace NSI.REST.Controllers
         }
 
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id}/{currentUserId}")]
+        public void Delete(int id, int currentUserId)
         {
             try
             {

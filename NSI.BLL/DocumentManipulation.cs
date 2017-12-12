@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using NSI.BLL.Interfaces;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
@@ -14,19 +16,29 @@ namespace NSI.BLL
             _documentRepository = documentRepository;
         }
 
+
+        public List<DocumentDto> GetAllDocuments()
+        {
+            return _documentRepository.GetAllDocuments();
+        }
+
+        public void SaveDocument(List<IFormFile> files, string filePath)
+        {
+            var document = new DocumentDto()
+            {
+                DocumentPath = filePath
+            };
+            _documentRepository.SaveDocument(document);
+        }
+
         public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
-            return _documentRepository.GetAllDocuments(query);
+            return _documentRepository.GetAllDocumentsByPage(query);
         }
 
         public DocumentDto GetDocumentById(int documentId)
         {
             return _documentRepository.GetDocument(documentId);
-        }
-
-        public DocumentDto SaveDocument()
-        {
-            throw new NotImplementedException();
         }
 
         public bool DeleteDocument(int id)
@@ -42,5 +54,6 @@ namespace NSI.BLL
             _documentRepository.Update(document);
             return true;
         }
+
     }
 }

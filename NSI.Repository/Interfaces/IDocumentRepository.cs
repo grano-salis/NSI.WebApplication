@@ -1,5 +1,6 @@
 ﻿using NSI.DC.DocumentRepository;
 using System.Collections.Generic;
+using System.Linq;
 using NSI.REST.Models;
 
 namespace NSI.Repository.Interfaces
@@ -9,8 +10,9 @@ namespace NSI.Repository.Interfaces
         DocumentDto GetDocument(int documentId);
         IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
         long SaveDocument(DocumentDto document);
-        PagingResultModel<DocumentDto> GetAllDocuments(DocumentsPagingQueryModel query);
+        PagingResultModel<DocumentDto> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
         void Update(DocumentDto document);
+        List<DocumentDto> GetAllDocuments();
     }
 }
