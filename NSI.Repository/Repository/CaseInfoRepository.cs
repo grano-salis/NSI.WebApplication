@@ -32,7 +32,7 @@ namespace NSI.Repository
 			}
 			catch (Exception ex)
 			{
-				throw new Exception("Database error!");
+                throw new Exception(ex.InnerException.Message);
 			}
 			return null;
 		}
@@ -50,17 +50,28 @@ namespace NSI.Repository
 			}
 		}
 
-        public IEnumerable<CaseInfo> GetCaseInfos()
+        public ICollection<CaseInfoDto> GetCaseInfos()
 		{
 			try
 			{
-				var caseInfo = _dbContext.CaseInfo;
-                return caseInfo;
+                var caseInfo = _dbContext.CaseInfo;
+                if (caseInfo != null)
+                {
+                    ICollection<CaseInfoDto> caseInfoDto = new List<CaseInfoDto>();
+                    foreach (var item in caseInfo)
+                    {
+                        caseInfoDto.Add(Mappers.CaseInfoRepository.MapToDto(item));
+                    }
+                    return caseInfoDto;
+                }
+				//var caseInfo = _dbContext.CaseInfo;
+                //return new List<CaseInfo>(caseInfo);
 			}
 			catch (Exception ex)
 			{
-				throw new Exception("Database error!");
+                throw new Exception(ex.InnerException.Message);
 			}
+            return null;
 		}
 
         public bool DeleteCaseInfoById(int caseId) {
@@ -79,7 +90,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception("Database error!");
+                throw new Exception(ex.InnerException.Message);
             }
         }
 

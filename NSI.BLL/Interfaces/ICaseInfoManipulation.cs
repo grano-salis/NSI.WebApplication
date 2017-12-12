@@ -10,7 +10,7 @@ namespace NSI.BLL.Interfaces
     {
         CaseInfo CreateCaseInfo(CaseInfoDto caseInfoDto);
         CaseInfo GetCaseInfoById(int caseId);
-        IEnumerable<CaseInfo> GetCaseInfos();
+        ICollection<CaseInfoDto> GetCaseInfos();
         bool DeleteCaseInfoById(int caseId);
         bool EditCaseInfoById(int caseId, CaseInfoDto caseInfo);
 	}

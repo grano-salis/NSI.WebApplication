@@ -27,7 +27,7 @@ namespace NSI.BLL
 			return _caseInfoRepository.GetCaseInfoById(caseId);
 		}
 
-        public IEnumerable<CaseInfo> GetCaseInfos()
+        public ICollection<CaseInfoDto> GetCaseInfos()
 		{
 			return _caseInfoRepository.GetCaseInfos();
 		}

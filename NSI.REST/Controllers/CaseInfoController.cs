@@ -13,6 +13,7 @@ using NSI.REST.Middleware;
 using NSI.Repository.Mappers;
 using AutoMapper;
 using IkarusEntities;
+using NSI.Logger;
 
 namespace NSI.REST.Controllers
 {
@@ -33,8 +34,7 @@ namespace NSI.REST.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-            var caseinfos = _mapper.Map<IEnumerable<CaseInfoDto>>(_caseInfoRepository.GetCaseInfos());
-			return Ok(caseinfos);
+            return Ok(_caseInfoRepository.GetCaseInfos());
 		}
 
         // GET: api/case/info/5
@@ -61,7 +61,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex.InnerException);
             }
             return NoContent();
         }
