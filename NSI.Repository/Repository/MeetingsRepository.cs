@@ -6,6 +6,8 @@ using NSI.DC.MeetingsRepository;
 using IkarusEntities;
 using System.Linq;
 using NSI.DC.Exceptions;
+using Microsoft.EntityFrameworkCore;
+using NSI.DC.Exceptions.Enums;
 
 namespace NSI.Repository
 {
@@ -20,13 +22,16 @@ namespace NSI.Repository
 
         public ICollection<MeetingDto> GetMeetings()
         {
-            return _dbContext.Meeting.Where(x => x.IsDeleted == false)
-                .Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
+            var meetings = _dbContext.Meeting.Where(x => x.IsDeleted == false)
+                .Include(x => x.UserMeeting).ThenInclude(userMeeting => userMeeting.User);
+            return meetings.Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
         }
 
         public MeetingDto GetMeetingById(int id)
         {
-            var meeting = _dbContext.Meeting.FirstOrDefault(x => x.MeetingId == id && x.IsDeleted == false);
+            var meeting = _dbContext.Meeting.Where(x => x.MeetingId == id && x.IsDeleted == false)
+                .Include(x => x.UserMeeting).ThenInclude(userMeeting => userMeeting.User)
+                .FirstOrDefault();
             if (meeting == null) throw new NSIException("Meeting not found");
             return Mappers.MeetingsRepository.MapToDto(meeting);
         }
@@ -37,7 +42,7 @@ namespace NSI.Repository
             _dbContext.Meeting.Add(entity_meeting);
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.MeetingsRepository.MapToDto(entity_meeting);
+                return GetMeetingById(entity_meeting.MeetingId);
             }
             throw new NSIException("Erro while inserting new meeting");
             
@@ -65,7 +70,7 @@ namespace NSI.Repository
 
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.MeetingsRepository.MapToDto(meeting);
+                return GetMeetingById(meeting.MeetingId);
             }
             throw new NSIException("Erro while updating new meeting");
 
@@ -83,5 +88,32 @@ namespace NSI.Repository
                 throw new NSIException("Error while deleting meeting");
             }
         }
+
+        public ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria)
+        {
+            if (searchCriteria == null)
+            {
+                Logger.Logger.LogError("Meetings searchCriteria is null!");
+                throw new NSIException("Parameter searchCriteria is null!", Level.Error, ErrorType.InvalidParameter);
+            }
+            var meetings = from meeting in _dbContext.Meeting select meeting;
+
+            if (searchCriteria.MeetingId != 0)
+                meetings = meetings.Where(x => x.MeetingId == searchCriteria.MeetingId);
+
+            if (!string.IsNullOrEmpty(searchCriteria.Title))
+                meetings = meetings.Where(x => x.Title.Contains(searchCriteria.Title));
+
+            if (searchCriteria.To != null)
+                meetings = meetings.Where(x => x.To.Value.Date == searchCriteria.To.Value.Date);
+
+            ICollection<MeetingDto> meetingsDto = new List<MeetingDto>();
+            foreach (var item in meetings)
+            {
+                meetingsDto.Add(Mappers.MeetingsRepository.MapToDto(item));
+            }
+            return meetingsDto;
+        }
+
     }
 }

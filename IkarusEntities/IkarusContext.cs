@@ -34,6 +34,8 @@ namespace IkarusEntities
         public virtual DbSet<UserHearing> UserHearing { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserMeeting> UserMeeting { get; set; }
+        public virtual DbSet<Phone> Phone { get; set; }
+        public virtual DbSet<Email> Email { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -305,6 +307,7 @@ namespace IkarusEntities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship71");
             });
+
 
             modelBuilder.Entity<Conversation>(entity =>
             {
@@ -645,6 +648,26 @@ namespace IkarusEntities
                     .HasConstraintName("UserHearingUserFK");
             });
 
+            modelBuilder.Entity<Phone>(entity =>
+            {
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Phone)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Phone_ContactId_fkey");
+            });
+
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.Property(e => e.EmailAddress).IsRequired();
+
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Email)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ContactId");
+            });
+
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -655,6 +678,7 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.Username)
                     .HasName("Username")
                     .IsUnique();
+            
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 

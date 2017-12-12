@@ -9,14 +9,13 @@ namespace IkarusEntities
         {
             CaseContact = new HashSet<CaseContact>();
             ClientContact = new HashSet<ClientContact>();
+            Email = new HashSet<Email>();
+            Phone = new HashSet<Phone>();
         }
 
         public int Contact1 { get; set; }
         public string FirsttName { get; set; }
         public string LastName { get; set; }
-        public string Phone { get; set; }
-        public string Mobile { get; set; }
-        public string Email { get; set; }
         public int? AddressId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
@@ -27,5 +26,7 @@ namespace IkarusEntities
         public UserInfo CreatedByUser { get; set; }
         public ICollection<CaseContact> CaseContact { get; set; }
         public ICollection<ClientContact> ClientContact { get; set; }
+        public ICollection<Email> Email { get; set; }
+        public ICollection<Phone> Phone { get; set; }
     }
 }
