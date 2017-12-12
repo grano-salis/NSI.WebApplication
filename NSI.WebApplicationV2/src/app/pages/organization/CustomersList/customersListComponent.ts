@@ -21,16 +21,28 @@ export class CustomersListComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.customersService.getCustomers().subscribe(data => this.customers = data);
 		this.addresses = new Array<Address>();
 		this.pricingPackages = new Array<PricingPackage>();
-		this.addressService.getAddreses().subscribe(data => this.addresses = data);
-		this.pricingPackageService.getPricingPackages().subscribe(data => this.pricingPackages = data);
+		this.customersService.getCustomers().subscribe(data => {
+			this.customers = data;
+			for(let customer of this.customers) {
+				if (customer.addressId) {
+					this.addressService.getAddress(customer.addressId).subscribe(data => {
+						this.addresses.push(data);
+					});
+				}
+				if (customer.pricingPackageId) {
+					this.pricingPackageService.getPricingPackage(customer.pricingPackageId).subscribe(data => {
+						this.pricingPackages.push(data);
+					});
+				}
+			}
+		});
 	}
 
 	getAddress(addressId: number) {
 		for(let address of this.addresses) {
-			if(address.addres_id === addressId) {
+			if(address.addressId === addressId) {
 				return address;
 			}
 		}

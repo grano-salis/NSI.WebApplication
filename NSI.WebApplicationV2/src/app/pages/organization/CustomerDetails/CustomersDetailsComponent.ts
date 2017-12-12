@@ -3,6 +3,7 @@ import { Customer } from '../models/customer';
 import { PricingPackage } from '../models/pricing-package';
 import { CustomersService } from '../../../services/customers.service';
 import { PricingPackagesService } from '../../../services/pricing-package.service';
+import { AddressService } from '../../../services/address.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Address } from '../../address/address.model';
 
@@ -15,26 +16,32 @@ export class CustomersDetailsComponent implements OnInit {
 	id: number;
 	customer: Customer;
 	pricingPackages: PricingPackage[];
+	addresses: Address[];
 	newOrg: boolean;
 	private sub: any;
 
-	constructor(private customersService: CustomersService, private pricingPackagesService: PricingPackagesService, private route: ActivatedRoute, private router: Router) {
+	constructor(private customersService: CustomersService, private pricingPackagesService: PricingPackagesService, private addressService: AddressService, private route: ActivatedRoute, private router: Router) {
 	}
 
 	ngOnInit() {
 		this.sub = this.route.params.subscribe(params => {
 			this.pricingPackagesService.getActivePricingPackages().subscribe(data => {
-				this.pricingPackages = data;
-				if (params['id'] == 'new') {
-					this.newOrg = true;
-					this.customer = { customerName: "", customerId: -1, dateCreated: new Date(), pricingPackage: this.pricingPackages[0], address: new Address() , logoLink: ""};
-				} else {
-					this.newOrg = false;
-					this.id = +params['id'];
-					this.customersService.getCustomer(this.id).subscribe(data => {
-						this.customer = data;
-					});
-				}
+				this.addressService.getAddreses().subscribe(addressRes => {
+					this.addresses = addressRes;
+					this.pricingPackages = data;
+					if (params['id'] == 'new') {
+						this.newOrg = true;
+						var prcId = this.pricingPackages[0].pricingPackageId;
+						var adrId = this.addresses[0].addressId;
+						this.customer = { customerName: "", addressId: adrId, logoLink: "", dateCreated: new Date(), pricingPackageId: prcId};
+					} else {
+						this.newOrg = false;
+						this.id = +params['id'];
+						this.customersService.getCustomer(this.id).subscribe(data => {
+							this.customer = data;
+						});
+					}
+				});
 			});
 		});
 	}

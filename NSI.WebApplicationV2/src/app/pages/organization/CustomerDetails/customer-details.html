@@ -37,39 +37,19 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address 1<span class="required">*</span>
+                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address<span class="required">*</span>
                         </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" [ngModel]="customer.address?.first" (ngModelChange)="customer.address.first=$event" name="address.first">
+									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.addressId" (ngModelChange)="customer.addressId" name="addressId">
+										<option *ngFor="let address of addresses" value="package.addressId">{{address.address1}}, {{address.city}}, {{address.zipCode}}</option>
+                          </select>
                 </div>
               </div>
               <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address 2
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">Pricing package<span class="required">*</span>
                         </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" [ngModel]="customer.address?.second" (ngModelChange)="customer.address.second=$event" name="address.second">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" [ngModel]="customer.address?.city" (ngModelChange)="customer.address.city=$event" name="address.city">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">Zip code <span class="required">*</span>
-                        </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                  <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.address?.zipCode" (ngModelChange)="customer.address.zipCode" name="address.zipCode">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">Pricing packet<span class="required">*</span>
-                        </label>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.pricingPackage?.pricingPackageId" (ngModelChange)="customer.pricingPackage.pricingPackageId">
+									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.pricingPackageId" (ngModelChange)="customer.pricingPackageId" name="pricingPackageId">
 										<option *ngFor="let package of pricingPackages" value="package.pricingPackageId">{{package.pricingPackageName}} ({{package.price}})</option>
                           </select>
                 </div>

@@ -1,13 +1,13 @@
 export class Customer {
 
-	customerId: number;
+	customerId?: number;
 	customerName: string;
-	logoLink: string;
-	dateCreated: Date;
+	logoLink?: string;
+	dateCreated?: Date;
 	pricingPackageId: number;
 	addressId: number;
 
-	constructor(customerId: number, customerName: string, dateCreated: Date, pricingPackageId: number, addressId: number) {
+	constructor(customerName: string,  addressId: number, pricingPackageId: number, dateCreated?: Date, customerId?: number) {
 	}
 
 }

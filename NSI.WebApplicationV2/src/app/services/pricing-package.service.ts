@@ -13,6 +13,12 @@ export class PricingPackagesService {
     this._url = environment.serverUrl;
    }
 
+   getPricingPackage(id: number): Observable<PricingPackage> {
+	   return this.http.get(`${this._url}/api/PricingPackage/${id}`).map(res => {
+			 return <PricingPackage>(res);
+	   });
+   }
+
    getPricingPackages(params?: any): Observable<PricingPackage[]> {
 	   return this.http.get(`${this._url}/api/PricingPackage`).map(res => {
 			 return <PricingPackage[]>(res);
