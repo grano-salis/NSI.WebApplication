@@ -15,6 +15,7 @@
     <Folder Include="PricingPackageRepository\" />
     <Folder Include="PaymentGatewayRepository\" />
     <Folder Include="CustomersRepository\" />
+    <Folder Include="ClientsRepository\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />

@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
-namespace NSI.DC.CustomersRepository
+namespace NSI.DC.ClientsRepository
 {
     [DataContract]
-    public class CustomerDto
+    public class ClientDTO
     {
         [DataMember]
-        public int? CustomerId { get; set; }
+        public int? ClientId { get; set; }
         [DataMember]
-        public String CustomerName  { get; set; }
-        [DataMember]
-        public bool? IsActive { get; set; }
+        public string ClientName { get; set; }
         [DataMember]
         public DateTime DateCreated { get; set; }
         [DataMember]
@@ -21,8 +17,12 @@ namespace NSI.DC.CustomersRepository
         [DataMember]
         public bool? IsDeleted { get; set; }
         [DataMember]
-        public int? PricingPackageId { get; set; }
+        public int ClientTypeId { get; set; }
+        [DataMember]
+        public int CustomerId { get; set; }
         [DataMember]
         public int? AddressId { get; set; }
+        [DataMember]
+        public int CreatedByUserId { get; set; }
     }
 }

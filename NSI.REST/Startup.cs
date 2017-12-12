@@ -85,6 +85,8 @@ namespace NSI.REST
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerManipulation, CustomerManipulation>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IClientManipulation, ClientManipulation>();
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

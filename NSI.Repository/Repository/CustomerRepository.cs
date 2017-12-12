@@ -110,15 +110,21 @@ namespace NSI.Repository
 
         }
 
-        public bool EditCustomer(int customerId, CustomerDto customer)
+        public bool EditCustomer(int customerId, CustomerDto customerDto)
         {
             try
             {
-                var customerTmp = _dbContext.Customer.FirstOrDefault(x => x.CustomerId == customerId);
-                if (customerTmp != null)
+                var customer = _dbContext.Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                if (customer != null)
                 {
-                    customerTmp.CustomerName = customer.CustomerName ?? customerTmp.CustomerName;
+                    customer.CustomerName = customerDto.CustomerName ?? customer.CustomerName;
+                    customer.IsActive = customerDto.IsActive ?? customer.IsActive;
+                    customer.IsDeleted = customerDto.IsDeleted ?? customer.IsDeleted;
+                    customer.DateModified = customerDto.DateModified ?? customer.DateModified;
+                    customer.PricingPackageId = customerDto.PricingPackageId ?? customer.PricingPackageId;
+                    customer.AddressId = customerDto.AddressId ?? customer.AddressId;
                     _dbContext.SaveChanges();
+
                     return true;
                 }
                 return false;

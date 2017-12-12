@@ -44,6 +44,11 @@ namespace NSI.REST.Controllers
             return Ok(_customersManipulation.DeleteCustomerById(id));
         }
 
+        [HttpPut("{id}")]
+        public ActionResult EditCustomer(int id, CustomerDto customerDto)
+        {
+            return Ok(_customersManipulation.EditCustomer(id, customerDto));
+        }
 
     }
 }
