@@ -23,9 +23,15 @@ import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
 import { HearingsService } from './services/hearings.service';
 import {AddressTypeService} from './services/addressType.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ToastrModule } from 'ngx-toastr';
+import {AlertService} from "./services/alert.service";
 
-
+const toastrSettings = {
+  positionClass: 'toast-top-center',
+  timeOut: 3000
+};
 
 @NgModule({
   imports: [
@@ -38,7 +44,9 @@ import {AddressTypeService} from './services/addressType.service';
     PagesModule,
     AppRoutingModule,
     NgLoadingSpinnerModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(toastrSettings), // ToastrModule added
   ],
   declarations: [AppComponent],
   providers: [//ovdje se injecta svaki servis koji se doda
@@ -53,7 +61,8 @@ import {AddressTypeService} from './services/addressType.service';
     UsersService,
     ContactsService,
     HearingsService,
-    DocumentsService
+    DocumentsService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })
