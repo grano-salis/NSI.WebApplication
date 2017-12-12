@@ -72,10 +72,10 @@
                                 </a>
                     </td>
 										<td class=" ">{{customer.customerName}}</td>
-										<td class=" ">{{customer.address?.first}}</td>
-										<td class=" ">{{customer.address?.zipCode}}</td>
-										<td class=" ">{{customer.address?.city}}</td>
-										<td class=" ">{{customer.pricingPackage}}</td>
+										<td class=" ">{{getAddress(customer.addressId)?.first}}</td>
+										<td class=" ">{{getAddress(customer.addressId)?.zipCode}}</td>
+										<td class=" ">{{getAddress(customer.addressId)?.city}}</td>
+										<td class=" ">{{getPricingPackage(customer.pricingPackageId)?.pricingPackageName}}</td>
 										<td class=" last"><a href="javascript:" (click)="onDeleteClick(customer.customerId, $event)">Delete</a>
                     </td>
                   </tr>

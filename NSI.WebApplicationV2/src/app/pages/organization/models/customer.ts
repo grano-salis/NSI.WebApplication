@@ -1,16 +1,13 @@
-import { Address } from "../../address/address.model";
-import { PricingPackage } from "./pricing-package";
-
 export class Customer {
 
 	customerId: number;
 	customerName: string;
 	logoLink: string;
 	dateCreated: Date;
-	pricingPackage: PricingPackage;
-	address: Address;
+	pricingPackageId: number;
+	addressId: number;
 
-	constructor(customerId: number, customerName: string, dateCreated: Date, pricingPackage: any, address: any) {
+	constructor(customerId: number, customerName: string, dateCreated: Date, pricingPackageId: number, addressId: number) {
 	}
 
 }
