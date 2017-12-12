@@ -22,6 +22,7 @@ namespace NSI.Repository.Repository
             try
             {
                 var client = Mappers.ClientRepository.MapToDbEntity(clientDTO);
+                client.DateCreated = DateTime.Now;
                 _dbContext.Add(client);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.ClientRepository.MapToDto(client);
@@ -65,7 +66,7 @@ namespace NSI.Repository.Repository
                 if (client != null)
                 {
                     client.ClientName = clientDTO.ClientName ?? client.ClientName;
-                    client.DateModified = clientDTO.DateModified ?? client.DateModified;
+                    client.DateModified = clientDTO.DateModified ?? DateTime.Now;
                     client.IsDeleted = clientDTO.IsDeleted ?? client.IsDeleted;
                     client.ClientTypeId = clientDTO.ClientTypeId;
                     client.CustomerId = clientDTO.CustomerId;

@@ -15,7 +15,7 @@ namespace NSI.DC.CustomersRepository
         [DataMember]
         public bool? IsActive { get; set; }
         [DataMember]
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
         [DataMember]
         public DateTime? DateModified { get; set; }
         [DataMember]

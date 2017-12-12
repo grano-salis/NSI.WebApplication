@@ -11,7 +11,7 @@ namespace NSI.DC.ClientsRepository
         [DataMember]
         public string ClientName { get; set; }
         [DataMember]
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
         [DataMember]
         public DateTime? DateModified { get; set; }
         [DataMember]
