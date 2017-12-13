@@ -61,6 +61,8 @@ export class ContactsComponent implements OnInit {
 
   newContact() {
     this.temp_contact = new Contact();
+    this.temp_contact.emails =[];
+    this.temp_contact.phones = [];
   }
 
   showContact(contact: any) {

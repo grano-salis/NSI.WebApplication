@@ -32,29 +32,32 @@
 
           <div class="form-group label-beauty">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
-              <label for="form_email"> <b>Email </b></label>
+              <label> <b>Email </b></label>
             </div>
           </div>
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-
-              <input id="form_email" type="email" name="email" class="form-control form-input-beauty"
+              <input type="email" class="form-control form-input-beauty"
                      [(ngModel)]="temp_contact.email"
+                     name="email-new"
                      required placeholder="Email"
                      data-error="Valid email is required.">
-              <button class="right btn btn-default button-contact button-beauty" (click)="newEmail()">
+              <button name="addnewemailbtn" class="right btn btn-default button-contact button-beauty" (click)="newEmail()">
                 <i class="fa fa-plus "></i>
               </button>
               <div class="help-block with-errors"></div>
             </div>
           </div>
 
-          <div *ngFor="let obj of emails">
+          <div *ngFor="let obj of emails; let index = index; trackBy: trackByIndex;">
             <div class="form-group">
               <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                <input type="tel" name="phone" title="{{obj}}"
-                       class="form-control form-input-beauty" placeholder="Email {{obj}}">
-                <button class="right btn btn-default button-contact button-beauty" (click)="deleteEmail()">
+                <input type="email" class="form-control form-input-beauty"
+                       [(ngModel)]="emails[index]"
+                       name = "email-new-{{index}}"
+                       required placeholder="Email"
+                       data-error="Valid email is required.">
+                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-email-btn-{{index}}" (click)="deleteEmail()">
                   <i class="fa fa-minus"></i>
                 </button>
               </div>
@@ -70,19 +73,19 @@
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
               <input id="form_phone" type="tel" name="phone" [(ngModel)]="temp_contact.phone"
                      class="form-control form-input-beauty" placeholder="Phone">
-              <button class="right btn btn-default button-contact button-beauty" (click)="newPhone()">
+              <button type="button" name="addnewphone-btn" class="right btn btn-default button-contact button-beauty" (click)="newPhone()">
                 <i class="fa fa-plus"></i>
               </button>
               <div class="help-block with-errors"></div>
             </div>
           </div>
 
-          <div *ngFor="let obj of phones">
+          <div *ngFor="let obj of phones; let index = index; trackBy: trackByIndex;">
             <div class="form-group">
               <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                <input type="tel" name="phone" title="{{obj}}"
+                <input type="tel" name="phone-new-{{index}}" [(ngModel)] = "phones[index]"
                        class="form-control form-input-beauty" placeholder="Phone {{obj}}">
-                <button class="right btn btn-default button-contact button-beauty" (click)="deletePhone()">
+                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-phone{{index}}" (click)="deletePhone()">
                   <i class="fa fa-minus"></i>
                 </button>
               </div>
@@ -92,8 +95,8 @@
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-4 col-sm-offset-4 col-x-offset-4">
-              <button #closeBtn type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-success">Submit</button>
+              <button #closeBtn name="closbtnbtn" type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+              <button type="button" name="submit-btnbtn" type="submit" class="btn btn-success">Submit</button>
             </div>
           </div>
         </div>
