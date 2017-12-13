@@ -37,6 +37,13 @@ namespace NSI.REST.Controllers
             return Ok(_caseInfoRepository.GetCaseInfos());
 		}
 
+        // GET: api/case/info/latest
+        [HttpGet("latest")]
+        public IActionResult GetLatest()
+        {
+            return Ok(_caseInfoRepository.GetLatestCaseInfos());
+        }
+
         // GET: api/case/info/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)

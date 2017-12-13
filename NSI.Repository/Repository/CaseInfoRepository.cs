@@ -68,8 +68,6 @@ namespace NSI.Repository
                     }
                     return caseInfoDto;
                 }
-				//var caseInfo = _dbContext.CaseInfo;
-                //return new List<CaseInfo>(caseInfo);
 			}
 			catch (Exception ex)
 			{
@@ -77,6 +75,28 @@ namespace NSI.Repository
 			}
             return null;
 		}
+
+        public ICollection<CaseInfoDto> GetLatestCaseInfos()
+        {
+            try
+            {
+                var caseInfo = _dbContext.CaseInfo.OrderBy(item => item.DateModified).Take(10);
+                if (caseInfo != null)
+                {
+                    ICollection<CaseInfoDto> caseInfoDto = new List<CaseInfoDto>();
+                    foreach (var item in caseInfo)
+                    {
+                        caseInfoDto.Add(Mappers.CaseInfoRepository.MapToDto(item));
+                    }
+                    return caseInfoDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException.Message);
+            }
+            return null;
+        }
 
         public bool DeleteCaseInfoById(int caseId) {
             try

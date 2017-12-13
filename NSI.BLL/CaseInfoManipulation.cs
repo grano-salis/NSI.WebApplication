@@ -32,6 +32,11 @@ namespace NSI.BLL
 			return _caseInfoRepository.GetCaseInfos();
 		}
 
+        public ICollection<CaseInfoDto> GetLatestCaseInfos()
+        {
+            return _caseInfoRepository.GetLatestCaseInfos();
+        }
+
         public bool  DeleteCaseInfoById(int caseId) {
             return _caseInfoRepository.DeleteCaseInfoById(caseId);
         }
