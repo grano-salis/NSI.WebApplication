@@ -22,6 +22,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     });
     $("#from").on("dp.change", function (e: any) {
       $('#to').data("DateTimePicker").minDate(e.date);
+      $('#from').control.markAsDirty();
     });
     $("#to").on("dp.change", function (e: any) {
       $('#from').data("DateTimePicker").maxDate(e.date);
