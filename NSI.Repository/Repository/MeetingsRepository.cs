@@ -44,7 +44,7 @@ namespace NSI.Repository
             {
                 return GetMeetingById(entity_meeting.MeetingId);
             }
-            throw new NSIException("Erro while inserting new meeting");
+            throw new NSIException("Error while inserting new meeting");
             
         }
 
@@ -59,6 +59,7 @@ namespace NSI.Repository
 
             //update data
             meeting.Title = model.Title ?? meeting.Title;
+            meeting.MeetingPlace = model.MeetingPlace ?? meeting.MeetingPlace;
             meeting.DateModified = DateTime.Now;
             meeting.From = model.From != null ? model.From : meeting.From;
             meeting.To = model.To != null ? model.To : meeting.To;
@@ -72,7 +73,7 @@ namespace NSI.Repository
             {
                 return GetMeetingById(meeting.MeetingId);
             }
-            throw new NSIException("Erro while updating new meeting");
+            throw new NSIException("Error while updating new meeting");
 
         }
 

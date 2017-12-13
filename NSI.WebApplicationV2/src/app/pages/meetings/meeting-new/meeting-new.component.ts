@@ -14,9 +14,11 @@ declare var $: any;
 export class MeetingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
-    $('#from').datetimepicker();
+    $('#from').datetimepicker({
+      format: "DD/MM/YYYY, HH:mm:ss"});
     $('#to').datetimepicker({
-      useCurrent: false //Important! See issue #1075
+      useCurrent: false, //Important! See issue #1075
+      format: "DD/MM/YYYY, HH:mm:ss"
     });
     $("#from").on("dp.change", function (e: any) {
       $('#to').data("DateTimePicker").minDate(e.date);
@@ -61,8 +63,8 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.model.from = new Date($('#from').val()).toLocaleString()
-    this.model.to = new Date($('#to').val()).toLocaleString()
+    this.model.from = new Date($('#from').val()).toLocaleString();
+    this.model.to = new Date($('#to').val()).toLocaleString();
     console.log(this.model);
     this.meetingsService.postMeeting(this.model).subscribe((r: any) => console.log('Hazime imamo bingo: ' + r),
       (error: any) => console.log("Error: " + error.message));
@@ -80,6 +82,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
         this.edit = true;
 
         this.model.title = data.title;
+        this.model.meetingPlace = data.meetingPlace;
         this.model.from = new Date(data.from).toLocaleString();
         this.model.to = new Date(data.to).toLocaleString();
         this.model.userMeeting = data.userMeeting;
@@ -97,8 +100,10 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   }
 
   updateMeeting() {
-    this.model.from = new Date($('#from').val()).toLocaleString()
-    this.model.to = new Date($('#to').val()).toLocaleString()
+    this.model.from = new Date($('#from').val()).toLocaleString();
+    this.model.to = new Date($('#to').val()).toLocaleString();
+    console.log(this.model);
+    
     this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
       (error: any) => console.log("Error: " + error.message));
 
