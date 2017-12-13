@@ -1,0 +1,59 @@
+
+
+<div class="page-title">
+  <div class="title_left">
+    <h3>Case Info
+      <small>Lately active cases</small>
+    </h3>
+  </div>
+</div>
+
+<div class="table-responsive">
+
+  <table class="table table-striped jambo_table bulk_action">
+    <thead>
+      <tr class="headings">
+          <th class="column-title">Case Number</th>
+          <th class="column-title">Court Number</th>
+          <th class="column-title">Value</th>
+          <th class="column-title">Judge</th>
+          <th class="column-title">Court</th>
+          <th class="column-title">CounterParty</th>
+          <th class="column-title">Case category</th>
+          <th class="column-title">Date created</th>
+          <th class="column-title">Date modified</th>
+          <th class="column-title">Customer</th>
+          <th class="column-title">Client</th>
+          <th class="column-title">Note</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let case of latestCasesList">
+          <td>{{case.caseNumber}}</td>
+          <td>{{case.courtNumber}}</td>
+          <td>{{case.value}}</td>
+          <td>{{case.judge}}</td>
+          <td>{{case.court}}</td>
+          <td>{{case.counterParty}}</td>
+          <td>{{case.caseCategory}}</td>
+          <td>{{case.dateCreated}}</td>
+          <td>{{case.dateModified}}</td>
+          <td></td>
+          <td></td>
+          <td>{{case.note}}</td>
+    </tbody>
+  </table>
+
+</div>
+
+<app-meetings></app-meetings>
+
+<div class="x_content">
+
+
+
+                    <div class="clearfix"></div>
+
+
+</div>

@@ -19,6 +19,10 @@ export class CasesService {
     return this.http.get(this._url);
   }
 
+  getLatestCases(params?: any): Observable<any> {
+    return this.http.get(this._url + '/latest');
+  }
+
   getCaseById(caseId: any){
     return this.http.get(this._url + '/' + caseId);
   }

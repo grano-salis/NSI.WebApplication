@@ -7,6 +7,9 @@ import {NewCaseComponent} from './new-case/new-case.component';
 import {CasesRoutingModule} from './cases-routing.module';
 import {CasesListComponent} from './cases-list/cases-list.component';
 import { EditCaseComponent } from './edit-case/edit-case.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import{MeetingsModule} from "../meetings/meetings.module";
+
 
 @NgModule({
   imports: [
@@ -14,8 +17,9 @@ import { EditCaseComponent } from './edit-case/edit-case.component';
     SharedModule,
     CasesRoutingModule,
     AlertModule,
-    FormsModule
+    FormsModule,
+    MeetingsModule
   ],
-  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent]
+  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent]
 })
 export class CasesModule { }
