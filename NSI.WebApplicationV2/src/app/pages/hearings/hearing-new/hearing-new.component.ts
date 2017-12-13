@@ -14,7 +14,11 @@ declare var $: any;
 export class HearingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
+    let self = this;
     $('#hearingDate').datetimepicker({ format: "MM/DD/YYYY, hh:mm:ss" });
+    $("#hearingDate").on("dp.change", function (e: any) {
+      self.model.hearingDate = $("#hearingDate").val();
+    });
   }
 
   query: string;
@@ -73,7 +77,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
-    this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
+    this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
   }
 
@@ -85,7 +89,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
     this.model.createdByUserId = 1
     this.model.caseId = 3
     console.log(this.model);
-    this.hearingsService.postHearing(this.model).subscribe((r: any) => console.log('Hazime imamo bingo: ' + r),
+    this.hearingsService.postHearing(this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
   }
 

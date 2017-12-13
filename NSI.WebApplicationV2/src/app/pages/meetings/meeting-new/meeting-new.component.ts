@@ -14,6 +14,7 @@ declare var $: any;
 export class MeetingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
+    let self = this;
     $('#from').datetimepicker({
       format: "MM/DD/YYYY, hh:mm:ss"
     });
@@ -22,9 +23,11 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
       format: "MM/DD/YYYY, hh:mm:ss"
     });
     $("#from").on("dp.change", function (e: any) {
+      self.model.from = $("#from").val();
       $('#to').data("DateTimePicker").minDate(e.date);
     });
     $("#to").on("dp.change", function (e: any) {
+      self.model.to = $("#to").val();
       $('#from').data("DateTimePicker").maxDate(e.date);
     });
   }
@@ -64,6 +67,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    console.log(this.model);
     this.model.from = $('#from').val();
     this.model.to = $('#to').val();
     console.log(this.model);
