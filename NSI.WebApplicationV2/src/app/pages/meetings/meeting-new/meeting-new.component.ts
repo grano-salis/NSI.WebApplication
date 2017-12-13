@@ -86,6 +86,14 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
       }
       console.log(this.edit);
     });
+
+    let dateFrom = this.route.snapshot.queryParamMap.get("dateFrom");
+    let dateTo = this.route.snapshot.queryParamMap.get("dateTo");
+
+    if(dateFrom && dateTo) {
+      this.model.from = new Date(Number.parseInt(dateFrom)).toLocaleString();
+      this.model.to = new Date(Number.parseInt(dateTo)).toLocaleString();
+    }
   }
 
   updateMeeting() {

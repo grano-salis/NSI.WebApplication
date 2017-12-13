@@ -23,7 +23,8 @@
                   <h6 style="float: right"><b>Filter By:</b></h6>
                 </div>
                 <div class="col-md-4 col-sm-4 col-xs-5">
-                  <select  (change)="changeFilterColumn()" class="form-control filter" name="filterColumn" [(ngModel)]="filterColumn">
+                  <select (change)="changeFilterColumn()" class="form-control filter" name="filterColumn"
+                          [(ngModel)]="filterColumn">
                     <option value="name"> Name</option>
                     <option value="email"> Email</option>
                     <option value="phone"> Phone</option>
@@ -57,7 +58,10 @@
             </thead>
             <tbody>
             <tr *ngFor="let contact of contacts">
-              <td>{{contact.lastName}} {{contact.firsttName}}</td>
+              <td style="vertical-align: middle">
+                <avatar style="display: inline-block; vertical-align: middle; margin-right: 5px;" [size]="33"
+                        [name]="contact.lastName + ' ' + contact.firsttName" [displayType]="'circle'"></avatar>
+                <span>{{contact.lastName}} {{contact.firsttName}}</span></td>
               <td>{{contact.email}}</td>
               <td>{{contact.phone}}</td>
               <td>
