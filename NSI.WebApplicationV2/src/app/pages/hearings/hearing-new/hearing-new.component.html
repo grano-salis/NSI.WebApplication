@@ -66,7 +66,7 @@
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                             <button type="button" class="btn btn-success" (click)="updateHearing()" *ngIf="edit" [disabled]="!hearingForm.form.valid">Update</button>
-                            <button type="submit" class="btn btn-success" *ngIf="!edit" [disabled]="!hearingForm.form.valid">Submit</button>
+                            <button type="submit" class="btn btn-success" *ngIf="!edit">Submit</button>
                             <button type="reset" class="btn btn-default" (click)="newHearing(); hearingForm.reset()">New hearing</button>
                             <button type="button" class="btn btn-danger" (click)="deleteHearing()" [disabled]="!hearingForm.form.valid">Delete</button>
                         </div>
