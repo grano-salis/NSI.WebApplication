@@ -32,7 +32,7 @@ namespace NSI.REST.Controllers
         }
 
         [HttpGet("Active/{customerId}")]
-        public SubscriptionDto GetActiveSubscriptions(int customerId)
+        public SubscriptionDto GetActiveSubscription(int customerId)
         {
             return _subscriptionManipulation.GetCustomerSubscription(customerId);
         }

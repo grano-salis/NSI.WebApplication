@@ -50,6 +50,8 @@ namespace NSI.REST.Controllers
                 {
                     // Ovdje bi vjerovatno trebalo povuci pricingpackage radi eventualne provjere
                     transaction.DateCreated = DateTime.Now;
+                    // Ovdje treba uraditi provjeru statusa?
+                    transaction.Status = "Succeeded";
                     var result = _transactionManipulation.SaveTransaction(transaction);
                     if (result != null) return Ok(result);
                 }
