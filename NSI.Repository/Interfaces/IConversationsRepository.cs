@@ -14,5 +14,6 @@ namespace NSI.Repository.Interfaces
         Conversation GetConversationById(int id);
         ICollection<Conversation> GetConversationByUserId(int id);
         void SaveToExistingConversation(int conversationId, string message, int loggedUserId);
+        Participant GetParticipantById(int id);
     }
 }

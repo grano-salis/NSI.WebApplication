@@ -54,9 +54,9 @@
                                 <input type='hidden' value="{{conversation.conversationId}}">
                                 <div class="mail_list">
 
-                                    <h3> {{conversation.participant[0].user.firstName + " " + conversation.participant[0].user.lastName}}
-                                        <small> {{conversation.message[0].dateCreated}}</small></h3>
-                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29  }}<span *ngIf = 'conversation.message[0].message.length > 30'>...</span> </p>
+                                    <h3> {{conversation.participant[0].user.firstName + " " + conversation.participant[0].user.lastName}}</h3>
+                                        <!--<small> {{conversation.message[conversation.message.length -1 ].dateCreated}}</small></h3>!
+                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29  }}<span *ngIf = 'conversation.message[0].message.length > 30'>...</span> </p>-->
 
                                 </div>
                             </a>
@@ -90,31 +90,37 @@
                                 <div class="view-mail scroller" *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
 
                                     <div class="row" *ngFor='let m of messageListSelectedConversation'>
-                                        <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)" >
+                                        <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)">
                                             {{m.message}}
                                         </p>
-                                        
+
                                         <br>
                                         <div class="clearfix"></div>
+                                        <!-- <small style="margin-left:200px" >{{m.createdByUser.id}}</small>
+                                        <small style="margin-left:200px">{{loggedUserId}}</small>!-->
                                         <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'><small>{{m.createdByUser.userName}}</small></span>
-                                        
+
+                                    </div>
+
+
+                                    <div class="separator"></div>
+
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" placeholder="New message..." [(ngModel)]="newMessage"></textarea>
+
+                                        <button class="btn btn-success" (click)="sendMessage()">Send <i class="fa fa-send-o"></i></button>
+
                                     </div>
 
                                 </div>
 
 
 
-                            </div>
-
-                            <div class="separator"></div>
-
-
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" placeholder="New message..." [(ngModel)] = "newMessage"></textarea>
-
-                                <button class="btn btn-success" (click) = "sendMessage()">Send <i class="fa fa-send-o"></i></button>
 
                             </div>
+
+
 
 
 

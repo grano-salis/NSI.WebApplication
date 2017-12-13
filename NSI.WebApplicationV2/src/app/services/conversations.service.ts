@@ -21,4 +21,9 @@ export class ConversationService {
        getParticipants(id:number): Observable<IParticipant[]>{
            return this._http.get<IParticipant[]>(`${this._url}/api/conversations/${id}/participants`);
        }
+
+       getParticipantById(id: number): Observable<IParticipant>
+       {
+           return this._http.get<IParticipant>(`${this._url}/api/participants/${id}`);
+       }
 }

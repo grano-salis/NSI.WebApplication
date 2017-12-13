@@ -78,8 +78,21 @@ namespace NSI.BLL
             }
             catch (Exception ex)
             {
-                logger.LogError("Something went wrong in ConversationsBLL:GetMessagesFromConversation: " + ex.Message);
-                throw new Exception(message: "ConversationsBLL:GetMessagesFromConversation error", innerException: ex);
+                logger.LogError("Something went wrong in ConversationsBLL: GetConversationForUser: " + ex.Message);
+                throw new Exception(message: "ConversationsBLL: GetConversationForUser error", innerException: ex);
+            }
+        }
+
+        public Participant GetParticipantForId(int participantId)
+        {
+            try
+            {
+                return repository.GetParticipantById(participantId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Something went wrong in ConversationsBLL: GetParticipantForId: " + ex.Message);
+                throw new Exception(message: "ConversationsBLL: GetParticipantForId error", innerException: ex);
             }
         }
     }

@@ -19,10 +19,10 @@ namespace NSI.REST
             this._convRepo = conversationRepository;
         }
 
-        public Task Send(string data,int conversationId, int loggedUserId)
+        public Task Send(string data,int conversationId, int loggedUserId,int participantId)
         {
             _convRepo.SaveToExistingConversation(conversationId, data, loggedUserId);
-            return Clients.All.InvokeAsync("Send", data);
+            return Clients.All.InvokeAsync("Send", data,conversationId,loggedUserId,participantId);
 
 
         }

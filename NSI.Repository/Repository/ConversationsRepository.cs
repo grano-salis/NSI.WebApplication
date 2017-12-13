@@ -113,6 +113,21 @@ namespace NSI.Repository.Repository
             }
         }
 
+        public Participant GetParticipantById(int id)
+        {
+            try
+            {
+
+                return context.Participant.Include("User").Where(x => x.ParticipantId == id).FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Something went wrong in ConversationsRepository:GetMessagesFromConversation(): " + ex.Message);
+                throw new Exception(message: "Error in ConversationsRepository", innerException: ex);
+            }
+        }
+
         public async void SaveToExistingConversation(int conversationId, string message, int loggedUserId)
         {
             Message m = new Message();

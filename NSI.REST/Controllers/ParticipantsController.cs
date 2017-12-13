@@ -13,7 +13,7 @@ using NSI.BLL.Interfaces;
 namespace NSI.REST.Controllers
 {
     [Produces("application/json")]
-    [Route("api/conversations/{conversationId}/participants")]
+    
     public class ParticipantsController : Controller
     {
         private readonly IConversationsManipulation conversationsManipulation;
@@ -28,6 +28,7 @@ namespace NSI.REST.Controllers
         }
 
         [HttpGet]
+        [Route("api/conversations/{conversationId}/participants")]
         public IActionResult GetConversationParticipants(int conversationId)
         {
             try
@@ -44,6 +45,24 @@ namespace NSI.REST.Controllers
             catch (Exception ex)
             {
                 logger.LogError("ParticipantController:GetConversationParticipants error: " + ex.Message);
+                return StatusCode(500);
+            }
+        }
+        [HttpGet]
+        [Route("api/participants/{id}")]
+        public IActionResult GetParticipantById(int id)
+        {
+            try
+            {
+                var participant = conversationsManipulation.GetParticipantForId(id);
+
+                var participantDTO = mapper.Map<ParticipantGetDTO>(participant);
+
+                return Ok(participantDTO);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("ParticipantController: GetParticipantById error: " + ex.Message);
                 return StatusCode(500);
             }
         }

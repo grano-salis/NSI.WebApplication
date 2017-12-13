@@ -12,5 +12,7 @@ namespace NSI.BLL.Interfaces
         bool CheckIfConversationExists(int conversationId);
         IEnumerable<Participant> GetConversationParticipants(int conversationId);
         ICollection<Conversation> GetConversationForUser(int userId);
+        Participant GetParticipantForId(int participantId);
     }
+       
 }
