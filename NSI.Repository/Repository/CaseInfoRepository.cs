@@ -1,5 +1,9 @@
 ﻿using NSI.Repository.Interfaces;
 using System;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core.Objects;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -108,14 +112,17 @@ namespace NSI.Repository
                 {
                     _logger.LogError(CaseInfoTmp.ToString());
                     CaseInfoTmp = Mappers.CaseInfoRepository.MapToDbEntityEdit(CaseInfoTmp, caseInfoDto);
+                    _dbContext.CaseInfo.Update(CaseInfoTmp);
                     _dbContext.SaveChanges();
                     return true;
+                } else {
+                    throw new Exception("DatabaseError");
                 }
-                return false;
+
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.InnerException.Message);
             }
         }
 

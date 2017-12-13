@@ -27,20 +27,19 @@ namespace NSI.Repository.Mappers
 		}
 
         public static CaseInfo MapToDbEntityEdit(CaseInfo caseInfoOriginal, CaseInfoDto caseInfoEdit) {
-            return new CaseInfo()
-            {
-                CaseNumber = caseInfoEdit.CaseNumber ?? caseInfoOriginal.CaseNumber,
-                CourtNumber = caseInfoEdit.CourtNumber ?? caseInfoOriginal.CourtNumber,
-                Value = caseInfoEdit.Value ?? caseInfoOriginal.Value,
-                Judge = caseInfoEdit.Judge ?? caseInfoOriginal.Judge,
-                Court = caseInfoEdit.Court ?? caseInfoOriginal.Court,
-                CounterParty = caseInfoEdit.CounterParty ?? caseInfoOriginal.CounterParty,
-                Note = caseInfoEdit.Note ?? caseInfoOriginal.Note,
-                CaseCategory = caseInfoEdit.CaseCategory,
-                CustomerId = caseInfoEdit.CustomerId,
-                ClientId = caseInfoEdit.ClientId,
-                CreatedByUserId = caseInfoEdit.CreatedByUserId
-            };
+            caseInfoOriginal.CaseNumber = caseInfoEdit.CaseNumber ?? caseInfoOriginal.CaseNumber;
+            caseInfoOriginal.CourtNumber = caseInfoEdit.CourtNumber ?? caseInfoOriginal.CourtNumber;
+            caseInfoOriginal.Value = caseInfoEdit.Value ?? caseInfoOriginal.Value;
+            caseInfoOriginal.Judge = caseInfoEdit.Judge ?? caseInfoOriginal.Judge;
+            caseInfoOriginal.Court = caseInfoEdit.Court ?? caseInfoOriginal.Court;
+            caseInfoOriginal.CounterParty = caseInfoEdit.CounterParty ?? caseInfoOriginal.CounterParty;
+            caseInfoOriginal.Note = caseInfoEdit.Note ?? caseInfoOriginal.Note;
+            caseInfoOriginal.DateModified = DateTime.Now;
+            caseInfoOriginal.CaseCategory = caseInfoEdit.CaseCategory;
+            caseInfoOriginal.CustomerId = caseInfoEdit.CustomerId;
+            caseInfoOriginal.ClientId = caseInfoEdit.ClientId;
+            caseInfoOriginal.CreatedByUserId = caseInfoEdit.CreatedByUserId;
+            return caseInfoOriginal;
         }
 
 		public static CaseInfoDto MapToDto(CaseInfo caseInfo)
