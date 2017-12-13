@@ -78,6 +78,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   //edit-update
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
+    console.log(this.id);
     if (this.id != 0) {
       this.meetingsService.getMeetingById(this.id).subscribe(data => {
         if (data != null) {
@@ -106,7 +107,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     this.model.to = $('#to').val();
     console.log(this.model);
 
-    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
+    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
 
   }
