@@ -6,12 +6,12 @@
         margin: 10px;
         /* Hide the control initially, to prevent it from appearing
            before the map loads. */
-        display: none;
+        display: block;
 }
 
       /* Display the control once it is inside the map. */
 #map .map-control { 
-display: block;
+	display: block;
 }
 
 #map{

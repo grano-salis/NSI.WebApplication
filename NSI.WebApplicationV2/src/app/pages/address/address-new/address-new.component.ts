@@ -44,6 +44,12 @@ export class AddressNewComponent implements OnInit {
     this.addressTypeService.getAddressTypes().subscribe((addressTypes: any) => {
       this.addressTypes = addressTypes;
     });
+        let mapProp = {
+        center: new google.maps.LatLng(0.0, 0.0),
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    let map = new google.maps.Map(document.getElementById("map"), mapProp);
   }
 
   initMap(lat: number, lng: number) {
