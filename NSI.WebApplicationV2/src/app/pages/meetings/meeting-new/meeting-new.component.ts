@@ -84,10 +84,11 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     this.id = +this.route.snapshot.paramMap.get('id');
     console.log(this.id);
     if (this.id != 0) {
-      this.meetingsService.getMeetingById(this.id).subscribe(data => {
+      this.meetingsService.getMeetingById(this.id).subscribe(response => {
+        let data = response.data;
         if (data != null) {
           this.edit = true;
-
+          console.log(data);
           this.model.title = data.title;
           this.model.meetingPlace = data.meetingPlace;
           this.model.from = new Date(data.from).toLocaleString();

@@ -15,7 +15,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     let self = this;
-    $('#hearingDate').datetimepicker({ format: "MM/DD/YYYY, hh:mm:ss" });
+    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
     $("#hearingDate").on("dp.change", function (e: any) {
       self.model.hearingDate = $("#hearingDate").val();
     });
@@ -62,10 +62,13 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
     if (this.id != 0) {
-      this.hearingsService.getHearingById(this.id).subscribe(data => {
+      this.hearingsService.getHearingById(this.id).subscribe(response => {
+        let data = response.data;
         if (data != null) {
           console.log(data);
           this.edit = true;
+          console.log(data.hearingDate);
+          console.log(new Date(data.hearingDate));
           this.model.hearingDate = new Date(data.hearingDate).toLocaleString();
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;

@@ -34,7 +34,7 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="meetingplace" required minlength="3" maxlength="20" pattern="[a-zA-Z]+" [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="meetingplace" required minlength="3" maxlength="20" pattern="^[A-Za-z0-9 ]*$" [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
                         <br><br>
                         <div class="alert alert-danger" *ngIf="meetingPlace.errors && (meetingPlace.dirty || meetingPlace.touched)">
                             <p *ngIf="meetingPlace.errors.required">Meeting place is required</p>
