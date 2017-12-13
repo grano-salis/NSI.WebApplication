@@ -57,7 +57,7 @@
                        name = "email-new-{{index}}"
                        required placeholder="Email"
                        data-error="Valid email is required.">
-                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-email-btn-{{index}}" (click)="deleteEmail()">
+                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-email-btn-{{index}}" (click)="deleteEmail(index)">
                   <i class="fa fa-minus"></i>
                 </button>
               </div>
@@ -85,7 +85,7 @@
               <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
                 <input type="tel" name="phone-new-{{index}}" [(ngModel)] = "phones[index]"
                        class="form-control form-input-beauty" placeholder="Phone {{obj}}">
-                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-phone{{index}}" (click)="deletePhone()">
+                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-phone{{index}}" (click)="deletePhone(index)">
                   <i class="fa fa-minus"></i>
                 </button>
               </div>

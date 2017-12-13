@@ -57,11 +57,17 @@ export class ContactsComponent implements OnInit {
 
   editContact(contact: any) {
     this.temp_contact = Object.assign({}, contact);
+    if(this.temp_contact.emails.length === 0){
+      this.temp_contact.emails.push('');
+    }
+    if(this.temp_contact.phones.length === 0){
+      this.temp_contact.phones.push('');
+    }
   }
 
   newContact() {
     this.temp_contact = new Contact();
-    this.temp_contact.emails =[];
+    this.temp_contact.emails = [];
     this.temp_contact.phones = [];
   }
 
@@ -70,8 +76,7 @@ export class ContactsComponent implements OnInit {
   }
 
   close() {
-    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] =
-      this.temp_contact;
+    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
     this.search();
   }
 

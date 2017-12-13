@@ -57,12 +57,12 @@ export class NewContactComponent {
     this.emails.push('');
   }
 
-  deletePhone() {
-    this.phones.pop();
+  deletePhone(index: number) {
+    this.phones.splice(index, 1);
   }
 
-  deleteEmail() {
-    this.emails.pop();
+  deleteEmail(index: number) {
+    this.emails.splice(index, 1);
   }
 
   trackByIndex(index: number, obj: any): any {
