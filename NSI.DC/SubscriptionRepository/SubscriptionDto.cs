@@ -20,9 +20,5 @@ namespace NSI.DC.SubscriptionRepository
         public bool IsActive { get; set; }
         [DataMember]
         public bool RecurringPayment { get; set; }
-        [DataMember]
-        public Customer Customer { get; set; }
-        [DataMember]
-        public PricingPackage PricingPackage { get; set; }
     }
 }

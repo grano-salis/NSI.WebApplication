@@ -83,6 +83,8 @@ namespace NSI.REST
             services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
             services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<ISubscriptionManipulation, SubscriptionManipulation>();
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

@@ -34,11 +34,6 @@ namespace NSI.BLL
             return _subscriptionRepository.SaveSubscription(subscription);
         }
 
-        public SubscriptionDto Subscription(SubscriptionDto subscription)
-        {
-            return _subscriptionRepository.SaveSubscription(subscription);
-        }
-
         public bool DeleteSubscriptionById(int subscriptionId)
         {
             return _subscriptionRepository.DeleteSubscription(subscriptionId);

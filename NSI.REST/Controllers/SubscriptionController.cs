@@ -17,7 +17,7 @@ namespace NSI.REST.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<subscriptionDto> GetAllSubscriptions()
+        public IEnumerable<SubscriptionDto> GetAllSubscriptions()
         {
             return _subscriptionManipulation.GetAllSubscriptions();
         }
@@ -31,10 +31,10 @@ namespace NSI.REST.Controllers
             return Ok(subscription);
         }
 
-        [HttpGet("Active")]
-        public IEnumerable<SubscriptionDto> GetActiveSubscriptions()
+        [HttpGet("Active/{customerId}")]
+        public SubscriptionDto GetActiveSubscriptions(int customerId)
         {
-            return _subscriptionManipulation.GetActiveSubscriptions();
+            return _subscriptionManipulation.GetCustomerSubscription(customerId);
         }
 
         [HttpPost]
@@ -46,7 +46,7 @@ namespace NSI.REST.Controllers
                 {
                     // Ovdje bi vjerovatno trebalo povuci subscriptione radi eventualne provjere
                     subscription.SubscriptionStartDate = new DateTime();
-                    subscription.SubscriptionEndDate = subscription.SubscriptionStartDate;
+                    subscription.SubscriptionExpirationDate = subscription.SubscriptionStartDate;
                     var result = _subscriptionManipulation.SaveSubscription(subscription);
                     if (result != null) return Ok(result);
                 }

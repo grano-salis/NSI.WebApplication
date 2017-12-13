@@ -55,10 +55,10 @@ namespace NSI.Repository
 
         SubscriptionDto ISubscriptionRepository.GetCustomerSubscription(int customerId)
         {
-            var latestTransaction = _dbContext.Transaction.Where(t => t.CustomerId == customerId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
-            if( latestTransaction != null )
+            var latestSubscription = _dbContext.Subscription.Where(t => t.CustomerId == customerId && t.IsActive == true).OrderByDescending(x => x.SubscriptionStartDate).FirstOrDefault();
+            if( latestSubscription != null )
             {
-                return MapToDto(latestTransaction.Subscription);
+                return MapToDto(latestSubscription);
             }
             return null;
         }

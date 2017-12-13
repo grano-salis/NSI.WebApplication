@@ -16,9 +16,7 @@ namespace NSI.Repository
                 SubscriptionStartDate = subscription.SubscriptionStartDate,
                 SubscriptionExpirationDate = subscription.SubscriptionExpirationDate,
                 IsActive = subscription.IsActive,
-                RecurringPayment = subscription.RecurringPayment,
-                Customer = subscription.Customer,
-                PricingPackage = subscription.pricingPackage
+                RecurringPayment = subscription.RecurringPayment
             };
         }
 
@@ -32,10 +30,7 @@ namespace NSI.Repository
                 SubscriptionStartDate = subscription.SubscriptionStartDate,
                 SubscriptionExpirationDate = subscription.SubscriptionExpirationDate,
                 IsActive = subscription.IsActive,
-                RecurringPayment = subscription.RecurringPayment,
-                Customer = subscription.Customer,
-                PricingPackage = subscription.pricingPackage
-
+                RecurringPayment = subscription.RecurringPayment
             };
         }
     }
