@@ -19,6 +19,8 @@ namespace IkarusEntities
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<DocumentCategory> DocumentCategory { get; set; }
+        public virtual DbSet<DocumentHistory> DocumentHistory { get; set; }
+        public virtual DbSet<Email> Email { get; set; }
         public virtual DbSet<FileType> FileType { get; set; }
         public virtual DbSet<Hearing> Hearing { get; set; }
         public virtual DbSet<Meeting> Meeting { get; set; }
@@ -26,15 +28,15 @@ namespace IkarusEntities
         public virtual DbSet<Note> Note { get; set; }
         public virtual DbSet<Participant> Participant { get; set; }
         public virtual DbSet<PaymentGateway> PaymentGateway { get; set; }
+        public virtual DbSet<Phone> Phone { get; set; }
         public virtual DbSet<PricingPackage> PricingPackage { get; set; }
+        public virtual DbSet<Subscription> Subscription { get; set; }
         public virtual DbSet<Task> Task { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<UserCase> UserCase { get; set; }
         public virtual DbSet<UserHearing> UserHearing { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
         public virtual DbSet<UserMeeting> UserMeeting { get; set; }
-        public virtual DbSet<Phone> Phone { get; set; }
-        public virtual DbSet<Email> Email { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -307,7 +309,6 @@ namespace IkarusEntities
                     .HasConstraintName("Relationship71");
             });
 
-
             modelBuilder.Entity<Conversation>(entity =>
             {
                 entity.HasIndex(e => e.UserId)
@@ -326,6 +327,8 @@ namespace IkarusEntities
 
                 entity.HasIndex(e => e.PricingPackageId)
                     .HasName("IX_Relationship50");
+
+                entity.Property(e => e.CustomerName).IsRequired();
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -346,45 +349,6 @@ namespace IkarusEntities
                     .HasConstraintName("Relationship50");
             });
 
-            modelBuilder.Entity<Document>(entity =>
-            {
-                entity.HasIndex(e => e.CaseId)
-                    .HasName("IX_Relationship8");
-
-                entity.HasIndex(e => e.CreatedByUserId)
-                    .HasName("IX_Relationship69");
-
-                entity.HasIndex(e => e.DocumentCategoryId)
-                    .HasName("IX_Relationship37");
-
-                entity.HasIndex(e => e.FileTypeId)
-                    .HasName("IX_Relationship38");
-
-                entity.Property(e => e.DocumentId).HasDefaultValueSql("nextval('\"Customer_CustomerId_seq\"'::regclass)");
-
-                entity.HasOne(d => d.Case)
-                    .WithMany(p => p.Document)
-                    .HasForeignKey(d => d.CaseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Relationship8");
-
-                entity.HasOne(d => d.CreatedByUser)
-                    .WithMany(p => p.Document)
-                    .HasForeignKey(d => d.CreatedByUserId)
-                    .HasConstraintName("Relationship69");
-
-                entity.HasOne(d => d.DocumentCategory)
-                    .WithMany(p => p.Document)
-                    .HasForeignKey(d => d.DocumentCategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Relationship37");
-
-                entity.HasOne(d => d.FileType)
-                    .WithMany(p => p.Document)
-                    .HasForeignKey(d => d.FileTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Relationship38");
-            });
 
             modelBuilder.Entity<DocumentCategory>(entity =>
             {
@@ -398,6 +362,19 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship78");
+            });
+
+
+
+            modelBuilder.Entity<Email>(entity =>
+            {
+                entity.Property(e => e.EmailAddress).IsRequired();
+
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Email)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("ContactId");
             });
 
             modelBuilder.Entity<FileType>(entity =>
@@ -487,8 +464,6 @@ namespace IkarusEntities
 
             modelBuilder.Entity<Note>(entity =>
             {
-                entity.Property(e => e.NoteId).HasDefaultValueSql("nextval('\"Note_NoteId_seq\"'::regclass)");
-
                 entity.Property(e => e.Text).IsRequired();
 
                 entity.HasOne(d => d.CreatedByUser)
@@ -540,6 +515,15 @@ namespace IkarusEntities
                 entity.Property(e => e.IsActive).HasDefaultValueSql("true");
             });
 
+            modelBuilder.Entity<Phone>(entity =>
+            {
+                entity.HasOne(d => d.Contact)
+                    .WithMany(p => p.Phone)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Phone_ContactId_fkey");
+            });
+
             modelBuilder.Entity<PricingPackage>(entity =>
             {
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
@@ -551,6 +535,25 @@ namespace IkarusEntities
                 entity.Property(e => e.IsDeleted).HasDefaultValueSql("false");
 
                 entity.Property(e => e.Price).HasColumnType("numeric(10, 2)");
+            });
+
+            modelBuilder.Entity<Subscription>(entity =>
+            {
+                entity.Property(e => e.SubscriptionExpirationDate).HasColumnType("timestamptz");
+
+                entity.Property(e => e.SubscriptionStartDate).HasColumnType("timestamptz");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.Subscription)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Subscription_CustomerId_fkey");
+
+                entity.HasOne(d => d.PricingPackage)
+                    .WithMany(p => p.Subscription)
+                    .HasForeignKey(d => d.PricingPackageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Subscription_PricingPackageId_fkey");
             });
 
             modelBuilder.Entity<Task>(entity =>
@@ -573,8 +576,6 @@ namespace IkarusEntities
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("AssignedTo");
-
-                entity.HasQueryFilter(x => EF.Property<bool>(x, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -589,6 +590,8 @@ namespace IkarusEntities
                     .HasName("IX_Relationship44");
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
+
+                entity.Property(e => e.Status).IsRequired();
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Transaction)
@@ -647,26 +650,6 @@ namespace IkarusEntities
                     .HasConstraintName("UserHearingUserFK");
             });
 
-            modelBuilder.Entity<Phone>(entity =>
-            {
-                entity.HasOne(d => d.Contact)
-                    .WithMany(p => p.Phone)
-                    .HasForeignKey(d => d.ContactId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("Phone_ContactId_fkey");
-            });
-
-            modelBuilder.Entity<Email>(entity =>
-            {
-                entity.Property(e => e.EmailAddress).IsRequired();
-
-                entity.HasOne(d => d.Contact)
-                    .WithMany(p => p.Email)
-                    .HasForeignKey(d => d.ContactId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("ContactId");
-            });
-
             modelBuilder.Entity<UserInfo>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -677,7 +660,6 @@ namespace IkarusEntities
                 entity.HasIndex(e => e.Username)
                     .HasName("Username")
                     .IsUnique();
-            
 
                 entity.Property(e => e.DateCreated).HasColumnType("timestamptz");
 
@@ -718,35 +700,18 @@ namespace IkarusEntities
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Relationship29");
             });
+
+            modelBuilder.HasSequence("Email_EmailId_seq")
+                .HasMin(0)
+                .HasMax(100000000);
+
+            modelBuilder.HasSequence("Note_NoteId_seq");
+
+            modelBuilder.HasSequence("Phone_PhoneId_seq")
+                .HasMin(0)
+                .HasMax(100000000);
+
+            modelBuilder.HasSequence("UserHearing_UserHearingId_seq");
         }
-
-        public override int SaveChanges()
-        {
-            OnBeforeSaving();
-            return base.SaveChanges();
-        }
-
-        private void OnBeforeSaving()
-        {
-            foreach (var entry in ChangeTracker.Entries<Task>())
-            {
-                switch (entry.State)
-                {
-                    case EntityState.Added:
-                        entry.CurrentValues["IsDeleted"] = false;
-                        entry.CurrentValues["DateCreated"] = DateTime.Now;
-                        break;
-
-                    case EntityState.Deleted:
-                        entry.State = EntityState.Modified;
-                        entry.CurrentValues["IsDeleted"] = true;
-                        break;
-                    case EntityState.Modified:
-                        entry.CurrentValues["DateModified"] = DateTime.Now;
-                        break;
-                }
-            }
-        }
-
     }
 }

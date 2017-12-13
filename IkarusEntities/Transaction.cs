@@ -11,6 +11,7 @@ namespace IkarusEntities
         public int PaymentGatewayId { get; set; }
         public int PricingPackageId { get; set; }
         public int CustomerId { get; set; }
+        public string Status { get; set; }
 
         public Customer Customer { get; set; }
         public PaymentGateway PaymentGateway { get; set; }
