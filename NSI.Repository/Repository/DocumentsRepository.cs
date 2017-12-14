@@ -73,10 +73,19 @@ namespace NSI.Repository.Repository
             return document != null ? DocumentRepository.MapToDto(document, _dbContext) : null;
         }
 
-        EntityEntry<Document> IDocumentRepository.SaveDocument(DocumentDto document)
+        int IDocumentRepository.SaveDocument(DocumentDto document)
         {
-            var result = _dbContext.Add(DocumentRepository.MapToDbEntity(document, _dbContext));
-            return result;
+            try
+            {
+                var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
+                _dbContext.Add(documentEntity);
+                var result = _dbContext.SaveChanges();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         IEnumerable<DocumentDto> IDocumentRepository.SearchDocuments(DocumentSearchCriteriaDto searchCriteria)

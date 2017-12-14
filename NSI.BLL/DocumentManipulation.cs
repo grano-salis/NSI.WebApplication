@@ -39,6 +39,7 @@ namespace NSI.BLL
 
         public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
+            if(query.PageNumber < 0) throw new Exception("Page number is not valid");
             return _documentRepository.GetAllDocumentsByPage(query);
         }
 
@@ -56,6 +57,7 @@ namespace NSI.BLL
         {
             var document = _documentRepository.GetDocument(documentDto.DocumentId);
             if (document == null) return false;
+
             document.LastModified = DateTime.UtcNow;
             _documentRepository.Update(documentDto);
             return true;

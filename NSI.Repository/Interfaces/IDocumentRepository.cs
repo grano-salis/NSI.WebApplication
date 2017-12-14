@@ -10,7 +10,7 @@ namespace NSI.Repository.Interfaces
     {
         DocumentDto GetDocument(int documentId);
         IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
-        EntityEntry<Document> SaveDocument(DocumentDto document);
+        int SaveDocument(DocumentDto document);
         PagingResultModel<DocumentDto> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
         void Update(DocumentDto document);

@@ -19,7 +19,11 @@ namespace NSI.Repository.Mappers
                 DocumentCategory = _dbContext.DocumentCategory.FirstOrDefault(d => d.DocumentCategoryId == document.CategoryId),
                 Description = document.DocumentDescription,
                 Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId),
-                FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeExtension)
+                FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeExtension),
+                FileTypeId = document.FileTypeExtension,
+                DocumentHistory = _dbContext.DocumentHistory.ToList(),
+                CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
+                CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId
             };
         }
 

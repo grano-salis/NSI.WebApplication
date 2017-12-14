@@ -28,10 +28,18 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var documents = DocumentManipulation.GetAllDocuments();
-            return Ok(documents);
+            try
+            {
+                var documents = DocumentManipulation.GetAllDocuments();
+                return Ok(documents);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
+        //POST /api/Documents/paging
         [HttpPost]
         [Route("paging")]
         public IActionResult GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
@@ -46,12 +54,13 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // GET api/values/5
+        // GET api/Documents/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try
             {
+                if (id == 0) throw new Exception("Id is not valid.");
                 return Ok(DocumentManipulation.GetDocumentById(id));
             }
             catch (Exception e)
@@ -60,37 +69,46 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // POST api/values
+        // POST api/Documents/upload
         [HttpPost]
         [Route("upload")]
         public async Task<IActionResult> UploadFiles(List<IFormFile> files)
         {
-            var size = files.Sum(f => f.Length);
-
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
-            foreach (var formFile in files)
+            try
             {
-                if (formFile.Length <= 0) continue;
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await formFile.CopyToAsync(stream);
-                }
-            }
+                var size = files.Sum(f => f.Length);
 
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-            DocumentManipulation.UploadFile(files, filePath);
-            return Ok(new { count = files.Count, size, filePath });
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName();
+
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length <= 0) continue;
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+
+                // process uploaded files
+                // Don't rely on or trust the FileName property without validation.
+                DocumentManipulation.UploadFile(files, filePath);
+                return Ok(new { count = files.Count, size, filePath });
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
-        // POST api/values
+        // POST api/Documents
         [HttpPost]
         public IActionResult Post(DocumentDto document)
         {
             try
             {
+                if (document == null) throw new Exception("Document is null");
+
                 DocumentManipulation.SaveDocument(document);
                 return Ok(document);
             }
@@ -101,19 +119,29 @@ namespace NSI.REST.Controllers
         }
 
 
-        // PUT api/values/5
+        // PUT api/Documents/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]DocumentDto documentDto)
         {
-            return Ok(DocumentManipulation.EditDocument(documentDto));
+            try
+            {
+                if (id == 0) throw new Exception("Id is not valid");
+
+                return Ok(DocumentManipulation.EditDocument(documentDto));
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}/{currentUserId}")]
-        public IActionResult Delete(int id, int currentUserId)
+        // DELETE api/Documents/3
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
+                if(id == 0) throw new Exception("Id is not valid");
                 return Ok(DocumentManipulation.DeleteDocument(id));
             }
             catch (Exception e)
