@@ -79,6 +79,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
 
   newMeeting() {
     this.model = new Meeting();
+    this.router.navigate(['/meetings/new']);
   }
 
   //edit-update
@@ -121,7 +122,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
 
   deleteMeeting() {
     console.log(this.id);
-    this.meetingsService.deleteMeetingById(this.id).subscribe((r: any) => console.log('Brisemo meeting:' + r),
+    this.meetingsService.deleteMeetingById(this.id).subscribe((r: any) => this.router.navigate(['/meetings']),
       (error: any) => console.log("Error: " + error.message));
   }
 }

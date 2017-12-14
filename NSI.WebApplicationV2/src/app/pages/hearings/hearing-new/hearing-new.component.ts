@@ -2,7 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Hearing } from './hearing';
 import { HearingsService } from '../../../services/hearings.service';
 import { UsersService } from '../../../services/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 declare var $: any;
 
@@ -30,7 +31,8 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   id: number;
   public edit: boolean = false;
 
-  constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute) {
+  constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute,
+              private router: Router) {
     this.query = '';
     this.filteredList = [];
     this.notes = [];
@@ -100,11 +102,12 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   newHearing() {
     this.model = new Hearing();
+    this.router.navigate(['/hearings/new']);
   }
 
   deleteHearing() {
-    this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => console.log('Brisemo hearing:' + r),
-      (error: any) => console.log("Error: " + error.message));
+    this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => {this.model = new Hearing(); 
+      console.log('Brisemo hearing:' + r)}, (error: any) => console.log("Error: " + error.message));
   }
 
 }
