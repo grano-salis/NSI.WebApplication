@@ -20,8 +20,8 @@ const routes: Routes = [
       {path: 'hearings', loadChildren: './hearings/hearings.module#HearingsModule'},
       {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'},
       {path: 'transactions', loadChildren: './transactions/transactions.module#TransactionsModule'},
-      {path: 'pricingpackages', loadChildren: './pricing-packages/pricing-packages.module#PricingPackagesModule'}
-
+      {path: 'pricingpackages', loadChildren: './pricing-packages/pricing-packages.module#PricingPackagesModule'},
+      {path: 'clients', loadChildren: './clients/clients.module#ClientsModule'}
     ]
   }
 ];
