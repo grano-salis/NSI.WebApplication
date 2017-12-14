@@ -47,14 +47,17 @@ namespace NSI.REST.Controllers
             }
             try
             {
+                
                
-               var contact = contactsRepository.CreateContact(model);
-                if (contact != null)
+                if (model != null)
                 {
-                    if (ValidationContact(contact) == "")
+                    if (ValidationContact(model) == "")
+                    {
+                        var contact = contactsRepository.CreateContact(model);
                         return Ok(contact);
+                    }
                     else
-                        throw new Exception(ValidationContact(contact));
+                        throw new Exception(ValidationContact(model));
                    
                 }
                     
