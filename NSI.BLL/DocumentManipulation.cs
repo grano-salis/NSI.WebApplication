@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using IkarusEntities;
 using NSI.BLL.Interfaces;
-using NSI.DC.Common;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.REST.Models;
@@ -17,24 +14,14 @@ namespace NSI.BLL
             _documentRepository = documentRepository;
         }
 
-        public PagingResultModel<DocumentDto> GetDocumentsByPage(REST.Models.DocumentsPagingQueryModel query)
+        public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
             return _documentRepository.GetAllDocuments(query);
         }
 
-        public ICollection GetCaseDocuments(int caseId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection GetCustomerDocuments(int customerId, Paging paging)
-        {
-            throw new NotImplementedException();
-        }
-
         public DocumentDto GetDocumentById(int documentId)
         {
-            throw new NotImplementedException();
+            return _documentRepository.GetDocument(documentId);
         }
 
         public DocumentDto SaveDocument()

@@ -12,14 +12,16 @@ const routes: Routes = [
       {path: 'home', loadChildren: './home/home.module#HomeModule'},
       {path: 'about', loadChildren: './about/about.module#AboutModule'},
       {path: 'meetings', loadChildren: './meetings/meetings.module#MeetingsModule'},
-      {path: 'organization', loadChildren: './organization/oraganization.module#OrganizationModule'},
+      {path: 'organization', loadChildren:'./organization/oraganization.module#OrganizationModule'},
       {path: 'contacts', loadChildren: './contacts/contacts.module#ContactsModule'},
       {path: 'documents', loadChildren: './documents/documents.module#DocumentsModule'},
       {path: 'address', loadChildren: './address/address.module#AddressModule'},
       {path: 'addressType', loadChildren: './address/addressType.module#AddressTypeModule'},
       {path: 'hearings', loadChildren: './hearings/hearings.module#HearingsModule'},
-      {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'}
-      
+      {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'},
+      {path: 'transactions', loadChildren: './transactions/transactions.module#TransactionsModule'},
+      {path: 'pricingpackages', loadChildren: './pricing-packages/pricing-packages.module#PricingPackagesModule'},
+      {path: 'clients', loadChildren: './clients/clients.module#ClientsModule'}
     ]
   }
 ];

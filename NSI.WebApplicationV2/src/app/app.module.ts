@@ -25,6 +25,10 @@ import { HearingsService } from './services/hearings.service';
 import {AddressTypeService} from './services/addressType.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { TransactionsService } from './services/transactions.service';
+import { PaymentGatewaysService } from './services/payment-gateways.service';
+import { PricingPackagesService } from './services/pricing-packages.service';
+
 import { ToastrModule } from 'ngx-toastr';
 import {AlertService} from "./services/alert.service";
 
@@ -32,6 +36,7 @@ const toastrSettings = {
   positionClass: 'toast-top-center',
   timeOut: 3000
 };
+
 
 @NgModule({
   imports: [
@@ -62,7 +67,10 @@ const toastrSettings = {
     ContactsService,
     HearingsService,
     DocumentsService,
-    AlertService
+    AlertService,
+    PaymentGatewaysService,
+    PricingPackagesService,
+    TransactionsService
   ],
   bootstrap: [AppComponent]
 })
