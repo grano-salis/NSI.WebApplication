@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using NSI.DC.AddressRepository;
+using NSI.DC.PricingPackageRepository;
 
 namespace NSI.DC.CustomersRepository
 {
@@ -9,13 +11,13 @@ namespace NSI.DC.CustomersRepository
     public class CustomerDto
     {
         [DataMember]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [DataMember]
         public String CustomerName  { get; set; }
         [DataMember]
         public bool? IsActive { get; set; }
         [DataMember]
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
         [DataMember]
         public DateTime? DateModified { get; set; }
         [DataMember]

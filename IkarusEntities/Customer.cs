@@ -17,10 +17,10 @@ namespace IkarusEntities
             UserInfo = new HashSet<UserInfo>();
         }
 
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         public String CustomerName { get; set; }
         public bool? IsActive { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
         public int? PricingPackageId { get; set; }

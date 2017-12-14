@@ -1,6 +1,7 @@
 ﻿using NSI.DC.CustomersRepository;
 using System;
 using System.Collections.Generic;
+using NSI.REST.Models;
 
 namespace NSI.BLL.Interfaces
 {
@@ -9,7 +10,9 @@ namespace NSI.BLL.Interfaces
         CustomerDto GetCustomerById(int customerId);
         CustomerDto CreateCustomer(CustomerDto customer);
         ICollection<CustomerDto> GetCustomers();
+        ICollection<CustomerDto> GetAllCustomers();
         bool DeleteCustomerById(int customerId);
-        bool EditCustomer(int customerId, CustomerDto customer);
+        bool EditCustomer(CustomerDto customer);
+        ICollection<CustomerDto> SearchCustomer(CustomerSearchDto searchCustomer);
     }
 }
