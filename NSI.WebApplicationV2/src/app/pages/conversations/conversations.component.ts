@@ -63,12 +63,7 @@ export class ConversationsComponent implements OnInit {
     }
 
     public sendMessage(): void {
-
-        //this._hubConversationService.newMessage = this.newMessage;
-        //let participant = this.getParticipanWithUserId(this.loggedUserId);
         this._hubConversationService.sendMessage(this.newMessage,this.messageListSelectedConversation[0].conversationId,this.loggedUserId);
-        //this._hubConnection.invoke('Send', this.newMessage, this.messageListSelectedConversation[0].conversationId, this.loggedUserId, participant.participantId);
-       // this.messageListSelectedConversation = this._hubConversationService.messages;
         this.newMessage="";
     }
 
@@ -107,6 +102,11 @@ export class ConversationsComponent implements OnInit {
 
     }
 
+    public validateNewMessageLength(): boolean
+    {
+        return (this.newMessage && this.newMessage.length > 0);
+    }
+
     ngOnInit() {
 
         this.route.params.subscribe(params => {
@@ -122,35 +122,6 @@ export class ConversationsComponent implements OnInit {
                 this.determineConvName();
             }
             )
-
-            
-
-        /*this._hubConnection = new HubConnection(`${this._url}/chat`);
-
-        this._hubConnection.on('Send', (data, activeConversationId, loggedUserId, participantId) => {
-
-
-
-            this.participantForMessageModel = this.getParticipanWithUserId(loggedUserId);
-            this.createMessageModel(data, activeConversationId, loggedUserId, this.participantForMessageModel);
-            this.messageListSelectedConversation.push(this.messageModel);
-
-
-        });
-
-        this._hubConnection.start()
-            .then(() => {
-                console.log('Hub connection started')
-            })
-            .catch(err => {
-                console.log('Error while establishing connection')
-            });
-
-            */
-
-
-
-
 
     }
 }

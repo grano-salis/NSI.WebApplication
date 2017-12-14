@@ -64,9 +64,9 @@
                                         <small> {{conversation.message[conversation.message.length -1 ].dateCreated | date : 'dd/MM/yyyy
                                             HH:mm'}}</small>
                                     </h3>
-                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}
-                                        <span
+                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}<span
                                             *ngIf='conversation.message[conversation.message.length -1 ].message.length > 30'>...</span>
+                                    </p>
 
                                 </div>
                             </a>
@@ -124,7 +124,7 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" placeholder="New message..." [(ngModel)]="newMessage"></textarea>
 
-                                        <button class="btn btn-success" (click)="sendMessage()">Send
+                                        <button class="btn btn-success" (click)="sendMessage()" [disabled]='!validateNewMessageLength()'>Send
                                             <i class="fa fa-send-o"></i>
                                         </button>
 
