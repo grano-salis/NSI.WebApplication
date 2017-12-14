@@ -114,7 +114,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     this.model.to = $('#to').val();
     console.log(this.model);
 
-    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log(r),
+    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => this.router.navigate(['/meetings']),
       (error: any) => console.log("Error: " + error.message));
 
   }
