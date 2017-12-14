@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using NSI.BLL.Interfaces;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
@@ -14,9 +16,31 @@ namespace NSI.BLL
             _documentRepository = documentRepository;
         }
 
+
+        public List<DocumentDto> GetAllDocuments()
+        {
+            return _documentRepository.GetAllDocuments();
+        }
+
+        public void UploadFile(List<IFormFile> files, string filePath)
+        {
+            var document = new DocumentDto()
+            {
+                DocumentPath = filePath
+            };
+            //TODO
+        }
+
+        public bool SaveDocument(DocumentDto document)
+        {
+            var result = _documentRepository.SaveDocument(document);
+            return result != null;
+        }
+
         public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
-            return _documentRepository.GetAllDocuments(query);
+            if(query.PageNumber < 0) throw new Exception("Page number is not valid");
+            return _documentRepository.GetAllDocumentsByPage(query);
         }
 
         public DocumentDto GetDocumentById(int documentId)
@@ -24,23 +48,19 @@ namespace NSI.BLL
             return _documentRepository.GetDocument(documentId);
         }
 
-        public DocumentDto SaveDocument()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool DeleteDocument(int id)
         {
             return _documentRepository.DeleteDocument(id);
         }
 
-        public bool EditDocument(int id, DocumentDto documentDto)
+        public bool EditDocument(DocumentDto documentDto)
         {
-            var document = _documentRepository.GetDocument(id);
+            var document = _documentRepository.GetDocument(documentDto.DocumentId);
             if (document == null) return false;
-            document.LastModified = DateTime.UtcNow;
-            _documentRepository.Update(document);
+
+            _documentRepository.Update(documentDto);
             return true;
         }
+
     }
 }

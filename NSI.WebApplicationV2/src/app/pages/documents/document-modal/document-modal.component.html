@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="col-md-10 col-md-offset-1">
-                            <div class="form-group">
+                            <div *ngIf="!scopedToCase" class="form-group">
                                 <label for="case">
                                     Case number:
                                 </label>
@@ -21,6 +21,13 @@
                                     <option value="1"> 12345678 </option>
                                     <option value="2"> 67213123 </option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="title">
+                                    Title:
+                                </label>
+                                <input type="text" class="form-control" id="title">
                             </div>
                         
                             <div class="form-group">
