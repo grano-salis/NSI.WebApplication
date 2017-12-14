@@ -58,5 +58,24 @@ namespace NSI.REST.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPut]
+        public IActionResult Put([FromBody] SubscriptionDto subscription)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {;
+                    var result = _subscriptionManipulation.UpdateSubscription(subscription);
+                    if (result != null) return Ok(result);
+                }
+                else return BadRequest(subscription);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
     }
 }

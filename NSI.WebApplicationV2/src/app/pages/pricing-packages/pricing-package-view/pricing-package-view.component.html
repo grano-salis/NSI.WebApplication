@@ -83,7 +83,7 @@
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum prijave <span class="required">*</span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionStartDate)">
+                <input name="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionStartDate)" readonly>
               </div>
             </div>
 
@@ -92,31 +92,14 @@
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div id="gender" class="btn-group" data-toggle="buttons">
                   <label>
-                    <input type="checkbox" name="" value="" [checked]="subscription.recurringPayment">
+                    <input type="checkbox" name="" value="" [checked]="subscription.recurringPayment" (change)="subscription.recurringPayment=!subscription.recurringPayment">
                   </label>
 
                 </div>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Period automatskog placanja
-              </label>
-              <div class="col-md-6 col-sm-6 col-xs-12">
 
-                <fieldset>
-                  <div class="control-group">
-                    <div class="controls">
-                      <div class="input-prepend input-group">
-                        <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                        <input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="01/01/2016 - 01/25/2016" />
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-
-            </div>
-            </div>
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Obavijesti putem mail-a</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -132,14 +115,14 @@
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum isteka <span class="required">*</span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionExpirationDate)">
+                <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionExpirationDate)" readonly>
               </div>
             </div>
             <div class="ln_solid"></div>
             <div class="form-group">
               <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 
-    <button class="btn btn-primary" type="reset">Sacuvaj izmjene</button>
+    <button class="btn btn-primary" (click)="saveChanges()">Sacuvaj izmjene</button>
                 <button type="submit" class="btn btn-success">Izvrsi uplatu</button>
               </div>
             </div>

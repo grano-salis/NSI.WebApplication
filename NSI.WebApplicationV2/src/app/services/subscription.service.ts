@@ -30,4 +30,13 @@ export class SubscriptionService{
 
   }
 
+  updateSubscription(subscription: any): Observable<any> {
+    let body = JSON.stringify(subscription);
+    let headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    return this.http.put(this._url, body, {headers: headers});
+  }
+
+  
+
 }

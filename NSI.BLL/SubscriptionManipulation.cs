@@ -59,5 +59,10 @@ namespace NSI.BLL
             return _subscriptionRepository.GetCustomerSubscription(customerId);
         }
 
+        public SubscriptionDto UpdateSubscription(SubscriptionDto subscription)
+        {
+            return _subscriptionRepository.UpdateSubscription(subscription);
+        }
+
     }
 }

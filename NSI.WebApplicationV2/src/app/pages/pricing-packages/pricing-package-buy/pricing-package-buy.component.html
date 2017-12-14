@@ -112,33 +112,18 @@
                         </select>
                       </div>
                     </div>
+              
                     <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Broj kreditne kartice <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-3">Datum isteka kreditne kartice</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" class="form-control" data-inputmask="'mask': '99/99/9999'">
-                        <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Automatsko placanje</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div id="gender" class="btn-group" data-toggle="buttons">
-                          <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                            <input type="radio" name="gender" value="male"> &nbsp; Da &nbsp;
-                          </label>
-                          <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                            <input type="radio" name="gender" value="female"> Ne
-                          </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Automatsko placanje</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label>
+                              <input type="checkbox" name="" value="" ckecked>
+                            </label>
+
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                  </div>
 
 
                   </form>
@@ -169,54 +154,32 @@
                 </div>
                 <div id="step-4">
                   <h2 class="StepTitle">Potvrda uplate </h2>
-                  <form class="form-horizontal form-label-left">
-
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">PIN za kreditnu karticu <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                      </div>
-                    </div>
-
-
-                  </form>
+                  <br/>
+         
 
 
                   <div class="col-xs-12 col-m-6 coll-m-offset-6">
-                    <p class="lead">Uplata:  2/22/2014</p>
+                    <p class="lead">Datum:  14/12/2017</p>
                     <div class="table-responsive">
                       <table class="table">
                         <tbody>
                           <tr>
                             <th style="width:50%">Subtotal:</th>
-                            <td>$250.30</td>
+                            <td>{{transaction.Amount}} KM</td>
                           </tr>
                           <tr>
-                            <th>Tax (9.3%)</th>
-                            <td>$10.34</td>
+                            <th>Taksa (5%)</th>
+                            <td>{{0.05*transaction.Amount}} KM</td>
                           </tr>
-                          <tr>
-                            <th>Shipping:</th>
-                            <td>$5.80</td>
-                          </tr>
+                     
                           <tr>
                             <th>Total:</th>
-                            <td>$265.24</td>
+                            <td>{{1.05*transaction.Amount}} KM</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
                   </div>
-
-<div class="form-group">
-    <button type="submit" class="btn btn-default" (click)="buyTShirt()">T-Shirt (£10)</button>
-    <button type="submit" class="btn btn-default" (click)="buyTrainers()">Trainers (£15)</button>
-    <button type="submit" class="btn btn-default" (click)="buyJeans()">Jeans (£20)</button>
-</div>
-<div class="form-group" *ngIf="takePaymentResult">
-    <p>Payment Result: {{takePaymentResult}}</p>
-</div>
 
 
                 </div>

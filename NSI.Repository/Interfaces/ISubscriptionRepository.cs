@@ -13,7 +13,7 @@ namespace NSI.Repository.Interfaces
         void Deactivate(int subscriptionId);
         bool DeleteSubscription(int subscriptionId);
         SubscriptionDto GetCustomerSubscription(int customerId);
-
+        SubscriptionDto UpdateSubscription(SubscriptionDto subscription);
     }
 
 }

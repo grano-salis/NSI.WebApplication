@@ -17,6 +17,7 @@ declare let $: any;
 export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
 
   packageId:number=0;
+  pricingPackage:any;
   transaction:any={Amount:0,PaymentGatewayId:1,PricingPackageId:0, CustomerId:1};
   pricingPackageLoaded: boolean = false;
 
@@ -30,7 +31,7 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $('#wizard').smartWizard();
 
-    $('.buttonFinish').click(()=>{this.subscribeToPackage()});
+    $('.buttonFinish').click(()=>{this.buyPackage()});
 
     this.packageId= +this.route.snapshot.paramMap.get('packageId');
     this.loadPricingPackage(this.packageId);
@@ -39,6 +40,7 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
   loadPricingPackage(pricingPackageId:number){
     this.pricingPackagesService.getPricingPackageById(pricingPackageId).
     subscribe(pricingPackage => {
+      this.pricingPackage = pricingPackage;
       this.transaction.Amount = pricingPackage.price;
       this.transaction.PricingPackageId = pricingPackage.pricingPackageId;
 
@@ -106,6 +108,10 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
     }
     buyJeans() {
         this.openCheckout("Jeans", 2002, (token: any) => this.takePayment("Jeans", 2002, token));
+    }
+
+    buyPackage(){
+        this.openCheckout("Paket"+this.pricingPackage.pricingPackageName,this.transaction.Amount*1.05*100,(token: any) => this.takePayment("Paket"+this.pricingPackage.pricingPackageName,this.transaction.Amount*1.05*100, token));
     }
 
 }

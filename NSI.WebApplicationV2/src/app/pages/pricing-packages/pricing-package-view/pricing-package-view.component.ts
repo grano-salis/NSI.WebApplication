@@ -61,4 +61,15 @@ export class PricingPackageViewComponent implements OnInit {
     this.loadSubscription();
   }
 
+  saveChanges(): void{
+      console.log("sdasdasda");
+    console.log(this.subscription);
+    this.subscriptionService.updateSubscription(this.subscription).subscribe(
+    subscriptionAnswer => {
+      this.subscription = subscriptionAnswer;
+      }
+    );
+  }
+
+
 }

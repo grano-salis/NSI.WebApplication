@@ -12,5 +12,6 @@ namespace NSI.BLL.Interfaces
         SubscriptionDto SaveSubscription(SubscriptionDto subscription);
         bool DeleteSubscriptionById(int subscriptionId);
         SubscriptionDto GetCustomerSubscription(int customerId);
+        SubscriptionDto UpdateSubscription(SubscriptionDto subscription);
     }
 }

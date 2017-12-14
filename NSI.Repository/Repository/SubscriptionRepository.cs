@@ -70,5 +70,19 @@ namespace NSI.Repository
             _dbContext.SaveChanges();
         }
 
+        SubscriptionDto ISubscriptionRepository.UpdateSubscription(SubscriptionDto subscription){
+            var pendingSubscription = _dbContext.Subscription.FirstOrDefault(s => s.SubscriptionId == subscription.SubscriptionId);
+            
+            if(pendingSubscription!= null){
+
+                pendingSubscription.IsActive = subscription.IsActive;
+                pendingSubscription.RecurringPayment = subscription.RecurringPayment;
+                pendingSubscription.SubscriptionExpirationDate= subscription.SubscriptionExpirationDate;
+
+            }
+            _dbContext.SaveChanges();
+            return MapToDto(pendingSubscription);
+        }
+
     }
 }
