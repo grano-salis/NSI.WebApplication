@@ -35,11 +35,11 @@ export class ContactsComponent implements OnInit {
     const _this = this;
     this.filterColumn = 'name';
     this.filterValue = '';
-    setTimeout(function () {
+    /*setTimeout(function () {
       $(function () {
-        _this.initTable();
+    //    _this.initTable();
       });
-    }, 700);
+    }, 700);*/
     this.temp_contact = new Contact();
   }
 
@@ -121,23 +121,23 @@ export class ContactsComponent implements OnInit {
       }
       return contact[this.filterColumn].toLocaleLowerCase().includes(filterValue);
     });
-    $('#datatable').dataTable().fnDestroy();
-    setTimeout(function () {
+    //$('#datatable').dataTable().fnDestroy();
+  /*  setTimeout(function () {
       $(function () {
         __this.initTable();
       });
-    }, 100);
+    }, 5000);*/
   }
 
   changeFilterColumn() {
     const __this = this;
     this.filterValue = '';
     this.contacts = this.allContacts;
-    $('#datatable').dataTable().fnDestroy();
+   /* $('#datatable').dataTable().fnDestroy();
     setTimeout(function () {
       $(function () {
         __this.initTable();
       });
-    }, 100);
+    }, 100);*/
   }
 }

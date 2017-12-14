@@ -61,7 +61,7 @@
           <div class="form-group" *ngFor="let obj of temp_contact.phones; let index = index; trackBy: trackByIndex;">
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
               <input type="tel" name="phone-new-{{index}}" [(ngModel)]="temp_contact.phones[index].phoneNumber"
-                     class="form-control form-input-beauty" placeholder="Phone {{obj}}">
+                     class="form-control form-input-beauty" placeholder="Phone">
               <button *ngIf="index > 0" type="button" class="right btn btn-default button-contact button-beauty"
                       name="delete-email-btn-{{index}}" (click)="deletePhone(index)">
                 <i class="fa fa-minus"></i>

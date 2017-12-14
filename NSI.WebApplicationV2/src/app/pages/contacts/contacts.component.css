@@ -62,3 +62,7 @@
 .label-beauty{
   margin-bottom: 0px;
 }
+
+.td-table-beauty{
+  vertical-align: baseline;
+}
