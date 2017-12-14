@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Meeting } from './meeting';
 import { MeetingsService } from '../../../services/meetings.service';
 import { UsersService } from '../../../services/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 declare var $: any;
 
@@ -38,7 +38,8 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   id: number;
   public edit: boolean = false;
 
-  constructor(private meetingsService: MeetingsService, private usersService: UsersService, private route: ActivatedRoute) {
+  constructor(private meetingsService: MeetingsService, private usersService: UsersService, private route: ActivatedRoute,
+              private router: Router) {
     this.query = '';
     this.filteredList = [];
     this.model = new Meeting();
@@ -71,8 +72,9 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     this.model.from = $('#from').val();
     this.model.to = $('#to').val();
     console.log(this.model);
-    this.meetingsService.postMeeting(this.model).subscribe((r: any) => console.log(r),
+    this.meetingsService.postMeeting(this.model).subscribe((r: any) => this.router.navigate(['/meetings']),
       (error: any) => console.log("Error: " + error.message));
+
   }
 
   newMeeting() {

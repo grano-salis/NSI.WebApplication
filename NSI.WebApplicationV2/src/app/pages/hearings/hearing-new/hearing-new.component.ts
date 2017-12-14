@@ -72,6 +72,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.model.hearingDate = new Date(data.hearingDate).toLocaleString();
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
+          this.noteText = data.note[0].text;
         }
         console.log(this.edit);
       });
@@ -80,6 +81,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
+    this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
     this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
   }
