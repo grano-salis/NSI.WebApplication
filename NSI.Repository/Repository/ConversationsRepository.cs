@@ -138,7 +138,7 @@ namespace NSI.Repository.Repository
             m.MessageId = context.Message.Last().MessageId + 1;
 
             context.Message.Add(m);
-            context.SaveChangesAsync();
+            context.SaveChanges();
         }
     }
 }

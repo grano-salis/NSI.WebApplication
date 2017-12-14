@@ -28,8 +28,10 @@ export class ConversationsComponent implements OnInit {
     public _participants: IParticipant[];
     public newMessage: string;
     public messageModel: IMessage;
-    public activeConversationId: number;
+    public activeConversationId: number;    
     public participantForMessageModel: IParticipant;
+    
+    
     
     //Fields for establishing connection on hub
     private _url: string;
@@ -37,6 +39,7 @@ export class ConversationsComponent implements OnInit {
 
     constructor(private _conversationService: ConversationService, private route: ActivatedRoute, private _hubConversationService: HubConversationService) {
         this._url = environment.serverUrl;
+        
     }
 
 
@@ -46,7 +49,7 @@ export class ConversationsComponent implements OnInit {
         this._conversationService.getParticipants(id)
             .subscribe(
             participants => {
-                this._participants = participants;
+                this._participants = participants;                
                 this._hubConversationService.participants = this._participants;
             }
             );
@@ -61,12 +64,21 @@ export class ConversationsComponent implements OnInit {
 
     public sendMessage(): void {
 
-        this._hubConversationService.newMessage = this.newMessage;
+        //this._hubConversationService.newMessage = this.newMessage;
         //let participant = this.getParticipanWithUserId(this.loggedUserId);
         this._hubConversationService.sendMessage(this.newMessage,this.messageListSelectedConversation[0].conversationId,this.loggedUserId);
         //this._hubConnection.invoke('Send', this.newMessage, this.messageListSelectedConversation[0].conversationId, this.loggedUserId, participant.participantId);
-        this.messageListSelectedConversation = this._hubConversationService.messages;
+       // this.messageListSelectedConversation = this._hubConversationService.messages;
+        this.newMessage="";
     }
+
+    public createNewConversation(): void {
+        
+        //
+        
+    }
+
+   
 
 
     private getUserFromParticipants(id: number): IUser {
@@ -79,10 +91,27 @@ export class ConversationsComponent implements OnInit {
         return participant;
     }
 
+    private determineConvName() : void {
+       
+
+        for(let i = 0; i < this._conversations.length; i++)
+        {
+            if(this._conversations[i].participant.length <= 2)
+            {
+                let userInfo = this._conversations[i].participant.find(x => x.user.id != this.loggedUserId);
+
+                this._conversations[i].conversationName =  userInfo.user.firstName + " " + userInfo.user.lastName;
+            }
+        }
+       
+
+    }
+
     ngOnInit() {
 
         this.route.params.subscribe(params => {
             this.loggedUserId = +params['id'];
+            
         });
 
 
@@ -90,8 +119,11 @@ export class ConversationsComponent implements OnInit {
             .subscribe(
             conversations => {
                 this._conversations = conversations;
+                this.determineConvName();
             }
             )
+
+            
 
         /*this._hubConnection = new HubConnection(`${this._url}/chat`);
 

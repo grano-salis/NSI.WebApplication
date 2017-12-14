@@ -3,7 +3,9 @@
 
         <div class="page-title">
             <div class="title_left">
-                <h3>Inbox <i class="fa fa-inbox"></i> </h3>
+                <h3>Inbox
+                    <i class="fa fa-inbox"></i>
+                </h3>
             </div>
 
             <div class="title_right">
@@ -11,8 +13,8 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for...">
                         <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
-              </span>
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -30,11 +32,15 @@
                         <ul class="nav navbar-right panel_toolbox">
 
                             <li>
-                                <a class="btn btn-toolbar"> Settings <i class="fa fa-gear"></i></a>
+                                <button class="btn btn-toolbar chatActions"> Settings
+                                    <i class="fa fa-gear"></i>
+                                </button>
                             </li>
 
                             <li>
-                                <a class="btn btn-toolbar"> New message <i class="fa fa-pencil-square-o"></i></a>
+                                <button class="btn btn-toolbar chatActions" (click)='createNewConversation()'> New message
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </button>
                             </li>
 
 
@@ -54,9 +60,13 @@
                                 <input type='hidden' value="{{conversation.conversationId}}">
                                 <div class="mail_list">
 
-                                    <h3> {{conversation.participant[0].user.firstName + " " + conversation.participant[0].user.lastName}}</h3>
-                                        <!--<small> {{conversation.message[conversation.message.length -1 ].dateCreated}}</small></h3>!
-                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29  }}<span *ngIf = 'conversation.message[0].message.length > 30'>...</span> </p>-->
+                                    <h3> {{ conversation.conversationName }}
+                                        <small> {{conversation.message[conversation.message.length -1 ].dateCreated | date : 'dd/MM/yyyy
+                                            HH:mm'}}</small>
+                                    </h3>
+                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}
+                                        <span
+                                            *ngIf='conversation.message[conversation.message.length -1 ].message.length > 30'>...</span>
 
                                 </div>
                             </a>
@@ -69,25 +79,28 @@
                             <div class="inbox-body">
 
 
-                                <div class="row">
+                                <div class="row" *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
                                     <ul class="nav navbar-right panel_toolbox">
 
                                         <li>
-                                            <a class="btn btn-toolbar"> Add participant(s)
-                            <i class="fa fa-user"></i>
-                          </a>
+                                            <button class="btn btn-toolbar chatActions"> Add participant(s)
+                                                <i class="fa fa-user"></i>
+                                            </button>
                                         </li>
 
                                         <li>
-                                            <a class="btn btn-toolbar"> Delete conversation
-                            <i class="fa fa-remove"></i>
-                          </a>
+                                            <button class="btn btn-toolbar chatActions"> Delete conversation
+                                                <i class="fa fa-remove"></i>
+                                            </button>
                                         </li>
                                     </ul>
 
+                                    
                                 </div>
+                                <div class="separator"></div>
 
-                                <div class="view-mail scroller" *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
+
+                                <div class="view-mail scroller" #scrollMe [scrollTop]='scrollMe.scrollHeight' *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
 
                                     <div class="row" *ngFor='let m of messageListSelectedConversation'>
                                         <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)">
@@ -98,7 +111,9 @@
                                         <div class="clearfix"></div>
                                         <!-- <small style="margin-left:200px" >{{m.createdByUser.id}}</small>
                                         <small style="margin-left:200px">{{loggedUserId}}</small>!-->
-                                        <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'><small>{{m.createdByUser.userName}}</small></span>
+                                        <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'>
+                                            <small>{{m.createdByUser.userName}}</small>
+                                        </span>
 
                                     </div>
 
@@ -109,7 +124,9 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" placeholder="New message..." [(ngModel)]="newMessage"></textarea>
 
-                                        <button class="btn btn-success" (click)="sendMessage()">Send <i class="fa fa-send-o"></i></button>
+                                        <button class="btn btn-success" (click)="sendMessage()">Send
+                                            <i class="fa fa-send-o"></i>
+                                        </button>
 
                                     </div>
 

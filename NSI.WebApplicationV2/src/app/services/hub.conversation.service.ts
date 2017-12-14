@@ -13,6 +13,7 @@ export class HubConversationService {
 
     private _url: string;
     private _hubConnection: HubConnection;
+    public async: IMessage;
 
     public participantForMessageModel: IParticipant;
     public messageModel: IMessage;
@@ -38,7 +39,8 @@ export class HubConversationService {
 
     public sendMessage(newMessage: string, conversationId: number, loggedUserId: number): void {
         let participant = this.getParticipanWithUserId(this.loggedUserId);
-        this._hubConnection.invoke('Send', this.newMessage, this.conversationId, this.loggedUserId, participant.participantId);
+        this._hubConnection.invoke('Send', newMessage, this.conversationId, this.loggedUserId, participant.participantId);
+        
     }
 
 
@@ -55,6 +57,7 @@ export class HubConversationService {
 
     private init() {
         this._hubConnection = new HubConnection(`${this._url}/chat`);
+        
 
         this._hubConnection.on('Send', (data, activeConversationId, loggedUserId, participantId) => {
 
@@ -67,10 +70,12 @@ export class HubConversationService {
         this._hubConnection.start()
             .then(() => {
                 console.log('Hub connection started')
-            })
+            })            
             .catch(err => {
                 console.log('Error while establishing connection')
             });
+
+        
     }
 
 }
