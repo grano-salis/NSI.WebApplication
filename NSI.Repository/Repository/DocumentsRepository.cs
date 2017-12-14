@@ -45,10 +45,28 @@ namespace NSI.Repository.Repository
             return response != null;
         }
 
-        public void Update(DocumentDto document)
+        public int Update(DocumentDto document)
         {
-            _dbContext.Update(document);
-            AddToHistory(DocumentRepository.MapToDbEntity(document, _dbContext));
+            var documentEntity = _dbContext.Document.FirstOrDefault(d => d.DocumentId == document.DocumentId);
+
+            documentEntity.DocumentId = document.DocumentId;
+            documentEntity.CaseId = document.CaseId;
+            documentEntity.Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CategoryId);
+            documentEntity.DocumentCategory =
+                _dbContext.DocumentCategory.FirstOrDefault(c => c.DocumentCategoryId == document.CategoryId);
+            documentEntity.DocumentContent = document.DocumentContent;
+            documentEntity.DocumentPath = document.DocumentPath;
+            documentEntity.FileType = _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeExtension);
+            documentEntity.FileTypeId = document.FileTypeExtension;
+            documentEntity.DocumentContent = document.DocumentContent;
+            documentEntity.Description = document.DocumentDescription;
+            documentEntity.DocumentPath = document.DocumentPath;
+
+            _dbContext.Update(documentEntity);
+            var result = _dbContext.SaveChanges();
+
+            //AddToHistory(documentEntity);
+            return result;
         }
 
         private void AddToHistory(Document document)
@@ -63,6 +81,7 @@ namespace NSI.Repository.Repository
                 ModifiedByUserId = 1
             };
             _dbContext.DocumentHistory.Add(documentHistoryRecord);
+            _dbContext.SaveChanges();
         }
 
 

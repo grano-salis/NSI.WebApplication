@@ -58,7 +58,6 @@ namespace NSI.BLL
             var document = _documentRepository.GetDocument(documentDto.DocumentId);
             if (document == null) return false;
 
-            document.LastModified = DateTime.UtcNow;
             _documentRepository.Update(documentDto);
             return true;
         }
