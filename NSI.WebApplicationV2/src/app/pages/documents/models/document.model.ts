@@ -1,5 +1,7 @@
 export class Document {
     documentId: number;
+    documentTitle: string;
+    documentDescription: string;
     caseId: number;
     documentCategoryId: number;
     fileTypeId: number;     
@@ -7,10 +9,12 @@ export class Document {
     documentContent: string;
     createdByUserId: number;
 
-    constructor(documentId: number, caseId: number, documentCategoryId: number, fileTypeId: number,
+    constructor(documentId: number, title: string, description: string, caseId: number, documentCategoryId: number, fileTypeId: number,
         documentPath: string, documentContent: string, createdByUserId: number) {
 
         this.documentId = documentId;
+        this.documentTitle = title;
+        this.documentDescription = description;
         this.caseId = caseId;
         this.documentCategoryId = documentCategoryId;
         this.fileTypeId = fileTypeId;        
