@@ -13,12 +13,14 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="title" required minlength="3" maxlength="15" pattern="[A-Za-z]+" [(ngModel)]="model.title" name="title" #title="ngModel" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="title" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.title" name="title" #title="ngModel" class="form-control col-md-7 col-xs-12">
                         <br><br>
-                        <div class="alert alert-danger" *ngIf="title.errors && (title.dirty || title.touched)">
-                            <p *ngIf="title.errors.required">Title is required</p>
-                            <p *ngIf="title.errors.minlength">Title must contain at least 3 characters</p>
-                            <p *ngIf="title.errors.pattern">Title must contain only letters</p>
+                        <div class="warningMessages">
+                            <div class="alert alert-danger" *ngIf="title.errors && (title.dirty || title.touched)">
+                                <p *ngIf="title.errors.required">Title is required</p>
+                                <p *ngIf="title.errors.minlength">Title must contain at least 3 characters</p>
+                                <p *ngIf="title.errors.pattern">Title must contain only letters</p>
+                            </div>
                         </div>
                     </div><!--
                     <div class='col-md-3 col-sm-3 col-xs-12'>
@@ -34,12 +36,14 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="meetingplace" required minlength="3" maxlength="20" pattern="^[A-Za-z0-9 ]*$" [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="meetingplace" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
                         <br><br>
-                        <div class="alert alert-danger" *ngIf="meetingPlace.errors && (meetingPlace.dirty || meetingPlace.touched)">
-                            <p *ngIf="meetingPlace.errors.required">Meeting place is required</p>
-                            <p *ngIf="meetingPlace.errors.minlength">Meeting place name must contain at least 3 characters</p>
-                            <p *ngIf="meetingPlace.errors.pattern">Meeting place must contain only letters</p>
+                        <div class="warningMessages">
+                            <div class="alert alert-danger" *ngIf="meetingPlace.errors && (meetingPlace.dirty || meetingPlace.touched)">
+                                <p *ngIf="meetingPlace.errors.required">Meeting place is required</p>
+                                <p *ngIf="meetingPlace.errors.minlength">Meeting place name must contain at least 3 characters</p>
+                                <p *ngIf="meetingPlace.errors.pattern">Meeting place must contain only letters</p>
+                            </div>
                         </div>
                     </div><!--
                     <div class='col-md-3 col-sm-3 col-xs-12'>
@@ -64,8 +68,10 @@
                                         </span>
                                         <input type="text" name="from" id="from" required [(ngModel)]="model.from" #from="ngModel" class="form-control">
                                     </div>
-                                    <div class="alert alert-danger" *ngIf="from.errors && (from.dirty || from.touched)">
-                                        <p *ngIf="from.errors.required">Start date is required</p>
+                                    <div class="warningMessages">
+                                        <div class="alert alert-danger" *ngIf="from.errors && (from.dirty || from.touched)">
+                                            <p *ngIf="from.errors.required">Start date is required</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="controls col-md-6 col-xs-12">
@@ -75,8 +81,10 @@
                                         </span>
                                         <input type="text" name="to" id="to" required [(ngModel)]="model.to" #to="ngModel" class="form-control">
                                     </div>
-                                    <div class="alert alert-danger" *ngIf="to.errors && (to.dirty || to.touched)">
-                                        <p *ngIf="to.errors.required">End date is required</p>
+                                    <div class="warningMessages">
+                                        <div class="alert alert-danger" *ngIf="to.errors && (to.dirty || to.touched)">
+                                            <p *ngIf="to.errors.required">End date is required</p>
+                                        </div>
                                     </div>
                                 </div> 
                             </div>
@@ -105,8 +113,10 @@
                             </div>
                         </div>
                         <br><br>
-                        <div class="alert alert-danger" *ngIf="(model.userMeeting.length < 1) && (usersList.dirty || usersList.touched)">
-                            <p>You must add at least 1 user to meeting</p>
+                        <div class="warningMessages">
+                            <div class="alert alert-danger" *ngIf="(model.userMeeting.length < 1) && (usersList.dirty || usersList.touched)">
+                                <p>You must add at least 1 user to meeting</p>
+                            </div>
                         </div>
                     </div>
                 </div>
