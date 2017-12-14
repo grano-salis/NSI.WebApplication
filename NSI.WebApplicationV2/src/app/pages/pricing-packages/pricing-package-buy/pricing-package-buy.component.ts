@@ -73,7 +73,9 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
 
         this.http.post(environment.serverUrl +'/api/Transactions/MakePayment', bodyString, {headers:headers}).
         subscribe((res:any) => {
-            this.takePaymentResult = res.status;},
+            this.takePaymentResult = res.status;
+            this.router.navigate(['/transactions']);
+            },
             (error) => {
                 this.takePaymentResult = error.message
             }

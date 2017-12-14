@@ -1,7 +1,7 @@
 <div class="">
   <div class="page-title">
     <div class="title_left">
-      <h3>Aktivni paket</h3>
+      <h3>Active Package</h3>
     </div>
 
     <div class="title_right">
@@ -9,7 +9,7 @@
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Pretraga...">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button">Trazi!</button>
+            <button class="btn btn-default" type="button">Search!</button>
           </span>
         </div>
       </div>
@@ -22,7 +22,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel" style="height:600px;">
         <div class="x_title">
-          <h2>Informacije</h2>
+          <h2>Informations</h2>
           <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -49,9 +49,9 @@
               <div class="col-md-3 col-sm-6 col-xs-12" *ngIf="pricingPackage!=null">
                 <div class="pricing">
                   <div class="title">
-                    <h2>{{pricingPackage.pricingPackageName}} PAKET</h2>
-                    <h1>{{pricingPackage.price}} </h1>
-                    <span>Mjesecno</span>
+                    <h2>{{pricingPackage.pricingPackageName}}. PAKET</h2>
+                    <h1>{{pricingPackage.price}} USD</h1>
+                    <span>Monthly</span>
                   </div>
                   <div class="x_content">
                     <div class="">
@@ -80,7 +80,7 @@
           <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" *ngIf="subscription!=null">
 
              <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum prijave <span class="required">*</span>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription start date <span class="required">*</span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input name="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionStartDate)" readonly>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Automatsko placanje</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Recurring payment</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div id="gender" class="btn-group" data-toggle="buttons">
                   <label>
@@ -101,7 +101,7 @@
 
 
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Obavijesti putem mail-a</label>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail notifications</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div id="gender" class="btn-group" data-toggle="buttons">
                   <label>
@@ -112,7 +112,7 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum isteka <span class="required">*</span>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription expiration date <span class="required">*</span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionExpirationDate)" readonly>
@@ -122,8 +122,8 @@
             <div class="form-group">
               <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 
-    <button class="btn btn-primary" (click)="saveChanges()">Sacuvaj izmjene</button>
-                <button type="submit" class="btn btn-success">Izvrsi uplatu</button>
+    <button class="btn btn-primary" (click)="saveChanges()">Save changes</button>
+                <button type="submit" class="btn btn-success" disabled>Pay subscription</button>
               </div>
             </div>
 
