@@ -23,8 +23,6 @@ namespace NSI.REST
         {
             _convRepo.SaveToExistingConversation(conversationId, data, loggedUserId);
             return Clients.All.InvokeAsync("Send", data,conversationId,loggedUserId,participantId);
-
-
         }
 
         public async Task JoinGroup(string groupName)
