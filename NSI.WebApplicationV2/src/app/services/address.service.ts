@@ -20,7 +20,7 @@ export class AddressService {
   }
 
   getAddress(id: number): Observable<Address> {
-    return this.http.get(`${this._url}/${id}`).map(data => return <Address>(data));
+    return this.http.get(`${this._url}/${id}`).map(data => {return <Address>(data)});
   }
 
   postAddress(address: Address): Observable<any> {
