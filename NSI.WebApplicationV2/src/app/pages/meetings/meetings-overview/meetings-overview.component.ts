@@ -83,7 +83,7 @@ export class MeetingsComponent implements OnInit {
         let meetings = r.data;
         each(meetings, (item) => {
           temp.push({
-            title: 'Meeting ID: ' + item.meetingId,
+            title: item.title,
             start: item.from,
             end: item.to,
             color: this.color
