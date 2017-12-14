@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSI.BLL.Interfaces;
@@ -18,18 +17,19 @@ namespace NSI.REST.Controllers
     [Route("api/Documents")]
     public class DocumentController : Controller
     {
-        private IDocumentManipulation _documentManipulation { get; set; }
+        private IDocumentManipulation DocumentManipulation { get; }
 
         public DocumentController(IDocumentManipulation documentManipulation)
         {
-            _documentManipulation = documentManipulation;
+            DocumentManipulation = documentManipulation;
         }
 
         // GET: api/Documents
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_documentManipulation.GetAllDocuments());
+            var documents = DocumentManipulation.GetAllDocuments();
+            return Ok(documents);
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                return Ok(_documentManipulation.GetDocumentsByPage(queryDto));
+                return Ok(DocumentManipulation.GetDocumentsByPage(queryDto));
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                return Ok(_documentManipulation.GetDocumentById(id));
+                return Ok(DocumentManipulation.GetDocumentById(id));
             }
             catch (Exception e)
             {
@@ -62,7 +62,8 @@ namespace NSI.REST.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        [Route("upload")]
+        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
         {
             var size = files.Sum(f => f.Length);
 
@@ -80,15 +81,31 @@ namespace NSI.REST.Controllers
 
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-            _documentManipulation.SaveDocument(files, filePath);
+            DocumentManipulation.UploadFile(files, filePath);
             return Ok(new { count = files.Count, size, filePath });
         }
+
+        // POST api/values
+        [HttpPost]
+        public IActionResult Post(DocumentDto document)
+        {
+            try
+            {
+                DocumentManipulation.SaveDocument(document);
+                return Ok(document);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]DocumentDto documentDto)
         {
-            return Ok(_documentManipulation.EditDocument(id, documentDto));
+            return Ok(DocumentManipulation.EditDocument(documentDto));
         }
 
         // DELETE api/values/5
@@ -97,7 +114,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                return Ok(_documentManipulation.DeleteDocument(id));
+                return Ok(DocumentManipulation.DeleteDocument(id));
             }
             catch (Exception e)
             {

@@ -12,7 +12,7 @@ namespace NSI.DC.DocumentRepository
         public string DocumentTitle { get; set; }
         public int CaseId { get; set; }
         public string CategoryName { get; set; }
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public string DocumentDescription { get; set; }
         public string DocumentPath { get; set; }

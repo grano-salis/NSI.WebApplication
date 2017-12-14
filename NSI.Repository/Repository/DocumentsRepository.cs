@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using IkarusEntities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NSI.DC.DocumentRepository;
 using NSI.Repository.Interfaces;
 using NSI.Repository.Mappers;
@@ -20,7 +21,7 @@ namespace NSI.Repository.Repository
 
         public List<DocumentDto> GetAllDocuments()
         {
-           return _dbContext.Document.Select(document => DocumentRepository.MapToDto(document)).ToList();
+           return _dbContext.Document.Select(document => DocumentRepository.MapToDto(document, _dbContext)).ToList();
         }
 
         PagingResultModel<DocumentDto> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
@@ -29,7 +30,7 @@ namespace NSI.Repository.Repository
             {
                 ItemsPerPage = 10
             };
-            var documents = _dbContext.Document.Where(doc => typeof(Document).GetProperty(query.FilterBy).GetValue(doc, null).ToString().Contains(query.Search)).Select(d => DocumentRepository.MapToDto(d));
+            var documents = _dbContext.Document.Where(doc => typeof(Document).GetProperty(query.FilterBy).GetValue(doc, null).ToString().Contains(query.Search)).Select(d => DocumentRepository.MapToDto(d, _dbContext));
             result.TotalItems = documents.Count();
             result.Results = documents.Take(result.ItemsPerPage).ToList();
             return result;
@@ -47,7 +48,7 @@ namespace NSI.Repository.Repository
         public void Update(DocumentDto document)
         {
             _dbContext.Update(document);
-            AddToHistory(DocumentRepository.MapToDbEntity(document));
+            AddToHistory(DocumentRepository.MapToDbEntity(document, _dbContext));
         }
 
         private void AddToHistory(Document document)
@@ -69,12 +70,13 @@ namespace NSI.Repository.Repository
         {
             Document document =  _dbContext.Document.FirstOrDefault(x => x.DocumentId == documentId);
 
-            return document != null ? DocumentRepository.MapToDto(document) : null;
+            return document != null ? DocumentRepository.MapToDto(document, _dbContext) : null;
         }
 
-        long IDocumentRepository.SaveDocument(DocumentDto document)
+        EntityEntry<Document> IDocumentRepository.SaveDocument(DocumentDto document)
         {
-            throw new NotImplementedException();
+            var result = _dbContext.Add(DocumentRepository.MapToDbEntity(document, _dbContext));
+            return result;
         }
 
         IEnumerable<DocumentDto> IDocumentRepository.SearchDocuments(DocumentSearchCriteriaDto searchCriteria)

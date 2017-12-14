@@ -22,13 +22,19 @@ namespace NSI.BLL
             return _documentRepository.GetAllDocuments();
         }
 
-        public void SaveDocument(List<IFormFile> files, string filePath)
+        public void UploadFile(List<IFormFile> files, string filePath)
         {
             var document = new DocumentDto()
             {
                 DocumentPath = filePath
             };
-            _documentRepository.SaveDocument(document);
+            //TODO
+        }
+
+        public bool SaveDocument(DocumentDto document)
+        {
+            var result = _documentRepository.SaveDocument(document);
+            return result != null;
         }
 
         public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel query)
@@ -46,12 +52,12 @@ namespace NSI.BLL
             return _documentRepository.DeleteDocument(id);
         }
 
-        public bool EditDocument(int id, DocumentDto documentDto)
+        public bool EditDocument(DocumentDto documentDto)
         {
-            var document = _documentRepository.GetDocument(id);
+            var document = _documentRepository.GetDocument(documentDto.DocumentId);
             if (document == null) return false;
             document.LastModified = DateTime.UtcNow;
-            _documentRepository.Update(document);
+            _documentRepository.Update(documentDto);
             return true;
         }
 
