@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ContactsService} from '../../services/contacts.service';
+
 declare let $: any;
 
 class Contact {
@@ -35,11 +36,11 @@ export class ContactsComponent implements OnInit {
     const _this = this;
     this.filterColumn = 'name';
     this.filterValue = '';
-    setTimeout(function () {
+    /*setTimeout(function () {
       $(function () {
-        _this.initTable();
+    //    _this.initTable();
       });
-    }, 700);
+    }, 700);*/
     this.temp_contact = new Contact();
   }
 
@@ -57,10 +58,18 @@ export class ContactsComponent implements OnInit {
 
   editContact(contact: any) {
     this.temp_contact = Object.assign({}, contact);
+    if (this.temp_contact.emails.length === 0) {
+      this.temp_contact.emails.push('');
+    }
+    if (this.temp_contact.phones.length === 0) {
+      this.temp_contact.phones.push('');
+    }
   }
 
   newContact() {
     this.temp_contact = new Contact();
+    this.temp_contact.emails = [];
+    this.temp_contact.phones = [];
   }
 
   showContact(contact: any) {
@@ -68,8 +77,7 @@ export class ContactsComponent implements OnInit {
   }
 
   close() {
-    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] =
-      this.temp_contact;
+    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
     this.search();
   }
 
@@ -112,25 +120,40 @@ export class ContactsComponent implements OnInit {
           (contact.lastName + ' ' + contact.firsttName).toLocaleLowerCase().includes(filterValue) ||
           (contact.firsttName + ' ' + contact.lastName).toLocaleLowerCase().includes(filterValue);
       }
-      return contact[this.filterColumn].toLocaleLowerCase().includes(filterValue);
+      if (this.filterColumn === 'phone') {
+        for (const phone of contact.phones) {
+          if (phone.phoneNumber.toLocaleLowerCase().includes(filterValue)) {
+            return true;
+          }
+        }
+        return false;
+      }
+      if (this.filterColumn === 'email') {
+        for (const email of contact.emails) {
+          if (email.emailAddress.toLocaleLowerCase().includes(filterValue)) {
+            return true;
+          }
+        }
+        return false;
+      }
     });
-    $('#datatable').dataTable().fnDestroy();
-    setTimeout(function () {
-      $(function () {
-        __this.initTable();
-      });
-    }, 100);
+    // $('#datatable').dataTable().fnDestroy();
+    /*  setTimeout(function () {
+        $(function () {
+          __this.initTable();
+        });
+      }, 5000);*/
   }
 
   changeFilterColumn() {
     const __this = this;
     this.filterValue = '';
     this.contacts = this.allContacts;
-    $('#datatable').dataTable().fnDestroy();
-    setTimeout(function () {
-      $(function () {
-        __this.initTable();
-      });
-    }, 100);
+    /* $('#datatable').dataTable().fnDestroy();
+     setTimeout(function () {
+       $(function () {
+         __this.initTable();
+       });
+     }, 100);*/
   }
 }

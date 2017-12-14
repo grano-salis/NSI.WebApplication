@@ -23,6 +23,7 @@ import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
 import { HearingsService } from './services/hearings.service';
 import {AddressTypeService} from './services/addressType.service';
+import {CasesService} from './services/cases.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TransactionsService } from './services/transactions.service';
@@ -70,7 +71,8 @@ const toastrSettings = {
     AlertService,
     PaymentGatewaysService,
     PricingPackagesService,
-    TransactionsService
+    TransactionsService,
+    CaseService
   ],
   bootstrap: [AppComponent]
 })

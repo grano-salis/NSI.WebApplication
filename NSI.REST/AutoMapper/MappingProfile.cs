@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IkarusEntities;
 using NSI.DC.Conversations;
+using NSI.DC.CaseRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace NSI.REST.AutoMapper
                 .ReverseMap();
             CreateMap<Participant, ParticipantGetDTO>()
                 .ReverseMap();
+
+
+            CreateMap<CaseInfo, CaseInfoDto>()
+                .ReverseMap();
+
         }
     }
 }

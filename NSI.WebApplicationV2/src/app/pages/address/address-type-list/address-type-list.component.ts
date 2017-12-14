@@ -9,7 +9,7 @@ import { AddressTypeService } from '../../../services/addressType.service';
 })
 export class AddressTypeListComponent implements OnInit {
 
-  addressTypes: AddressType[];
+  public addressTypes: AddressType[];
 
   constructor(private addressTypeService: AddressTypeService) { }
 
