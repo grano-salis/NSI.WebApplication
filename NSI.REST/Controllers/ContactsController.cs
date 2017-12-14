@@ -40,13 +40,15 @@ namespace NSI.REST.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]ContactDto model)
         {
+            Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
-                var contact = contactsRepository.CreateContact(model);
+               
+               var contact = contactsRepository.CreateContact(model);
                 if (contact != null)
                 {
                     if (ValidationContact(contact) == "")
@@ -102,7 +104,7 @@ namespace NSI.REST.Controllers
             {
                 if (contactsRepository.DeleteContactById(id))
                 {
-                    return Ok();
+                    return Ok(id);
 
                 }
                 return NoContent();

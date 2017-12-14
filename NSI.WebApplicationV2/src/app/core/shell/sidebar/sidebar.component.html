@@ -55,7 +55,20 @@
             </li>
           </ul>
         </li>
-
+        <li>
+          <a id="tasksli" (click)="anchorClicked($event)">
+            <i class="fa fa-tasks"></i> Tasks
+            <span id="taskschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/tasks']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a>Overview</a>
+            </li>
+            <li [routerLink]="['/tasks/new']" routerLinkActive="active">
+              <a>New task</a>
+            </li>
+          </ul>
+        </li>
         <li >
           <a id="hearingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-check-o"></i> Hearings
@@ -86,16 +99,16 @@
             <span id="addresschevron" class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
-            <li [routerLink]="['/address/new']" routerLinkActive="active">
+            <li [routerLink]="['/address/new']">
               <a>New address</a>
             </li>
-            <li [routerLink]="['/address/list']" routerLinkActive="active">
+            <li [routerLink]="['/address/list']">
               <a>List of address</a>
             </li>
-            <li [routerLink]="['/address/type/new']" routerLinkActive="active">
+            <li [routerLink]="['/address/type/new']">
               <a>New address type</a>
             </li>
-            <li [routerLink]="['/address/type/list']" routerLinkActive="active">
+            <li [routerLink]="['/address/type/list']">
               <a>List of address types</a>
             </li>
           </ul>
@@ -111,11 +124,39 @@
           </a>
         </li>
         -->
-
-        <li [routerLink]="['/organization']" routerLinkActive="current-page">
-          <a>
+        
+        <li routerLinkActive="current-page">
+          <a id="organizationli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Organizations
+            <span id="organizationchevron" class="fa fa-chevron-down"></span>
           </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/organization/new']" routerLinkActive="active">
+              <a>New organization</a>
+            </li>
+            <li [routerLink]="['/organization']" routerLinkActive="active">
+              <a>List of organizations</a>
+            </li>
+          </ul>
+        </li>
+
+
+        <li>
+          <a id="packageli" (click)="anchorClicked($event)">
+            <i class="fa fa-ellipsis-v"></i> Paketi i transakcije
+            <span id="packagechevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/pricingpackages/list']" routerLinkActive="active">
+              <a>Paketi usluga</a>
+            </li>
+            <li [routerLink]="['/pricingpackages/mypackage']" routerLinkActive="active">
+              <a>Moje usluge</a>
+            </li>
+            <li [routerLink]="['/transactions']" routerLinkActive="active">
+              <a>Transakcije</a>
+            </li>
+          </ul>
         </li>
 
         <!-- <li>
@@ -319,6 +360,13 @@
               <span class="label label-success pull-right">Coming Soon</span>
             </a>
           </li> -->
+
+          <li [routerLink]="['/clients']" routerLinkActive="current-page">
+            <a>
+              <i class="fa fa-calendar-o"></i> Clients
+            </a>
+          </li>
+          
       </ul>
     </div>
 

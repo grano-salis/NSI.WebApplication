@@ -59,6 +59,8 @@ namespace NSI.REST
 
             services.AddScoped<IAddressManipulation, AddressManipulation>();
             services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressTypeManipulation, AddressTypeManipulation>();
+            services.AddScoped<IAddressTypeRepository, AddressTypeRepository>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<IMeetingsRepository, MeetingsRepository>();
             services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();
@@ -81,6 +83,10 @@ namespace NSI.REST
             services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
             services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICustomerManipulation, CustomerManipulation>();
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IClientManipulation, ClientManipulation>();
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

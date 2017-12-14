@@ -28,10 +28,11 @@
         "../node_modules/gentelella/vendors/iCheck/skins/flat/green.css",
         "../node_modules/gentelella/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css",
         "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+        "../node_modules/ngx-toastr/toastr.css",
         "main.scss"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/moment/min/moment.min.js",
         "../node_modules/fullcalendar/dist/fullcalendar.min.js",
@@ -51,6 +52,7 @@
         "../node_modules/gentelella/vendors/datatables.net-scroller/js/dataTables.scroller.min.js",
         "../node_modules/gentelella/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "../node_modules/gentelella/vendors/jszip/dist/jszip.min.js",
+        "../node_modules/gentelella/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js",
         "../node_modules/gentelella/build/js/custom.min.js"
       ],
       "environmentSource": "environments/environment.ts",

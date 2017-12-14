@@ -15,11 +15,15 @@ export class AddressService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-   getAddreses(params?: any): Observable<any> {
-     return this.http.get(`${this._url}`);
-   }
+  getAddreses(params?: any): Observable<any> {
+    return this.http.get(`${this._url}`);
+  }
 
-   postAddress(address: Address): Observable<any> {
+  getAddress(id: number): Observable<Address> {
+    return this.http.get(`${this._url}/${id}`).map(data => {return <Address>(data)});
+  }
+
+  postAddress(address: Address): Observable<any> {
     const body = JSON.stringify(address);
     return this.http.post( environment.serverUrl + '/api/address', body, {headers: this.headers});
   }

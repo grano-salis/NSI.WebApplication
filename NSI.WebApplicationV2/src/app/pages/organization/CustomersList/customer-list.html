@@ -22,7 +22,7 @@
 
       <div class="clearfix"></div>
 
-      <div class="col-md-12 col-sm-12 col-xs-12">
+      <div *ngIf="customers" class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
             <h2>List of organization</h2>
@@ -65,18 +65,18 @@
                 </thead>
 
                 <tbody>
-                  <tr *ngFor="let i of getTen()" class="even pointer" routerLink="/organization/name" routerLinkActive="active">
+                  <tr *ngFor="let customer of customers" class="even pointer" (click)="onCustomerClick(customer.customerId)" routerLinkActive="active">
                     <td class=" ">
                       <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"  aria-expanded="false">
-                                    <img src="./../../../apple-touch-icon.png" alt="">
+												<img src="{{customer.logoLink}}" alt="">
                                 </a>
                     </td>
-                    <td class=" ">Organizacija</td>
-                    <td class=" ">Adresa 11</td>
-                    <td class=" ">71000</td>
-                    <td class=" ">Sarajevo</td>
-                    <td class=" ">Turbo Mega</td>
-                    <td class=" last"><a href="#">Delete</a>
+										<td class=" ">{{customer.customerName}}</td>
+										<td class=" ">{{getAddress(customer.addressId)?.address1}}</td>
+										<td class=" ">{{getAddress(customer.addressId)?.zipCode}}</td>
+										<td class=" ">{{getAddress(customer.addressId)?.city}}</td>
+										<td class=" ">{{getPricingPackage(customer.pricingPackageId)?.pricingPackageName}}</td>
+										<td class=" last"><a href="javascript:" (click)="onDeleteClick(customer.customerId, $event)">Delete</a>
                     </td>
                   </tr>
                 </tbody>

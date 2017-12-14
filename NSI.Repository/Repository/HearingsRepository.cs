@@ -6,6 +6,7 @@ using NSI.DC.HearingsRepository;
 using IkarusEntities;
 using System.Linq;
 using NSI.DC.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace NSI.Repository.Repository
 {
@@ -24,7 +25,7 @@ namespace NSI.Repository.Repository
             _dbContext.Hearing.Add(entity);
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.HearingsRepository.MapToDto(entity);
+                return GetHearingById(entity.HearingId);
             }
             throw new NSIException("Erro while inserting new hearing");
         }
@@ -58,7 +59,7 @@ namespace NSI.Repository.Repository
 
             if (_dbContext.SaveChanges() > 0)
             {
-                return Mappers.HearingsRepository.MapToDto(entity);
+                return GetHearingById(entity.HearingId);
             }
 
             throw new NSIException("Erro while updating hearing");
@@ -67,20 +68,31 @@ namespace NSI.Repository.Repository
 
         public ICollection<HearingDto> GetHearingsByCase(int caseId)
         {
-            return _dbContext.Hearing.Where(x => x.CaseId == caseId && x.IsDeleted == false)
-                .Select(x => Mappers.HearingsRepository.MapToDto(x)).ToList();
+            var hearings = _dbContext.Hearing.Where(x => x.CaseId == caseId && x.IsDeleted == false)
+                .Include(hearing => hearing.Note).Include(hearing => hearing.UserHearing)
+                .ThenInclude(userHearing => userHearing.User);
+            return hearings.Select(x => Mappers.HearingsRepository.MapToDto(x)).ToList();
 
         }
 
         public ICollection<HearingDto> GetHearings()
         {
-            return _dbContext.Hearing.Where(x => x.IsDeleted == false)
-            .Select(x => Mappers.HearingsRepository.MapToDto(x)).ToList();
+            var hearings = _dbContext.Hearing.Where(x => x.IsDeleted == false).Include(hearing => hearing.Note)
+                .Include(hearing => hearing.UserHearing).ThenInclude(userHearing => userHearing.User);
+            return hearings.Select(x => Mappers.HearingsRepository.MapToDto(x)).ToList();
         }
 
         public HearingDto GetHearingById(int id)
         {
-            var hearing = _dbContext.Hearing.FirstOrDefault(x => x.HearingId == id && x.IsDeleted == false);
+            var hearing = _dbContext.Hearing.Where(x => x.HearingId == id && x.IsDeleted == false)
+                .Include(x => x.UserHearing)
+                .ThenInclude(userHearing => userHearing.User).FirstOrDefault();
+
+            var correctNote = _dbContext.Entry(hearing).Collection(h => h.Note)
+                .Query().Where(n => n.CreatedByUserId == hearing.CreatedByUserId).ToList();
+
+            hearing.Note = correctNote;
+
             if (hearing == null) throw new NSIException("Hearing not found");
             return Mappers.HearingsRepository.MapToDto(hearing);
         }

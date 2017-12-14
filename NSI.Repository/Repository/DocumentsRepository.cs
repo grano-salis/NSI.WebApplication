@@ -32,7 +32,8 @@ namespace NSI.Repository.Repository
         public bool DeleteDocument(int id)
         {
             var document = _dbContext.Document.FirstOrDefault(d => d.CaseId == id);
-            var response = _dbContext.Remove(document);
+            //document.isDeleted = true;
+            var response = _dbContext.Update(document);
             //implement deleting history
             return response != null;
         }

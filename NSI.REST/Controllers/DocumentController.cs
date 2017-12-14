@@ -27,7 +27,7 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            
+            //TODO
             return new[] { "value1", "value2" };
         }
 
@@ -45,28 +45,22 @@ namespace NSI.REST.Controllers
             }
         }
 
-
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public DocumentDto Get(int id)
         {
-            return "value";
+            try
+            {
+                return _documentManipulation.GetDocumentById(id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]DocumentDto documentDto)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]DocumentDto documentDto)
-        {
-            _documentManipulation.EditDocument(id, documentDto);
-        }
-
-        [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post(List<IFormFile> files)
         {
             var size = files.Sum(f => f.Length);
@@ -76,19 +70,23 @@ namespace NSI.REST.Controllers
 
             foreach (var formFile in files)
             {
-                if (formFile.Length > 0)
+                if (formFile.Length <= 0) continue;
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
+                    await formFile.CopyToAsync(stream);
                 }
             }
 
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
-
             return Ok(new { count = files.Count, size, filePath });
+        }
+
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody]DocumentDto documentDto)
+        {
+            _documentManipulation.EditDocument(id, documentDto);
         }
 
         // DELETE api/values/5

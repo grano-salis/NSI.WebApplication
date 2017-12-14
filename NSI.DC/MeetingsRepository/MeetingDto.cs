@@ -16,8 +16,14 @@ namespace NSI.DC.MeetingsRepository
         [DataMember]
         [Required]
         [StringLength(120, MinimumLength = 3)]
-        [RegularExpression(@"^\w+$")]
+        [RegularExpression(@"^[A-Za-z0-9 ]*$")]
         public string Title { get; set; }
+
+        [DataMember]
+        [Required]
+        [StringLength(120, MinimumLength = 3)]
+        [RegularExpression(@"^[A-Za-z0-9 ]*$")]
+        public string MeetingPlace { get; set; }
 
         [DataMember]
         [Required]

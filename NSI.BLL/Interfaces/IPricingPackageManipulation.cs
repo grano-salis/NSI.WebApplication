@@ -11,5 +11,6 @@ namespace NSI.BLL.Interfaces
         IEnumerable<PricingPackageDto> GetActivePricingPackages();
         PricingPackageDto SavePricingPackage(PricingPackageDto pricingPackage);
         bool DeletePricingPackageById(int pricingPackageId);
+        PricingPackageDto GetUserPricingPackage(int userId);
     }
 }

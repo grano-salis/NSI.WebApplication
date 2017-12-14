@@ -21,7 +21,22 @@ import { AddressService } from './services/address.service';
 import { UsersService } from './services/users.service';
 import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
-import { HearingsService } from './services/hearings.service'
+import { HearingsService } from './services/hearings.service';
+import {AddressTypeService} from './services/addressType.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { TransactionsService } from './services/transactions.service';
+import { PaymentGatewaysService } from './services/payment-gateways.service';
+import { PricingPackagesService } from './services/pricing-packages.service';
+
+import { ToastrModule } from 'ngx-toastr';
+import {AlertService} from "./services/alert.service";
+
+const toastrSettings = {
+  positionClass: 'toast-top-center',
+  timeOut: 3000
+};
+
 
 @NgModule({
   imports: [
@@ -34,7 +49,9 @@ import { HearingsService } from './services/hearings.service'
     PagesModule,
     AppRoutingModule,
     NgLoadingSpinnerModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(toastrSettings), // ToastrModule added
   ],
   declarations: [AppComponent],
   providers: [//ovdje se injecta svaki servis koji se doda
@@ -45,10 +62,15 @@ import { HearingsService } from './services/hearings.service'
     HelperService,
     MeetingsService,
     AddressService,
+    AddressTypeService,
     UsersService,
     ContactsService,
     HearingsService,
-    DocumentsService
+    DocumentsService,
+    AlertService,
+    PaymentGatewaysService,
+    PricingPackagesService,
+    TransactionsService
   ],
   bootstrap: [AppComponent]
 })

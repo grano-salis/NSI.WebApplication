@@ -36,6 +36,8 @@ namespace NSI.Tests
         {
             // Arrange
             int id = 123;
+            string title = "naziv";
+            string meetPlace = "mjesto";
             DateTime from = DateTime.Now;
             DateTime to = DateTime.Now.AddDays(10);
 
@@ -50,6 +52,8 @@ namespace NSI.Tests
             var meeting = new MeetingDto()
             {
                 MeetingId = id,
+                Title = title,
+                MeetingPlace = meetPlace,
                 From = from,
                 To = to,
                 UserMeeting = usersOnMeeting
@@ -89,6 +93,8 @@ namespace NSI.Tests
         {
             // Arrange
             int id = 123;
+            string title = "naziv";
+            string meetPlace = "mjesto";
             DateTime from = DateTime.Now;
             DateTime to = DateTime.Now.AddDays(10);
 
@@ -103,6 +109,8 @@ namespace NSI.Tests
             var meeting = new MeetingDto()
             {
                 MeetingId = id,
+                Title = title,
+                MeetingPlace = meetPlace,
                 From = from,
                 To = to,
                 UserMeeting = usersOnMeeting
@@ -146,7 +154,7 @@ namespace NSI.Tests
             var result = controller.Get(1);
 
             // Assert
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
 
         }
 
@@ -184,6 +192,8 @@ namespace NSI.Tests
         {
             // Arrange
             int id = 123;
+            string title = "naziv";
+            string meetPlace = "mjesto";
             DateTime from = DateTime.Now;
             DateTime to = DateTime.Now.AddDays(10);
 
@@ -198,6 +208,8 @@ namespace NSI.Tests
             var meeting = new MeetingDto()
             {
                 MeetingId = id,
+                Title = title,
+                MeetingPlace = meetPlace,
                 From = from,
                 To = to,
                 UserMeeting = usersOnMeeting

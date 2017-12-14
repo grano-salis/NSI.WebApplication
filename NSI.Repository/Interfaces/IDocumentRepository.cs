@@ -1,6 +1,5 @@
 ﻿using NSI.DC.DocumentRepository;
 using System.Collections.Generic;
-using IkarusEntities;
 using NSI.REST.Models;
 
 namespace NSI.Repository.Interfaces
