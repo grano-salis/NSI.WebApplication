@@ -2,6 +2,8 @@ import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@an
 import {Contact} from './contact';
 import {ContactsService} from '../../../services/contacts.service';
 import {ActivatedRoute} from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidationService } from '../validation.service';
 
 @Component({
   selector: 'new-contact-component',
@@ -9,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['../contacts.component.css']
 })
 export class NewContactComponent {
+  form:any;
   phone: number;
   email: number;
   @Input() temp_contact: any;
@@ -17,7 +20,15 @@ export class NewContactComponent {
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
-  constructor(private contactsService: ContactsService, private route: ActivatedRoute) {
+  constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+    this.form = this.formBuilder.group({
+            'firstname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
+            'lastname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
+            'email':['', [Validators.required, ValidationService.emailValidator]],
+            'phone':['', [Validators.required, ValidationService.numbersOnlyValidator]],
+            'emails[index]':  ['', [Validators.required]],
+            'phones[index]':  ['', [Validators.required]]
+        });
     this.phones = [];
     this.emails = [];
     this.temp_contact = new Contact();
