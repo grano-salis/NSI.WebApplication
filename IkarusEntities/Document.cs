@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace IkarusEntities
 {
-    public partial class Document
+    public class Document
     {
         public Document()
         {

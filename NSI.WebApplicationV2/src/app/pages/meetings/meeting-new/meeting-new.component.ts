@@ -14,14 +14,20 @@ declare var $: any;
 export class MeetingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
-    $('#from').datetimepicker();
+    let self = this;
+    $('#from').datetimepicker({
+      format: "MM/DD/YYYY, hh:mm:ss"
+    });
     $('#to').datetimepicker({
-      useCurrent: false //Important! See issue #1075
+      useCurrent: false, //Important! See issue #1075
+      format: "MM/DD/YYYY, hh:mm:ss"
     });
     $("#from").on("dp.change", function (e: any) {
+      self.model.from = $("#from").val();
       $('#to').data("DateTimePicker").minDate(e.date);
     });
     $("#to").on("dp.change", function (e: any) {
+      self.model.to = $("#to").val();
       $('#from').data("DateTimePicker").maxDate(e.date);
     });
   }
@@ -61,10 +67,11 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    this.model.from = new Date($('#from').val()).toLocaleString()
-    this.model.to = new Date($('#to').val()).toLocaleString()
     console.log(this.model);
-    this.meetingsService.postMeeting(this.model).subscribe((r: any) => console.log('Hazime imamo bingo: ' + r),
+    this.model.from = $('#from').val();
+    this.model.to = $('#to').val();
+    console.log(this.model);
+    this.meetingsService.postMeeting(this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
   }
 
@@ -75,31 +82,37 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   //edit-update
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
-    this.meetingsService.getMeetingById(this.id).subscribe(data => {
-      if (data != null) {
-        this.edit = true;
-
-        this.model.title = data.title;
-        this.model.from = new Date(data.from).toLocaleString();
-        this.model.to = new Date(data.to).toLocaleString();
-        this.model.userMeeting = data.userMeeting;
-      }
-      console.log(this.edit);
-    });
-
+    console.log(this.id);
+    if (this.id != 0) {
+      this.meetingsService.getMeetingById(this.id).subscribe(response => {
+        let data = response.data;
+        if (data != null) {
+          this.edit = true;
+          console.log(data);
+          this.model.title = data.title;
+          this.model.meetingPlace = data.meetingPlace;
+          this.model.from = new Date(data.from).toLocaleString();
+          this.model.to = new Date(data.to).toLocaleString();
+          this.model.userMeeting = data.userMeeting;
+        }
+        console.log(this.edit);
+      });
+    }
     let dateFrom = this.route.snapshot.queryParamMap.get("dateFrom");
     let dateTo = this.route.snapshot.queryParamMap.get("dateTo");
 
-    if(dateFrom && dateTo) {
+    if (dateFrom && dateTo) {
       this.model.from = new Date(Number.parseInt(dateFrom)).toLocaleString();
       this.model.to = new Date(Number.parseInt(dateTo)).toLocaleString();
     }
   }
 
   updateMeeting() {
-    this.model.from = new Date($('#from').val()).toLocaleString()
-    this.model.to = new Date($('#to').val()).toLocaleString()
-    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log('Saljemo update: ' + r),
+    this.model.from = $('#from').val();
+    this.model.to = $('#to').val();
+    console.log(this.model);
+
+    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
 
   }

@@ -43,12 +43,12 @@ namespace NSI.REST.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try { 
-                var meeting = _meetingsManipulation.GetMeetingById(id);
-                if (meeting != null)
-                    return Ok(meeting);
-
-                return NoContent();
+            try {
+                return Ok(new NSIResponse<MeetingDto>()
+                {
+                    Data = _meetingsManipulation.GetMeetingById(id),
+                    Message = "Success"
+                });
             }
             catch(NSIException ex)
             {

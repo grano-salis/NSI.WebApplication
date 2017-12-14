@@ -17,7 +17,7 @@ namespace NSI.BLL
 
         public PricingPackageDto GetPricingPackage(int pricingPackageId)
         {
-            throw new NotImplementedException();
+            return _pricingPackageRepository.GetPricingPackage(pricingPackageId);
         }
 
         public IEnumerable<PricingPackageDto> GetPricingPackages()
@@ -38,5 +38,11 @@ namespace NSI.BLL
         {
             return _pricingPackageRepository.DeletePricingPackage(pricingPackageId);
         }
+
+        public PricingPackageDto GetUserPricingPackage(int userId)
+        {
+            return _pricingPackageRepository.GetUserPricingPackage(userId);
+        }
+
     }
 }

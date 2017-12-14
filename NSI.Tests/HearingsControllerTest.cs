@@ -218,7 +218,7 @@ namespace NSI.Tests
             var result = controller.Get(0);
 
             // Assert
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
 
         }
 

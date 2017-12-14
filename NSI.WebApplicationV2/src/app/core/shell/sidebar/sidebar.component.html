@@ -131,6 +131,25 @@
           </a>
         </li>
 
+
+        <li>
+          <a id="packageli" (click)="anchorClicked($event)">
+            <i class="fa fa-ellipsis-v"></i> Paketi i transakcije
+            <span id="packagechevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/pricingpackages/list']" routerLinkActive="active">
+              <a>Paketi usluga</a>
+            </li>
+            <li [routerLink]="['/pricingpackages/mypackage']" routerLinkActive="active">
+              <a>Moje usluge</a>
+            </li>
+            <li [routerLink]="['/transactions']" routerLinkActive="active">
+              <a>Transakcije</a>
+            </li>
+          </ul>
+        </li>
+
         <!-- <li>
           <a id="formsli" (click)="anchorClicked($event)">
             <i class="fa fa-edit"></i> Forms

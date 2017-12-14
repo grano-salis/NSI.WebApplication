@@ -18,8 +18,10 @@ const routes: Routes = [
       {path: 'address', loadChildren: './address/address.module#AddressModule'},
       {path: 'addressType', loadChildren: './address/addressType.module#AddressTypeModule'},
       {path: 'hearings', loadChildren: './hearings/hearings.module#HearingsModule'},
-      {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'}
-      
+      {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'},
+      {path: 'transactions', loadChildren: './transactions/transactions.module#TransactionsModule'},
+      {path: 'pricingpackages', loadChildren: './pricing-packages/pricing-packages.module#PricingPackagesModule'}
+
     ]
   }
 ];

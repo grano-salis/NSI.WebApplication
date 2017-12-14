@@ -18,6 +18,7 @@ namespace IkarusEntities
         public bool? IsDeleted { get; set; }
         public int CreatedByUserId { get; set; }
         public string Title { get; set; }
+        public string MeetingPlace { get; set; }
 
         public UserInfo CreatedByUser { get; set; }
         public ICollection<UserMeeting> UserMeeting { get; set; }
