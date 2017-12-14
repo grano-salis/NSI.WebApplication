@@ -6,7 +6,7 @@ import { TasksComponent } from "./tasks.component";
 import { NewTaskComponent } from './new-task/new-task.component';
 import { FormsModule } from "@angular/forms";
 import { TasksOverviewComponent } from './tasks-overview/tasks-overview.component';
-
+declare var $: any;
 @NgModule({
   imports: [
     CommonModule,

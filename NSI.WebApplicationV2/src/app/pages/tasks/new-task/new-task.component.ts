@@ -3,7 +3,7 @@ import { Tasks } from './tasks';
 import { TasksService } from '../../../services/tasks.service';
 import { UsersService } from '../../../services/users.service';
 import { ActivatedRoute } from '@angular/router';
-
+declare var $: any;
 
 @Component({
   selector: 'app-new-task',
