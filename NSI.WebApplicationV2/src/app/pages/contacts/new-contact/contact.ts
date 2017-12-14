@@ -11,4 +11,6 @@ export class Contact {
   modifiedDate: Date;
   isDeleted: boolean;
   createdByUserId: number;
+  emails: any[];
+  phones: any[];
 }
