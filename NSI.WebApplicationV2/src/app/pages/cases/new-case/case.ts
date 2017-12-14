@@ -6,7 +6,7 @@ export class Case {
   caseNumber: string;
   courtNumber: string;
   value: number;
-  judge: string;
+  // judge: string;
   court: string;
   counterParty: string;
   note: string;
@@ -17,7 +17,7 @@ export class Case {
   clientId: number;
   createdByUserId: number;
 
-  
+
   constructor() {
   }
 }

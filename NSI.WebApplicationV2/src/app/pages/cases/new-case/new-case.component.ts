@@ -20,7 +20,7 @@ export class NewCaseComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('this.model.judge',this.model.judge)
+    // console.log('this.model.judge',this.model.judge)
     this.model.dateCreated = new Date().toLocaleDateString();
     this.model.dateModified = null;
     this.model.caseCategory = 1;
