@@ -208,6 +208,17 @@
                       </table>
                     </div>
                   </div>
+
+<div class="form-group">
+    <button type="submit" class="btn btn-default" (click)="buyTShirt()">T-Shirt (£10)</button>
+    <button type="submit" class="btn btn-default" (click)="buyTrainers()">Trainers (£15)</button>
+    <button type="submit" class="btn btn-default" (click)="buyJeans()">Jeans (£20)</button>
+</div>
+<div class="form-group" *ngIf="takePaymentResult">
+    <p>Payment Result: {{takePaymentResult}}</p>
+</div>
+
+
                 </div>
 
               </div>

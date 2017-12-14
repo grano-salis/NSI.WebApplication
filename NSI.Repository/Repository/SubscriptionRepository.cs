@@ -63,5 +63,12 @@ namespace NSI.Repository
             return null;
         }
 
+        void ISubscriptionRepository.Deactivate(int subscriptionId){
+            var pendingSubscription = _dbContext.Subscription.FirstOrDefault(s => s.SubscriptionId == subscriptionId);
+
+            pendingSubscription.IsActive = false;
+            _dbContext.SaveChanges();
+        }
+
     }
 }

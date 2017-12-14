@@ -3,6 +3,10 @@ import { TransactionsService } from '../../../services/transactions.service';
 import { PricingPackagesService } from '../../../services/pricing-packages.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../../environments/environment';
+
 declare let $: any;
 
 @Component({
@@ -17,7 +21,7 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
   pricingPackageLoaded: boolean = false;
 
 
-  constructor(private transactionsService: TransactionsService, private pricingPackagesService:PricingPackagesService,  private router: Router, private route: ActivatedRoute) { }
+  constructor(private transactionsService: TransactionsService, private pricingPackagesService:PricingPackagesService,  private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit() {
 
@@ -50,5 +54,58 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
       subscribe(()=>{this.router.navigate(['/transactions']);});
     }
   }
+
+
+    takePaymentResult: string;
+
+    takePayment(productName: string, amount: number, token: any) {
+        let body = {
+            tokenId: token.id,
+            productName: productName,
+            amount: amount,
+            packageId: this.packageId
+        };
+        let bodyString = JSON.stringify(body);
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+
+        this.http.post(environment.serverUrl +'/api/Transactions/MakePayment', bodyString, {headers:headers}).
+        subscribe((res:any) => {
+            this.takePaymentResult = res.status;},
+            (error) => {
+                this.takePaymentResult = error.message
+            }
+          );
+
+
+    }
+
+    openCheckout(productName: string, amount: number, tokenCallback:any) {
+        let handler = (<any>window).StripeCheckout.configure({
+            key: 'pk_test_DtZhhM6VxNCPaiYjPdYTQQaY',
+            locale: 'auto',
+            token: tokenCallback
+        });
+
+        handler.open({
+            name: 'Our Shop',
+            description: productName,
+            zipCode: false,
+            currency: 'usd',
+            amount: amount,
+            panelLabel: "Pay {{amount}}",
+            allowRememberMe: false
+        });
+    }
+
+    buyTShirt() {
+        this.openCheckout("T-Shirt", 1000, (token: any) => this.takePayment("T-Shirt", 1000, token));
+    }
+    buyTrainers() {
+        this.openCheckout("Trainers", 1500, (token: any) => this.takePayment("Trainers", 1500, token));
+    }
+    buyJeans() {
+        this.openCheckout("Jeans", 2002, (token: any) => this.takePayment("Jeans", 2002, token));
+    }
 
 }

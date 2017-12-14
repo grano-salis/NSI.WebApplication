@@ -31,7 +31,22 @@ namespace NSI.BLL
         }
         public SubscriptionDto SaveSubscription(SubscriptionDto subscription)
         {
-            return _subscriptionRepository.SaveSubscription(subscription);
+            try{
+                SubscriptionDto userSubscription = GetCustomerSubscription(subscription.CustomerId);
+                if (userSubscription != null)
+                {
+                    _subscriptionRepository.Deactivate(userSubscription.SubscriptionId);
+                }
+                subscription.IsActive = true;
+                subscription.RecurringPayment = false;
+                subscription.SubscriptionStartDate = DateTime.Now;
+                subscription.SubscriptionExpirationDate = subscription.SubscriptionStartDate.AddMonths(1);
+                return _subscriptionRepository.SaveSubscription(subscription);
+            }
+            catch(Exception e){
+                Console.WriteLine(e.Message);
+            }
+            return null;
         }
 
         public bool DeleteSubscriptionById(int subscriptionId)

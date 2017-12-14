@@ -10,6 +10,7 @@ namespace NSI.Repository.Interfaces
         IEnumerable<SubscriptionDto> GetAllSubscriptions();
         IEnumerable<SubscriptionDto> GetActiveSubscriptions();
         SubscriptionDto SaveSubscription(SubscriptionDto subscription);
+        void Deactivate(int subscriptionId);
         bool DeleteSubscription(int subscriptionId);
         SubscriptionDto GetCustomerSubscription(int customerId);
 
