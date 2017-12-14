@@ -120,17 +120,17 @@ export class ContactsComponent implements OnInit {
           (contact.lastName + ' ' + contact.firsttName).toLocaleLowerCase().includes(filterValue) ||
           (contact.firsttName + ' ' + contact.lastName).toLocaleLowerCase().includes(filterValue);
       }
-      if (this.filterColumn === 'Phone') {
+      if (this.filterColumn === 'phone') {
         for (const phone of contact.phones) {
-          if (phone.toLocaleLowerCase().includes(filterValue)) {
+          if (phone.phoneNumber.toLocaleLowerCase().includes(filterValue)) {
             return true;
           }
         }
         return false;
       }
-      if (this.filterColumn === 'Email') {
+      if (this.filterColumn === 'email') {
         for (const email of contact.emails) {
-          if (email.toLocaleLowerCase().includes(filterValue)) {
+          if (email.emailAddress.toLocaleLowerCase().includes(filterValue)) {
             return true;
           }
         }
