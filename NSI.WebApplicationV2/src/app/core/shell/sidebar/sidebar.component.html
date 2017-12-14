@@ -25,7 +25,16 @@
   <div id="sidebar-menu" class="main_menu_side  hidden-print main_menu">
     <div class="menu_section">
       <h3>General</h3>
+
       <ul class="nav side-menu">
+
+          <li [routerLink]="['/cases/dashboard']">
+            <a id="dashboardli">
+              <i class="fa fa-dashboard"></i> Dashboard
+              <span id="dashboardchevron" class="fa fa-chevron-down"></span>
+            </a>
+          </li>
+
         <li>
           <a id="homeli" (click)="anchorClicked($event)">
             <i class="fa fa-home"></i> Home
@@ -74,9 +83,6 @@
             <span id="caseschevron" class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
-              <li [routerLink]="['/cases/dashboard']" routerLinkActive="active">
-                <a>Dashboard</a>
-              </li>
             <li [routerLink]="['/cases/new']" routerLinkActive="active">
               <a>New case</a>
             </li>
