@@ -49,7 +49,7 @@ namespace NSI.REST.Controllers
                 if (ModelState.IsValid)
                 {
                     // Ovdje bi vjerovatno trebalo povuci pricingpackage radi eventualne provjere
-                    transaction.DateCreated = new DateTime();
+                    transaction.DateCreated = DateTime.Now;
                     var result = _transactionManipulation.SaveTransaction(transaction);
                     if (result != null) return Ok(result);
                 }

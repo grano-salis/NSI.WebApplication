@@ -11,5 +11,6 @@ namespace NSI.Repository.Interfaces
         IEnumerable<PricingPackageDto> GetActivePricingPackages();
         PricingPackageDto SavePricingPackage(PricingPackageDto pricingPackage);
         bool DeletePricingPackage(int id);
+        PricingPackageDto GetUserPricingPackage(int userId);
     }
 }

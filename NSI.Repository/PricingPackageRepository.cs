@@ -53,5 +53,15 @@ namespace NSI.Repository
             return false;
         }
 
+        PricingPackageDto IPricingPackageRepository.GetUserPricingPackage(int userId)
+        {
+            var latestTransaction = _dbContext.Transaction.Where(t => t.CustomerId == userId).OrderByDescending(x => x.DateCreated).FirstOrDefault();
+            if( latestTransaction != null )
+            {
+                return MapToDto(latestTransaction.PricingPackage);
+            }
+            return null;
+        }
+
     }
 }
