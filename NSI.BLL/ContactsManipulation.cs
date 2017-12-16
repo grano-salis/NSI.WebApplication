@@ -17,9 +17,9 @@ namespace NSI.BLL
         }
       
 
-        public ICollection<ContactDto> GetContacts()
+        public ICollection<ContactDto> GetContacts(int? pageSize, int? pageNumber)
         {
-            return _contactsRepository.GetContacts();
+            return _contactsRepository.GetContacts(pageSize, pageNumber);
         }
 
         public ContactDto CreateContact(ContactDto contactDto)

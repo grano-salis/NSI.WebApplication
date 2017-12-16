@@ -8,7 +8,7 @@ namespace NSI.BLL.Interfaces
 {
     public interface IContactsManipulation
     {
-        ICollection<ContactDto> GetContacts();
+        ICollection<ContactDto> GetContacts(int? pageSize, int? pageNumber);
         ContactDto CreateContact(ContactDto model);
         ContactDto GetContactById(int contactId);
         bool DeleteContactById(int contactId);

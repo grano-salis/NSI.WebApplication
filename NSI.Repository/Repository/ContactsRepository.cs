@@ -1,6 +1,7 @@
 ﻿using IkarusEntities;
 using NSI.DC.ContactsRepository;
 using NSI.Repository.Interfaces;
+using PagedList.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +18,31 @@ namespace NSI.Repository
             _dbContext = dbContext;
         }
 
-        public ICollection<ContactDto> GetContacts()
+        public ICollection<ContactDto> GetContacts(int? pageSize, int? pageNumber)
         {
             try
             {
-                var contacts = _dbContext.Contact.Where(x => x.IsDeleted == false);
-                if (contacts != null)
-                {
-                    ICollection<ContactDto> contactDto = new List<ContactDto>();
-                    foreach (var item in contacts)
-                    {
-                        _dbContext.Entry(item).Collection(p => p.Phone).Load();
-                        _dbContext.Entry(item).Collection(p => p.Email).Load();
-                        contactDto.Add(Mappers.ContactRepository.MapToDto(item));
-                    }
-                    return contactDto;
+                IList<Contact> contacts = null;
+                if (pageSize != null && pageNumber != null)
+                { 
+                    contacts = _dbContext.Contact.Where(x => x.IsDeleted == false).ToPagedList((int)pageNumber, (int)pageSize).ToList();
                 }
+                else
+                {
+                    contacts = _dbContext.Contact.Where(x => x.IsDeleted == false).ToList();
+                }
+                if (contacts != null)
+                    {
+                        ICollection<ContactDto> contactDto = new List<ContactDto>();
+                        foreach (var item in contacts)
+                        {
+                            _dbContext.Entry(item).Collection(p => p.Phone).Load();
+                            _dbContext.Entry(item).Collection(p => p.Email).Load();
+                            contactDto.Add(Mappers.ContactRepository.MapToDto(item));
+                        }
+                        return contactDto;
+                    }
+                
             }
             catch (Exception ex)
             {
@@ -97,7 +107,7 @@ namespace NSI.Repository
             catch (Exception ex)
             {
                 //log ex
-                throw new Exception(ex.Message); 
+                throw new Exception(ex.Message);
             }
             return null;
         }
@@ -117,7 +127,7 @@ namespace NSI.Repository
                     _dbContext.RemoveRange(_dbContext.Phone.Where(x => x.ContactId == contactTmp.Contact1));
                     _dbContext.RemoveRange(_dbContext.Email.Where(x => x.ContactId == contactTmp.Contact1));
                     //create new phones and emails
-                    foreach(var emailDto in contact.Emails)
+                    foreach (var emailDto in contact.Emails)
                     {
                         _dbContext.Add(new Email() { ContactId = contactTmp.Contact1, EmailAddress = emailDto.EmailAddress });
                     }
