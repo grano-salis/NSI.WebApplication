@@ -29,13 +29,13 @@ namespace NSI.Repository
                     switch ((string)searchColumn)
                     {
                         case "email":
-                            contacts = _dbContext.Contact.Where(s => s.Email.Any(email => email.EmailAddress.Contains((string)searchString)));
+                            contacts = contacts.Where(s => s.Email.Any(email => email.EmailAddress.Contains((string)searchString)));
                             break;
                         case "phone":
-                            contacts = _dbContext.Contact.Where(s => s.Phone.Any(phone => phone.PhoneNumber.Contains((string)searchString)));
+                            contacts = contacts.Where(s => s.Phone.Any(phone => phone.PhoneNumber.Contains((string)searchString)));
                             break;
                         default:
-                            contacts = _dbContext.Contact.Where(s => s.LastName.Contains((string)searchString)
+                            contacts = contacts.Where(s => s.LastName.Contains((string)searchString)
                         || s.FirsttName.Contains((string)searchString)); ;
                             break;
                     }
