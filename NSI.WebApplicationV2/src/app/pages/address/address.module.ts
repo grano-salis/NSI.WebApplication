@@ -10,6 +10,7 @@ import {FormsModule} from '@angular/forms';
 import { AddressTypeListComponent } from './address-type-list/address-type-list.component';
 import { AddressTypeNewComponent } from './address-type-new/address-type-new.component';
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
+import {AddressTypeModalDeleteComponent} from './address-type-modal-delete/address-type-modal-delete.component';
 
 @NgModule({
   imports: [
@@ -19,6 +20,13 @@ import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
     FormsModule,
     Ng4GeoautocompleteModule.forRoot()
   ],
-  declarations: [AddressComponent, AddressNewComponent, AddressListComponent, AddressTypeNewComponent, AddressTypeListComponent]
+  declarations: [
+    AddressComponent,
+    AddressNewComponent,
+    AddressListComponent,
+    AddressTypeNewComponent,
+    AddressTypeListComponent,
+    AddressTypeModalDeleteComponent
+  ]
 })
 export class AddressModule { }

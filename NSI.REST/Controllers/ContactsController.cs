@@ -22,9 +22,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/contacts
         [HttpGet]
-        public IActionResult Get(int? pageSize, int? pageNumber)
+        public IActionResult Get(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
         {
-            return Ok(contactsRepository.GetContacts(pageSize, pageNumber));
+            return Ok(contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder));
         }
 
 

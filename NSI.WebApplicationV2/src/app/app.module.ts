@@ -32,7 +32,7 @@ import { PaymentGatewaysService } from './services/payment-gateways.service';
 import { PricingPackagesService } from './services/pricing-packages.service';
 
 import { ToastrModule } from 'ngx-toastr';
-import {AlertService} from "./services/alert.service";
+import {AlertService} from './services/alert.service';
 
 const toastrSettings = {
   positionClass: 'toast-top-center',

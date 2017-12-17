@@ -24,4 +24,8 @@ export class AddressTypeService {
     return this.http.post( environment.serverUrl + '/api/addresstype', body, {headers: this.headers});
   }
 
+  deleteAddressType(params?: number): Observable<any> {
+    return this.http.delete( environment.serverUrl + '/api/addresstype/' + params.toString());
+  }
+
 }

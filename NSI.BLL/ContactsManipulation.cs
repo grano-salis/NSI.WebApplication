@@ -17,9 +17,9 @@ namespace NSI.BLL
         }
       
 
-        public ICollection<ContactDto> GetContacts(int? pageSize, int? pageNumber)
+        public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
         {
-            return _contactsRepository.GetContacts(pageSize, pageNumber);
+            return _contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder);
         }
 
         public ContactDto CreateContact(ContactDto contactDto)
