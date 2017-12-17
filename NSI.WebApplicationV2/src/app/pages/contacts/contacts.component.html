@@ -44,13 +44,20 @@
               </form>
             </div>
           </div>
-          <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0"
+          <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0"
                  width="100%">
             <thead>
             <tr>
-              <th><a (click)="sort('name_asc')">Name </a></th>
-              <th><a (click)="sort('email_asc')">Email</a></th>
-              <th><a (click)="sort('phone_asc')">Phone</a></th>
+              <th><a class="sort" (click)="sort('name_asc',1)">Name
+                <i *ngIf="sortNumber==1"
+                   class="pull-right fa fa-sort-amount-asc"></i></a>
+              </th>
+              <th><a class="sort" (click)="sort('email_asc',2)">Email <i *ngIf="sortNumber==2"
+                                                                         class="pull-right fa fa-sort-amount-asc"></i></a>
+              </th>
+              <th><a class="sort" (click)="sort('phone_asc',3)">Phone <i *ngIf="sortNumber==3"
+                                                                         class="pull-right fa fa-sort-amount-asc"></i></a>
+              </th>
               <th class="option">Show</th>
               <th class="option">Edit</th>
               <th class="option">Delete</th>
@@ -98,7 +105,7 @@
         </div>
         <div clas="row">
           <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
-            <ul class="pagination">
+            <ul class="pagination" style="cursor:pointer; margin:0px">
               <li class="paginate_button" [ngClass]="{disabled:pager.currentPage === 1}"><a
                 (click)="setPage(1)" aria-controls="datatable-fixed-header">First</a></li>
               <li class="paginate_button" [ngClass]="{disabled:pager.currentPage === 1}"><a

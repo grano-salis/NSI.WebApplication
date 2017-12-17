@@ -11,6 +11,7 @@ class Contact {
   email: any;
   mobile: any;
 
+
   constructor() {
     this.firsttName = '';
     this.lastName = '';
@@ -36,8 +37,7 @@ export class ContactsComponent implements OnInit {
 
   // pager object
   pager: any = {};
-
-  // paged items
+  sortNumber: number;
   pagedItems: any[];
 
   constructor(private contactsService: ContactsService, private pagerService: PagerService) {
@@ -45,11 +45,12 @@ export class ContactsComponent implements OnInit {
     this.filterColumn = 'name';
     this.filterValue = '';
     this.temp_contact = new Contact();
+    this.sortNumber = 0;
   }
 
   ngOnInit() {
     const _this = this;
-     _this.setPage(1);
+    _this.setPage(1);
   }
 
   addContact() {
@@ -99,18 +100,19 @@ export class ContactsComponent implements OnInit {
   }
 
   setPage(page: number, sortOrder: string = '') {
-    if (page < 1 ) {
+    if (page < 1) {
       return;
     }
     this.contactsService.getPagedContacts(10, page, this.filterValue.toLocaleLowerCase(), this.filterColumn, sortOrder)
       .subscribe((contacts: any) => {
-        this.pager = this.pagerService.getPager(contacts.total, page );
+        this.pager = this.pagerService.getPager(contacts.total, page);
         this.contacts = contacts.contacts;
       });
   }
 
 
-  sort(type: string) {
-    this.setPage(1, type);
+  sort(column: string, type: number) {
+    this.setPage(1, column);
+    this.sortNumber = type;
   }
 }
