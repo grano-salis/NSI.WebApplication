@@ -7,7 +7,7 @@ namespace NSI.Repository.Interfaces
 {
     public interface IContactsRepository
     {
-        ICollection<ContactDto> GetContacts(int? pageSize, int? pageNumber);
+        PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder);
         ContactDto CreateContact(ContactDto contactDto);
         bool DeleteContactById(int contactId);
         ContactDto GetContactById(int contactId);

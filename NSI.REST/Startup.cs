@@ -90,9 +90,9 @@ namespace NSI.REST
             services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
             services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            //  services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICustomerManipulation, CustomerManipulation>();
-            services.AddScoped<IClientRepository, ClientRepository>();
+            // services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IClientManipulation, ClientManipulation>();
 
             services.AddMvc().AddJsonOptions(

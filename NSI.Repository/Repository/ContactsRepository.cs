@@ -18,31 +18,71 @@ namespace NSI.Repository
             _dbContext = dbContext;
         }
 
-        public ICollection<ContactDto> GetContacts(int? pageSize, int? pageNumber)
+        public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
         {
             try
             {
-                IList<Contact> contacts = null;
-                if (pageSize != null && pageNumber != null)
-                { 
-                    contacts = _dbContext.Contact.Where(x => x.IsDeleted == false).ToPagedList((int)pageNumber, (int)pageSize).ToList();
+                var totalContacts = _dbContext.Contact.Count();
+                IQueryable<Contact> contacts = null;
+                if (!String.IsNullOrEmpty((string)searchString))
+                {
+                    switch ((string)searchColumn)
+                    {
+                        case "email":
+                            contacts = _dbContext.Contact.Where(s => s.Email.Any(email => email.EmailAddress.Contains((string)searchString)));
+                            break;
+                        case "phone":
+                            contacts = _dbContext.Contact.Where(s => s.Phone.Any(phone => phone.PhoneNumber.Contains((string)searchString)));
+                            break;
+                        default:
+                            contacts = _dbContext.Contact.Where(s => s.LastName.Contains((string)searchString)
+                        || s.FirsttName.Contains((string)searchString)); ;
+                            break;
+                    }
                 }
                 else
                 {
-                    contacts = _dbContext.Contact.Where(x => x.IsDeleted == false).ToList();
+                    contacts = _dbContext.Contact;
+                }
+                var sortingOrder = String.IsNullOrEmpty((string)sortOrder) ? "date_modified" : (string)sortOrder; // date_modified will be our default sort order
+                switch (sortingOrder)
+                {
+                    case "name_asc":
+                        contacts = contacts.OrderBy(a => a.FirsttName + " " + a.LastName);
+                        break;
+                    case "name_desc":
+                        contacts = contacts.OrderByDescending(a => a.FirsttName + " " + a.LastName);
+                        break;
+                    case "phone_asc":
+                        contacts = contacts.OrderBy(a => a.Phone.FirstOrDefault().PhoneNumber);
+                        break;
+                    case "phone_desc":
+                        contacts = contacts.OrderByDescending(a => a.Phone.FirstOrDefault().PhoneNumber);
+                        break;
+                    case "email_asc":
+                        contacts = contacts.OrderBy(a => a.Email.FirstOrDefault().EmailAddress);
+                        break;
+                    case "email_desc":
+                        contacts = contacts.OrderByDescending(a => a.Email.FirstOrDefault().EmailAddress);
+                        break;
+                    default:
+                        contacts = contacts.OrderByDescending(a => a.ModifiedDate);
+                        break;
                 }
                 if (contacts != null)
+                {
+                    var contactsList = contacts.ToPagedList(pageNumber, pageSize).ToList();
+                    ICollection<ContactDto> contactDto = new List<ContactDto>();
+                    foreach (var item in contactsList)
                     {
-                        ICollection<ContactDto> contactDto = new List<ContactDto>();
-                        foreach (var item in contacts)
-                        {
-                            _dbContext.Entry(item).Collection(p => p.Phone).Load();
-                            _dbContext.Entry(item).Collection(p => p.Email).Load();
-                            contactDto.Add(Mappers.ContactRepository.MapToDto(item));
-                        }
-                        return contactDto;
+                        _dbContext.Entry(item).Collection(p => p.Phone).Load();
+                        _dbContext.Entry(item).Collection(p => p.Email).Load();
+                        contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
-                
+                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = totalContacts };
+                    return paggedContactsDto;
+                }
+
             }
             catch (Exception ex)
             {
