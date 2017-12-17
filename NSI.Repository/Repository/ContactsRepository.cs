@@ -22,7 +22,6 @@ namespace NSI.Repository
         {
             try
             {
-                var totalContacts = _dbContext.Contact.Count();
                 IQueryable<Contact> contacts = _dbContext.Contact.Where(a => (bool)!a.IsDeleted);
                 if (!String.IsNullOrEmpty((string)searchString))
                 {
@@ -75,7 +74,7 @@ namespace NSI.Repository
                         _dbContext.Entry(item).Collection(p => p.Email).Load();
                         contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
-                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = totalContacts };
+                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = contactDto.Count };
                     return paggedContactsDto;
                 }
 
