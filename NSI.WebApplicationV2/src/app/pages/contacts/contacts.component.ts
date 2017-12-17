@@ -49,10 +49,7 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     const _this = this;
-    this.contactsService.getContacts().subscribe((contacts: any) => {
-      _this.allContacts = contacts;
-      _this.setPage(1);
-    });
+     _this.setPage(1);
   }
 
   addContact() {
@@ -80,49 +77,19 @@ export class ContactsComponent implements OnInit {
   }
 
   close() {
-    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
     this.search();
   }
 
   closeNew() {
-    this.allContacts.push(this.temp_contact);
     this.search();
   }
 
   DeleteElement(contactToDelete: any) {
-    const index = this.allContacts.findIndex((c: any) => c.contact1 === contactToDelete.contact1);
-    this.allContacts.splice(index, 1);
     this.search();
   }
 
   search() {
-    const __this = this;
-    const filterValue = this.filterValue.toLocaleLowerCase();
-    this.contacts = this.contacts.filter((contact: any) => {
-      if (this.filterColumn === 'name') {
-        return contact.firsttName.toLocaleLowerCase().includes(filterValue) ||
-          contact.lastName.toLocaleLowerCase().includes(filterValue) ||
-          (contact.lastName + ' ' + contact.firsttName).toLocaleLowerCase().includes(filterValue) ||
-          (contact.firsttName + ' ' + contact.lastName).toLocaleLowerCase().includes(filterValue);
-      }
-      if (this.filterColumn === 'phone') {
-        for (const phone of contact.phones) {
-          if (phone.phoneNumber.toLocaleLowerCase().includes(filterValue)) {
-            return true;
-          }
-        }
-        return false;
-      }
-      if (this.filterColumn === 'email') {
-        for (const email of contact.emails) {
-          if (email.emailAddress.toLocaleLowerCase().includes(filterValue)) {
-            return true;
-          }
-        }
-        return false;
-      }
-    });
-    this.setPage(this.pager.currentPage);
+    this.setPage(1);
   }
 
   changeFilterColumn() {
@@ -131,18 +98,19 @@ export class ContactsComponent implements OnInit {
     this.setPage(1);
   }
 
-  setPage(page: number) {
-    if (page < 1 || page > this.pager.totalPages) {
+  setPage(page: number, sortOrder: string = '') {
+    if (page < 1 ) {
       return;
     }
-    this.pager = this.pagerService.getPager(this.allContacts.length, page);
-    this.contactsService.getPagedContacts(this.pager.pageSize, page).subscribe((contacts: any) => {
-      this.contacts = contacts;
-    });
+    this.contactsService.getPagedContacts(10, page, this.filterValue.toLocaleLowerCase(), this.filterColumn, sortOrder)
+      .subscribe((contacts: any) => {
+        this.pager = this.pagerService.getPager(contacts.total, page );
+        this.contacts = contacts.contacts;
+      });
   }
 
 
-  sort(type: number) {
-    this.setPage(type);
+  sort(type: string) {
+    this.setPage(1, type);
   }
 }

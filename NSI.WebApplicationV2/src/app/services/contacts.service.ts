@@ -44,8 +44,12 @@ export class ContactsService {
 
   }
 
-
-  getPagedContacts(number: number, page: number) {
-    return this.http.get(`${this._url}/api/contacts?pageSize=` + number + '&pageNumber=' + page);
+  getPagedContacts(pageSize: number, pageNumber: number, searchString: string,
+                   searchColumn: string, sortOrder: string) {
+    let uri = 'pageSize=' + pageSize + '&pageNumber=' + pageNumber;
+    if (searchString !== '' || searchColumn !== '') uri += '&searchString=' + searchString;
+    if (searchColumn !== '') uri += '&searchColumn=' + searchColumn;
+    if (sortOrder !== '') uri += '&sortOrder=' + sortOrder;
+    return this.http.get(`${this._url}/api/contacts?` + uri);
   }
 }

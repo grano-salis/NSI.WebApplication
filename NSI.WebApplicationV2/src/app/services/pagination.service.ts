@@ -1,8 +1,8 @@
-import _ = require("lodash");
+import * as _ from 'underscore';
 export class PagerService {
   getPager(totalItems: number, currentPage: number = 1, pageSize: number = 10) {
     // calculate total pages
-    const totalPages = Math.ceil(totalItems / pageSize);
+    let totalPages = Math.ceil(totalItems / pageSize);
 
     let startPage: number, endPage: number;
     if (totalPages <= 10) {
