@@ -23,7 +23,7 @@ namespace NSI.Repository
             try
             {
                 var totalContacts = _dbContext.Contact.Count();
-                IQueryable<Contact> contacts = null;
+                IQueryable<Contact> contacts = _dbContext.Contact.Where(a => (bool)!a.IsDeleted);
                 if (!String.IsNullOrEmpty((string)searchString))
                 {
                     switch ((string)searchColumn)
@@ -39,10 +39,6 @@ namespace NSI.Repository
                         || s.FirsttName.Contains((string)searchString)); ;
                             break;
                     }
-                }
-                else
-                {
-                    contacts = _dbContext.Contact;
                 }
                 var sortingOrder = String.IsNullOrEmpty((string)sortOrder) ? "date_modified" : (string)sortOrder; // date_modified will be our default sort order
                 switch (sortingOrder)
