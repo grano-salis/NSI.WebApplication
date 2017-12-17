@@ -28,13 +28,13 @@ namespace NSI.Repository
                     switch ((string)searchColumn)
                     {
                         case "email":
-                            contacts = contacts.Where(s => s.Email.Any(email => email.EmailAddress.Contains((string)searchString)));
+                            contacts = contacts.Where(s => s.Email.Any(email => email.EmailAddress.ToUpper().Contains((string)searchString.ToUpper())));
                             break;
                         case "phone":
-                            contacts = contacts.Where(s => s.Phone.Any(phone => phone.PhoneNumber.Contains((string)searchString)));
+                            contacts = contacts.Where(s => s.Phone.Any(phone => phone.PhoneNumber.ToUpper().Contains((string)searchString.ToUpper())));
                             break;
                         default:
-                            contacts = contacts.Where(s => s.LastName.Contains((string)searchString)
+                            contacts = contacts.Where(s => s.LastName.ToUpper().Contains((string)searchString.ToUpper())
                         || s.FirsttName.Contains((string)searchString)); ;
                             break;
                     }
@@ -132,11 +132,11 @@ namespace NSI.Repository
         {
             try
             {
-                var contact = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId && x.IsDeleted == false);
-                _dbContext.Entry(contact).Collection(p => p.Phone).Load();
-                _dbContext.Entry(contact).Collection(p => p.Email).Load();
+                var contact = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId && x.IsDeleted == false);   
                 if (contact != null)
                 {
+                    _dbContext.Entry(contact).Collection(p => p.Phone).Load();
+                    _dbContext.Entry(contact).Collection(p => p.Email).Load();
                     return Mappers.ContactRepository.MapToDto(contact);
                 }
             }
