@@ -66,6 +66,7 @@ namespace NSI.Repository
                 }
                 if (contacts != null)
                 {
+                    var total = contacts.Count();
                     var contactsList = contacts.ToPagedList(pageNumber, pageSize).ToList();
                     ICollection<ContactDto> contactDto = new List<ContactDto>();
                     foreach (var item in contactsList)
@@ -74,7 +75,7 @@ namespace NSI.Repository
                         _dbContext.Entry(item).Collection(p => p.Email).Load();
                         contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
-                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = contactDto.Count };
+                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = total };
                     return paggedContactsDto;
                 }
 
