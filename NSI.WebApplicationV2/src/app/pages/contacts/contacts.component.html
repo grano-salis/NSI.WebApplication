@@ -48,9 +48,9 @@
                  width="100%">
             <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
+              <th><a (click)="sort(1)">Name </a></th>
+              <th><a (click)="sort(2)">Email</a></th>
+              <th><a (click)="sort(3)">Phone</a></th>
               <th class="option">Show</th>
               <th class="option">Edit</th>
               <th class="option">Delete</th>
@@ -96,11 +96,27 @@
             </tbody>
           </table>
         </div>
-
+        <div clas="row">
+          <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
+            <ul class="pagination">
+              <li class="paginate_button" [ngClass]="{disabled:pager.currentPage === 1}"><a
+                (click)="setPage(1)" aria-controls="datatable-fixed-header">First</a></li>
+              <li class="paginate_button" [ngClass]="{disabled:pager.currentPage === 1}"><a
+                (click)="setPage(pager.currentPage - 1)" aria-controls="datatable-fixed-header">Previous</a></li>
+              <li class="paginate_button" [ngClass]="{active:pager.currentPage === page}"
+                  *ngFor="let page of pager.pages"><a (click)="setPage(page)"
+                                                      aria-controls="datatable-fixed-header">{{page}}</a>
+              </li>
+              <li class="paginate_button" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a
+                (click)="setPage(pager.currentPage + 1)" aria-controls="datatable-fixed-header">Next</a></li>
+              <li class="paginate_button" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a
+                (click)="setPage(pager.totalPages)" aria-controls="datatable-fixed-header">Last</a></li>
+            </ul>
+          </div>
+        </div>
 
         <app-contact-modal [temp_contact]="temp_contact" (onClose)="close()"></app-contact-modal>
         <new-contact-component [temp_contact]="temp_contact" (onClose)="closeNew()"></new-contact-component>
-
         <show-contact-component [temp_contact]="temp_contact"></show-contact-component>
       </div>
     </div>

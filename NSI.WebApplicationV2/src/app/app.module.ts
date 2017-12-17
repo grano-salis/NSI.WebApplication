@@ -25,6 +25,7 @@ import { HearingsService } from './services/hearings.service';
 import {AddressTypeService} from './services/addressType.service';
 import {CasesService} from './services/cases.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {PagerService} from "./services/pagination.service";
 
 import { TransactionsService } from './services/transactions.service';
 import { PaymentGatewaysService } from './services/payment-gateways.service';
@@ -66,13 +67,15 @@ const toastrSettings = {
     AddressTypeService,
     UsersService,
     ContactsService,
-    HearingsService,
     DocumentsService,
     AlertService,
     PaymentGatewaysService,
     PricingPackagesService,
     TransactionsService,
-    CaseService
+    CasesService,
+    HearingsService,
+    PagerService
+    //DocumentsService
   ],
   bootstrap: [AppComponent]
 })
