@@ -51,9 +51,7 @@
               <th>Name</th>
               <th>Email</th>
               <th>Phone</th>
-              <th class="option">Show</th>
-              <th class="option">Edit</th>
-              <th class="option">Delete</th>
+              <th class="option">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -71,20 +69,10 @@
                           (click)="showContact(contact)">
                     <i class="fa fa-list"></i>
                   </button>
-                </p>
-              </td>
-
-              <td>
-                <p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
                   <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"
                           (click)="editContact(contact)">
                     <i class="fa fa-edit"></i>
                   </button>
-                </p>
-              </td>
-
-              <td><p class="text-center" data-placement="top" data-toggle="tooltip"
-                     title="Delete">
                 <a href="#delete-contact{{contact.contact1}}" _ngcontent-c7="" class="btn btn-danger btn-xs"
                    data-target="#delete-contact{{contact.contact1}}" data-title="Delete" data-toggle="modal">
                   <i class="fa fa-trash"></i>
