@@ -22,27 +22,22 @@ namespace NSI.Repository
         {
             try
             {
-                var totalContacts = _dbContext.Contact.Count();
-                IQueryable<Contact> contacts = null;
+                IQueryable<Contact> contacts = _dbContext.Contact.Where(a => (bool)!a.IsDeleted);
                 if (!String.IsNullOrEmpty((string)searchString))
                 {
                     switch ((string)searchColumn)
                     {
                         case "email":
-                            contacts = _dbContext.Contact.Where(s => s.Email.Any(email => email.EmailAddress.Contains((string)searchString)));
+                            contacts = contacts.Where(s => s.Email.Any(email => email.EmailAddress.Contains((string)searchString)));
                             break;
                         case "phone":
-                            contacts = _dbContext.Contact.Where(s => s.Phone.Any(phone => phone.PhoneNumber.Contains((string)searchString)));
+                            contacts = contacts.Where(s => s.Phone.Any(phone => phone.PhoneNumber.Contains((string)searchString)));
                             break;
                         default:
-                            contacts = _dbContext.Contact.Where(s => s.LastName.Contains((string)searchString)
+                            contacts = contacts.Where(s => s.LastName.Contains((string)searchString)
                         || s.FirsttName.Contains((string)searchString)); ;
                             break;
                     }
-                }
-                else
-                {
-                    contacts = _dbContext.Contact;
                 }
                 var sortingOrder = String.IsNullOrEmpty((string)sortOrder) ? "date_modified" : (string)sortOrder; // date_modified will be our default sort order
                 switch (sortingOrder)
@@ -71,6 +66,7 @@ namespace NSI.Repository
                 }
                 if (contacts != null)
                 {
+                    var total = contacts.Count();
                     var contactsList = contacts.ToPagedList(pageNumber, pageSize).ToList();
                     ICollection<ContactDto> contactDto = new List<ContactDto>();
                     foreach (var item in contactsList)
@@ -79,7 +75,7 @@ namespace NSI.Repository
                         _dbContext.Entry(item).Collection(p => p.Email).Load();
                         contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
-                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = totalContacts };
+                    var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = total };
                     return paggedContactsDto;
                 }
 
