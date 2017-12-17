@@ -17,10 +17,17 @@ export class AddressTypeListComponent implements OnInit {
     this.loadAddressTypes();
   }
 
+  //Umjesto modala, jednostavno se isntalira i koristi
+  //http://mattlewis92.github.io/angular-bootstrap-confirm/
+
   loadAddressTypes(): any {
     this.addressTypeService.getAddressTypes().subscribe((addressTypes: any) => {
       this.addressTypes = addressTypes;
     });
+  }
+
+  deleteAddressTypeFromLista(index: number){
+    this.addressTypes.splice(index, 1);
   }
 
 }
