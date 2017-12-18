@@ -116,5 +116,26 @@ namespace NSI.Repository
             return meetingsDto;
         }
 
+        public ICollection<MeetingDto> GetMeetingsByUser(int userId)
+        {
+            var ids = _dbContext.UserMeeting.Where(x => x.UserId == userId)
+                .Select(um => um.MeetingId).ToList();
+
+            if(ids == null)
+            {
+                throw new NSIException("User id not found");
+            }
+
+            var meetings = _dbContext.Meeting.Where(x => x.IsDeleted == false && ids.Contains(x.MeetingId))
+                .Include(x => x.UserMeeting).ThenInclude(userMeeting => userMeeting.User);
+
+            if(meetings == null)
+            {
+                throw new NSIException("Meetings for given user id not found");
+            }
+
+            return meetings.Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
+        }
+
     }
 }

@@ -187,6 +187,25 @@ namespace NSI.REST.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("user/{userId}")]
+        public IActionResult GetMeetingsByUser(int userId)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>>()
+                {
+                    Data = _meetingsManipulation.GetMeetingsByUser(userId),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
 
     }
 }
