@@ -59,5 +59,11 @@ namespace NSI.BLL
         {
             return PagingHelper<MeetingDto>.PagedList(_meetingsRepository.SearchMeetings(searchCriteria), pageNumber, pageSize);
         }
+
+        public ICollection<MeetingDto> GetMeetingsByUser(int userId)
+        {
+            ValidationHelper.IntegerGreaterThanZero(userId, name: "User id");
+            return _meetingsRepository.GetMeetingsByUser(userId);
+        }
     }
 }

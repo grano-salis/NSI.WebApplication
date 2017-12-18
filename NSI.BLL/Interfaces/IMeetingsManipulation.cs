@@ -14,5 +14,6 @@ namespace NSI.BLL.Interfaces
         MeetingDto GetMeetingById(int id);
         ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria, int pageNumber, int pageSize);
         ICollection<MeetingDto> GetMeetings(int? page, int? pageSize);
+        ICollection<MeetingDto> GetMeetingsByUser(int userId);
     }
 }
