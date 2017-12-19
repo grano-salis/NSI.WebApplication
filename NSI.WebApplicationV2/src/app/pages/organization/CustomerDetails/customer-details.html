@@ -40,7 +40,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address<span class="required">*</span>
                         </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.addressId" (ngModelChange)="customer.addressId" name="addressId">
+									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [(ngModel)]="customer.addressId" name="addressId">
 										<option *ngFor="let address of addresses" [ngValue]="address.addressId">{{address.address1}}, {{address.city}}, {{address.zipCode}}</option>
                           </select>
                 </div>
@@ -49,7 +49,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">Pricing package<span class="required">*</span>
                         </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="customer.pricingPackageId" (ngModelChange)="customer.pricingPackageId" name="pricingPackageId">
+									<select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [(ngModel)]="customer.pricingPackageId" name="pricingPackageId">
 										<option *ngFor="let package of pricingPackages" [ngValue]="package.pricingPackageId">{{package.pricingPackageName}} ({{package.price}})</option>
                           </select>
                 </div>

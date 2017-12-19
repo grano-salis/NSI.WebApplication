@@ -19,7 +19,9 @@
             </div>
         </div>
         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-            <button type="button" class="btn btn-default" (click)="onAddFilterComponent()"> {{ buttonSign }} </button>
+            <button type="button" class="btn btn-default" (click)="onAddFilterComponent()"> 
+                <span><i [ngClass]="['fa', buttonIcon]" aria-hidden="true"></i></span>
+            </button>
         </div>
     </div>
 </div>

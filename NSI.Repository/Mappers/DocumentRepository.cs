@@ -43,6 +43,32 @@ namespace NSI.Repository.Mappers
             };
         }
 
-        
+
+        public static DocumentDetails MapToDocumentDetailsDto(Document document, IkarusContext dbContext)
+        {
+            var history = document.DocumentHistory.OrderBy(d => d.ModifiedAt).ToList();
+            var documentDetails = new DocumentDetails()
+            {
+                DocumentId = document.DocumentId,
+                //DocumentTitle = document.
+                CaseId = document.CaseId,
+                CategoryId = document.DocumentCategoryId,
+                DocumentContent = document.DocumentContent,
+                DocumentDescription = document.Description,
+                DocumentPath = document.DocumentPath,
+                FileTypeId = document.FileTypeId,
+                CaseNumber = document.Case.CaseNumber,
+                DocumentCategoryName = document.DocumentCategory.CategoryTitle,
+                FileIconPath = "",
+                //CreatedByUserId = document.CreatedByUser.UserId,
+                Author = document.CreatedByUser?.FirstName + ' ' + document.CreatedByUser?.LastName,
+                
+            };
+            if (history.Count <= 0) return documentDetails;
+            documentDetails.CreatedAt = history.LastOrDefault().ModifiedAt;
+            documentDetails.ModifiedAt = history.FirstOrDefault().ModifiedAt;
+            return documentDetails;
+
+        }
     }
 }

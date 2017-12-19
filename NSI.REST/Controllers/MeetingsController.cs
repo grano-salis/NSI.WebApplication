@@ -187,6 +187,44 @@ namespace NSI.REST.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("user/{userId}")]
+        public IActionResult GetMeetingsByUser(int userId)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>>()
+                {
+                    Data = _meetingsManipulation.GetMeetingsByUser(userId),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("getMeetingTimes")]
+        public IActionResult GetMeetingsTimes(ICollection<int> userIds, DateTime from, DateTime to, int meeetingDuration)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingTimeDto>>()
+                {
+                    Data = _meetingsManipulation.GetMeetingTimes(userIds, from, to, meeetingDuration),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
 
     }
 }

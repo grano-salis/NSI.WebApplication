@@ -8,12 +8,12 @@ namespace NSI.Repository.Interfaces
 {
     public interface IDocumentRepository
     {
-        DocumentDto GetDocument(int documentId);
+        DocumentDetails GetDocument(int documentId);
         IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
         int SaveDocument(DocumentDto document);
-        PagingResultModel<DocumentDto> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
+        PagingResultModel<DocumentDetails> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
         int Update(DocumentDto document);
-        List<DocumentDto> GetAllDocuments();
+        List<DocumentDetails> GetAllDocuments();
     }
 }

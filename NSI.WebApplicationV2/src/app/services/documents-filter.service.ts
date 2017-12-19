@@ -6,7 +6,7 @@ import {
   ViewContainerRef
 } from '@angular/core'
 
-import { DocumentFilterComponent } from '../pages/documents/document-filter/document-filter.component'
+import { DocumentFilterComponent } from '../pages/documents/document-filter-list/document-filter/document-filter.component'
 
 @Injectable()
 export class DocumentsFilterService {

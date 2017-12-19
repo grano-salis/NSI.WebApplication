@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DocumentsService } from '../../../services/documents.service';
+import { DocumentsService } from '../../../../services/documents.service';
 
 @Component({
     selector: 'app-document-filter',
@@ -9,21 +9,21 @@ import { DocumentsService } from '../../../services/documents.service';
 export class DocumentFilterComponent implements OnInit {
     _ref: any;
     hasFollower: boolean;
-    buttonSign: string;
+    buttonIcon: string;
 
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
-        this.buttonSign = '+';
+        this.buttonIcon = 'fa-plus';
     }
 
     onAddFilterComponent() {
-        if (this.buttonSign == '+') {
+        if (this.buttonIcon == "fa-plus") {
           this.documentsService.newFilterEvent.next();
-          this.buttonSign = '-';  
+          this.buttonIcon = "fa-minus";  
           return;        
         }
         this._ref.destroy();
-        this.buttonSign = '+';
+        this.buttonIcon = "fa-plus";
     }
 }
