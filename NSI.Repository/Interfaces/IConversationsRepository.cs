@@ -13,7 +13,7 @@ namespace NSI.Repository.Interfaces
         IEnumerable<Participant> GetConversationParticipants(int conversationId);
         Conversation GetConversationById(int id);
         ICollection<Conversation> GetConversationByUserId(int id);
-        void SaveToExistingConversation(int conversationId, string message, int loggedUserId);
+        System.Threading.Tasks.Task SaveToExistingConversation(int conversationId, string message, int loggedUserId);
         Participant GetParticipantById(int id);
     }
 }

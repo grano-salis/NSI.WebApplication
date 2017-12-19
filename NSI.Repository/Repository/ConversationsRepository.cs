@@ -128,17 +128,17 @@ namespace NSI.Repository.Repository
             }
         }
 
-        public async void SaveToExistingConversation(int conversationId, string message, int loggedUserId)
+        public async System.Threading.Tasks.Task SaveToExistingConversation(int conversationId, string message, int loggedUserId)
         {
             Message m = new Message();
             m.ConversationId = conversationId;
             m.Message1 = message;
             m.CreatedByUserId = loggedUserId;
             m.DateCreated = DateTime.Now;
-            m.MessageId = context.Message.Last().MessageId + 1;
+            m.MessageId = context.Message.Count() + 1;
 
             context.Message.Add(m);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

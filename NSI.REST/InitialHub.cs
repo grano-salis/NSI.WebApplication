@@ -13,17 +13,57 @@ namespace NSI.REST
     {
 
         private  IConversationsRepository _convRepo;
+        private static List<Tuple<string, List<string>>> usersAndConnections = new List<Tuple<string, List<string>>>();
 
         public InitialHub(IConversationsRepository conversationRepository)
         {
             this._convRepo = conversationRepository;
+            
+           
+        }
+        
+        public void persistForOnlineStatus(string username)
+        {
+            if(usersAndConnections.Exists(x => x.Item1 == username))
+                usersAndConnections.Find(x => x.Item1 == username).Item2.Add(Context.ConnectionId);                
+            else
+                usersAndConnections.Add(new Tuple<string, List<string>>(username, new List<string>() { Context.ConnectionId }));
+                      
         }
 
-        public Task Send(string data,int conversationId, int loggedUserId,int participantId)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            _convRepo.SaveToExistingConversation(conversationId, data, loggedUserId);
-            return Clients.All.InvokeAsync("Send", data,conversationId,loggedUserId,participantId);
+            string connToRemove = Context.ConnectionId;
+
+            int remainingConnections = usersAndConnections.Find(x => x.Item2.Contains(connToRemove)).Item2.Count;
+            if (remainingConnections == 1)
+                usersAndConnections.Remove(usersAndConnections.Find(x => x.Item2.Contains(connToRemove)));
+            else
+                usersAndConnections.Find(x => x.Item2.Contains(connToRemove)).Item2.Remove(connToRemove);
+            
+            return base.OnDisconnectedAsync(exception);
         }
+
+        public bool checkOnlineStatusForUser (string userId)
+        {
+            return usersAndConnections.Exists(x => x.Item1 == userId);
+        }
+
+        public async Task Send(string data,int conversationId, int loggedUserId,int participantId)
+        {
+            var saveTask = _convRepo.SaveToExistingConversation(conversationId, data, loggedUserId);
+            var responseTask = Clients.All.InvokeAsync("Send", data, conversationId, loggedUserId, participantId);
+            await Task.WhenAll(saveTask, responseTask);
+        }
+
+        public Task whoIsTyping(string username)
+        {
+            IReadOnlyList<string> toExclude = new List<string>() { Context.ConnectionId };
+            return Clients.AllExcept(toExclude).InvokeAsync("whoIsTyping", String.Format("{0} is typing...", username));
+            
+        }
+
+
 
         public async Task JoinGroup(string groupName)
         {

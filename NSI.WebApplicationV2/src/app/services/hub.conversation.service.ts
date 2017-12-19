@@ -18,6 +18,8 @@ export class HubConversationService {
     public participantForMessageModel: IParticipant;
     public messageModel: IMessage;
 
+    public typingUsername : string;
+
     //Declared with component
     public messages: IMessage[] = [];
     public participants: IParticipant[] = [];
@@ -43,6 +45,27 @@ export class HubConversationService {
         
     }
 
+    public getWhosTyping(): string {
+        return this.typingUsername;
+    }
+
+    public whoIsTyping(user : string) : void
+    {
+       this._hubConnection.invoke('whoIsTyping', user); 
+    }
+
+    public persistLoginForOnlineStatus(username : string) : void
+    {
+        this._hubConnection.invoke('persistForOnlineStatus', 'amirl');
+    }
+
+    public checkOnlineStatus(username: string) : boolean
+    {
+       let result = true;
+       this._hubConnection.invoke('checkOnlineStatusForUser', username).then((data)=>{result = data;});
+       return result;
+    }
+
 
     private createMessageModel(message: string, activeConversationId: number, loggedUserId: number, participant: IParticipant): void {
         this.messageModel = {};
@@ -64,16 +87,31 @@ export class HubConversationService {
             this.participantForMessageModel = this.getParticipanWithUserId(loggedUserId);
             this.createMessageModel(data, activeConversationId, loggedUserId, this.participantForMessageModel);
             this.messages.push(this.messageModel);
+            this.typingUsername="";
 
         });
 
+        
+
+        this._hubConnection.on('whoIsTyping', data => { 
+            
+            this.typingUsername = data;             
+           
+            
+        });
+
+       
+
         this._hubConnection.start()
             .then(() => {
-                console.log('Hub connection started')
+                console.log('Hub connection started');  
+                this._hubConnection.invoke('persistForOnlineStatus', this.loggedUserId.toString());
+
             })            
             .catch(err => {
-                console.log('Error while establishing connection')
-            });
+                console.log('Error while establishing connection');
+            })
+            
 
         
     }

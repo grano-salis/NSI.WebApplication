@@ -62,9 +62,11 @@
 
                                     <h3> {{ conversation.conversationName }}
                                         <small> {{conversation.message[conversation.message.length -1 ].dateCreated | date : 'dd/MM/yyyy
-                                            HH:mm'}}</small>
+                                            HH:mm'}}
+                                        </small>
                                     </h3>
-                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}<span
+                                    <p>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}
+                                        <span
                                             *ngIf='conversation.message[conversation.message.length -1 ].message.length > 30'>...</span>
                                     </p>
 
@@ -95,7 +97,11 @@
                                         </li>
                                     </ul>
 
-                                    
+
+                                </div>
+                                <div class="row input-group"  *ngIf='isNewMessageClicked'>
+                                    <label style="margin-left: 5px" >To: </label>
+                                    <input id="usersAC" class="typing" style="margin-right: 5px" placeholder="Type the name of a person" type="text">
                                 </div>
                                 <div class="separator"></div>
 
@@ -113,6 +119,7 @@
                                         <small style="margin-left:200px">{{loggedUserId}}</small>!-->
                                         <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'>
                                             <small>{{m.createdByUser.userName}}</small>
+                                            
                                         </span>
 
                                     </div>
@@ -120,9 +127,16 @@
 
                                     <div class="separator"></div>
 
+                                    <div *ngIf = 'whosTyping && whosTyping.length > 0'>
+                                        <i class="fa fa-spin fa-spinner"></i>
+                                        <input type="text" class="typing"  [(ngModel)]="whosTyping">
+                                    </div>
+                                    
+
 
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" placeholder="New message..." [(ngModel)]="newMessage"></textarea>
+                                        <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" (keypress)="keyPressEventHandler($event)"  placeholder="New message..."
+                                            [(ngModel)]="newMessage"></textarea>
 
                                         <button class="btn btn-success" (click)="sendMessage()" [disabled]='!validateNewMessageLength()'>Send
                                             <i class="fa fa-send-o"></i>

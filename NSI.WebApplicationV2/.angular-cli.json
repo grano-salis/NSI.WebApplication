@@ -34,7 +34,7 @@
         "main.scss"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/jquery/dist/jquery.min.js",            
         "../node_modules/moment/min/moment.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/fullcalendar/dist/fullcalendar.min.js",
@@ -57,7 +57,7 @@
         "../node_modules/gentelella/vendors/nprogress/nprogress.js",
         "../node_modules/gentelella/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js",
         "../node_modules/gentelella/vendors/jquery.hotkeys/jquery.hotkeys.js",
-        "../node_modules/gentelella/vendors/google-code-prettify/src/prettify.js",
+        "../node_modules/gentelella/vendors/google-code-prettify/src/prettify.js",        
         "../node_modules/gentelella/build/js/custom.min.js"
     
       ],
