@@ -7,9 +7,11 @@ namespace NSI.REST.Models
 {
     public class DocumentsPagingQueryModel
     {
-        public string Search { get; set; }
         public int PageNumber { get; set; }
         public int ResultsPerPage { get; set; }
-        public string FilterBy { get; set; }
+        public string SearchByTitle { get; set; }
+        public int SearchByCaseId { get; set; }
+        public DateTime SearchByDateFrom { get; set; }
+        public DateTime SearchByDateTo { get; set; }
     }
 }
