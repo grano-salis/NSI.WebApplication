@@ -137,5 +137,79 @@ namespace NSI.Repository
             return meetings.Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
         }
 
+        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration)
+        {
+            List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
+            for(int i = 0; i < userIds.Count; i++)
+            {
+                var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
+                userMeetings.Add(meetings);
+            }
+
+
+            List<MeetingTimeDto> listOfAllTimes = new List<MeetingTimeDto>();
+
+
+
+            List<MeetingTimeDto> listOfUnavailableTimes = new List<MeetingTimeDto>();
+
+            for(int i = 0; i < userMeetings.Count; i++)
+            {
+                for(int j = 0; j < userMeetings[i].Count; j++)
+                {
+                    if (userMeetings[i][j].From > from && to > userMeetings[i][j].To)
+                    {
+                        listOfUnavailableTimes.Add(new MeetingTimeDto
+                        { From = userMeetings[i][j].From, To = userMeetings[i][j].To });
+                    }
+                }
+            }
+
+            var sortedUnavailable = listOfUnavailableTimes.OrderBy(t => t.From).ToList();
+
+            List<MeetingTimeDto> listOfAvailableTimes = new List<MeetingTimeDto>();
+
+            DateTime start = from;
+
+            for(int i = 0; i < sortedUnavailable.Count; i++)
+            {
+                if(start < sortedUnavailable[i].From)
+                {
+                    listOfAvailableTimes.Add(new MeetingTimeDto { From = start, To = sortedUnavailable[i].From });
+                    if(sortedUnavailable[i].To != null)
+                    {
+                        start = (DateTime)sortedUnavailable[i].To;
+                    }
+                }
+                else
+                {
+                    /*if (sortedUnavailable[i].To != null)
+                    {
+                        start = (DateTime)sortedUnavailable[i].To;
+                    }*/
+                    List<MeetingTimeDto> currentUnavailable = new List<MeetingTimeDto>();
+                    for(int j = 0; j < i; j++)
+                    {
+                        currentUnavailable.Add(sortedUnavailable[j]);
+                    }
+
+                    var currentUnavailableSortedByEnding = currentUnavailable.OrderBy(t => t.To).ToList();
+
+                    start = (DateTime)currentUnavailableSortedByEnding[currentUnavailable.Count - 1].To;
+
+
+                }
+            }
+
+            if(to > sortedUnavailable[sortedUnavailable.Count - 1].To)
+            {
+                listOfAvailableTimes.Add(new MeetingTimeDto { From = start, To = to});
+            }
+
+
+            return listOfAvailableTimes;
+
+            //return sortedUnavailable;
+        }
     }
 }
