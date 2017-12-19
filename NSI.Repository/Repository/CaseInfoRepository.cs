@@ -80,7 +80,7 @@ namespace NSI.Repository
         {
             try
             {
-                var caseInfo = _dbContext.CaseInfo.OrderBy(item => item.DateModified).Take(10);
+                var caseInfo = _dbContext.CaseInfo.OrderBy(item => item.DateModified).Take(6);
                 if (caseInfo != null)
                 {
                     ICollection<CaseInfoDto> caseInfoDto = new List<CaseInfoDto>();
