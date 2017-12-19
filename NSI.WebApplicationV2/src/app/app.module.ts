@@ -21,6 +21,7 @@ import { AddressService } from './services/address.service';
 import { UsersService } from './services/users.service';
 import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
+import { DocumentsFilterService } from './services/documents-filter.service';
 import { HearingsService } from './services/hearings.service';
 import {AddressTypeService} from './services/addressType.service';
 import {CasesService} from './services/cases.service';
@@ -68,11 +69,12 @@ const toastrSettings = {
     ContactsService,
     HearingsService,
     DocumentsService,
+    DocumentsFilterService,
     AlertService,
     PaymentGatewaysService,
     PricingPackagesService,
     TransactionsService,
-    CaseService
+    CasesService
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { Subject } from 'rxjs/Subject';
 
 import {Document,
         DocumentDetails,
@@ -13,6 +14,7 @@ import { MDD } from '../pages/documents/models/mockDocumentDetails';
 @Injectable()
 export class DocumentsService {
 
+  newFilterEvent = new Subject();
   private readonly _url: string;
   private headers = new HttpHeaders();
 

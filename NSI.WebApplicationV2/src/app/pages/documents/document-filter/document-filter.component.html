@@ -1,0 +1,28 @@
+<div class="col-lg-5 col-md-11 col-sm-11 col-xs-11">
+    <div class="row">
+        <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
+            <h6 style="float: right"><b>Filter By:</b></h6>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
+            <select class="form-control" id="category">
+                <option value="title"> Title </option>
+                <option value="case"> Case </option>
+                <option value="category"> Category </option>
+                <option value="description"> Description </option>
+                <option value="created"> Created </option>
+                <option value="lastModified"> Last Modified </option>
+            </select>
+        </div>
+        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
+            <div class="input-group stylish-input-group">
+                <input type="text" class="form-control"  placeholder="Search">
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            <button type="button" class="btn btn-default" (click)="onAddFilterComponent()"> {{ buttonSign }} </button>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+

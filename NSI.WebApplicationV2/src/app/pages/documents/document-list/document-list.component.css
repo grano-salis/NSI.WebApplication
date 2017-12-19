@@ -43,6 +43,8 @@ td, small {
     font-size: 13px;
 }
 
+.table-responsive { overflow-x: initial; }
+
 x-content-without-jquery {
     padding: 0 5px 6px;
     position: relative;
