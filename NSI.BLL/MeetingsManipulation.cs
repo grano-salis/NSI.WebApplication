@@ -65,5 +65,10 @@ namespace NSI.BLL
             ValidationHelper.IntegerGreaterThanZero(userId, name: "User id");
             return _meetingsRepository.GetMeetingsByUser(userId);
         }
+
+        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration)
+        {
+            return _meetingsRepository.GetMeetingTimes(userIds, from, to, meetingDuration);
+        }
     }
 }
