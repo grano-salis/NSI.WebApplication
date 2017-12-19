@@ -11,6 +11,8 @@ namespace NSI.Repository.Interfaces
         CustomerDto GetCustomerById(int customerId);
         ICollection<CustomerDto> GetCustomers();
         bool DeleteCustomerById(int customerId);
-        bool EditCustomer(int customerId, CustomerDto customerDto);
+        bool EditCustomer(CustomerDto customerDto);
+        ICollection<CustomerDto> SearchCustomer(CustomerSearchDto searchCustomer);
+        
     }
 }

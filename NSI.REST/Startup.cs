@@ -24,9 +24,6 @@ using Swashbuckle.AspNetCore.Swagger;
 using NSI.Repository.Repository;
 using AutoMapper;
 
-using IkarusEntities;
-using NSI.BLL.Interfaces;
-using NSI.BLL;
 using NSI.Repository.Mappers;
 using AddressRepository = NSI.Repository.AddressRepository;
 using AddressTypeRepository = NSI.Repository.AddressTypeRepository;
@@ -94,6 +91,7 @@ namespace NSI.REST
             services.AddScoped<ICustomerManipulation, CustomerManipulation>();
             services.AddScoped<IClientRepository, Repository.Repository.ClientRepository>();
             services.AddScoped<IClientManipulation, ClientManipulation>();
+
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

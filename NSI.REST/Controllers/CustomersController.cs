@@ -1,7 +1,7 @@
 ﻿using System;
 using NSI.BLL;
 using NSI.DC.CustomersRepository;
-
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using NSI.BLL.Interfaces;
@@ -21,9 +21,15 @@ namespace NSI.REST.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAllCustomers()
-        {
+        public ActionResult GetCustomers()
+        {   
+            
             return Ok(_customersManipulation.GetCustomers());
+        }
+        [HttpGet("all")]
+        public ActionResult GetAllCustomers()
+        {   
+            return Ok(_customersManipulation.GetAllCustomers());
         }
 
         [HttpGet("{id}")]
@@ -44,11 +50,18 @@ namespace NSI.REST.Controllers
             return Ok(_customersManipulation.DeleteCustomerById(id));
         }
 
-        [HttpPut("{id}")]
-        public ActionResult EditCustomer(int id, CustomerDto customerDto)
+
+        [HttpPut]
+        public ActionResult EditCustomer(CustomerDto customerDto)
         {
-            return Ok(_customersManipulation.EditCustomer(id, customerDto));
+            return Ok(_customersManipulation.EditCustomer(customerDto));
         }
+
+        [HttpPost("search")]
+        public ActionResult SearchCustomers([FromBody]CustomerSearchDto customerSearch){
+            return Ok(_customersManipulation.SearchCustomer(customerSearch));
+        }
+
 
     }
 }

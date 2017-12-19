@@ -23,7 +23,8 @@ namespace NSI.Repository
             {
                 var customer = Mappers.CustomerRepository.MapToDbEntity(customerDto);
                 customer.DateCreated = DateTime.Now;
-                customer.DateModified = null;
+                customer.DateModified = DateTime.Now;
+
                 _dbContext.Add(customer);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.CustomerRepository.MapToDto(customer);
@@ -112,11 +113,11 @@ namespace NSI.Repository
 
         }
 
-        public bool EditCustomer(int customerId, CustomerDto customerDto)
+        public bool EditCustomer(CustomerDto customerDto)
         {
             try
             {
-                var customer = _dbContext.Customer.FirstOrDefault(x => x.CustomerId == customerId);
+                var customer = _dbContext.Customer.FirstOrDefault(x => x.CustomerId == customerDto.CustomerId);
                 if (customer != null)
                 {
                     customer.CustomerName = customerDto.CustomerName ?? customer.CustomerName;
@@ -136,6 +137,40 @@ namespace NSI.Repository
                 //log ex
                 throw new Exception("Database error!");
             }
+        }
+
+        public ICollection<CustomerDto> SearchCustomer(CustomerSearchDto searchCustomer)
+        {
+            try
+            {
+                var customer = _dbContext.Customer.Where(x => searchQuery(x, searchCustomer));
+                if (customer != null)
+                {
+                    ICollection<CustomerDto> customerDto = new List<CustomerDto>();
+                    foreach (var item in customer)
+                    {
+                        customerDto.Add(Mappers.CustomerRepository.MapToDto(item));
+                    }
+                    return customerDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
+
+        public bool searchQuery(Customer customerDto, CustomerSearchDto customerSearchDto)
+        {
+            return (customerDto.CustomerName.Contains(customerSearchDto.CustomerName) || String.IsNullOrWhiteSpace(customerSearchDto.CustomerName)) &&
+                    (customerDto.DateCreated >= customerSearchDto.FromCreated || customerSearchDto.FromCreated.Equals(null)) &&
+                    (customerDto.DateCreated <= customerSearchDto.ToCreated || customerSearchDto.ToCreated.Equals(null)) &&
+                    (customerDto.DateModified >= customerSearchDto.FromModified || customerSearchDto.FromModified.Equals(null)) &&
+                    (customerDto.DateModified <= customerSearchDto.ToModified || customerSearchDto.FromModified.Equals(null)) &&
+                    (customerDto.AddressId == customerSearchDto.AddressId || customerSearchDto.AddressId.Equals(null)) &&
+                    (customerDto.PricingPackageId == customerSearchDto.PricingPackageId || customerSearchDto.PricingPackageId.Equals(null));
         }
     }
 }
