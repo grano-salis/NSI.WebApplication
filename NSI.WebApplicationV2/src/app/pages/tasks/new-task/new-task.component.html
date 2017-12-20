@@ -6,7 +6,7 @@
     </div>
     <div class="x_content">
           <!-- Title -->
-      <form #taskForm="ngForm" class="form-horizontal form-label-left">
+      <form (ngSubmit)="onSubmit()" #taskForm="ngForm" class="form-horizontal form-label-left">
         <div class="form-group">
           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
             Title
@@ -57,7 +57,7 @@
         <div class="form-group">
           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
             <button type="submit" class="btn btn-success">Submit</button>
-            <button type="reset" class="btn btn-default">New task</button>
+            <button type="reset"  class="btn btn-default" (click)="newTask(); taskForm.reset()">New task</button>
             <button type="button" class="btn btn-danger">Delete</button>
           </div>
         </div>
