@@ -31,6 +31,7 @@ namespace NSI.Repository.Repository
         {
             var result = new PagingResultModel<DocumentDetails>
             {
+                
                 ItemsPerPage = 10
             };
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
