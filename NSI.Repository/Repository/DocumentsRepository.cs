@@ -87,15 +87,17 @@ namespace NSI.Repository.Repository
             _dbContext.Update(documentEntity);
             var result = _dbContext.SaveChanges();
 
-            //AddToHistory(documentEntity);
+            AddToHistory(documentEntity);
             return result;
         }
 
         private void AddToHistory(Document document)
         {
             //TODO get current user
+            var allRecords = _dbContext.DocumentHistory.ToList();
             var documentHistoryRecord = new DocumentHistory()
             {
+                DocumentHistoryId = allRecords.Count+1,
                 Document = document,
                 DocumentId = document.DocumentId,
                 ModifiedAt = DateTime.UtcNow,
