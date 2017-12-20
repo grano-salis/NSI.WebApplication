@@ -22,9 +22,8 @@ export class ContactsService {
     const contact = {
       FirsttName: body.firsttName,
       LastName: body.lastName,
-      Phone: body.phone,
-      Email: body.email,
-      Mobile: body.mobile,
+      Phones: body.phones,
+      Emails: body.emails,
       AddresId: 1,
       CreatedByUserId: 6
     };

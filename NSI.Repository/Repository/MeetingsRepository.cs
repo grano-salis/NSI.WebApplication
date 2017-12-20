@@ -116,5 +116,134 @@ namespace NSI.Repository
             return meetingsDto;
         }
 
+        public ICollection<MeetingDto> GetMeetingsByUser(int userId)
+        {
+            var ids = _dbContext.UserMeeting.Where(x => x.UserId == userId)
+                .Select(um => um.MeetingId).ToList();
+
+            if(ids == null)
+            {
+                throw new NSIException("User id not found");
+            }
+
+            var meetings = _dbContext.Meeting.Where(x => x.IsDeleted == false && ids.Contains(x.MeetingId))
+                .Include(x => x.UserMeeting).ThenInclude(userMeeting => userMeeting.User);
+
+            if(meetings == null)
+            {
+                throw new NSIException("Meetings for given user id not found");
+            }
+
+            return meetings.Select(x => Mappers.MeetingsRepository.MapToDto(x)).ToList();
+        }
+
+        //returns intervals of available time for appointing a meeting for given users and time range 
+        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration)
+        {
+            //gathering the meetings of all the given users
+            List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
+            for(int i = 0; i < userIds.Count; i++)
+            {
+                var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
+                userMeetings.Add(meetings);
+            }
+
+            List<MeetingTimeDto> listOfAvailableTimes = new List<MeetingTimeDto>();
+
+            if(userMeetings.Count == 0)
+            {
+                listOfAvailableTimes.Add(new MeetingTimeDto { From = from, To = to });
+
+                return listOfAvailableTimes;
+            }
+
+
+            //extracting all the unavailable intervals based on existing meetings and given time range
+            //in order to find all the available intervals
+            List<MeetingTimeDto> listOfUnavailableTimes = new List<MeetingTimeDto>();
+
+            for(int i = 0; i < userMeetings.Count; i++)
+            {
+                for(int j = 0; j < userMeetings[i].Count; j++)
+                {
+                    if (userMeetings[i][j].From > from && to > userMeetings[i][j].To)
+                    {
+                        listOfUnavailableTimes.Add(new MeetingTimeDto
+                        { From = userMeetings[i][j].From, To = userMeetings[i][j].To });
+                    }
+                    else if (userMeetings[i][j].From <= from && to > userMeetings[i][j].To && userMeetings[i][j].To > from)
+                    {
+                        listOfUnavailableTimes.Add(new MeetingTimeDto
+                        { From = from, To = userMeetings[i][j].To });
+                    }
+                    else if (userMeetings[i][j].From > from && to <= userMeetings[i][j].To && userMeetings[i][j].From < to)
+                    {
+                        listOfUnavailableTimes.Add(new MeetingTimeDto
+                        { From = userMeetings[i][j].From, To = to });
+                    }
+                    else if(userMeetings[i][j].From <= from && to <= userMeetings[i][j].To)
+                    {
+                        //if there are no free intervals, returning an empty list
+                        return listOfAvailableTimes;
+                    }
+                }
+            }
+
+            if (listOfUnavailableTimes.Count == 0)
+            {
+                listOfAvailableTimes.Add(new MeetingTimeDto { From = from, To = to });
+
+                return listOfAvailableTimes;
+            }
+
+            var sortedUnavailable = listOfUnavailableTimes.OrderBy(t => t.From).ToList();
+
+            //merging the sorted unavailable intervals in order to avoid the possible overlappings
+            //into a non-overlapping list of unavailable intervals
+            var mergedUnavailable = new List<MeetingTimeDto>();
+
+            mergedUnavailable.Add(sortedUnavailable[0]);
+
+            if(sortedUnavailable.Count > 1)
+            {
+                for (int i = 1; i < sortedUnavailable.Count; i++)
+                {
+                    if(sortedUnavailable[i].From <= mergedUnavailable[mergedUnavailable.Count - 1].To &&
+                       sortedUnavailable[i].To > mergedUnavailable[mergedUnavailable.Count - 1].To)
+                    {
+                        mergedUnavailable[mergedUnavailable.Count - 1].To = sortedUnavailable[i].To;
+                    }
+                    else if(sortedUnavailable[i].From > mergedUnavailable[mergedUnavailable.Count - 1].To)
+                    {
+                        mergedUnavailable.Add(sortedUnavailable[i]);
+                    }
+                }
+            }
+            
+
+            //extracting free intervals from the given time range by finding the gaps between
+            //unavailable intervals
+            DateTime FreeIntervalPivot = from;
+
+            for(int i = 0; i < mergedUnavailable.Count; i++)
+            {
+                if(FreeIntervalPivot < mergedUnavailable[i].From)
+                {
+                    listOfAvailableTimes.Add(new MeetingTimeDto { From = FreeIntervalPivot, To = mergedUnavailable[i].From });
+                }
+
+                if (mergedUnavailable[i].To != null)
+                {
+                    FreeIntervalPivot = (DateTime)mergedUnavailable[i].To;
+                }
+            }
+
+            if(to > FreeIntervalPivot)
+            {
+                listOfAvailableTimes.Add(new MeetingTimeDto { From = FreeIntervalPivot, To = to});
+            }
+
+            return listOfAvailableTimes;
+        }
     }
 }

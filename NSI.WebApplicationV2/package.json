@@ -37,6 +37,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.2",
     "ng-loading-spinner": "^1.0.2",
+    "ng2-avatar": "^2.1.1",
     "ng4-geoautocomplete": "^0.1.0",
     "ngx-bootstrap": "^2.0.0-beta.9",
     "ngx-cookie-service": "^1.0.9",
@@ -45,7 +46,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "@angular/cli": "~1.5.0",
+    "@angular/cli": "^1.5.5",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
     "@biesbjerg/ngx-translate-extract": "^2.3.1",

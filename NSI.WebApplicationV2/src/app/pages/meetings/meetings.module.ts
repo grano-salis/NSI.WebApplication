@@ -16,6 +16,7 @@ import { MeetingNewComponent } from './meeting-new/meeting-new.component';
     AlertModule,
     FormsModule
   ],
-  declarations: [MeetingsComponent, MeetingNewComponent]
+  declarations: [MeetingsComponent, MeetingNewComponent],
+  exports: [MeetingsComponent]
 })
 export class MeetingsModule { }

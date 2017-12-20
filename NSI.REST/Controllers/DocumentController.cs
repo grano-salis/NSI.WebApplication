@@ -13,45 +13,25 @@ using NSI.DC.DocumentRepository;
 
 namespace NSI.REST.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/Documents")]
     public class DocumentController : Controller
     {
-        private readonly IDocumentManipulation _documentManipulation;
+        private IDocumentManipulation DocumentManipulation { get; }
 
         public DocumentController(IDocumentManipulation documentManipulation)
         {
-            _documentManipulation = documentManipulation;
+            DocumentManipulation = documentManipulation;
         }
 
-        // GET: api/values
+        // GET: api/Documents
         [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            //TODO
-            return new[] { "value1", "value2" };
-        }
-
-        [HttpPost]
-        [Route("paging")]
-        public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
+        public IActionResult Get()
         {
             try
             {
-                return _documentManipulation.GetDocumentsByPage(queryDto);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public DocumentDto Get(int id)
-        {
-            try
-            {
-                return _documentManipulation.GetDocumentById(id);
+                var documents = DocumentManipulation.GetAllDocuments();
+                return Ok(documents);
             }
             catch (Exception e)
             {
@@ -59,43 +39,110 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // POST api/values
+        //POST /api/Documents/paging
         [HttpPost]
-        public async Task<IActionResult> Post(List<IFormFile> files)
-        {
-            var size = files.Sum(f => f.Length);
-
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
-            foreach (var formFile in files)
-            {
-                if (formFile.Length <= 0) continue;
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await formFile.CopyToAsync(stream);
-                }
-            }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]DocumentDto documentDto)
-        {
-            _documentManipulation.EditDocument(id, documentDto);
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Route("paging")]
+        public IActionResult GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
         {
             try
             {
-                _documentManipulation.DeleteDocument(id);
+                return Ok(DocumentManipulation.GetDocumentsByPage(queryDto));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // GET api/Documents/5
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                if (id == 0) throw new Exception("Id is not valid.");
+                return Ok(DocumentManipulation.GetDocumentById(id));
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        // POST api/Documents/upload
+        [HttpPost]
+        [Route("upload")]
+        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+        {
+            try
+            {
+                var size = files.Sum(f => f.Length);
+
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName();
+
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length <= 0) continue;
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+
+                // process uploaded files
+                // Don't rely on or trust the FileName property without validation.
+                DocumentManipulation.UploadFile(files, filePath);
+                return Ok(new { count = files.Count, size, filePath });
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        // POST api/Documents
+        [HttpPost]
+        public IActionResult Post(DocumentDto document)
+        {
+            try
+            {
+                if (document == null) throw new Exception("Document is null");
+
+                DocumentManipulation.SaveDocument(document);
+                return Ok(document);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        // PUT api/Documents/5
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]DocumentDto documentDto)
+        {
+            try
+            {
+                if (id == 0) throw new Exception("Id is not valid");
+
+                return Ok(DocumentManipulation.EditDocument(documentDto));
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        // DELETE api/Documents/3
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                if(id == 0) throw new Exception("Id is not valid");
+                return Ok(DocumentManipulation.DeleteDocument(id));
             }
             catch (Exception e)
             {

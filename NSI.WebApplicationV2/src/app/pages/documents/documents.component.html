@@ -3,9 +3,9 @@
     <h3> Case number: 12345678 </h3>
     <hr>
 
-    <app-document-new></app-document-new>
+    <app-document-new [scopedToCase]="scopedToCase"></app-document-new>
 
-    <app-document-list></app-document-list>
+    <app-document-list [scopedToCase]="scopedToCase"></app-document-list>
 
 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog">

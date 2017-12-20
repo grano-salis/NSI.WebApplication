@@ -70,8 +70,10 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (_addressTypeManipulation.DeleteAddressTypeById(id)) return Ok();
-
+                if (_addressTypeManipulation.DeleteAddressTypeById(id))
+                {
+                    return NoContent();
+                }
                 return NoContent();
             }
             catch (Exception ex)

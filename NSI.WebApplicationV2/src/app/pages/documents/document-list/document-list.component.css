@@ -43,6 +43,15 @@ td, small {
     font-size: 13px;
 }
 
+x-content-without-jquery {
+    padding: 0 5px 6px;
+    position: relative;
+    width: 100%;
+    float: left;
+    clear: both;
+    margin-top: 5px;
+}
+
 p, button, td, button {
     margin: 0px;
 }	

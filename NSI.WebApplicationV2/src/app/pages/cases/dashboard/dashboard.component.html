@@ -1,0 +1,33 @@
+
+
+<div class="page-title">
+  <div class="title_left">
+    <h3>Case Info
+      <small>Lately active cases</small>
+    </h3>
+  </div>
+</div>
+
+
+<div class="col-lg-12 col-md-12 col-xs-12 frame">
+  <div class="col-lg-2 col-md-2 col-xs-2" *ngFor="let case of latestCasesList">
+    <div class="col-lg-12 task-style">
+      <div>Case Number:{{case?.caseNumber}}</div>
+      <div>Court number:{{case?.courtNumber}}</div>
+      <div>Case value:{{case?.value}}</div>
+      <div>Counter party:{{case?.counterParty}}</div>
+      <div>Date created:{{case?.dateCreated}}</div>
+    </div>
+  </div>
+</div>
+
+<app-meetings></app-meetings>
+
+<div class="x_content">
+
+
+
+  <div class="clearfix"></div>
+
+
+</div>

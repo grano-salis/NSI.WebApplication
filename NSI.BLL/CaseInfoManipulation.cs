@@ -4,6 +4,7 @@ using System.Text;
 using NSI.BLL.Interfaces;
 using NSI.DC.CaseRepository;
 using NSI.Repository.Interfaces;
+using IkarusEntities;
 
 namespace NSI.BLL
 {
@@ -16,19 +17,32 @@ namespace NSI.BLL
 			_caseInfoRepository = caseInfoRepository;
 		}
 
-		public CaseInfoDto CreateCaseInfo(CaseInfoDto caseInfoDto)
+        public CaseInfo CreateCaseInfo(CaseInfoDto caseInfoDto)
 		{
 			return _caseInfoRepository.CreateCaseInfo(caseInfoDto);
 		}
 
-		public CaseInfoDto GetCaseInfoById(int caseId)
+		public CaseInfo GetCaseInfoById(int caseId)
 		{
-			return _caseInfoRepository.GetCaseInfoDtoById(caseId);
+			return _caseInfoRepository.GetCaseInfoById(caseId);
 		}
 
-		public ICollection<CaseInfoDto> GetCasesInfo()
+        public ICollection<CaseInfoDto> GetCaseInfos()
 		{
 			return _caseInfoRepository.GetCaseInfos();
 		}
+
+        public ICollection<CaseInfoDto> GetLatestCaseInfos()
+        {
+            return _caseInfoRepository.GetLatestCaseInfos();
+        }
+
+        public bool  DeleteCaseInfoById(int caseId) {
+            return _caseInfoRepository.DeleteCaseInfoById(caseId);
+        }
+        public bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto) {
+            return _caseInfoRepository.EditCaseInfoById(caseId, caseInfoDto);
+        }
+
 	}
 }

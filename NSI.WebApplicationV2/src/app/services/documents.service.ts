@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {environment} from '../../environments/environment';
-import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 import {Document,
         DocumentDetails,
@@ -20,12 +21,12 @@ export class DocumentsService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  getDocuments(): Observable<any> {
-    // return Observable.create( observer => {
-    //   observer.next(MDD);
-    //   observer.complete();
-    // });
-    return this.http.get(this._url, {headers: this.headers});
+  getDocuments(): Observable<DocumentDetails[]> {
+    return Observable.create( (observer: Observer<DocumentDetails[]>) => {
+      observer.next(MDD);
+      observer.complete();
+    });
+    //return this.http.get(this._url, {headers: this.headers});
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {

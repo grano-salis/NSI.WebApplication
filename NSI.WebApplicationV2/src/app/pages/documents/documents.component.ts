@@ -11,13 +11,12 @@ const logger = new Logger('documents');
   styleUrls: ['./documents.component.css']
 })
 export class DocumentsComponent implements OnInit {
+  scopedToCase: boolean;
 
-
-  constructor() {
-
-  }
+  constructor() { }
 
   ngOnInit() {
+    this.scopedToCase = true;
   }
 
 

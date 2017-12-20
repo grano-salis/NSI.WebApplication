@@ -1,4 +1,6 @@
-﻿using NSI.DC.DocumentRepository;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using NSI.DC.DocumentRepository;
 using NSI.REST.Models;
 
 namespace NSI.BLL.Interfaces
@@ -7,8 +9,10 @@ namespace NSI.BLL.Interfaces
     {
         DocumentDto GetDocumentById(int documentId);
         PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel query);
-        DocumentDto SaveDocument();
         bool DeleteDocument(int id);
-        bool EditDocument(int id, DocumentDto documentDto);
+        bool EditDocument(DocumentDto documentDto);
+        List<DocumentDto> GetAllDocuments();
+        void UploadFile(List<IFormFile> files, string filePath);
+        bool SaveDocument(DocumentDto document);
     }
 }

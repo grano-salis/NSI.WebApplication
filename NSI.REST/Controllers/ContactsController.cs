@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSI.DC.ContactsRepository;
+using Microsoft.EntityFrameworkCore.Internal;
+using System.Text.RegularExpressions;
 
 namespace NSI.REST.Controllers
 {
@@ -20,9 +22,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/contacts
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
         {
-            return Ok(contactsRepository.GetContacts());
+            return Ok(contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder));
         }
 
 
@@ -45,10 +47,20 @@ namespace NSI.REST.Controllers
             }
             try
             {
+                
                
-               var contact = contactsRepository.CreateContact(model);
-                if (contact != null)
-                    return Ok(contact);
+                if (model != null)
+                {
+                    if (ValidationContact(model) == "")
+                    {
+                        var contact = contactsRepository.CreateContact(model);
+                        return Ok(contact);
+                    }
+                    else
+                        throw new Exception(ValidationContact(model));
+                   
+                }
+                    
                 else
                     return NoContent();
             }
@@ -56,7 +68,7 @@ namespace NSI.REST.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return NoContent();
+            //return NoContent();
         }
 
         // PUT: api/contacts/5
@@ -71,7 +83,13 @@ namespace NSI.REST.Controllers
             {
                 var contact = contactsRepository.EditContact(id, model);
                 if (contact)
-                    return Ok(contact);
+                {
+                    if (ValidationContact(model) == "")
+                        return Ok(contact);
+                    else
+                        return BadRequest(ValidationContact(model));
+                }
+                    
                 else return NoContent();
 
             }
@@ -98,6 +116,29 @@ namespace NSI.REST.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private string ValidationContact (ContactDto contact)
+        {
+            String validationMessage = "";
+                   
+            if (string.IsNullOrEmpty(contact.FirsttName)) validationMessage+=" First name is required.";
+            if (string.IsNullOrEmpty(contact.LastName)) validationMessage += " Last name is required.";
+            if (contact.Phones.Any(x => String.IsNullOrEmpty(x.PhoneNumber))) validationMessage += " All phone number fields should have a value.";
+            if (contact.Phones.Select(x => x.PhoneNumber).Distinct().Count() != contact.Phones.Count) validationMessage += " Phone number already exists or the same phone number value is entered several times.";
+            if (contact.Emails.Any(x => String.IsNullOrEmpty(x.EmailAddress))) validationMessage += " All email fields should have a value.";
+            if (contact.Emails.Select(x => x.EmailAddress).Distinct().Count() != contact.Emails.Count) validationMessage += " Email already exists or the same email address is enetered several times.";
+            if (!contact.Emails.All(x => Regex.IsMatch(x.EmailAddress, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))) validationMessage += "\n Email is not in correct format. Example: someone@domain.com.";
+            if (!Regex.IsMatch(contact.FirsttName, @"^[a-zA-Z]+$")) validationMessage += " First name should contain letters only.";
+            if (!Regex.IsMatch(contact.LastName, @"^[a-zA-Z]+$")) validationMessage += " Last name should contain letters only.";
+            
+            foreach (string p in contact.Phones.Select(x => x.PhoneNumber))
+            {
+                Int64 result;
+                if (!Int64.TryParse(p, out result)) validationMessage += " Phone number " + p + " should contain numbers only.";
+            }
+
+            return validationMessage;
         }
     }
 }

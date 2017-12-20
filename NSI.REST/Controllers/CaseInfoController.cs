@@ -7,89 +7,99 @@ using NSI.BLL.Interfaces;
 using NSI.REST.Models;
 using NSI.Repository;
 using NSI.DC.CaseRepository;
-using NSI.BLL.Interfaces;
-using NSI.Repository;
 using System.Net.Http;
 using System.Net;
-using NSI.REST.Models;
 using NSI.REST.Middleware;
 using NSI.Repository.Mappers;
+using AutoMapper;
+using IkarusEntities;
+using NSI.Logger;
 
 namespace NSI.REST.Controllers
 {
     [Produces("application/json")]
-    [Route("api/CaseInfo")]
+    [Route("api/case/info")]
     public class CaseInfoController : Controller
     {
 		ICaseInfoManipulation _caseInfoRepository { get; set; }
+        private readonly IMapper _mapper;
 
-		public CaseInfoController(ICaseInfoManipulation caseInfoManipulation)
+        public CaseInfoController(ICaseInfoManipulation caseInfoManipulation, IMapper mapper)
 		{
 			_caseInfoRepository = caseInfoManipulation;
+            _mapper = mapper;
 		}
 
-		// GET: api/CaseInfo
+		// GET: api/case/info
 		[HttpGet]
 		public IActionResult Get()
 		{
-			return Ok(_caseInfoRepository.GetCasesInfo());
+            return Ok(_caseInfoRepository.GetCaseInfos());
 		}
 
-        //      // GET: api/CaseInfo/5
+        // GET: api/case/info/latest
+        [HttpGet("latest")]
+        public IActionResult GetLatest()
+        {
+            return Ok(_caseInfoRepository.GetLatestCaseInfos());
+        }
+
+        // GET: api/case/info/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            //return Ok(_caseInfoRepository.GetCaseInfoById(id));
-            return Ok();
+            var caseinfo = _mapper.Map<CaseInfoDto>(_caseInfoRepository.GetCaseInfoById(id));
+            return Ok(caseinfo);
         }
 
-        // POST: api/CaseInfo
+        //POST: api/case/info
         [HttpPost]
-        public IActionResult Post([FromBody]CaseInfoCreateModel model)
+        public IActionResult Post([FromBody]CaseInfoDto _caseInfoDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            CaseInfoDto caseInfoDto = new CaseInfoDto()
-            {
-                CaseNumber = model.CaseNumber,
-                CourtNumber = model.CourtNumber,
-                Value = model.Value,
-                Judge = model.Judge,
-                Court = model.Court,
-                CounterParty=model.CounterParty,
-                Note = model.Note,
-                 CaseCategory=model.CaseCategory,
-                CustomerId=model.CustomerId,
-                ClientId=model.ClientId,
-                CreatedByUserId=model.CreatedByUserId
-            };
-
             try
             {
-                var caseInfo = _caseInfoRepository.CreateCaseInfo(caseInfoDto);
+                var caseInfo = _caseInfoRepository.CreateCaseInfo(_caseInfoDto);
                 if (caseInfo != null)
-                    return Ok(caseInfo);
+                    return Ok(_mapper.Map<CaseInfoDto>(caseInfo));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ex.InnerException);
             }
             return NoContent();
         }
 
-        // PUT: api/CaseInfo/5
+        // PUT: api/case/info/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public bool Put(int id, [FromBody]CaseInfoDto _caseInfoDto)
         {
+            try
+            {
+                return _caseInfoRepository.EditCaseInfoById(id, _caseInfoDto);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
         
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/case/info/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public bool Delete(int id)
         {
+            try
+            {
+                return _caseInfoRepository.DeleteCaseInfoById(id);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
+
     }
 }

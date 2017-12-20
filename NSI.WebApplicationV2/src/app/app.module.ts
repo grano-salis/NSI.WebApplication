@@ -23,6 +23,7 @@ import {ContactsService} from './services/contacts.service';
 import { DocumentsService } from './services/documents.service';
 import { HearingsService } from './services/hearings.service';
 import {AddressTypeService} from './services/addressType.service';
+import {CasesService} from './services/cases.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TransactionsService } from './services/transactions.service';
@@ -30,7 +31,7 @@ import { PaymentGatewaysService } from './services/payment-gateways.service';
 import { PricingPackagesService } from './services/pricing-packages.service';
 
 import { ToastrModule } from 'ngx-toastr';
-import {AlertService} from "./services/alert.service";
+import {AlertService} from './services/alert.service';
 
 const toastrSettings = {
   positionClass: 'toast-top-center',
@@ -70,7 +71,8 @@ const toastrSettings = {
     AlertService,
     PaymentGatewaysService,
     PricingPackagesService,
-    TransactionsService
+    TransactionsService,
+    CasesService
   ],
   bootstrap: [AppComponent]
 })
