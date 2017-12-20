@@ -58,27 +58,28 @@ namespace NSI.Repository.Repository
 
         public bool DeleteDocument(int id)
         {
-            var document = _dbContext.Document.FirstOrDefault(d => d.CaseId == id);
+            var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == id);
             document.IsDeleted = true;
             var response = _dbContext.Update(document);
             //AddToHistory(document);
+            _dbContext.SaveChanges();
             return response != null;
         }
 
         public int Update(DocumentDto document)
         {
-            var documentEntity = _dbContext.Document.FirstOrDefault(d => d.DocumentId == document.DocumentId);
+            var documentEntity = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == document.DocumentId);
 
             documentEntity.DocumentId = document.DocumentId;
             documentEntity.CaseId = document.CaseId;
-            documentEntity.Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CategoryId);
+            documentEntity.Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId);
             documentEntity.DocumentCategory =
                 _dbContext.DocumentCategory.FirstOrDefault(c => c.DocumentCategoryId == document.CategoryId);
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.DocumentPath = document.DocumentPath;
             documentEntity.FileType =
-                _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeExtension);
-            documentEntity.FileTypeId = document.FileTypeExtension;
+                _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeId);
+            documentEntity.FileTypeId = document.FileTypeId;
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.Description = document.DocumentDescription;
             documentEntity.DocumentPath = document.DocumentPath;
