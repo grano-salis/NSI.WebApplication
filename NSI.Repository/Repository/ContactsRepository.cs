@@ -34,8 +34,7 @@ namespace NSI.Repository
                             contacts = contacts.Where(s => s.Phone.Any(phone => phone.PhoneNumber.ToUpper().Contains((string)searchString.ToUpper())));
                             break;
                         default:
-                            contacts = contacts.Where(s => s.LastName.ToUpper().Contains((string)searchString.ToUpper())
-                        || s.FirsttName.ToUpper().Contains((string)searchString.ToUpper())); ;
+                            contacts = contacts.Where(s => (s.FirsttName + " "+  s.LastName).ToUpper().Contains((string)searchString.ToUpper())); ;
                             break;
                     }
                 }

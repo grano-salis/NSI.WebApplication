@@ -11,6 +11,7 @@ using IkarusEntities;
 using NSI.DC.CaseRepository;
 using NSI.Logger;
 using Microsoft.Extensions.Logging;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository
 {
@@ -146,5 +147,20 @@ namespace NSI.Repository
             }
         }
 
-	}
+        public void DeleteCase(int caseId)
+        {
+
+            var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId && x.IsDeleted == false);
+            if (caseInfo == null) throw new NSIException("Hearing not found");
+
+            caseInfo.IsDeleted = true;
+            caseInfo.DateModified = DateTime.Now;
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new NSIException("Erro while deleting hearing");
+            }
+
+        }
+
+    }
 }
