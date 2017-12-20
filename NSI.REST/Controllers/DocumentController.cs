@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSI.BLL.Interfaces;
-using NSI.REST.Models;
 using NSI.DC.DocumentRepository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,10 +18,12 @@ namespace NSI.REST.Controllers
     public class DocumentController : Controller
     {
         private IDocumentManipulation DocumentManipulation { get; }
+        private ILogger<DocumentController> Logger { get; }
 
-        public DocumentController(IDocumentManipulation documentManipulation)
+        public DocumentController(IDocumentManipulation documentManipulation, ILogger<DocumentController> logger)
         {
             DocumentManipulation = documentManipulation;
+            Logger = logger;
         }
 
         // GET: api/Documents
@@ -30,12 +32,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                var documents = DocumentManipulation.GetAllDocuments();
-                return Ok(documents);
+                return Ok(DocumentManipulation.GetAllDocuments());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -50,6 +52,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -60,12 +63,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (id == 0) throw new Exception("Id is not valid.");
                 return Ok(DocumentManipulation.GetDocumentById(id));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -95,9 +98,10 @@ namespace NSI.REST.Controllers
                 DocumentManipulation.UploadFile(files, filePath);
                 return Ok(new { count = files.Count, size, filePath });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -107,13 +111,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (document == null) throw new Exception("Document is null");
-
                 DocumentManipulation.SaveDocument(document);
                 return Ok(document);
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -125,13 +128,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (id == 0) throw new Exception("Id is not valid");
-
-                return Ok(DocumentManipulation.EditDocument(documentDto));
+                return Ok(DocumentManipulation.EditDocument(id, documentDto));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -141,13 +143,13 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if(id == 0) throw new Exception("Id is not valid");
                 return Ok(DocumentManipulation.DeleteDocument(id));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
-            } 
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

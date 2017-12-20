@@ -10,7 +10,7 @@ namespace NSI.BLL.Interfaces
         DocumentDetails GetDocumentById(int documentId);
         PagingResultModel<DocumentDetails> GetDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
-        bool EditDocument(DocumentDto documentDto);
+        bool EditDocument(int id, DocumentDto documentDto);
         List<DocumentDetails> GetAllDocuments();
         void UploadFile(List<IFormFile> files, string filePath);
         bool SaveDocument(DocumentDto document);

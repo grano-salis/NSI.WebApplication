@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using IkarusEntities;
@@ -23,7 +24,7 @@ namespace NSI.Repository.Repository
         public List<DocumentDetails> GetAllDocuments()
         {
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
-            return documents.Select(document => DocumentRepository.MapToDocumentDetailsDto(document, _dbContext)).ToList();
+            return documents.Where(doc => !doc.IsDeleted).Select(document => DocumentRepository.MapToDocumentDetailsDto(document, _dbContext)).ToList();
         }
 
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
@@ -33,7 +34,7 @@ namespace NSI.Repository.Repository
                 ItemsPerPage = 10
             };
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
-            var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
+            var filteredDocuments = documents.Where(doc => !doc.IsDeleted && SearchByMultipleProperties(query, doc))
                 .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
             result.TotalItems = filteredDocuments.Count();
             result.Results = filteredDocuments.Take(result.ItemsPerPage).ToList();
@@ -56,7 +57,7 @@ namespace NSI.Repository.Repository
         public bool DeleteDocument(int id)
         {
             var document = _dbContext.Document.FirstOrDefault(d => d.CaseId == id);
-            //document.isDeleted = true;
+            document.IsDeleted = true;
             var response = _dbContext.Update(document);
             AddToHistory(document);
             return response != null;
@@ -116,6 +117,7 @@ namespace NSI.Repository.Repository
                 var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
                 _dbContext.Add(documentEntity);
                 var result = _dbContext.SaveChanges();
+                AddToHistory(documentEntity);
                 return result;
             }
             catch (Exception ex)

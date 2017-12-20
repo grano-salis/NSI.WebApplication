@@ -33,6 +33,8 @@ namespace NSI.BLL
 
         public bool SaveDocument(DocumentDto document)
         {
+            if (document == null) throw new Exception("Document is null");
+
             var result = _documentRepository.SaveDocument(document);
             return result != null;
         }
@@ -45,16 +47,20 @@ namespace NSI.BLL
 
         public DocumentDetails GetDocumentById(int documentId)
         {
+            if (documentId == 0) throw new Exception("Id is not valid.");
             return _documentRepository.GetDocument(documentId);
         }
 
         public bool DeleteDocument(int id)
         {
+            if (id == 0) throw new Exception("Id is not valid");
             return _documentRepository.DeleteDocument(id);
         }
 
-        public bool EditDocument(DocumentDto documentDto)
+        public bool EditDocument(int id, DocumentDto documentDto)
         {
+            if (id == 0) throw new Exception("Id is not valid");
+
             var document = _documentRepository.GetDocument(documentDto.DocumentId);
             if (document == null) return false;
 
