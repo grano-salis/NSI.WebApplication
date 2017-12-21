@@ -39,6 +39,12 @@ namespace NSI.BLL
             return result != null;
         }
 
+        public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
+        {
+            if (id == 0) throw new Exception("Id is not valid");
+            return _documentRepository.GetDocumentHistoryByDocumentId(id);
+        }
+
         public PagingResultModel<DocumentDetails> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
             if(query.PageNumber < 0) throw new Exception("Page number is not valid");

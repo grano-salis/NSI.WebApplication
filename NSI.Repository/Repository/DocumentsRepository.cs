@@ -27,6 +27,11 @@ namespace NSI.Repository.Repository
             return documents.Where(doc => !doc.IsDeleted).Select(document => DocumentRepository.MapToDocumentDetailsDto(document, _dbContext)).ToList();
         }
 
+        public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
+        {
+            return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
+        }
+
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDetails>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using IkarusEntities;
 using Microsoft.AspNetCore.Http;
 using NSI.DC.DocumentRepository;
 using NSI.REST.Models;
@@ -14,5 +15,6 @@ namespace NSI.BLL.Interfaces
         List<DocumentDetails> GetAllDocuments();
         void UploadFile(List<IFormFile> files, string filePath);
         bool SaveDocument(DocumentDto document);
+        List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
     }
 }

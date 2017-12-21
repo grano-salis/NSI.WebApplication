@@ -41,6 +41,36 @@ namespace NSI.REST.Controllers
             }
         }
 
+        // GET api/Documents/5
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentById(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // GET api/Documents/5
+        [HttpGet("history/{id}")]
+        public IActionResult GetDocumentHistory(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentHistoryByDocumentId(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
         //POST /api/Documents/paging
         [HttpPost]
         [Route("paging")]
@@ -57,20 +87,7 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // GET api/Documents/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            try
-            {
-                return Ok(DocumentManipulation.GetDocumentById(id));
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex.Message);
-                throw new Exception(ex.Message);
-            }
-        }
+        
 
         // POST api/Documents/upload
         [HttpPost]

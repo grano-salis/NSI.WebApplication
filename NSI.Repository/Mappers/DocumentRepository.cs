@@ -70,5 +70,17 @@ namespace NSI.Repository.Mappers
             return documentDetails;
 
         }
+
+        public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory)
+        {
+            return new DocumentHistoryDto()
+            {
+                DocumentId = documentHistory.DocumentId,
+                DocumentHistoryId = documentHistory.DocumentHistoryId,
+                ModifiedAt = documentHistory.ModifiedAt,
+                ModifiedByUser = documentHistory.ModifiedByUser.FirstName + ' ' + documentHistory.ModifiedByUser.LastName,
+                ModifiedByUserId = documentHistory.ModifiedByUserId
+            };
+        }
     }
 }

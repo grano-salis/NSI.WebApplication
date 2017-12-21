@@ -15,5 +15,6 @@ namespace NSI.Repository.Interfaces
         bool DeleteDocument(int id);
         int Update(DocumentDto document);
         List<DocumentDetails> GetAllDocuments();
+        List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
     }
 }
