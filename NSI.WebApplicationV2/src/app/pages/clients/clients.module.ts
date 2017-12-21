@@ -6,6 +6,9 @@ import { SharedModule } from './../../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Customer } from '../organization/models/customer';
+import { CustomersService } from '../../services/customers.service';
+import { AddressService } from '../../services/address.service';
 
 @NgModule({
    imports: [
@@ -15,6 +18,6 @@ import { FormsModule } from '@angular/forms';
     ClientsRoutingModule
   ],
   declarations: [ClientsListComponent, ClientDetailsComponent],
-  providers: [ClientsService]
+  providers: [ClientsService, CustomersService, AddressService]
 })
 export class ClientsModule { }

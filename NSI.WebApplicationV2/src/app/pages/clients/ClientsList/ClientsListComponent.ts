@@ -21,9 +21,7 @@ export class ClientsListComponent implements OnInit {
 
 	onDeleteClick(id: number, event: any) {
 		event.stopPropagation();
-		this.clientsService.deleteClient(id).subscribe(data => {
-			console.log("briseeem clienta "+data);
-			
+		this.clientsService.deleteClient(id).subscribe(data => {			
 			for(var i=0; i < this.clients.length; i++) {
 				if (this.clients[i].clientId === id) {
 					this.clients.splice(i, 1);
