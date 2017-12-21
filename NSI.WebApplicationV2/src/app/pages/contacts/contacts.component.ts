@@ -59,8 +59,8 @@ export class ContactsComponent implements OnInit {
 
   editContact(contact: any) {
     this.temp_contact = Object.assign({}, contact);
-    if (this.temp_contact.emails.length === 0) {
-      this.temp_contact.emails.push('');
+    if (this.temp_contact.emailsArray.length === 0) {
+      this.temp_contact.emailsArray.push('');
     }
     if (this.temp_contact.phones.length === 0) {
       this.temp_contact.phones.push('');
@@ -69,7 +69,7 @@ export class ContactsComponent implements OnInit {
 
   newContact() {
     this.temp_contact = new Contact();
-    this.temp_contact.emails = [];
+    this.temp_contact.emailsArray = [];
     this.temp_contact.phones = [];
   }
 

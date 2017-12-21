@@ -24,7 +24,7 @@ export class ContactsService {
       FirsttName: body.firsttName,
       LastName: body.lastName,
       Phones: body.phones,
-      Emails: body.emails,
+      Emails: body.emailsArray,
       AddresId: 1,
       CreatedByUserId: 6
     };

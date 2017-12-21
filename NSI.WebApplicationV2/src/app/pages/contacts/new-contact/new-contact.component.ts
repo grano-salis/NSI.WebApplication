@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@an
 import {Contact} from './contact';
 import {ContactsService} from '../../../services/contacts.service';
 import {ActivatedRoute} from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from '@angular/forms';
 import { ValidationService } from '../validation.service';
 
 
@@ -13,26 +13,28 @@ import { ValidationService } from '../validation.service';
 })
 export class NewContactComponent {
   form: any;
-  phone: number;
+  phone: string;
   email: number;
   @Input() temp_contact: any;
-  phones: string[];
-  emails: string[];
+  // phones: string[];
+  items: any[] = [];
+  objects: any[] = [];
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
-        this.form = this.formBuilder.group({
+    this.form = this.formBuilder.group({
             'firstname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
             'lastname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
             'email': ['', [Validators.required, ValidationService.emailValidator]],
-            'phone': ['', [Validators.required, ValidationService.numbersOnlyValidator]]
+            'phone': ['', [Validators.required, ValidationService.numbersOnlyValidator]],
+            'items': this.formBuilder.array([ ]),
+            'objects': this.formBuilder.array([])
        });
-        console.log(this.form);
-    this.phones = [];
-    this.emails = [];
+    // this.phones = [];
     this.temp_contact = new Contact();
   }
+
 
   newContact() {
     this.temp_contact.taskId = 1;
@@ -49,31 +51,53 @@ export class NewContactComponent {
 
   setPhonesAndEmails(): void {
     this.temp_contact.emails = [{emailAddress: this.temp_contact.email}];
-    const mappedEmails = this.emails.map((email: string) => {
-      return { emailAddress: email };
+    const mappedEmails = (this as any).items.value.map(( email: any) => {
+      return { emailAddress: email.name };
     });
     this.temp_contact.emails = this.temp_contact.emails.concat(mappedEmails);
     this.temp_contact.phones = [{phoneNumber: this.temp_contact.phone}];
-    const mappedPhones = this.phones.map((phone: string) => {
-      return { phoneNumber: phone };
+    const mappedPhones = (this as any).objects.value.map((phone: any) => {
+      return { phoneNumber: phone.name };
     });
     this.temp_contact.phones = this.temp_contact.phones.concat(mappedPhones);
   }
 
   newPhone() {
-    this.phones.push('');
+    this.objects = this.form.get('objects');
+    const formGroup = this.formBuilder.group({
+      'name': ''
+    });
+    //formGroup.setValidators([Validators.required]);
+    this.objects.push(formGroup);
+    formGroup.updateValueAndValidity();
+    //this.phones.push('');
   }
 
   newEmail() {
-    this.emails.push('');
+    this.items = this.form.get('items');
+    const formGroup = this.formBuilder.group({
+      'name': ''
+    });
+    //formGroup.setValidators([Validators.required, ValidationService.emailValidator]);
+    this.items.push(formGroup);
+    formGroup.updateValueAndValidity();
   }
 
   deletePhone(index: number) {
-    this.phones.splice(index, 1);
+
+    const control = <FormArray>this.form.controls['objects'];
+    // remove the chosen row
+    control.removeAt(index);
+
+    //this.objects.splice(index, 1);
+    // this.phones.splice(index, 1);
   }
 
   deleteEmail(index: number) {
-    this.emails.splice(index, 1);
+    const control = <FormArray>this.form.controls['items'];
+    // remove the chosen row
+    control.removeAt(index);
+    //this.items.splice(index, 1);
   }
 
   trackByIndex(index: number, obj: any): any {

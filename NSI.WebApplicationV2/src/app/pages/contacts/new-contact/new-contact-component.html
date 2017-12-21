@@ -1,6 +1,6 @@
 <div class="modal fade " id="open-contact" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md x-content">
-    <form [formGroup]="form" ngNativeValidate class="form-horizontal form-label-left" (ngSubmit)="newContact()">
+    <form [formGroup]="form" novalidate class="form-horizontal form-label-left" (ngSubmit)="newContact()">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -52,19 +52,20 @@
 
           </div>
 
-
-          <div *ngFor="let obj of emails; let index = index; trackBy: trackByIndex;">
+          <div formArrayName="items">
+          <div *ngFor="let item of form.get('items').controls ; let i=index; trackBy: trackByIndex;">
             <div class="form-group">
-              <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+              <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
                 <input type="email" class="form-control form-input-beauty"
-                       [(ngModel)]="emails[index]" [ngModelOptions]="{standalone: true}"
-                       name = "email-new-{{index}}" placeholder="Email"
+                       formControlName="name"
+                       placeholder="Email"
                        data-error="Valid email is required.">
                 <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-email-btn-{{index}}" (click)="deleteEmail()">
                   <i class="fa fa-minus"></i>
                 </button>
               </div>
             </div>
+          </div>
           </div>
 
           <div class="form-group label-beauty">
@@ -81,19 +82,23 @@
               </button>
               <div class="help-block with-errors"></div>
             </div>
-            <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty"> <control-messages [control]="form.controls.phone"></control-messages></div>
+            <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+              <control-messages [control]="form.controls.phone"></control-messages></div>
           </div>
 
-          <div *ngFor="let obj of phones; let index = index; trackBy: trackByIndex;">
+
+          <div formArrayName="objects">
+          <div *ngFor="let obj of form.get('objects').controls; let j= index; trackBy: trackByIndex;">
             <div class="form-group">
-              <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                <input type="tel" name="phone-new-{{index}}" [(ngModel)] = "phones[index]" [ngModelOptions]="{standalone: true}"
-                       class="form-control form-input-beauty" placeholder="Phone {{obj}}">
+              <div [formGroupName]="j" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                <input type="tel" class="form-control form-input-beauty" placeholder="Phone"
+                        formControlName="name">
                 <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-phone{{index}}" (click)="deletePhone()">
                   <i class="fa fa-minus"></i>
                 </button>
               </div>
             </div>
+          </div>
           </div>
 
           <div class="ln_solid"></div>

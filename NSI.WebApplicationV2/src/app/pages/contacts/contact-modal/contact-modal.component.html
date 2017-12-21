@@ -34,10 +34,10 @@
               <label> <b>Email </b></label>
             </div>
           </div>
-          <div class="form-group" *ngFor="let obj of temp_contact.emails; let index = index; trackBy: trackByIndex;">
+          <div class="form-group" *ngFor="let obj of temp_contact.emailsArray; let index = index; trackBy: trackByIndex;">
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
               <input type="email" class="form-control form-input-beauty"
-                     [(ngModel)]="temp_contact.emails[index].emailAddress"
+                     [(ngModel)]="temp_contact.emailsArray[index].emailAddress"
                      name="email-new-{{index}}"
                      required placeholder="Email"
                      data-error="Valid email is required.">

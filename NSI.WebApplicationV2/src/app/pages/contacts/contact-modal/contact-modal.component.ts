@@ -33,7 +33,7 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   }
 
   deleteEmail(index: number) {
-    this.temp_contact.emails.splice(index, 1);
+    this.temp_contact.emailsArray.splice(index, 1);
   }
 
   newPhone() {
@@ -41,7 +41,7 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   }
 
   newEmail() {
-    this.temp_contact.emails.push({phoneNumber: ''});
+    this.temp_contact.emailsArray.push({phoneNumber: ''});
   }
   trackByIndex(index: number, obj: any): any {
     return index;
