@@ -4,13 +4,10 @@
             <h6 style="float: right"><b>Filter By:</b></h6>
         </div>
         <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
-            <select class="form-control" id="category">
-                <option value="title"> Title </option>
-                <option value="case"> Case </option>
-                <option value="category"> Category </option>
-                <option value="description"> Description </option>
-                <option value="created"> Created </option>
-                <option value="lastModified"> Last Modified </option>
+            <select class="form-control" id="category" (change)="onFilterChanged()" [(ngModel)]="chosenFilter">
+                <option *ngFor="let lf of localFilterList" [value]="lf">
+                    {{ lf }}
+                </option>
             </select>
         </div>
         <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
@@ -19,7 +16,8 @@
             </div>
         </div>
         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-            <button type="button" class="btn btn-default" (click)="onAddFilterComponent()"> 
+            <button type="button" class="btn btn-default" (click)="onButtonClick()" 
+                [disabled]="(localFilterList.length < 2 && buttonIcon == 'fa-plus')"> 
                 <span><i [ngClass]="['fa', buttonIcon]" aria-hidden="true"></i></span>
             </button>
         </div>

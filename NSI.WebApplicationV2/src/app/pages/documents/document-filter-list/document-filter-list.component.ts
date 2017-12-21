@@ -7,6 +7,7 @@ import {
   ViewContainerRef 
 } from '@angular/core';
 
+import { DocumentFilter } from '../models/documentFilter.model'
 import { DocumentsService } from '../../../services/documents.service';
 import { DocumentsFilterService } from '../../../services/documents-filter.service';
 
@@ -26,7 +27,9 @@ export class DocumentFilterListComponent implements OnInit {
 
   ngOnInit() {
       this.documentsFilterService.setRootViewContainerRef(this.viewContainerRef);
-      this.documentsFilterService.addDocumentFilterComponent();
-      this.documentsService.newFilterEvent.subscribe(() => this.documentsFilterService.addDocumentFilterComponent());
+      this.documentsFilterService.addDocumentFilterComponent(this.scopedToCase);
+      
+      this.documentsService.newFilterEvent
+        .subscribe(() => this.documentsFilterService.addDocumentFilterComponent(this.scopedToCase));
   }
 }

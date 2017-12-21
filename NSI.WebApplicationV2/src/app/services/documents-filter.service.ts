@@ -20,12 +20,16 @@ export class DocumentsFilterService {
     this.rootViewContainer = viewContainerRef;
   }
 
-  addDocumentFilterComponent() {
+  addDocumentFilterComponent(scopedToCase: boolean) {
     const factory = this.factoryResolver
       .resolveComponentFactory(DocumentFilterComponent);
 
     const component = factory
       .create(this.rootViewContainer.parentInjector);
+
+    if (scopedToCase) {
+      component.instance.scopedToCase = true;
+    }
     component.instance._ref = component;
 
     this.rootViewContainer.insert(component.hostView);
