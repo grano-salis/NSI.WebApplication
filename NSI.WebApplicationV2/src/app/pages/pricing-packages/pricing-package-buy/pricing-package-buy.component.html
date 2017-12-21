@@ -45,7 +45,7 @@
 
 
               <!-- Smart Wizard -->
-          
+
               <div id="wizard" class="form_wizard wizard_horizontal">
                 <ul class="wizard_steps">
                   <li>
@@ -102,6 +102,7 @@
                         <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                       </div>
                     </div>
+                    <!--
                     <div class="form-group">
                       <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Payment gateway <span class="required">*</span></label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
@@ -112,7 +113,7 @@
                         </select>
                       </div>
                     </div>
-              
+                  -->
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Recurring payment</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -140,7 +141,7 @@
                   <p>
                     Za ovu uslugu je potrebno sljedece:
                     <br>
-                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     <code>...</code>
                   </p>
                 </div>
@@ -157,8 +158,6 @@
                 <div id="step-4">
                   <h2 class="StepTitle">Payment confirmation </h2>
                   <br/>
-         
-
 
                   <div class="col-xs-12 col-m-6 coll-m-offset-6">
                     <p class="lead">Date:  14/12/2017</p>
@@ -173,7 +172,7 @@
                             <th>Tax (5%)</th>
                             <td>{{0.05*transaction.Amount}} USD</td>
                           </tr>
-                     
+
                           <tr>
                             <th>Total:</th>
                             <td>{{1.05*transaction.Amount}} USD</td>
@@ -181,6 +180,11 @@
                         </tbody>
                       </table>
                     </div>
+                    <br>
+                    <strong>Payment options</strong>
+
+                    <button id="stripe-checkout-button" class="stripe-button-el" style="visibility: visible;"><span style="display: block; min-height: 30px;">Stripe <small>Checkout</small> </span></button>
+                    <div id="paypal-button-container"></div>
                   </div>
 
 

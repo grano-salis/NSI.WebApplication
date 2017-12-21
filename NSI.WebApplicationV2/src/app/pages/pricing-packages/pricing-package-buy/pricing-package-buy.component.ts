@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../../environments/environment';
 
 declare let $: any;
+declare let paypal:any;
+declare let braintree:any;
 
 @Component({
   selector: 'app-pricing-package-buy',
@@ -20,6 +22,7 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
   pricingPackage:any;
   transaction:any={Amount:0,PaymentGatewayId:1,PricingPackageId:0, CustomerId:1};
   pricingPackageLoaded: boolean = false;
+  selfref:any;
 
 
   constructor(private transactionsService: TransactionsService, private pricingPackagesService:PricingPackagesService,  private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
@@ -31,10 +34,13 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $('#wizard').smartWizard();
 
-    $('.buttonFinish').click(()=>{this.buyPackage()});
+    $('#stripe-checkout-button').click(()=>{this.buyPackage()});
+
+    $('.buttonFinish').hide();
 
     this.packageId= +this.route.snapshot.paramMap.get('packageId');
     this.loadPricingPackage(this.packageId);
+    this.selfref = this;
   }
 
   loadPricingPackage(pricingPackageId:number){
@@ -47,6 +53,7 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
       this.pricingPackageLoaded=true;
 
       console.log(this.transaction.Amount+"   "+this.transaction.PricingPackageId);
+      this.loadToken(this.transaction.Amount,this.packageId);
     })
   }
 
@@ -114,6 +121,69 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
 
     buyPackage(){
         this.openCheckout("Paket"+this.pricingPackage.pricingPackageName,this.transaction.Amount*1.05*100,(token: any) => this.takePayment("Paket"+this.pricingPackage.pricingPackageName,this.transaction.Amount*1.05*100, token));
+    }
+
+    loadToken(tAmount:number,tPricingPackageId:number){
+      this.http.get(environment.serverUrl +'/api/Transactions/PaypalToken').
+      subscribe((res:any)=>{
+
+        paypal.Button.render({
+
+            // Pass in the Braintree SDK
+
+            braintree: braintree,
+
+            // Pass in your Braintree authorization key
+
+            client: {
+                sandbox: res,
+                production: '<insert production auth key>'
+            },
+
+            // Set your environment
+
+            env: 'sandbox', // sandbox | production
+
+            // Wait for the PayPal button to be clicked
+
+            payment: function(data:any, actions:any) {
+
+                // Make a call to create the payment
+
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                                amount: { total: tAmount*1.05, currency: 'USD' }
+                            }
+                        ]
+                    }
+                });
+            },
+
+            // Wait for the payment to be authorized by the customer
+
+            onAuthorize: (data:any, actions:any)=>{
+              console.log(tPricingPackageId+" package idddddd")
+                return actions.payment.tokenize().then((data:any) =>{
+                    console.log('Braintree nonce:', data.nonce);
+                    $.ajax({
+                      type: "POST",
+                      url: environment.serverUrl +'/api/Transactions/CreatePaypalTransaction',
+                      data: JSON.stringify({ paymentNonce: data.nonce, amount:tAmount*1.05, packageId:tPricingPackageId }),
+                      dataType: "json",
+                      contentType: 'application/json'
+                    }).done((data:any)=>{
+                      this.router.navigate(['/transactions']);
+                    });
+
+                });
+            }
+
+        }, '#paypal-button-container');
+
+
+      });
     }
 
 }

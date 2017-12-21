@@ -47,9 +47,9 @@
                 <tr *ngFor="let t of transactions">
                   <td>{{t.transactionId}}</td>
                   <td>{{t.amount}}</td>
-                  <td>{{t.dateCreated}}</td>
+                  <td>{{formatTimeDate(t.dateCreated)}}</td>
                   <td>{{t.paymentGatewayId == 1 ? 'Stripe' : 'Paypal'}}</td>
-                  <td>Uspjela transakcija</td>
+                  <td>{{t.status}}</td>
                 </tr>
                 <!--
                 <tr>

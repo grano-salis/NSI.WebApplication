@@ -951,3 +951,78 @@ footer {
 .example.example2 .success .reset path {
   fill: #24b47e;
 }
+
+
+.stripe-button-el{
+  -webkit-appearance: none;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px 0px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  align-items: flex-start;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgb(14, 153, 229);
+  background-image: linear-gradient(rgb(40, 160, 229), rgb(1, 94, 148));
+  background-origin: padding-box;
+  background-size: auto;
+  border-bottom-color: rgb(255, 255, 255);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-style: none;
+  border-bottom-width: 0px;
+  border-image-outset: 0px;
+  border-image-repeat: stretch;
+  border-image-slice: 100%;
+  border-image-source: none;
+  border-image-width: 1;
+  border-left-color: rgb(255, 255, 255);
+  border-left-style: none;
+  border-left-width: 0px;
+  border-right-color: rgb(255, 255, 255);
+  border-right-style: none;
+  border-right-width: 0px;
+  border-top-color: rgb(255, 255, 255);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-style: none;
+  border-top-width: 0px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px 0px;
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  display: inline-block;
+  font-family: Camphor, "Open Sans", "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-variant-caps: normal;
+  font-variant-numeric: proportional-nums;
+  font-weight: 500;
+  height: 32px;
+  letter-spacing: normal;
+  line-height: 32px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 14px;
+  outline-color: rgb(255, 255, 255);
+  outline-style: none;
+  outline-width: 0px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding-bottom: 1px;
+  padding-left: 1px;
+  padding-right: 1px;
+  padding-top: 1px;
+  text-align: center;
+  text-decoration: none;
+  text-indent: 0px;
+  text-rendering: optimizeLegibility;
+  text-shadow: none;
+  text-transform: none;
+  visibility: visible;
+  width: 118.828125px;
+  word-spacing: 0px;
+  writing-mode: horizontal-tb;
+  display: block;
+  margin: 5px 0px;
+}
