@@ -4,6 +4,8 @@ import {ContactsService} from '../../../services/contacts.service';
 import {ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from '@angular/forms';
 import { ValidationService } from '../validation.service';
+import {forEach} from "@angular/router/src/utils/collection";
+import {objectify} from "tslint/lib/utils";
 
 
 @Component({
@@ -28,11 +30,14 @@ export class NewContactComponent {
             'lastname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
             'email': ['', [Validators.required, ValidationService.emailValidator]],
             'phone': ['', [Validators.required, ValidationService.numbersOnlyValidator]],
-            'items': this.formBuilder.array([ ]),
+            'items': this.formBuilder.array([]),
             'objects': this.formBuilder.array([])
        });
+
     // this.phones = [];
     this.temp_contact = new Contact();
+
+
   }
 
 
@@ -65,7 +70,7 @@ export class NewContactComponent {
   newPhone() {
     this.objects = this.form.get('objects');
     const formGroup = this.formBuilder.group({
-      'name': ''
+      'name': ['', Validators.required]
     });
     //formGroup.setValidators([Validators.required]);
     this.objects.push(formGroup);
