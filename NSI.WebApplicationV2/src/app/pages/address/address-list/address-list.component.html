@@ -11,30 +11,24 @@
         <div class="x_content">
           <table class="table table-hover">
             <thead>
-              <tr>
-                <th>Address id</th>
-                <th>Address 1</th>
-                <th>Address 2</th>
+              <tr>                
+                <th><span class="glyphicon glyphicon-home"></span> Address 1</th>
+                <th><span class="glyphicon glyphicon-home"></span> Address 2</th>
                 <th>Address Type id</th>
-                <th>City</th>
-                <th>Created by User id</th>
-                <th>Date created</th>
-                <th>Date Modified</th>
-                <th>Is deleted</th>
+                <th>City</th>                
+                <th><span class="glyphicon glyphicon-calendar"></span> Date created</th>
+                <th><span class="glyphicon glyphicon-calendar"></span> Date Modified</th>                
                 <th>Zip code</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let address of addresses">
-                <td>{{address.addressId}}</td>
+              <tr *ngFor="let address of addresses">                
                 <td>{{address.address1}}</td>
                 <td>{{address.address2}}</td>
                 <td>{{address.addressTypeId}}</td>
-                <td>{{address.city}}</td>
-                <td>{{address.createdByUserId}}</td>
+                <td>{{address.city}}</td>                
                 <td>{{address.dateCreated}}</td>
-                <td>{{address.dateModified}}</td>
-                <td>{{address.isDeleted}}</td>
+                <td>{{address.dateModified}}</td>                
                 <td>{{address.zipCode}}</td>
                 <div>
                   <div>
