@@ -39,19 +39,45 @@ namespace NSI.BLL
             return _taskRepository.GetTaskById(taskId);
         }
 
-        public ICollection<TaskDto> GetTasks(int? pageNumber = null, int? pageSize = null)
+        public ICollection<TaskDto> GetTasks(int? pageNumber, int? pageSize)
         {
             var tasks= _taskRepository.GetTasks();
             if (pageNumber != null && pageSize != null)
             {
-               return PagingHelper<TaskDto>.PagedList(tasks, (int)pageNumber, (int)pageSize);
+                pageNumber = pageNumber ?? 1;
+                pageSize = pageSize ?? 200;
+                return PagingHelper<TaskDto>.PagedList(tasks, (int)pageNumber, (int)pageSize);
             }
             return tasks;
         }
 
-        public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize)
+        public ICollection<TaskDto> GetTasksByUserId(int userId, int? pageNumber, int? pageSize)
         {
-            return PagingHelper<TaskDto>.PagedList(_taskRepository.SearchTasks(searchCriteria), pageNumber, pageSize);
+            pageNumber = pageNumber ?? 1;
+            pageSize = pageSize ?? 200;
+            return PagingHelper<TaskDto>.PagedList(_taskRepository.GetTasksByUser(userId.ToString()), (int)pageNumber, (int)pageSize);
+        }
+
+        public ICollection<TaskDto> GetTasksByUsername(string username, int? pageNumber, int? pageSize)
+        {
+            pageNumber = pageNumber ?? 1;
+            pageSize = pageSize ?? 200;
+            return PagingHelper<TaskDto>.PagedList(_taskRepository.GetTasksByUser(username,false), (int)pageNumber, (int)pageSize);
+        }
+
+        public ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int? pageNumber, int? pageSize)
+        {
+            pageNumber = pageNumber ?? 1;
+            pageSize = pageSize ?? 200;
+            return PagingHelper<TaskDto>.PagedList(_taskRepository.SearchTasks(searchCriteria), (int)pageNumber, (int)pageSize);
+        }
+
+        public ICollection<TaskDto> GetTasksWithDueDateRange(DateTime dateTimeStart, DateTime dateTimeEnd, int? pageNumber, int? pageSize)
+        {
+            pageNumber = pageNumber ?? 1;
+            pageSize = pageSize ?? 200;
+            var by = "DueDate";
+            return PagingHelper<TaskDto>.PagedList(_taskRepository.GetTasksWithDateRange(dateTimeStart, dateTimeEnd, by), (int)pageNumber, (int)pageSize);
         }
     }
 }
