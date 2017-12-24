@@ -3,6 +3,7 @@ import { Meeting } from './meeting';
 import { MeetingsService } from '../../../services/meetings.service';
 import { UsersService } from '../../../services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from "../../../services/alert.service";
 
 declare var $: any;
 
@@ -39,7 +40,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   public edit: boolean = false;
 
   constructor(private meetingsService: MeetingsService, private usersService: UsersService, private route: ActivatedRoute,
-              private router: Router) {
+    private router: Router, private alertService: AlertService) {
     this.query = '';
     this.filteredList = [];
     this.model = new Meeting();
@@ -72,8 +73,8 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     this.model.from = $('#from').val();
     this.model.to = $('#to').val();
     console.log(this.model);
-    this.meetingsService.postMeeting(this.model).subscribe((r: any) => this.router.navigate(['/meetings']),
-      (error: any) => console.log("Error: " + error.message));
+    this.meetingsService.postMeeting(this.model).subscribe((r: any) => this.router.navigate(['/meetings'], { queryParams: { frommeeting: "created" } }),
+      (error: any) => this.alertService.showError(error.error.message));
 
   }
 
@@ -115,14 +116,14 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     this.model.to = $('#to').val();
     console.log(this.model);
 
-    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => this.router.navigate(['/meetings']),
-      (error: any) => console.log("Error: " + error.message));
+    this.meetingsService.putMeeting(this.id, this.model).subscribe((r: any) => this.router.navigate(['/meetings'], { queryParams: { frommeeting: "update" } }),
+      (error: any) => this.alertService.showError(error.error.message));
 
   }
 
   deleteMeeting() {
     console.log(this.id);
-    this.meetingsService.deleteMeetingById(this.id).subscribe((r: any) => this.router.navigate(['/meetings']),
-      (error: any) => console.log("Error: " + error.message));
+    this.meetingsService.deleteMeetingById(this.id).subscribe((r: any) => this.router.navigate(['/meetings'], { queryParams: { frommeeting: "delete" } }),
+      (error: any) => this.alertService.showError(error.error.message));
   }
 }
