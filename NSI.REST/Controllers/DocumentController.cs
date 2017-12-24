@@ -27,6 +27,20 @@ namespace NSI.REST.Controllers
         }
 
         // GET: api/Documents
+        [HttpGet("byCase/{id}")]
+        public IActionResult GetByCaseId(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentsByCase(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
         [HttpGet]
         public IActionResult Get()
         {

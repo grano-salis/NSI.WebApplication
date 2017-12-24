@@ -45,6 +45,11 @@ namespace NSI.BLL
             return _documentRepository.GetDocumentHistoryByDocumentId(id);
         }
 
+        public List<DocumentDto> GetDocumentsByCase(int id)
+        {
+            return _documentRepository.GetDocumentsByCase(id);
+        }
+
         public PagingResultModel<DocumentDetails> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
             if(query.PageNumber < 0) throw new Exception("Page number is not valid");

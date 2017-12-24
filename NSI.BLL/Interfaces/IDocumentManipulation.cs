@@ -16,5 +16,6 @@ namespace NSI.BLL.Interfaces
         void UploadFile(List<IFormFile> files, string filePath);
         bool SaveDocument(DocumentDto document);
         List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
+        List<DocumentDto> GetDocumentsByCase(int id);
     }
 }

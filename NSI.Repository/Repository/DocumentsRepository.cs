@@ -32,6 +32,12 @@ namespace NSI.Repository.Repository
             return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
         }
 
+        public List<DocumentDto> GetDocumentsByCase(int id)
+        {
+            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
+            return documents.Where(doc => !doc.IsDeleted && doc.CaseId == id).Select(document => DocumentRepository.MapToDto(document, _dbContext)).ToList();
+        }
+
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDetails>
