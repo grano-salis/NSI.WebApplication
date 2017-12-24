@@ -15,5 +15,6 @@ namespace NSI.Repository.Interfaces
         ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria);
         ICollection<MeetingDto> GetMeetingsByUser(int userId);
         ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meeetingDuration);
+        ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to);
     }
 }

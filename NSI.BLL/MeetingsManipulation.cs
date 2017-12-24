@@ -70,5 +70,10 @@ namespace NSI.BLL
         {
             return _meetingsRepository.GetMeetingTimes(userIds, from, to, meetingDuration);
         }
+
+        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to)
+        {
+            return _meetingsRepository.CheckUsersAvailability(userIds, from, to);
+        }
     }
 }
