@@ -13,5 +13,7 @@ namespace NSI.Repository.Interfaces
         ICollection<TaskDto> GetTasks();
         bool DeleteTaskById(int taskId);
         TaskDto EditTask(int taskId, TaskDto task);
+        ICollection<TaskDto> GetTasksByUser(string user, bool userId = true);
+        ICollection<TaskDto> GetTasksWithDateRange(DateTime dateTimeStart, DateTime dateTimeEnd, string by);
     }
 }

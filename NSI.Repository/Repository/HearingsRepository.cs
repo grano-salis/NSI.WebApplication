@@ -88,12 +88,14 @@ namespace NSI.Repository.Repository
                 .Include(x => x.UserHearing)
                 .ThenInclude(userHearing => userHearing.User).FirstOrDefault();
 
+            if (hearing == null) throw new NSIException("Hearing not found");
+
             var correctNote = _dbContext.Entry(hearing).Collection(h => h.Note)
                 .Query().Where(n => n.CreatedByUserId == hearing.CreatedByUserId).ToList();
 
             hearing.Note = correctNote;
 
-            if (hearing == null) throw new NSIException("Hearing not found");
+            
             return Mappers.HearingsRepository.MapToDto(hearing);
         }
 

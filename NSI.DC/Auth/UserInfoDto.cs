@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace NSI.DC.TaskRepository
+namespace NSI.DC.Auth
 {
     [DataContract]
-    public class TaskDto
+    public class UserInfoDto
     {
         [DataMember]
-        public int TaskId { get; set; }
+        public int UserId { get; set; }
 
         [DataMember]
-        public DateTime? DueDate { get; set; }
+        public string Email { get; set; }
 
         [DataMember]
-        public string Title { get; set; }
+        public string FirstName { get; set; }
 
         [DataMember]
-        public string Description { get; set; }
+        public string LastName { get; set; }
+
+        [DataMember]
+        public string Username { get; set; }
+
+        [DataMember]
+        public string AvatarPath { get; set; }
 
         [DataMember]
         public DateTime DateCreated { get; set; }
@@ -30,9 +36,6 @@ namespace NSI.DC.TaskRepository
         public bool? IsDeleted { get; set; }
 
         [DataMember]
-        public int UserId { get; set; }
-
-        [DataMember]
-        public string Status { get; set; }
+        public int CustomerId { get; set; }
     }
 }

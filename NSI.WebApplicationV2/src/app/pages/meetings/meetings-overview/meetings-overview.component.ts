@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {each} from 'lodash';
+import { Component, OnInit } from '@angular/core';
+import { each } from 'lodash';
 import * as moment from 'moment';
-import {Logger} from '../../../core/services/logger.service';
-import {MeetingsService} from "../../../services/meetings.service";
-import {AlertService} from "../../../services/alert.service";
-import {Router} from "@angular/router";
+import { Logger } from '../../../core/services/logger.service';
+import { MeetingsService } from "../../../services/meetings.service";
+import { AlertService } from "../../../services/alert.service";
+import { Router, ActivatedRoute } from "@angular/router";
 
 declare let $: any;
 
@@ -23,7 +23,7 @@ export class MeetingsComponent implements OnInit {
   calendarEvents: any = [];
 
   constructor(private meetingsService: MeetingsService, private alertService: AlertService,
-              private router: Router) {}
+    private router: Router, private route: ActivatedRoute) { }
 
 
   // ****************
@@ -31,6 +31,28 @@ export class MeetingsComponent implements OnInit {
   // ****************
   ngOnInit() {
     this.loadMeetings();
+    // Success messages for creating, updating and deleting meeting
+    this.new_meeting_messages();
+
+  }
+
+  new_meeting_messages() {
+    let from_new_meeting = this.route.snapshot.queryParamMap.get("frommeeting");
+    console.log("FROM ROUTE: " + from_new_meeting);
+    switch (from_new_meeting) {
+      case "created": {
+        this.alertService.showSuccess("Sucess", "New meeting created");
+        break;
+      }
+      case "update": {
+        this.alertService.showSuccess("Sucess", "Meeting updated");
+        break;
+      }
+      case "delete": {
+        this.alertService.showSuccess("Sucess", "Meeting deleted");
+        break;
+      }
+    }
   }
 
   onEventClicked(event: any) {
@@ -39,7 +61,7 @@ export class MeetingsComponent implements OnInit {
 
   onRangeSelected(range: any) {
     logger.debug("onRangeSelected", range);
-    this.router.navigate(['/meetings/new'], {queryParams: {dateFrom: range.start, dateTo: range.end}});
+    this.router.navigate(['/meetings/new'], { queryParams: { dateFrom: range.start, dateTo: range.end } });
   }
 
   // ****************
