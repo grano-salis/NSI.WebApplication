@@ -245,5 +245,61 @@ namespace NSI.Repository
 
             return listOfAvailableTimes;
         }
+
+        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to)
+        {
+            // find all meetings for every user
+            List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
+            for (int i = 0; i < userIds.Count; i++)
+            {
+                var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
+                userMeetings.Add(meetings);
+            }
+
+            // list of colliding meetings, one per every user
+            List<MeetingDto> collidingMeetings = new List<MeetingDto>();
+
+            bool foundCollidingMeeting = false;
+
+            // go through meetings to find out if there are any colliding meetings
+            // if there is a colliding meeting for a user put it in the list, if not put an empty meeting dto into the list
+            for (int i = 0; i < userMeetings.Count; i++)
+            {
+                foundCollidingMeeting = false;
+                for (int j = 0; j < userMeetings[i].Count; j++)
+                {
+                    if (userMeetings[i][j].From > from && to > userMeetings[i][j].To)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                    else if (userMeetings[i][j].From <= from && to > userMeetings[i][j].To && userMeetings[i][j].To > from)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                    else if (userMeetings[i][j].From > from && to <= userMeetings[i][j].To && userMeetings[i][j].From < to)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                    else if (userMeetings[i][j].From <= from && to <= userMeetings[i][j].To)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                }
+                if (!foundCollidingMeeting)
+                {
+                    collidingMeetings.Add(new MeetingDto());
+                }
+            }
+
+            return collidingMeetings;
+        }
     }
 }
