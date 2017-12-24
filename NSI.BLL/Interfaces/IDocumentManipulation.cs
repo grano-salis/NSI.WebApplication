@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using IkarusEntities;
 using Microsoft.AspNetCore.Http;
 using NSI.DC.DocumentRepository;
@@ -13,7 +14,7 @@ namespace NSI.BLL.Interfaces
         bool DeleteDocument(int id);
         bool EditDocument(int id, DocumentDto documentDto);
         List<DocumentDetails> GetAllDocuments();
-        void UploadFile(List<IFormFile> files, string filePath);
+        Task<string> UploadFileAsync(IFormFile file);
         bool SaveDocument(DocumentDto document);
         List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
         List<DocumentDto> GetDocumentsByCase(int id);

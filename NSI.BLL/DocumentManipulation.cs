@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NSI.BLL.Interfaces;
 using NSI.DC.DocumentRepository;
@@ -22,13 +24,20 @@ namespace NSI.BLL
             return _documentRepository.GetAllDocuments();
         }
 
-        public void UploadFile(List<IFormFile> files, string filePath)
+        public async Task<string> UploadFileAsync(IFormFile file)
         {
-            var document = new DocumentDto()
+
+            if (file == null || file.Length == 0) return "File not selected";
+
+            var path = Path.Combine(
+                Directory.GetCurrentDirectory(), "Documents",
+                file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
             {
-                DocumentPath = filePath
-            };
-            //TODO
+                await file.CopyToAsync(stream);
+            }
+            return path;
         }
 
         public bool SaveDocument(DocumentDto document)

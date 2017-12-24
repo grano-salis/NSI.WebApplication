@@ -45,6 +45,11 @@ var DocumentsService = (function () {
         var body = JSON.stringify(document);
         return this.http.post(this._url, body, { headers: this.headers });
     };
+    DocumentsService.prototype.uploadFile = function (formData) {
+        var body = JSON.stringify(document);
+        return this.http.post(this._url, body, { headers: this.headers });
+    };
+    
     DocumentsService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.HttpClient])

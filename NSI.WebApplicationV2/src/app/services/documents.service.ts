@@ -13,6 +13,8 @@ import {
 } from '../pages/documents/models/index.model';
 
 import { MDD } from '../pages/documents/models/mockDocumentDetails';
+import { RequestOptions } from "@angular/http";
+import {Headers} from '@angular/http';
 
 @Injectable()
 export class DocumentsService {
@@ -114,5 +116,12 @@ export class DocumentsService {
   generateListOfFilters(): string[] {
     return ["Title", "Case", "Category", "Description", "CreatedBefore", "CreatedAt", "CreatedAfter", "ModifiedBefore", 
             "ModifiedAt", "ModifiedAfter"];
+  }
+
+  uploadFile(formData: FormData, headers: Headers): string[] {
+     let options = new RequestOptions({ headers: headers });
+     this.http.post(this._url + "upload/", formData)
+                 .subscribe(r => console.log(r));
+    return ["test upload"];
   }
 }

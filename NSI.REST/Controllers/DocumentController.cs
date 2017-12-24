@@ -106,28 +106,13 @@ namespace NSI.REST.Controllers
         // POST api/Documents/upload
         [HttpPost]
         [Route("upload")]
-        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+        public async Task<IActionResult> Upload()
         {
             try
             {
-                var size = files.Sum(f => f.Length);
-
-                // full path to file in temp location
-                var filePath = Path.GetTempFileName();
-
-                foreach (var formFile in files)
-                {
-                    if (formFile.Length <= 0) continue;
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-
-                // process uploaded files
-                // Don't rely on or trust the FileName property without validation.
-                DocumentManipulation.UploadFile(files, filePath);
-                return Ok(new { count = files.Count, size, filePath });
+                var file = Request.Form.Files.FirstOrDefault();
+                var path = await DocumentManipulation.UploadFileAsync(file);
+                return Ok(path);
             }
             catch (Exception ex)
             {

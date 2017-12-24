@@ -68,7 +68,7 @@
                             <label for="photoimg" id="uploadSurface">
                                 <img class="img-responsive text-center" id="uploadImage" class="text-center" alt="Upload image" src="../../../assets/uploadDocument.png">
                             </label>
-                            <input type="file" name="photoimg" id="photoimg" />
+                            <input type="file" name="photoimg" id="photoimg" (change)="onFileChange($event)" />
                         </div>
                         <br>
                     
