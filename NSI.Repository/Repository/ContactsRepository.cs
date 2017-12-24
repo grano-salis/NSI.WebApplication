@@ -87,6 +87,23 @@ namespace NSI.Repository
             return null;
         }
 
+        public IEnumerable<ContactDto> GetContactsForCase(int caseId)
+        {
+            var contactsOnCase = _dbContext.Contact.Where(a => !(bool)a.IsDeleted && a.CaseContact.Any(b => b.CaseId == caseId));
+            if(contactsOnCase == null)
+            {
+                return null;
+            }
+            ICollection<ContactDto> contactDto = new List<ContactDto>();
+            foreach (var item in contactsOnCase)
+            {
+                _dbContext.Entry(item).Collection(p => p.Phone).Load();
+                _dbContext.Entry(item).Collection(p => p.Email).Load();
+                contactDto.Add(Mappers.ContactRepository.MapToDto(item));
+            }
+            return contactDto;
+        }
+
         public ContactDto CreateContact(ContactDto contactDto)
         {
             try

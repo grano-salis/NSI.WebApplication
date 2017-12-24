@@ -35,6 +35,13 @@ namespace NSI.REST.Controllers
             return Ok(contactsRepository.GetContactById(id));
         }
 
+        // GET: api/contacts/forcase/5
+        [HttpGet("/forcase/{caseId}")]
+        public IActionResult GetByCase(int caseId)
+        {
+            return Ok(contactsRepository.GetContactsForCase(caseId));
+        }
+
 
         // POST: api/contacts
         [HttpPost]
