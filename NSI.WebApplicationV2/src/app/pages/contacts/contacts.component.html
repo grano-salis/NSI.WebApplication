@@ -76,21 +76,15 @@
                           (click)="showContact(contact)">
                     <i class="fa fa-list"></i>
                   </button>
-                </p>
-
-                <p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
                   <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"
                           (click)="editContact(contact)">
                     <i class="fa fa-edit"></i>
                   </button>
+                  <a href="#delete-contact{{contact.contact1}}" _ngcontent-c7="" class="btn btn-danger btn-xs"
+                     data-target="#delete-contact{{contact.contact1}}" data-title="Delete" data-toggle="modal">
+                    <i class="fa fa-trash"></i>
+                  </a>
                 </p>
-
-                <p class="text-center" data-placement="top" data-toggle="tooltip"
-                     title="Delete">
-                <a href="#delete-contact{{contact.contact1}}" _ngcontent-c7="" class="btn btn-danger btn-xs"
-                   data-target="#delete-contact{{contact.contact1}}" data-title="Delete" data-toggle="modal">
-                  <i class="fa fa-trash"></i>
-                </a></p>
                 <app-delete-contact-modal (deleteFun)="DeleteElement(contact)"
                                           [contact]="contact"></app-delete-contact-modal>
               </td>
@@ -118,7 +112,8 @@
         </div>
 
         <app-contact-modal [temp_contact]="temp_contact" [form]="form" (onClose)="close()"></app-contact-modal>
-        <new-contact-component [temp_contact]="temp_contact"  [form]="form" (onClose)="closeNew()"></new-contact-component>
+        <new-contact-component [temp_contact]="temp_contact" [form]="form"
+                               (onClose)="closeNew()"></new-contact-component>
         <show-contact-component [temp_contact]="temp_contact"></show-contact-component>
       </div>
     </div>
