@@ -124,5 +124,60 @@ namespace NSI.Repository
             }
             throw new NSIException("No data for parameter taskId=" + taskId.ToString(), Level.Info, ErrorType.MissingData);
         }
+
+        public ICollection<TaskDto> GetTasksByUser(string user, bool userId = true)
+        {
+            if (user==null)
+                throw new NSIException("User not valid",Level.Warning,ErrorType.InvalidParameter);
+            ICollection<TaskDto> tasks =null;
+            if (userId)
+                tasks = SearchTasks(new TaskSearchCriteriaDto() { UserId = Convert.ToInt32(user) });
+            else
+            {
+                Repository.UsersRepository usersRepository = new Repository.UsersRepository(_dbContext);
+                var userInfo= usersRepository.GetUserInfoByUsername(user);
+                tasks = SearchTasks(new TaskSearchCriteriaDto() { UserId = userInfo.UserId });
+            }
+            if(tasks.Count==0)
+                throw new NSIException(userId ? "No data for userId = " + userId.ToString() : "No data for username = "+user, Level.Info, ErrorType.MissingData);
+
+            return tasks;
+        }
+
+        /// <summary>
+        /// Get tasks for date range.
+        /// </summary>
+        /// <param name="dateTimeStart"></param>
+        /// <param name="dateTimeEnd"></param>
+        /// <param name="by">Posible values: "DateModified", "DueDate", default:"DateCreated"</param>
+        /// <returns>Collection of TaskDto</returns>
+        public ICollection<TaskDto> GetTasksWithDateRange(DateTime dateTimeStart, DateTime dateTimeEnd, string by)
+        {
+            DateTime dateStart = Convert.ToDateTime(dateTimeStart);
+            DateTime dateEnd = Convert.ToDateTime(dateTimeEnd);
+            IEnumerable<Task> tasks;
+            switch (by)
+            {
+                case "DateModified":
+                    tasks = _dbContext.Task.Where(x => dateStart <= x.DateModified && x.DateModified <= dateEnd);
+                    break;
+                case "DueDate":
+                    tasks = _dbContext.Task.Where(x => dateStart <= x.DueDate && x.DueDate <= dateEnd);
+                    break;
+                default:
+                    tasks = _dbContext.Task.Where(x => dateStart <= x.DateCreated && x.DateCreated <= dateEnd);
+                    break;
+            };
+            if (tasks != null)
+            {
+                ICollection<TaskDto> tasksDto = new List<TaskDto>();
+                foreach (var item in tasks)
+                {
+                    tasksDto.Add(Mappers.TaskRepository.MapToDto(item));
+                }
+                return tasksDto;
+            }
+            throw new NSIException("No data in database!", Level.Info, ErrorType.MissingData);
+        }
     }
 }

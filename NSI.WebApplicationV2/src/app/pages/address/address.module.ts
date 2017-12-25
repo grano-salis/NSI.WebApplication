@@ -11,7 +11,7 @@ import { AddressTypeListComponent } from './address-type-list/address-type-list.
 import { AddressTypeNewComponent } from './address-type-new/address-type-new.component';
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 import {AddressTypeModalDeleteComponent} from './address-type-modal-delete/address-type-modal-delete.component';
-
+import {AddressTypeModalEditComponent} from './address-type-modal-edit/address-type-modal-edit.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +26,8 @@ import {AddressTypeModalDeleteComponent} from './address-type-modal-delete/addre
     AddressListComponent,
     AddressTypeNewComponent,
     AddressTypeListComponent,
-    AddressTypeModalDeleteComponent
+    AddressTypeModalDeleteComponent,
+    AddressTypeModalEditComponent
   ]
 })
 export class AddressModule { }

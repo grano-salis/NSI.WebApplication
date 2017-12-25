@@ -19,7 +19,8 @@ namespace NSI.Repository.Mappers
                 IsDeleted=taskDto.IsDeleted,
                 TaskId=taskDto.TaskId,
                 Title=taskDto.Title,
-                UserId=taskDto.UserId
+                UserId=taskDto.UserId,
+                Status=taskDto.Status
             };
         }
 
@@ -34,7 +35,8 @@ namespace NSI.Repository.Mappers
                 IsDeleted=task.IsDeleted,
                 TaskId=task.TaskId,
                 Title=task.Title,
-                UserId=task.UserId
+                UserId=task.UserId,
+                Status=task.Status
             };
         }
     }

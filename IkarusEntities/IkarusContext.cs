@@ -736,6 +736,8 @@ namespace IkarusEntities
                     case EntityState.Added:
                         entry.CurrentValues["IsDeleted"] = false;
                         entry.CurrentValues["DateCreated"] = DateTime.Now;
+                        entry.CurrentValues["DateModified"] = DateTime.Now;
+                        entry.CurrentValues["Status"] = "Active";
                         break;
 
                     case EntityState.Deleted:

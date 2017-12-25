@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AddressType } from '../addressType.model';
 import { AddressTypeService } from '../../../services/addressType.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-address-type-list',
@@ -11,7 +12,7 @@ export class AddressTypeListComponent implements OnInit {
 
   public addressTypes: AddressType[];
 
-  constructor(private addressTypeService: AddressTypeService) { }
+  constructor(private addressTypeService: AddressTypeService, private router: Router) { }
 
   ngOnInit() {
     this.loadAddressTypes();
@@ -30,4 +31,10 @@ export class AddressTypeListComponent implements OnInit {
     this.addressTypes.splice(index, 1);
   }
 
+  editAddressType(addressType: any){
+    console.log(addressType);
+console.log('editAddressType uslo');
+    this.router.navigate(['address/edit', addressType]);
+console.log('editAddressType proslo');
+  }
 }

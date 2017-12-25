@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" [id]="modalId()" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">			 
@@ -6,30 +6,22 @@
                     ×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Manage Document
+                    {{ headerText() }}
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="col-md-10 col-md-offset-1">
-                            <div *ngIf="!scopedToCase" class="form-group">
-                                <label for="case">
-                                    Case number:
-                                </label>
-                                <select class="form-control" id="case">
-                                    <option value="1"> 12345678 </option>
-                                    <option value="2"> 67213123 </option>
-                                </select>
-                            </div>
-
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="title">
                                     Title:
                                 </label>
                                 <input type="text" class="form-control" id="title">
                             </div>
-                        
+                        </div>
+
+                        <div class="col-md-6">                        
                             <div class="form-group">
                                 <label for="category">
                                     Category:
@@ -39,7 +31,13 @@
                                     <option value="2"> Evidence </option>
                                 </select>
                             </div>
-                        
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div [ngClass]="{'col-md-6': (!scopedToCase || editMode), 'col-md-12': !(!scopedToCase || editMode)}">                                                                        
                             <div class="form-group">
                                 <label for="description">
                                     Description:
@@ -47,39 +45,49 @@
                                 <textarea class="form-control" id="description">Description...</textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">				
-                            <div class="col-md-10">			
-                                <h4 class="text-left text-center">
-                                    <strong>Upload Document Below</strong>
-                                </h4>
-                                <div class="image-upload text-center">
-                                    <label for="photoimg">
-                                        <img class="img-responsive text-center" id="uploadImage" class="text-center" alt="Upload image" src="../../../assets/uploadDocument.png">
-                                    </label>
-                                    <input type="file" name="photoimg" id="photoimg" />
-                                </div>
-                                <br>
-                            
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"
-                                        aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%">
-                                        60% (NSI erd.jpg)
-                                    </div>
-                                </div>
-                            </div>		
-                            <div class="col-md-2"></div>
+
+                        <div class="col-md-6">                                    
+                            <div *ngIf="(!scopedToCase || editMode)" class="form-group">
+                                <label for="case">
+                                    Case number:
+                                </label>
+                                <select class="form-control" id="case">
+                                    <option value="1"> 12345678 </option>
+                                    <option value="2"> 67213123 </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">				
+                    <div class="col-md-6 col-md-offset-3 uploadSurface">			
+                        <h4 class="text-left text-center">
+                            <strong>Upload Document Below</strong>
+                        </h4>
+                        <div class="image-upload text-center">
+                            <label for="photoimg" id="uploadSurface">
+                                <img class="img-responsive text-center" id="uploadImage" class="text-center" alt="Upload image" src="../../../assets/uploadDocument.png">
+                            </label>
+                            <input type="file" name="photoimg" id="photoimg" (change)="onFileChange($event)" />
+                        </div>
+                        <br>
+                    
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar"
+                                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%">
+                                60% (NSI erd.jpg)
+                            </div>
+                        </div>
+                    </div>		
+                    <div class="col-md-2"></div>
                 </div>
             </div>
             <div class="modal-footer"> 
                 <button type="button" class="btn btn-default" data-dismiss="modal">
-                    Close
+                    {{ footerCancelText() }}
                 </button> 
                 <button type="button" class="btn btn-primary">
-                    Save changes
+                    {{ footerConfirmationText() }}
                 </button>
             </div>
         </div>

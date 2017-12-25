@@ -3,6 +3,7 @@ import { Hearing } from './hearing';
 import { HearingsService } from '../../../services/hearings.service';
 import { UsersService } from '../../../services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from "../../../services/alert.service";
 
 
 declare var $: any;
@@ -32,7 +33,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   public edit: boolean = false;
 
   constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute,
-              private router: Router) {
+    private router: Router, private alertService: AlertService) {
     this.query = '';
     this.filteredList = [];
     this.notes = [];
@@ -77,15 +78,19 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.noteText = data.note[0].text;
         }
         console.log(this.edit);
-      });
+      },
+        (error: any) => {
+          this.alertService.showError(error.error.message)
+        }
+      );
     }
   }
 
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
     this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
-    this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => console.log(r),
-      (error: any) => console.log("Error: " + error.message));
+    this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => this.alertService.showSuccess("Success", "Hearing updated"),
+      (error: any) => this.alertService.showError(error.error.message));
   }
 
   onSubmit() {
@@ -96,8 +101,11 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
     this.model.createdByUserId = 1
     this.model.caseId = 3
     console.log(this.model);
-    this.hearingsService.postHearing(this.model).subscribe((r: any) => console.log(r),
-      (error: any) => console.log("Error: " + error.message));
+    this.hearingsService.postHearing(this.model).subscribe((r: any) => {
+      this.alertService.showSuccess("Success", "Hearing created")
+      // this.model = new Hearing();
+    },
+      (error: any) => this.alertService.showError(error.error.message));
   }
 
   newHearing() {
@@ -106,8 +114,10 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   }
 
   deleteHearing() {
-    this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => {this.model = new Hearing(); 
-      console.log('Brisemo hearing:' + r)}, (error: any) => console.log("Error: " + error.message));
+    this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => {
+      this.model = new Hearing();
+      this.alertService.showSuccess("Success", "Hearing deleted");
+    }, (error: any) => this.alertService.showError(error.error.message));
   }
 
 }

@@ -9,7 +9,7 @@ namespace NSI.DC.DocumentRepository
         [DataMember]
         public int DocumentId {get; set;}
         [DataMember]
-        public int FileTypeExtension { get; set; }
+        public int FileTypeId { get; set; }
         [DataMember]
         public string DocumentTitle { get; set; }
         [DataMember]

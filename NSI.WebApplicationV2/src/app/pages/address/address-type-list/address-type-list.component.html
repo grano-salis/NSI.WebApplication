@@ -16,7 +16,8 @@
               <th>Date created</th>
               <th>Date Modified</th>
               <th>Is deleted</th>
-              <th>Actions</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -25,12 +26,10 @@
               <td>{{addressType.createdDate}}</td>
               <td>{{addressType.modifiedDate}}</td>
               <td>{{addressType.isDeleted}}</td>
-              <td>
-                <p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
-                  <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
-                    <i class="fa fa-edit"></i>
-                  </button>
-                </p>
+              <td (click)="editAddressType(addressType.addressTypeId)">
+                <a class="btn btn-primary btn-xs" href="#" data-target="#" data-title="Edit" >
+                   <span class="glyphicon glyphicon-edit"></span> Edit
+                </a>
               </td>
               <td>
                 <p class="text-center" data-placement="top" data-toggle="tooltip"
