@@ -117,8 +117,8 @@
           </div>
         </div>
 
-        <app-contact-modal [temp_contact]="temp_contact" (onClose)="close()"></app-contact-modal>
-        <new-contact-component [temp_contact]="temp_contact" (onClose)="closeNew()"></new-contact-component>
+        <app-contact-modal [temp_contact]="temp_contact" [form]="form" (onClose)="close()"></app-contact-modal>
+        <new-contact-component [temp_contact]="temp_contact"  [form]="form" (onClose)="closeNew()"></new-contact-component>
         <show-contact-component [temp_contact]="temp_contact"></show-contact-component>
       </div>
     </div>

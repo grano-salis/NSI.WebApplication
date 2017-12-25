@@ -41,6 +41,10 @@
   border-color: #00aeef;
 }
 
+control-messages {
+  color: red;
+}
+
 .sort {
   display: block;
   cursor: pointer;

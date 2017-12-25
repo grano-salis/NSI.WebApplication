@@ -43,31 +43,38 @@
                      name="email-new"
                      placeholder="Email"
                      formControlName="email">
-              <button type="button" name="addnewemailbtn" class="right btn btn-default button-contact button-beauty" (click)="newEmail()">
+              <button type="button" name="addnewemailbtn" class="right btn btn-default button-contact button-beauty"
+                      (click)="newEmail()">
                 <i class="fa fa-plus "></i>
               </button>
               <div class="help-block with-errors"></div>
             </div>
-            <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty"> <control-messages [control]="form.controls.email"></control-messages></div>
+            <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+              <control-messages [control]="form.controls.email"></control-messages>
+            </div>
 
           </div>
 
-          <div formArrayName="items">
-          <div *ngFor="let item of form.get('items').controls ; let i=index; trackBy: trackByIndex;">
-            <div class="form-group">
-              <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                <input type="email" class="form-control form-input-beauty"
-                       formControlName="name"
-                       placeholder="Email"
-                       data-error="Valid email is required.">
-                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-email-btn-{{index}}" (click)="deleteEmail()">
-                  <i class="fa fa-minus"></i>
-                </button>
+          <div formArrayName="emails">
+            <div *ngFor="let item of form.get('emails').controls ; let i=index;">
+              <div class="form-group">
+                <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                  <input type="email" class="form-control form-input-beauty"
+                         formControlName="name"
+                         placeholder="Email"/>
+                  <button type="button" class="right btn btn-default button-contact button-beauty"
+                          name="delete-email-btn-{{index}}" (click)="deleteEmail()">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                  <div class="help-block with-errors"></div>
+                </div>
+                <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                  <control-messages [control]="form.get('emails').controls[i].controls.name"></control-messages>
+                </div>
+
               </div>
             </div>
           </div>
-          </div>
-
           <div class="form-group label-beauty">
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
               <label for="form_phone">Phone</label> <br>
@@ -77,36 +84,45 @@
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
               <input id="form_phone" type="tel" name="phone" [(ngModel)]="temp_contact.phone"
                      class="form-control form-input-beauty" placeholder="Phone" formControlName="phone">
-              <button type="button" name="addnewphone-btn" class="right btn btn-default button-contact button-beauty" (click)="newPhone()">
+              <button type="button" name="addnewphone-btn" class="right btn btn-default button-contact button-beauty"
+                      (click)="newPhone()">
                 <i class="fa fa-plus"></i>
               </button>
               <div class="help-block with-errors"></div>
             </div>
             <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-              <control-messages [control]="form.controls.phone"></control-messages></div>
-          </div>
-
-
-          <div formArrayName="objects">
-          <div *ngFor="let obj of form.get('objects').controls; let j= index; trackBy: trackByIndex;">
-            <div class="form-group">
-              <div [formGroupName]="j" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                <input type="tel" class="form-control form-input-beauty" placeholder="Phone"
-                        formControlName="name">
-                <button type="button" class="right btn btn-default button-contact button-beauty" name="delete-phone{{index}}" (click)="deletePhone()">
-                  <i class="fa fa-minus"></i>
-                </button>
-              </div>
-              <control-messages [control]="form.controls.objects.name"></control-messages>
+              <control-messages [control]="form.controls.phone"></control-messages>
             </div>
           </div>
-          </div>
 
+
+          <div formArrayName="phones">
+            <div *ngFor="let obj of form.get('phones').controls; let i= index; ">
+              <div class="form-group">
+                <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                  <input type="tel" class="form-control form-input-beauty" placeholder="Phone"
+                         formControlName="name">
+                  <button type="button" class="right btn btn-default button-contact button-beauty"
+                          name="delete-phone{{index}}" (click)="deletePhone()">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                  <div class="help-block with-errors"></div>
+                </div>
+                <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                  <control-messages [control]="form.get('phones').controls[i].controls.name"></control-messages>
+                </div>
+
+              </div>
+            </div>
+          </div>
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-4 col-sm-offset-4 col-x-offset-4">
-              <button #closeBtn name="closbtnbtn" type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
-              <button name="submit-btnbtn" type="submit" class="btn btn-success" [disabled]="!form.valid">Submit</button>
+              <button #closeBtn name="closbtnbtn" type="button" class="btn btn-primary" (click)="clearForm()"
+                      data-dismiss="modal">Cancel
+              </button>
+              <button name="submit-btnbtn" type="submit" class="btn btn-success" [disabled]="!form.valid">Submit
+              </button>
 
             </div>
           </div>
