@@ -1,4 +1,4 @@
-import { Document } from "./index.model";
+import { Document } from "./document.model";
 
 export class DocumentDetails extends Document {
     author: string;

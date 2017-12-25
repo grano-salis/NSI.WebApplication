@@ -17,6 +17,7 @@ namespace IkarusEntities
         public string DocumentContent { get; set; }
         public int? CreatedByUserId { get; set; }
         public string Description { get; set; }
+        public bool IsDeleted { get; set; }
 
         public CaseInfo Case { get; set; }
         public UserInfo CreatedByUser { get; set; }

@@ -1,0 +1,11 @@
+#addDocument {
+    border-bottom: 2px solid black;
+    border: 2px solid #bdc3c7;
+    border-radius: 15px;
+    padding: 5px;
+    font-size: 20px;   
+}
+
+#addDocumentImage {
+	max-height: 4vh;
+}

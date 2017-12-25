@@ -19,8 +19,8 @@ namespace NSI.Repository.Mappers
                 DocumentCategory = _dbContext.DocumentCategory.FirstOrDefault(d => d.DocumentCategoryId == document.CategoryId),
                 Description = document.DocumentDescription,
                 Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId),
-                FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeExtension),
-                FileTypeId = document.FileTypeExtension,
+                FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeId),
+                FileTypeId = document.FileTypeId,
                 DocumentHistory = _dbContext.DocumentHistory.ToList(),
                 CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
                 CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId
@@ -43,6 +43,44 @@ namespace NSI.Repository.Mappers
             };
         }
 
-        
+
+        public static DocumentDetails MapToDocumentDetailsDto(Document document, IkarusContext dbContext)
+        {
+            var history = document.DocumentHistory.OrderBy(d => d.ModifiedAt).ToList();
+            var documentDetails = new DocumentDetails()
+            {
+                DocumentId = document.DocumentId,
+                //DocumentTitle = document.
+                CaseId = document.CaseId,
+                CategoryId = document.DocumentCategoryId,
+                DocumentContent = document.DocumentContent,
+                DocumentDescription = document.Description,
+                DocumentPath = document.DocumentPath,
+                FileTypeId = document.FileTypeId,
+                CaseNumber = document.Case.CaseNumber,
+                DocumentCategoryName = document.DocumentCategory.CategoryTitle,
+                FileIconPath = "",
+                //CreatedByUserId = document.CreatedByUser.UserId,
+                Author = document.CreatedByUser?.FirstName + ' ' + document.CreatedByUser?.LastName,
+                
+            };
+            if (history.Count <= 0) return documentDetails;
+            documentDetails.CreatedAt = history.LastOrDefault().ModifiedAt;
+            documentDetails.ModifiedAt = history.FirstOrDefault().ModifiedAt;
+            return documentDetails;
+
+        }
+
+        public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory)
+        {
+            return new DocumentHistoryDto()
+            {
+                DocumentId = documentHistory.DocumentId,
+                DocumentHistoryId = documentHistory.DocumentHistoryId,
+                ModifiedAt = documentHistory.ModifiedAt,
+                ModifiedByUser = documentHistory.ModifiedByUser.FirstName + ' ' + documentHistory.ModifiedByUser.LastName,
+                ModifiedByUserId = documentHistory.ModifiedByUserId
+            };
+        }
     }
 }

@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSI.BLL.Interfaces;
-using NSI.REST.Models;
 using NSI.DC.DocumentRepository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,24 +18,70 @@ namespace NSI.REST.Controllers
     public class DocumentController : Controller
     {
         private IDocumentManipulation DocumentManipulation { get; }
+        private ILogger<DocumentController> Logger { get; }
 
-        public DocumentController(IDocumentManipulation documentManipulation)
+        public DocumentController(IDocumentManipulation documentManipulation, ILogger<DocumentController> logger)
         {
             DocumentManipulation = documentManipulation;
+            Logger = logger;
         }
 
         // GET: api/Documents
+        [HttpGet("byCase/{id}")]
+        public IActionResult GetByCaseId(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentsByCase(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
             try
             {
-                var documents = DocumentManipulation.GetAllDocuments();
-                return Ok(documents);
+                return Ok(DocumentManipulation.GetAllDocuments());
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // GET api/Documents/5
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentById(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // GET api/Documents/5
+        [HttpGet("history/{id}")]
+        public IActionResult GetDocumentHistory(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentHistoryByDocumentId(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -50,54 +96,28 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
 
-        // GET api/Documents/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            try
-            {
-                if (id == 0) throw new Exception("Id is not valid.");
-                return Ok(DocumentManipulation.GetDocumentById(id));
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
+        
 
         // POST api/Documents/upload
         [HttpPost]
         [Route("upload")]
-        public async Task<IActionResult> UploadFiles(List<IFormFile> files)
+        public async Task<IActionResult> Upload()
         {
             try
             {
-                var size = files.Sum(f => f.Length);
-
-                // full path to file in temp location
-                var filePath = Path.GetTempFileName();
-
-                foreach (var formFile in files)
-                {
-                    if (formFile.Length <= 0) continue;
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
-
-                // process uploaded files
-                // Don't rely on or trust the FileName property without validation.
-                DocumentManipulation.UploadFile(files, filePath);
-                return Ok(new { count = files.Count, size, filePath });
+                var file = Request.Form.Files.FirstOrDefault();
+                var path = await DocumentManipulation.UploadFileAsync(file);
+                return Ok(path);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -107,13 +127,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (document == null) throw new Exception("Document is null");
-
                 DocumentManipulation.SaveDocument(document);
                 return Ok(document);
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -125,13 +144,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (id == 0) throw new Exception("Id is not valid");
-
-                return Ok(DocumentManipulation.EditDocument(documentDto));
+                return Ok(DocumentManipulation.EditDocument(id, documentDto));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
@@ -141,13 +159,13 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if(id == 0) throw new Exception("Id is not valid");
                 return Ok(DocumentManipulation.DeleteDocument(id));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
-            } 
+                Logger.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
