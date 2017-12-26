@@ -12,7 +12,8 @@ namespace NSI.Repository.Interfaces
 		CaseInfo GetCaseInfoById(int caseId);
         ICollection<CaseInfoDto> GetCaseInfos();
         ICollection<CaseInfoDto> GetLatestCaseInfos();
-        bool DeleteCaseInfoById(int caseId);
+        //bool DeleteCaseInfoById(int caseId);
         bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto);
-	}
+        void Delete(int caseId);
+    }
 }

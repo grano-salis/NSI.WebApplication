@@ -9,6 +9,7 @@ import {CasesListComponent} from './cases-list/cases-list.component';
 import { EditCaseComponent } from './edit-case/edit-case.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import{MeetingsModule} from "../meetings/meetings.module";
+import { CaseDetailComponent } from './case-detail/case-detail.component';
 
 
 @NgModule({
@@ -20,6 +21,6 @@ import{MeetingsModule} from "../meetings/meetings.module";
     FormsModule,
     MeetingsModule
   ],
-  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent]
+  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent, CaseDetailComponent]
 })
 export class CasesModule { }

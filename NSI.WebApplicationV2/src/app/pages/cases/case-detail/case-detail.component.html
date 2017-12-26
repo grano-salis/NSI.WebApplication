@@ -1,0 +1,74 @@
+<div role="main">
+    <div class="clearfix">
+<div class='panel panel-primary' *ngIf='case'>
+    <div class='panel-footer'>
+
+    {{pageTitle + ':' + case.caseNumber}}
+  </div>
+  <div class='panel-body'>
+    <div class='row'>
+       
+        <div class='col-md-6'>
+            <div class='row'>
+                <div class='col-md-3'>Number:</div>
+                <div class='col-md-6'>{{case.caseNumber}}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-3'>Code:</div>
+                <div class='col-md-6'>{{case.courtNumber}}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-3'>Value:</div>
+                <div class='col-md-6'>{{case.value  | currency:'USD':true:'1.2-2' }}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-3'>Judge:</div>
+                <div class='col-md-6'>{{case.judge | uppercase}}</div>
+            </div>
+            <div class='row'>
+                <div class='col-md-3'>Court:</div>
+                <div class='col-md-6'>{{case.court | uppercase}}</div>
+            </div>
+            
+            <div class='row'>
+             
+                <div class='col-md-3'>Hearing:</div>
+                    <div class='col-md-6'>
+                       
+                           
+                             
+                                
+                                <tr *ngFor="let hearing of hearings">
+                                      <!--  <td>{{hearings | json}}</td> -->
+                                   <td>{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
+
+                                </tr>
+                            
+                            </div>
+                    </div>
+            </div>
+            
+        <div class='row'>
+                    
+                        <div class='col-md-3'>Documents related:</div>
+                        <div class='col-md-6'>{{document}}</div>
+       
+                </div>
+        
+    </div>
+</div>
+
+
+
+<div class='panel-footer'>
+  <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+      <i class='glyphicon glyphicon-chevron-left'></i>Back
+
+  </a>
+
+
+</div>
+
+</div>
+</div>
+</div>

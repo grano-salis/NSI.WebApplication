@@ -37,12 +37,17 @@ namespace NSI.BLL
             return _caseInfoRepository.GetLatestCaseInfos();
         }
 
-        public bool  DeleteCaseInfoById(int caseId) {
-            return _caseInfoRepository.DeleteCaseInfoById(caseId);
-        }
+        //public bool  DeleteCaseInfoById(int caseId) {
+        //    return _caseInfoRepository.DeleteCaseInfoById(caseId);
+        //}
         public bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto) {
             return _caseInfoRepository.EditCaseInfoById(caseId, caseInfoDto);
         }
+        public void Delete(int caseId)
+        {
+            
+            _caseInfoRepository.Delete(caseId);
+        }
 
-	}
+    }
 }

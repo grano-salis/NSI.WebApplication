@@ -62,5 +62,19 @@ namespace NSI.REST.Controllers
         public void Delete(int id)
         {
         }
+        [HttpGet]
+        [Route("case/{caseId}")]
+        public IActionResult GetDocumentsByCase(int caseId)
+        {
+            try
+            {
+                return Ok(_documentRepository.GetDocumentsByCase(caseId));
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

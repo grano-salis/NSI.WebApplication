@@ -11,5 +11,6 @@ namespace NSI.Repository.Interfaces
         IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
         long SaveDocument(DocumentDto document);
         REST.Models.DocumentsPagingResultModel GetAllDocuments(REST.Models.DocumentsPagingQueryModel query);
+        int GetDocumentsByCase(int caseId);
     }
 }

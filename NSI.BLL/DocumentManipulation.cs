@@ -42,5 +42,10 @@ namespace NSI.BLL.DocumentRepository
         {
             throw new NotImplementedException();
         }
+        public int GetDocumentsByCase(int caseId)
+        {
+           
+            return _documentRepository.GetDocumentsByCase(caseId);
+        }
     }
 }

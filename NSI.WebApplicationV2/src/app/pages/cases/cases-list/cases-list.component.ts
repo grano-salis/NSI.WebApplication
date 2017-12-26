@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {CasesService} from '../../../services/cases.service';
 import {Router} from "@angular/router";
+
+declare let $: any;
 
 @Component({
   selector: 'app-cases-list',
@@ -10,6 +12,7 @@ import {Router} from "@angular/router";
 export class CasesListComponent implements OnInit {
 
   casesList: any;
+  param_case : any;
 
 
   constructor(private casesService: CasesService,
@@ -46,4 +49,16 @@ export class CasesListComponent implements OnInit {
     });
   }
 
+  onCaseClick(id: number) {
+    
+		this.router.navigate([`/cases/${id}`]);
+  }
+  
+
+
 }
+
+
+
+
+

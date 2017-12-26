@@ -49,5 +49,13 @@ namespace NSI.Repository
 
             return null;
         }
+        public int GetDocumentsByCase(int caseId)
+        {
+            var documents = _dbContext.Document.Where(x => x.CaseId == caseId);
+            int n = documents.Count();
+            return n;
+
+
+        }
     }
 }
