@@ -37,7 +37,14 @@ namespace NSI.Repository.Repository
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
             return documents.Where(doc => !doc.IsDeleted && doc.CaseId == id).Select(document => DocumentRepository.MapToDto(document, _dbContext)).ToList();
         }
+        public int GetNumberOfDocumentsByCase(int caseId)
+        {
+            var documents = _dbContext.Document.Where(x => x.CaseId == caseId);
+            int n = documents.Count();
+            return n;
 
+
+        }
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDetails>

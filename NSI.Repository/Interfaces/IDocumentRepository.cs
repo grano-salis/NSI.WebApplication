@@ -17,5 +17,6 @@ namespace NSI.Repository.Interfaces
         List<DocumentDetails> GetAllDocuments();
         List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
         List<DocumentDto> GetDocumentsByCase(int id);
+        int GetNumberOfDocumentsByCase(int caseId);
     }
 }

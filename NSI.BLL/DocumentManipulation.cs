@@ -58,6 +58,11 @@ namespace NSI.BLL
         {
             return _documentRepository.GetDocumentsByCase(id);
         }
+        public int GetNumberOfDocumentsByCase(int caseId)
+        {
+           
+            return _documentRepository.GetNumberOfDocumentsByCase(caseId);
+        }
 
         public PagingResultModel<DocumentDetails> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
@@ -87,6 +92,7 @@ namespace NSI.BLL
             _documentRepository.Update(documentDto);
             return true;
         }
+
 
     }
 }

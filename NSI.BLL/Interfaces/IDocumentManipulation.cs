@@ -18,5 +18,6 @@ namespace NSI.BLL.Interfaces
         bool SaveDocument(DocumentDto document);
         List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
         List<DocumentDto> GetDocumentsByCase(int id);
+        int GetNumberOfDocumentsByCase(int caseId);
     }
 }

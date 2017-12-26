@@ -14,6 +14,7 @@ using NSI.Repository.Mappers;
 using AutoMapper;
 using IkarusEntities;
 using NSI.Logger;
+using NSI.DC.Response;
 
 namespace NSI.REST.Controllers
 {
@@ -86,18 +87,41 @@ namespace NSI.REST.Controllers
                 return false;
             }
         }
-        
+
         // DELETE: api/case/info/5
+        //[HttpDelete("{id}")]
+        //public bool Delete(int id)
+        //{
+        //    try
+        //    {
+        //        return _caseInfoRepository.DeleteCaseInfoById(id);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
+
         [HttpDelete("{id}")]
-        public bool Delete(int id)
+        public IActionResult DeleteCase(int id)
         {
             try
             {
-                return _caseInfoRepository.DeleteCaseInfoById(id);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _caseInfoRepository.Delete(id);
+                return Ok(new NSIResponse<object>()
+                {
+                    Data = null,
+                    Message = "Case deleted"
+                });
             }
             catch (Exception ex)
             {
-                return false;
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
 
