@@ -12,7 +12,7 @@ import { IUser } from "./Models/user";
 import { HubConnection } from "@aspnet/signalr-client/dist/src";
 import { environment } from "../../../environments/environment";
 import { Event } from '@angular/router/src/events';
-import { AfterContentChecked } from '@angular/core/src/metadata/lifecycle_hooks';
+import { AfterContentChecked, AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 declare var $: any;
 
 
@@ -21,9 +21,11 @@ declare var $: any;
     templateUrl: './conversations.component.html',
     styleUrls: ['./conversations.component.scss']
 })
-export class ConversationsComponent implements OnInit, AfterContentChecked  {
+export class ConversationsComponent implements OnInit, AfterContentChecked, AfterViewChecked {
+   
     
-    
+
+
 
 
     public async: any;
@@ -31,6 +33,8 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
     public loggedUserId: number;
     public _conversations: IConversation[] = [];
     public _participants: IParticipant[];
+    public _onlineUsers : string[] = [];
+    
     public newMessage: string;
     public messageModel: IMessage;
     public activeConversationId: number;
@@ -38,6 +42,13 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
     public whosTyping: string;
     public isNewMessageClicked: boolean;
     
+    
+
+    //multiselect
+    dropdownList: any = [];
+    selectedItems: any = [];
+    dropdownSettings = {};
+
 
 
     //Fields for establishing connection on hub
@@ -45,20 +56,22 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
     private _hubConnection: HubConnection;
 
     constructor(private _conversationService: ConversationService, private route: ActivatedRoute, private _hubConversationService: HubConversationService) {
-        this._url = environment.serverUrl; 
+        this._url = environment.serverUrl;
 
         this.route.params.subscribe(params => {
             this.loggedUserId = +params['id'];
-            this._hubConversationService.loggedUserId = this.loggedUserId;          
+            this._hubConversationService.loggedUserId = this.loggedUserId;
         });
 
-        this.isNewMessageClicked = false;       
+       
 
         
-    
+
+        this.isNewMessageClicked = false;
+
     }
 
-    
+
     public loadMessages(id: number): void {
         this.isNewMessageClicked = false;
         this.messageListSelectedConversation = this._conversations.filter((conversation: IConversation) => conversation.conversationId == id)[0].message
@@ -68,8 +81,8 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
             participants => {
                 this._participants = participants;
                 this._hubConversationService.participants = this._participants;
-                
-                    
+
+
             }
             );
         this._hubConversationService.messages = this.messageListSelectedConversation;
@@ -95,7 +108,13 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
 
     }
 
-    
+    public checkIfUserIsOnline(id: number) : boolean
+    {
+        let ID = id.toString();
+        let index =  this._onlineUsers.findIndex(x => x == ID);
+        return index != -1;
+    }
+
 
 
 
@@ -110,7 +129,7 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
         return participant;
     }
 
-   
+
     private determineConvName(): void {
 
 
@@ -146,16 +165,34 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
 
     }
 
-    
+
     ngAfterContentChecked(): void {
         this.whosTyping = this._hubConversationService.getWhosTyping();
+        this._hubConversationService.getOnlineUsersList()
+        .subscribe(
+            onlineUsers => {
+                this._onlineUsers = onlineUsers;
+                
+            }
+            
+        )
+        
     }
 
+    ngAfterViewChecked(): void {
        
+    
+        
+        
+    }
+
+    
+
+
 
     ngOnInit() {
 
-        
+
 
         this._conversationService.getConversations(this.loggedUserId)
             .subscribe(
@@ -165,8 +202,52 @@ export class ConversationsComponent implements OnInit, AfterContentChecked  {
             }
             )
 
-            
+        
+           
+           
+           
 
+        this.dropdownList = [
+            { "id": 20, "itemName": "Amir Lisovac" },
+            { "id": 19, "itemName": "Omar Dervišević" },
+            { "id": 21, "itemName": "Ragib Smajić" },
+            { "id": 22, "itemName": "Fadil Ademović" },            
+            { "id": 23, "itemName": "Dino Alić" },
+            { "id": 24, "itemName": "John Doe" },
+            { "id": 25, "itemName": "Jane Doe" }
+                
+        ];
+        this.selectedItems = [
+                        
+        ];
+        this.dropdownSettings = {
+            singleSelection: false,
+            text: 'Select participant(s)',            
+            enableSearchFilter: true,
+            classes: 'multiSelectDrop col-md-12',
+            enableCheckAll: false,            
+            maxHeight: 200,
+            searchPlaceholderText: 'Type the name of a person'//,
+            //badgeShowLimit: 3
             
+        };
+
+
     }
+
+    onItemSelect(item:any){
+        console.log(item);
+        console.log(this.selectedItems);
+    }
+    OnItemDeSelect(item:any){
+        console.log(item);
+        console.log(this.selectedItems);
+    }
+    onSelectAll(items: any){
+        console.log(items);
+    }
+    onDeSelectAll(items: any){
+        console.log(items);
+    }
+
 }

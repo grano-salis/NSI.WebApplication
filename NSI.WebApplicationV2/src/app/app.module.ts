@@ -35,7 +35,7 @@ import { HubConversationService } from "./services/hub.conversation.service";
     SharedModule,
     PagesModule,
     AppRoutingModule,
-    NgLoadingSpinnerModule,
+    NgLoadingSpinnerModule,    
     AlertModule.forRoot()
   ],
   declarations: [AppComponent],

@@ -5,6 +5,7 @@ import { IConversation } from "../pages/conversations/Models/conversations";
 import { HubConnection } from '@aspnet/signalr-client';
 import { IParticipant } from "../pages/conversations/Models/participant";
 import { IMessage } from "../pages/conversations/Models/message";
+import { IUser } from '../pages/conversations/Models/user';
 
 @Injectable()
 export class HubConversationService {
@@ -26,9 +27,12 @@ export class HubConversationService {
     public loggedUserId: number;
     public newMessage: string;
     public conversationId: number;
+
+    public onlineUsers: string[];
     
     constructor() {
         this._url = environment.serverUrl;
+        
         this.init();
     }
 
@@ -43,6 +47,13 @@ export class HubConversationService {
         let participant = this.getParticipanWithUserId(this.loggedUserId);
         this._hubConnection.invoke('Send', newMessage, this.conversationId, this.loggedUserId, participant.participantId);
         
+    }
+
+    public getOnlineUsersList() : Observable<string[]>  {
+         
+
+         return Observable.of(this.onlineUsers);
+         
     }
 
     public getWhosTyping(): string {
@@ -98,6 +109,12 @@ export class HubConversationService {
             this.typingUsername = data;             
            
             
+        });
+
+        this._hubConnection.on('setOnlineUsers', data => {
+            
+            this.onlineUsers = data;
+            //console.log(this.onlineUsers);
         });
 
        

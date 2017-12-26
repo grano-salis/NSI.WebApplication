@@ -12,3 +12,33 @@
 
 // Theme customization
 @import "theme/theme";
+
+
+
+
+
+.pure-checkbox input[type="checkbox"] + label:before
+{
+    border-color: #26B99A !important;
+    color: #26B99A !important;
+    
+
+}
+
+.pure-checkbox input[type="checkbox"]:checked + label:before
+{
+    
+    background-color: #26B99A !important;
+    
+
+}
+
+
+.c-token  {
+    background-color: #26B99A !important ;
+}
+
+.tooltipClass{
+    color:red ;
+    background-color: red;
+}

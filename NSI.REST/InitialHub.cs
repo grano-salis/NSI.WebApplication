@@ -22,12 +22,21 @@ namespace NSI.REST
            
         }
         
-        public void persistForOnlineStatus(string username)
+        public Task persistForOnlineStatus(string username)
         {
             if(usersAndConnections.Exists(x => x.Item1 == username))
                 usersAndConnections.Find(x => x.Item1 == username).Item2.Add(Context.ConnectionId);                
             else
                 usersAndConnections.Add(new Tuple<string, List<string>>(username, new List<string>() { Context.ConnectionId }));
+
+            List<string> onlineUsers = new List<string>();
+            foreach (var user in usersAndConnections)
+                onlineUsers.Add(user.Item1);
+
+            
+            
+            return  Clients.All.InvokeAsync("setOnlineUsers", onlineUsers);
+            
                       
         }
 
@@ -40,7 +49,15 @@ namespace NSI.REST
                 usersAndConnections.Remove(usersAndConnections.Find(x => x.Item2.Contains(connToRemove)));
             else
                 usersAndConnections.Find(x => x.Item2.Contains(connToRemove)).Item2.Remove(connToRemove);
-            
+
+            List<string> onlineUsers = new List<string>();
+            foreach (var user in usersAndConnections)
+                onlineUsers.Add(user.Item1);
+
+
+
+            Clients.All.InvokeAsync("setOnlineUsers", onlineUsers);
+
             return base.OnDisconnectedAsync(exception);
         }
 
