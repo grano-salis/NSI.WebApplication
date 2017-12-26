@@ -5,7 +5,7 @@ import {ContactsService} from "../../../services/contacts.service";
 @Component({
   selector: 'app-contact-modal',
   templateUrl: './contact-modal.component.html',
-  styleUrls: []
+  styleUrls: ['../contacts.component.css']
 })
 export class ContactModalComponent implements OnInit, AfterViewInit {
   @Input() temp_contact: any;
@@ -19,7 +19,6 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
   }
 
   updateContact() {
@@ -29,5 +28,23 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
     });
   }
 
+  deletePhone(index: number) {
+    this.temp_contact.phones.splice(index, 1);
+  }
+
+  deleteEmail(index: number) {
+    this.temp_contact.emails.splice(index, 1);
+  }
+
+  newPhone() {
+    this.temp_contact.phones.push({emailAddress: ''});
+  }
+
+  newEmail() {
+    this.temp_contact.emails.push({phoneNumber: ''});
+  }
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
 
 }

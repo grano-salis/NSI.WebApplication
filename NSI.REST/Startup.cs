@@ -27,6 +27,13 @@ using AutoMapper;
 using IkarusEntities;
 using NSI.BLL.Interfaces;
 using NSI.BLL;
+using NSI.Repository.Mappers;
+using AddressRepository = NSI.Repository.AddressRepository;
+using AddressTypeRepository = NSI.Repository.AddressTypeRepository;
+using CaseInfoRepository = NSI.Repository.CaseInfoRepository;
+using HearingsRepository = NSI.Repository.Repository.HearingsRepository;
+using MeetingsRepository = NSI.Repository.MeetingsRepository;
+using TaskRepository = NSI.Repository.TaskRepository;
 
 namespace NSI.REST
 {
@@ -62,6 +69,7 @@ namespace NSI.REST
             services.AddScoped<IAddressTypeManipulation, AddressTypeManipulation>();
             services.AddScoped<IAddressTypeRepository, AddressTypeRepository>();
             services.AddScoped<IDocumentManipulation, DocumentManipulation>();
+            services.AddScoped<IDocumentRepository, DocumentsRepository>();
             services.AddScoped<IMeetingsRepository, MeetingsRepository>();
             services.AddScoped<IMeetingsManipulation, MeetingsManipulation>();
             services.AddScoped<ITaskManipulation, TaskManipulation>();
@@ -76,13 +84,16 @@ namespace NSI.REST
             services.AddScoped<IUsersManipulation, UsersManipulation>();
             services.AddScoped<IHearingsRepository, HearingsRepository>();
             services.AddScoped<IHearingsManipulation, HearingsManipulation>();
-            services.AddScoped<IDocumentManipulation, DocumentManipulation>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ITransactionManipulation, TransactionManipulation>();
             services.AddScoped<IPaymentGatewayRepository, PaymentGatewayRepository>();
             services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
             services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
+            services.AddScoped<ICustomerRepository, Repository.CustomerRepository>();
+            services.AddScoped<ICustomerManipulation, CustomerManipulation>();
+            services.AddScoped<IClientRepository, Repository.Repository.ClientRepository>();
+            services.AddScoped<IClientManipulation, ClientManipulation>();
 
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

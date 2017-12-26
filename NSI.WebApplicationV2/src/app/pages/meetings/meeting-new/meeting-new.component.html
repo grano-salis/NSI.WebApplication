@@ -13,13 +13,21 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="title" required [(ngModel)]="model.title" name="title" #title="ngModel" class="form-control col-md-7 col-xs-12">
-                    </div>
-                    <div class='col-md-3 col-sm-3 col-xs-12'>
-                        <div class='' [hidden]="title.valid || title.pristine">
-                            Title is required
+                        <input type="text" id="title" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.title" name="title" #title="ngModel" class="form-control col-md-7 col-xs-12">
+                        <br><br>
+                        <div class="warningMessages">
+                            <div class="alert alert-danger" *ngIf="title.errors && (title.dirty || title.touched)">
+                                <p *ngIf="title.errors.required">Title is required</p>
+                                <p *ngIf="title.errors.minlength">Title must contain at least 3 characters</p>
+                                <p *ngIf="title.errors.pattern">Title must contain only letters</p>
+                            </div>
                         </div>
-                    </div>
+                    </div><!--
+                    <div class='col-md-3 col-sm-3 col-xs-12'>
+                        <div class='' [hidden]="meetingPlace.valid || meetingPlace.pristine">
+                            Meeting place is required
+                        </div>
+                    </div>-->
                 </div>
 
                 <!--MeetingPlace-->
@@ -28,13 +36,21 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="meetingplace" required [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
-                    </div>
+                        <input type="text" id="meetingplace" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
+                        <br><br>
+                        <div class="warningMessages">
+                            <div class="alert alert-danger" *ngIf="meetingPlace.errors && (meetingPlace.dirty || meetingPlace.touched)">
+                                <p *ngIf="meetingPlace.errors.required">Meeting place is required</p>
+                                <p *ngIf="meetingPlace.errors.minlength">Meeting place name must contain at least 3 characters</p>
+                                <p *ngIf="meetingPlace.errors.pattern">Meeting place must contain only letters</p>
+                            </div>
+                        </div>
+                    </div><!--
                     <div class='col-md-3 col-sm-3 col-xs-12'>
                         <div class='' [hidden]="meetingPlace.valid || meetingPlace.pristine">
                             Meeting place is required
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- Dates -->
@@ -52,6 +68,11 @@
                                         </span>
                                         <input type="text" name="from" id="from" required [(ngModel)]="model.from" #from="ngModel" class="form-control">
                                     </div>
+                                    <div class="warningMessages">
+                                        <div class="alert alert-danger" *ngIf="from.errors && (from.dirty || from.touched)">
+                                            <p *ngIf="from.errors.required">Start date is required</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="controls col-md-6 col-xs-12">
                                     <div class="input-prepend input-group">
@@ -60,7 +81,12 @@
                                         </span>
                                         <input type="text" name="to" id="to" required [(ngModel)]="model.to" #to="ngModel" class="form-control">
                                     </div>
-                                </div>
+                                    <div class="warningMessages">
+                                        <div class="alert alert-danger" *ngIf="to.errors && (to.dirty || to.touched)">
+                                            <p *ngIf="to.errors.required">End date is required</p>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                         </fieldset>
                     </div>
@@ -72,7 +98,7 @@
                         <!-- <span class="required">*</span> -->
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="users-list" name='users-list' #usersList=ngModel type="text" class="filter-input form-control col-md-7 col-xs-12" [(ngModel)]=query (keyup)=filter()>
+                        <input id="users-list" name='users-list' #usersList="ngModel" type="text" class="filter-input form-control col-md-7 col-xs-12" [(ngModel)]=query (keyup)=filter()>
                         <div class="suggestions" *ngIf="filteredList.length > 0">
                             <ul *ngFor="let item of filteredList">
                                 <li>
@@ -86,17 +112,58 @@
                                 <a (click)="remove(item)">x</a>
                             </div>
                         </div>
+                        <br><br>
+                        <div class="warningMessages">
+                            <div class="alert alert-danger" *ngIf="(model.userMeeting.length < 1) && (usersList.dirty || usersList.touched)">
+                                <p>You must add at least 1 user to meeting</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
+                <div class="form-group" *ngIf="usersAvailableForMeeting.length > 0">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users-list">The following users have meeting in the specified time
+                                
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul style="list-style: none;">
+                            <li *ngFor="let item of usersAvailableForMeeting">
+                                <div *ngIf="!(item.from == null || item.to == null)" class="alert alert-danger">
+                                        <p class="card-text">Start of meeting : {{ item.from | date:'d-M-y hh:mm'}}</p>
+                                        <p class="card-text">End of meeting : {{ item.to | date:'d-M-y hh:mm' }}</p>
+                                        <p class="card-text">Title : {{item.title}}</p>
+                                        <p *ngFor="let x of item.userMeeting" class="card-text">User attending: {{x.userName}}</p>
+                                </div>
+                            </li>
+                        </ul>   
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="availableMeetings.length > 0">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Available meeting times
+                                    
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <ul style="list-style: none;">
+                                <li *ngFor="let item of availableMeetings">
+                                    <div class="alert alert-info" *ngIf="!(item.from == null || item.to == null)">
+                                            <p class="card-text">Start of meeting : {{ item.from | date:'d-M-y hh:mm'}}</p>
+                                            <p class="card-text">End of meeting : {{ item.to | date:'d-M-y hh:mm' }}</p>
+                                    </div>
+                                </li>
+                            </ul>   
+                        </div>
+                    </div>
 
                 <!-- Submit -->
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                         <button type="button" class="btn btn-success" (click)="updateMeeting()" *ngIf="edit" [disabled]="!meetingForm.form.valid">Update</button>
-                        <button type="submit" class="btn btn-success" *ngIf="!edit">Submit</button>
+                        <button type="submit" [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)" class="btn btn-success" *ngIf="!edit">Submit</button>
                         <button type="reset" class="btn btn-default" (click)="newMeeting(); meetingForm.reset()">New meeting</button>
                         <button type="button" class="btn btn-danger" (click)="deleteMeeting()" [disabled]="!meetingForm.form.valid">Delete</button>
+                        <button type="button" class="btn btn-default" (click)="checkUsersAvailability()" [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)" >Check users availability</button>      
                     </div>
                 </div>
 

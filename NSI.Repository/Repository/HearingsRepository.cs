@@ -85,9 +85,17 @@ namespace NSI.Repository.Repository
         public HearingDto GetHearingById(int id)
         {
             var hearing = _dbContext.Hearing.Where(x => x.HearingId == id && x.IsDeleted == false)
-                .Include(x => x.Note).Include(x => x.UserHearing)
+                .Include(x => x.UserHearing)
                 .ThenInclude(userHearing => userHearing.User).FirstOrDefault();
+
             if (hearing == null) throw new NSIException("Hearing not found");
+
+            var correctNote = _dbContext.Entry(hearing).Collection(h => h.Note)
+                .Query().Where(n => n.CreatedByUserId == hearing.CreatedByUserId).ToList();
+
+            hearing.Note = correctNote;
+
+            
             return Mappers.HearingsRepository.MapToDto(hearing);
         }
 

@@ -10,9 +10,23 @@
 }
 
 #uploadImage {
-	max-height: 18vh;
+    max-height: 18vh;
 	display: block;
 	margin-left: auto;
     margin-right: auto;
 	outline: 0;
 }
+
+#uploadSurface {
+    width: 100%;
+    border-right: 2px solid #3498db;
+    border-left: 2px solid #3498db;
+    border-radius: 10px;
+    /* background-image: url("https://thumbs.dreamstime.com/z/old-white-wood-background-rustic-wooden-surface-copy-space-52646540.jpg");   */
+}
+
+textarea {
+    width: 100%;
+    height: 34px;
+    resize: none;
+  }

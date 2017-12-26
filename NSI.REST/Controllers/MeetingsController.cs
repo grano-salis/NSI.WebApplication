@@ -43,12 +43,12 @@ namespace NSI.REST.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            try { 
-                var meeting = _meetingsManipulation.GetMeetingById(id);
-                if (meeting != null)
-                    return Ok(meeting);
-
-                return NoContent();
+            try {
+                return Ok(new NSIResponse<MeetingDto>()
+                {
+                    Data = _meetingsManipulation.GetMeetingById(id),
+                    Message = "Success"
+                });
             }
             catch(NSIException ex)
             {
@@ -184,6 +184,63 @@ namespace NSI.REST.Controllers
             {
                 Logger.Logger.LogError(ex);
                 return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("user/{userId}")]
+        public IActionResult GetMeetingsByUser(int userId)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>>()
+                {
+                    Data = _meetingsManipulation.GetMeetingsByUser(userId),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("getMeetingTimes")]
+        public IActionResult GetMeetingsTimes(ICollection<int> userIds, DateTime from, DateTime to, int meeetingDuration)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingTimeDto>>()
+                {
+                    Data = _meetingsManipulation.GetMeetingTimes(userIds, from, to, meeetingDuration),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("checkUsersAvailability")]
+        public IActionResult CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>>()
+                {
+                    Data = _meetingsManipulation.CheckUsersAvailability(userIds, from, to),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
             }
         }
 

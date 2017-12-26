@@ -25,7 +25,16 @@
   <div id="sidebar-menu" class="main_menu_side  hidden-print main_menu">
     <div class="menu_section">
       <h3>General</h3>
+
       <ul class="nav side-menu">
+
+          <li [routerLink]="['/cases/dashboard']" >
+            <a id="dashboardli" (click)="anchorClicked($event)">
+              <i class="fa fa-dashboard"></i> Dashboard
+              <!--<span id="dashboardchevron" class="fa fa-chevron-down"></span>-->
+            </a>
+          </li>
+
         <li>
           <a id="homeli" (click)="anchorClicked($event)">
             <i class="fa fa-home"></i> Home
@@ -64,6 +73,9 @@
             <li [routerLink]="['/tasks']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <a>Overview</a>
             </li>
+            <li [routerLink]="['/tasks/new']" routerLinkActive="active">
+              <a>New task</a>
+            </li>
           </ul>
         </li>
         <li >
@@ -74,6 +86,21 @@
           <ul class="nav child_menu">
             <li [routerLink]="['/hearings/new']" routerLinkActive="active">
               <a>New hearing</a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a id="casesli" (click)="anchorClicked($event)">
+            <i class="fa fa-edit"></i> Cases
+            <span id="caseschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/cases/new']" routerLinkActive="active">
+              <a>New case</a>
+            </li>
+            <li [routerLink]="['/cases/all']" routerLinkActive="active">
+              <a>List of cases</a>
             </li>
           </ul>
         </li>
@@ -125,7 +152,16 @@
         <li [routerLink]="['/organization']" routerLinkActive="current-page">
           <a>
             <i class="fa fa-calendar-o"></i> Organizations
+            <span id="organizationchevron" class="fa fa-chevron-down"></span>
           </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/organization/new']" routerLinkActive="active">
+              <a>New organization</a>
+            </li>
+            <li [routerLink]="['/organization']" routerLinkActive="active">
+              <a>List of organizations</a>
+            </li>
+          </ul>
         </li>
 
 
@@ -348,6 +384,13 @@
               <span class="label label-success pull-right">Coming Soon</span>
             </a>
           </li> -->
+
+          <li [routerLink]="['/clients']" routerLinkActive="current-page">
+            <a>
+              <i class="fa fa-calendar-o"></i> Clients
+            </a>
+          </li>
+
       </ul>
     </div>
 

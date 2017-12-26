@@ -1,12 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {TasksService} from '../../../services/tasks.service';
-import {each} from 'lodash';
+import { Component, OnInit } from '@angular/core';
+import { each } from 'lodash';
 import * as moment from 'moment';
-import {Logger} from '../../../core/services/logger.service';
-import {HelperService} from "../../../services/helper.service";
-import {MeetingsService} from "../../../services/meetings.service";
-import {AlertService} from "../../../services/alert.service";
-import {Router} from "@angular/router";
+import { Logger } from '../../../core/services/logger.service';
+import { MeetingsService } from "../../../services/meetings.service";
+import { AlertService } from "../../../services/alert.service";
+import { Router, ActivatedRoute } from "@angular/router";
 
 declare let $: any;
 
@@ -19,40 +17,13 @@ const logger = new Logger('Meetings');
 })
 export class MeetingsComponent implements OnInit {
 
-  private _calendar: Object;
-
   private color: any = '#223442';
-  calendarConfiguration: any = {
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'month,agendaWeek,agendaDay'
-    },
-    defaultDate: moment().format('YYYY-MM-DD'),
-    selectable: true,
-    selectHelper: true,
-    editable: true,
-    eventLimit: true,
-    events: []
-  };
 
-  dateSelected: boolean;
-
-  eventModel: any = {
-    dateFrom: null,
-    dateTo: null,
-    title: '',
-    desc: ''
-  };
-
-  formSubmitted: boolean;
-
+  initCalendar: boolean;
+  calendarEvents: any = [];
 
   constructor(private meetingsService: MeetingsService, private alertService: AlertService,
-              private router: Router) {
-
-    this.calendarConfiguration.select = (start: any, end: any) => this._onSelect(start, end);
-  }
+    private router: Router, private route: ActivatedRoute) { }
 
 
   // ****************
@@ -60,37 +31,58 @@ export class MeetingsComponent implements OnInit {
   // ****************
   ngOnInit() {
     this.loadMeetings();
+    // Success messages for creating, updating and deleting meeting
+    this.new_meeting_messages();
+
   }
 
-  onCalendarReady(calendar: any): void {
-    this._calendar = calendar;
-    $(this._calendar).fullCalendar('option', 'contentHeight', 650);
+  new_meeting_messages() {
+    let from_new_meeting = this.route.snapshot.queryParamMap.get("frommeeting");
+    console.log("FROM ROUTE: " + from_new_meeting);
+    switch (from_new_meeting) {
+      case "created": {
+        this.alertService.showSuccess("Sucess", "New meeting created");
+        break;
+      }
+      case "update": {
+        this.alertService.showSuccess("Sucess", "Meeting updated");
+        break;
+      }
+      case "delete": {
+        this.alertService.showSuccess("Sucess", "Meeting deleted");
+        break;
+      }
+    }
+  }
+
+  onEventClicked(event: any) {
+    this.router.navigate(['/meetings/edit', event.meetingId]);
+  }
+
+  onRangeSelected(range: any) {
+    logger.debug("onRangeSelected", range);
+    this.router.navigate(['/meetings/new'], { queryParams: { dateFrom: range.start, dateTo: range.end } });
   }
 
   // ****************
   // Private methods
   // ****************
-  private _onSelect(start: any, end: any): void {
-    if (this._calendar != null) {
-      this.router.navigate(['/meetings/new'], {queryParams: {dateFrom: start, dateTo: end}});
-    }
-  }
-
   private loadMeetings(): any {
     this.meetingsService.getMeetings()
       .subscribe((r: any) => {
-        const temp: any[] = [];
+
         let meetings = r.data;
         each(meetings, (item) => {
-          temp.push({
-            title: 'Meeting ID: ' + item.meetingId,
+          this.calendarEvents.push({
+            title: item.title,
             start: item.from,
             end: item.to,
-            color: this.color
+            color: this.color,
+            meetingId: item.meetingId
           });
         });
 
-        $(this._calendar).fullCalendar('renderEvents', temp, true);
+        this.initCalendar = true;
       }, e => {
         this.alertService.showError(e.Message); //TODO: check???
         console.log("error", e);

@@ -9,4 +9,8 @@ export class AlertService {
   showError(title: string, body?: string) {
     this.toastr.error(title, body);
   }
+
+  showSuccess(title: string, body?: string) {
+    this.toastr.success(body, title);
+  }
 }

@@ -31,5 +31,8 @@ namespace NSI.DC.TaskRepository
 
         [DataMember]
         public int UserId { get; set; }
+
+        [DataMember]
+        public string Status { get; set; }
     }
 }
