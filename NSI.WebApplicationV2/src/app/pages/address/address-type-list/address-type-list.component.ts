@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AddressType } from '../addressType.model';
 import { AddressTypeService } from '../../../services/addressType.service';
 import {Router} from "@angular/router";
@@ -11,6 +11,8 @@ import {Router} from "@angular/router";
 export class AddressTypeListComponent implements OnInit {
 
   public addressTypes: AddressType[];
+
+  //@Output() editAddresTypeEvent = new EventEmitter();
 
   constructor(private addressTypeService: AddressTypeService, private router: Router) { }
 
@@ -30,11 +32,13 @@ export class AddressTypeListComponent implements OnInit {
   deleteAddressTypeFromLista(index: number){
     this.addressTypes.splice(index, 1);
   }
-
-  editAddressType(addressType: any){
-    console.log(addressType);
+/*
+  editAddressType(user: any){
+this.editAddresTypeEvent.emit(user);
+    /*console.log(addressType);
 console.log('editAddressType uslo');
     this.router.navigate(['address/edit', addressType]);
 console.log('editAddressType proslo');
-  }
+console.log(addressType);
+  }*/
 }
