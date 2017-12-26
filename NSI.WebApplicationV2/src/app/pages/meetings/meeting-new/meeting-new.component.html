@@ -129,8 +129,8 @@
                         <ul style="list-style: none;">
                             <li *ngFor="let item of usersAvailableForMeeting">
                                 <div *ngIf="!(item.from == null || item.to == null)" class="alert alert-danger">
-                                        <p class="card-text">Start of meeting : {{ item.from | date:'d-M-y hh:mm'}}</p>
-                                        <p class="card-text">End of meeting : {{ item.to | date:'d-M-y hh:mm' }}</p>
+                                        <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
+                                        <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
                                         <p class="card-text">Title : {{item.title}}</p>
                                         <p *ngFor="let x of item.userMeeting" class="card-text">User attending: {{x.userName}}</p>
                                 </div>
@@ -147,8 +147,8 @@
                             <ul style="list-style: none;">
                                 <li *ngFor="let item of availableMeetings">
                                     <div class="alert alert-info" *ngIf="!(item.from == null || item.to == null)">
-                                            <p class="card-text">Start of meeting : {{ item.from | date:'d-M-y hh:mm'}}</p>
-                                            <p class="card-text">End of meeting : {{ item.to | date:'d-M-y hh:mm' }}</p>
+                                            <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
+                                            <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
                                     </div>
                                 </li>
                             </ul>   
