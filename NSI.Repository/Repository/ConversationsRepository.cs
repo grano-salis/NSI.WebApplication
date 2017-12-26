@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using NSI.DC.Conversations;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository.Repository
 {
@@ -139,6 +140,46 @@ namespace NSI.Repository.Repository
 
             context.Message.Add(m);
             await context.SaveChangesAsync();
+        }
+
+        public UserInfo GetUserByIdForConversations(int id)
+        {
+            try
+            {
+                var user = context.UserInfo.Where(x => x.UserId == id).First();
+                return user;
+            }
+            catch (Exception e)
+            {
+                throw new NSIException("No user found!");
+            }
+           
+        }
+
+        public int CreateConversation(Conversation conv)
+        {
+            context.Conversation.Add(conv); 
+            context.SaveChanges();
+
+            return conv.ConversationId;
+
+        }
+
+        public int CreateParticipant(Participant p)
+        {
+            context.Participant.Add(p);
+            context.SaveChanges();
+            return p.ParticipantId;
+        }
+
+        public int GetLastConversationId()
+        {
+            return context.Conversation.Last().ConversationId;
+        }
+
+        public int GetLastParticipantId()
+        {
+            return context.Participant.Last().ParticipantId;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using NSI.BLL.Interfaces;
 using NSI.DC.Conversations;
 using NSI.Repository.Interfaces;
 using System;
@@ -13,11 +14,13 @@ namespace NSI.REST
     {
 
         private  IConversationsRepository _convRepo;
+        private IConversationsManipulation _convManipulation;
         private static List<Tuple<string, List<string>>> usersAndConnections = new List<Tuple<string, List<string>>>();
 
-        public InitialHub(IConversationsRepository conversationRepository)
+        public InitialHub(IConversationsRepository conversationRepository, IConversationsManipulation conversationsManipulation)
         {
             this._convRepo = conversationRepository;
+            this._convManipulation = conversationsManipulation;
             
            
         }
@@ -92,6 +95,12 @@ namespace NSI.REST
         {
             await Clients.Group(groupName).InvokeAsync("LeaveGroup", groupName);
             await Groups.RemoveAsync(Context.ConnectionId, groupName);
+        }
+
+        public void CreateConversation(int loggedUserId, List<int> usersToParticipants, string conversationName)
+        {
+            _convManipulation.CreateConversation(loggedUserId, usersToParticipants, conversationName);
+            
         }
 
     }   

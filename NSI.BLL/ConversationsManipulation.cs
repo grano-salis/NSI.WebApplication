@@ -5,6 +5,7 @@ using System.Text;
 using IkarusEntities;
 using NSI.Repository.Interfaces;
 using Microsoft.Extensions.Logging;
+using NSI.DC.Conversations;
 
 namespace NSI.BLL
 {
@@ -94,6 +95,56 @@ namespace NSI.BLL
                 logger.LogError("Something went wrong in ConversationsBLL: GetParticipantForId: " + ex.Message);
                 throw new Exception(message: "ConversationsBLL: GetParticipantForId error", innerException: ex);
             }
+        }
+
+        public void CreateConversation(int loggedUserId, List<int> usersToParticipants, string conversationName)
+        {
+            UserInfo createdByUser = repository.GetUserByIdForConversations(loggedUserId);
+            Conversation conversation = new Conversation()
+            {
+                ConversationId = repository.GetLastConversationId() + 1,
+                ConversationName = conversationName,
+                UserId = loggedUserId,
+                User = createdByUser
+                //Participant = new List<Participant>(),
+                //Message = new List<Message>()
+            };
+            int convId = repository.CreateConversation(conversation);
+
+           // List<Participant> participans = new List<Participant>();
+            for (int i = 0; i < usersToParticipants.Count; i++)
+            {
+                var user = repository.GetUserByIdForConversations(usersToParticipants[i]);
+
+                Participant p = new Participant()
+                {
+                    ParticipantId = repository.GetLastParticipantId() + 1,
+                    DateCreated = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    IsSnoozed = false,
+                    IsDeleted = false,
+                    LastSeenTime = DateTime.Now,
+                    User = user,
+                    ConversationId = convId
+                };
+                repository.CreateParticipant(p);
+                //participans.Add(p);
+            }
+
+            Participant loggedUserParticipant = new Participant()
+            {
+                ParticipantId = repository.GetLastParticipantId() + 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                IsSnoozed = false,
+                IsDeleted = false,
+                LastSeenTime = DateTime.Now,
+                User = createdByUser,
+                ConversationId = convId
+            };
+            repository.CreateParticipant(loggedUserParticipant);
+            //conversation.Participant = participans;
+
         }
     }
 }

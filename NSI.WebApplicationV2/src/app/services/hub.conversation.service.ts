@@ -10,7 +10,7 @@ import { IUser } from '../pages/conversations/Models/user';
 @Injectable()
 export class HubConversationService {
 
-    
+
 
     private _url: string;
     private _hubConnection: HubConnection;
@@ -19,7 +19,7 @@ export class HubConversationService {
     public participantForMessageModel: IParticipant;
     public messageModel: IMessage;
 
-    public typingUsername : string;
+    public typingUsername: string;
 
     //Declared with component
     public messages: IMessage[] = [];
@@ -29,10 +29,10 @@ export class HubConversationService {
     public conversationId: number;
 
     public onlineUsers: string[];
-    
+
     constructor() {
         this._url = environment.serverUrl;
-        
+
         this.init();
     }
 
@@ -46,37 +46,38 @@ export class HubConversationService {
     public sendMessage(newMessage: string, conversationId: number, loggedUserId: number): void {
         let participant = this.getParticipanWithUserId(this.loggedUserId);
         this._hubConnection.invoke('Send', newMessage, this.conversationId, this.loggedUserId, participant.participantId);
-        
+
     }
 
-    public getOnlineUsersList() : Observable<string[]>  {
-         
+    public getOnlineUsersList(): Observable<string[]> {
 
-         return Observable.of(this.onlineUsers);
-         
+
+        return Observable.of(this.onlineUsers);
+
     }
 
     public getWhosTyping(): string {
         return this.typingUsername;
     }
 
-    public whoIsTyping(user : string) : void
-    {
-       this._hubConnection.invoke('whoIsTyping', user); 
+    public whoIsTyping(user: string): void {
+        this._hubConnection.invoke('whoIsTyping', user);
     }
 
-    public persistLoginForOnlineStatus(username : string) : void
-    {
+    public persistLoginForOnlineStatus(username: string): void {
         this._hubConnection.invoke('persistForOnlineStatus', 'amirl');
     }
 
-    public checkOnlineStatus(username: string) : boolean
-    {
-       let result = true;
-       this._hubConnection.invoke('checkOnlineStatusForUser', username).then((data)=>{result = data;});
-       return result;
+    public checkOnlineStatus(username: string): boolean {
+        let result = true;
+        this._hubConnection.invoke('checkOnlineStatusForUser', username).then((data) => { result = data; });
+        return result;
     }
 
+    public createConversation(loggedUserId: number, usersToParticipants: number[], conversationName: string):boolean {
+        this._hubConnection.invoke('CreateConversation', loggedUserId, usersToParticipants, conversationName);
+        return true;
+    }
 
     private createMessageModel(message: string, activeConversationId: number, loggedUserId: number, participant: IParticipant): void {
         this.messageModel = {};
@@ -91,46 +92,48 @@ export class HubConversationService {
 
     private init() {
         this._hubConnection = new HubConnection(`${this._url}/chat`);
-        
+
 
         this._hubConnection.on('Send', (data, activeConversationId, loggedUserId, participantId) => {
 
-            this.participantForMessageModel = this.getParticipanWithUserId(loggedUserId);
-            this.createMessageModel(data, activeConversationId, loggedUserId, this.participantForMessageModel);
-            this.messages.push(this.messageModel);
-            this.typingUsername="";
+            if (this.conversationId == activeConversationId) {
+                this.participantForMessageModel = this.getParticipanWithUserId(loggedUserId);
+                this.createMessageModel(data, activeConversationId, loggedUserId, this.participantForMessageModel);
+                this.messages.push(this.messageModel);
+                this.typingUsername = "";
+            }
 
         });
 
-        
 
-        this._hubConnection.on('whoIsTyping', data => { 
-            
-            this.typingUsername = data;             
-           
-            
+
+        this._hubConnection.on('whoIsTyping', data => {
+
+            this.typingUsername = data;
+
+
         });
 
         this._hubConnection.on('setOnlineUsers', data => {
-            
+
             this.onlineUsers = data;
             //console.log(this.onlineUsers);
         });
 
-       
+
 
         this._hubConnection.start()
             .then(() => {
-                console.log('Hub connection started');  
+                console.log('Hub connection started');
                 this._hubConnection.invoke('persistForOnlineStatus', this.loggedUserId.toString());
 
-            })            
+            })
             .catch(err => {
                 console.log('Error while establishing connection');
             })
-            
 
-        
+
+
     }
 
 }

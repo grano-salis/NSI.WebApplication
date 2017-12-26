@@ -22,8 +22,8 @@ declare var $: any;
     styleUrls: ['./conversations.component.scss']
 })
 export class ConversationsComponent implements OnInit, AfterContentChecked, AfterViewChecked {
-   
-    
+
+
 
 
 
@@ -33,22 +33,23 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
     public loggedUserId: number;
     public _conversations: IConversation[] = [];
     public _participants: IParticipant[];
-    public _onlineUsers : string[] = [];
-    
+    public _onlineUsers: string[] = [];
+
     public newMessage: string;
     public messageModel: IMessage;
     public activeConversationId: number;
     public participantForMessageModel: IParticipant;
     public whosTyping: string;
     public isNewMessageClicked: boolean;
-    
-    
+    public onStart: boolean;
+
+
 
     //multiselect
     dropdownList: any = [];
-    selectedItems: any = [];
+    selectedItems: any[] = [];
     dropdownSettings = {};
-
+    selectedIds: number[] = [];
 
 
     //Fields for establishing connection on hub
@@ -63,11 +64,8 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
             this._hubConversationService.loggedUserId = this.loggedUserId;
         });
 
-       
-
-        
-
         this.isNewMessageClicked = false;
+        this.onStart = true;
 
     }
 
@@ -82,12 +80,12 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
                 this._participants = participants;
                 this._hubConversationService.participants = this._participants;
 
-
             }
             );
         this._hubConversationService.messages = this.messageListSelectedConversation;
         this._hubConversationService.conversationId = this.activeConversationId;
         this._hubConversationService.loggedUserId = this.loggedUserId;
+        this.onStart = false;
     }
 
     public isMessageSender(loggedUserId: number, senderUserId: number): boolean {
@@ -95,7 +93,7 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
     }
 
     public sendMessage(): void {
-        this._hubConversationService.sendMessage(this.newMessage, this.messageListSelectedConversation[0].conversationId, this.loggedUserId);
+        this._hubConversationService.sendMessage(this.newMessage, this.activeConversationId, this.loggedUserId);
         this.newMessage = "";
         this.whosTyping = "";
         this._hubConversationService.typingUsername = "";
@@ -104,14 +102,34 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
     public createNewConversation(): void {
 
         this.messageListSelectedConversation = [];
-        this.isNewMessageClicked = !this.isNewMessageClicked;
+        this.isNewMessageClicked = true;
 
     }
 
-    public checkIfUserIsOnline(id: number) : boolean
-    {
+    public createConversation(): void {
+
+        this.selectedItems.forEach(element => {
+            this.selectedIds.push(element.id);
+        });
+        this._hubConversationService.createConversation(this.loggedUserId, this.selectedIds, 'Test');
+        
+        this._conversationService.getConversations(this.loggedUserId)
+        .subscribe(
+        conversations => {
+            this._conversations = conversations;
+            this.determineConvName();
+            console.log(this._conversations);
+        }
+        );
+        
+
+
+       
+
+    }
+    public checkIfUserIsOnline(id: number): boolean {
         let ID = id.toString();
-        let index =  this._onlineUsers.findIndex(x => x == ID);
+        let index = this._onlineUsers.findIndex(x => x == ID);
         return index != -1;
     }
 
@@ -141,7 +159,6 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
             }
         }
 
-
     }
 
     public validateNewMessageLength(): boolean {
@@ -162,33 +179,24 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
             this._hubConversationService.whoIsTyping(user.user.userName);
         }
 
-
     }
-
 
     ngAfterContentChecked(): void {
         this.whosTyping = this._hubConversationService.getWhosTyping();
         this._hubConversationService.getOnlineUsersList()
-        .subscribe(
+            .subscribe(
             onlineUsers => {
                 this._onlineUsers = onlineUsers;
-                
+
             }
-            
-        )
-        
+
+            );
+
     }
 
     ngAfterViewChecked(): void {
-       
-    
-        
-        
+
     }
-
-    
-
-
 
     ngOnInit() {
 
@@ -202,51 +210,44 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
             }
             )
 
-        
-           
-           
-           
-
         this.dropdownList = [
             { "id": 20, "itemName": "Amir Lisovac" },
             { "id": 19, "itemName": "Omar Dervišević" },
             { "id": 21, "itemName": "Ragib Smajić" },
-            { "id": 22, "itemName": "Fadil Ademović" },            
+            { "id": 18, "itemName": "Fadil Ademović" },
             { "id": 23, "itemName": "Dino Alić" },
             { "id": 24, "itemName": "John Doe" },
             { "id": 25, "itemName": "Jane Doe" }
-                
+
         ];
         this.selectedItems = [
-                        
+
         ];
         this.dropdownSettings = {
             singleSelection: false,
-            text: 'Select participant(s)',            
+            text: 'Select participant(s)',
             enableSearchFilter: true,
             classes: 'multiSelectDrop col-md-12',
-            enableCheckAll: false,            
+            enableCheckAll: false,
             maxHeight: 200,
             searchPlaceholderText: 'Type the name of a person'//,
             //badgeShowLimit: 3
-            
+
         };
 
 
     }
 
-    onItemSelect(item:any){
-        console.log(item);
+    onItemSelect(item: any) {
         console.log(this.selectedItems);
     }
-    OnItemDeSelect(item:any){
-        console.log(item);
+    OnItemDeSelect(item: any) {
         console.log(this.selectedItems);
     }
-    onSelectAll(items: any){
+    onSelectAll(items: any) {
         console.log(items);
     }
-    onDeSelectAll(items: any){
+    onDeSelectAll(items: any) {
         console.log(items);
     }
 
