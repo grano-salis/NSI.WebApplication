@@ -4,7 +4,8 @@ import { AddressService } from "../../../services/address.service";
 import { each } from "lodash";
 import { AddressTypeService } from "../../../services/addressType.service";
 import { AddressType } from "../addressType.model";
-declare let $: any;
+import { Router } from "@angular/router";
+declare var $: any;
 declare var google: any;
 
 
@@ -14,9 +15,12 @@ declare var google: any;
   styleUrls: ["./address-list.component.scss"]
 })
 export class AddressListComponent implements OnInit {
+  _router: Router;
   addresses: Address[];
 
-  constructor(private addressService: AddressService, private addressTypeService: AddressTypeService) {}
+  constructor(private addressService: AddressService, private addressTypeService: AddressTypeService, router: Router) {
+    this._router = router;
+  }
 
   ngOnInit() {
     this.loadAddresses();
@@ -131,5 +135,7 @@ export class AddressListComponent implements OnInit {
     this.addressService.deleteAddress(this._address).subscribe((r: any) => console.log('Delete method address: ' + r),
     (error: any) => console.log('Error: ' + error.message));
     this.displayDelete = "none";
+
+    $(document).ready(()=> location.reload());
   }
 }
