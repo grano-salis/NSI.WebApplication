@@ -43,4 +43,22 @@ export class MeetingsService {
     return this.http.delete(this._url + "/" + id);
   }
 
+  checkUsersAvailability(users : any[], from: string, to : string) : Observable<any> {
+    let url : string = "";
+  
+    for(let i=0; i< users.length; i++) {
+      url = url + "userIds=" + users[i].userId + "&";
+    }
+    return this.http.get(this._url + "/checkUsersAvailability?" + url + "from=" + from + "&to=" + to);
+  }
+
+  getMeetingTimes(users : any[], from : string, to : string, meetingTime : number) : Observable<any> {
+    let url : string = "";
+    
+    for(let i=0; i< users.length; i++) {
+      url = url + "userIds=" + users[i].userId + "&";
+    }
+    return this.http.get(this._url + "/getMeetingTimes?" + url + "from=" + from + "&to=" + to + "&meetingDuration=" + meetingTime);
+  }
+
 }

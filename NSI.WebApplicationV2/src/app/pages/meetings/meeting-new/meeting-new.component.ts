@@ -38,12 +38,16 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   model: Meeting;
   id: number;
   public edit: boolean = false;
+  usersAvailableForMeeting : any[];
+  availableMeetings : any[];
 
   constructor(private meetingsService: MeetingsService, private usersService: UsersService, private route: ActivatedRoute,
     private router: Router, private alertService: AlertService) {
     this.query = '';
     this.filteredList = [];
     this.model = new Meeting();
+    this.usersAvailableForMeeting = [];
+    this.availableMeetings = [];
   }
 
 
@@ -125,5 +129,24 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
     console.log(this.id);
     this.meetingsService.deleteMeetingById(this.id).subscribe((r: any) => this.router.navigate(['/meetings'], { queryParams: { frommeeting: "delete" } }),
       (error: any) => this.alertService.showError(error.error.message));
+  }
+
+  checkUsersAvailability() {
+    this.meetingsService.checkUsersAvailability(this.model.userMeeting,this.model.from,this.model.to)
+        .subscribe(
+          (r: any) => {
+            this.usersAvailableForMeeting = r.data; 
+          }
+        );
+    this.getMeetingTimes();        
+  }
+
+  getMeetingTimes() {
+    this.meetingsService.getMeetingTimes(this.model.userMeeting, this.model.from, this.model.to, 3)
+        .subscribe(
+          (r: any) => {
+            this.availableMeetings = r.data;
+          }
+        )
   }
 }
