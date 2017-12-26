@@ -10,6 +10,10 @@ import { DocumentsService } from '../../../services/documents.service';
 export class DocumentListComponent implements OnInit { 
     @Input() scopedToCase: boolean;  
     documents: DocumentDetails[];
+    selectedDocumentTitle: string;
+    selectedDocument: DocumentDetails;
+    toBeEditedItem: Document;
+    toBeDeletedItemIndex: number;
 
     constructor(private documentsService: DocumentsService) {}
 
@@ -19,5 +23,21 @@ export class DocumentListComponent implements OnInit {
             this.documents = dT;
           } 
         );
+    }
+
+    onPreEdit(item: DocumentDetails): void {
+        this.toBeEditedItem.documentId = item.documentId;
+    }
+
+    onPreDelete(index: number): void {
+        this.toBeDeletedItemIndex = index;
+    }
+
+    onDeleteItem(): void {
+        this.documents.splice(this.toBeDeletedItemIndex, 1);
+    }
+
+    onCancelDelete(): void {
+        this.toBeDeletedItemIndex = -1;
     }
 }

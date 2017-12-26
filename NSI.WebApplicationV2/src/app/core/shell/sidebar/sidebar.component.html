@@ -28,10 +28,10 @@
 
       <ul class="nav side-menu">
 
-          <li [routerLink]="['/cases/dashboard']">
-            <a id="dashboardli">
+          <li [routerLink]="['/cases/dashboard']" >
+            <a id="dashboardli" (click)="anchorClicked($event)">
               <i class="fa fa-dashboard"></i> Dashboard
-              <span id="dashboardchevron" class="fa fa-chevron-down"></span>
+              <!--<span id="dashboardchevron" class="fa fa-chevron-down"></span>-->
             </a>
           </li>
 
@@ -390,7 +390,7 @@
               <i class="fa fa-calendar-o"></i> Clients
             </a>
           </li>
-          
+
       </ul>
     </div>
 

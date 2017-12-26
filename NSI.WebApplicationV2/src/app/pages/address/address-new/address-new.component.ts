@@ -4,6 +4,7 @@ import {AddressService} from '../../../services/address.service';
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 import {AddressType} from '../addressType.model';
 import {AddressTypeService} from '../../../services/addressType.service';
+import { Router } from '@angular/router';
 declare var google: any;
 
 @Component({
@@ -15,6 +16,7 @@ declare var google: any;
  
 
 export class AddressNewComponent implements OnInit {
+  _router: Router;
 
   address: Address;
   addressTypes: AddressType[];
@@ -33,11 +35,12 @@ export class AddressNewComponent implements OnInit {
     showCurrentLocation: false
   };
 
-  constructor(private addressService: AddressService, private addressTypeService: AddressTypeService) {
+  constructor(private addressService: AddressService, private addressTypeService: AddressTypeService, private router: Router) {
     this.address = new Address();
     this.address.dateCreated = this.date_created;
     this.address.dateModified = this.date_modified;
     this.address.isDeleted = this.is_deleted;
+    this._router = router;
   }
 
   ngOnInit() {
@@ -66,9 +69,7 @@ export class AddressNewComponent implements OnInit {
           map: map,
           position: new google.maps.LatLng(lat, lng),
           title: this.address.address1
-        });
-    
-        marker.setAnimation(google.maps.Animation.BOUNCE);
+        });    
   }
   
   onSubmit() {
@@ -78,6 +79,8 @@ export class AddressNewComponent implements OnInit {
 
     this.addressService.postAddress(this.address).subscribe((r: any) => console.log('Post method address: ' + r),
       (error: any) => console.log('Error: ' + error.message));
+    this._router.navigateByUrl('address/list');
+    
   }
 
   newAddress() {
