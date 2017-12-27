@@ -40,6 +40,20 @@ namespace NSI.REST.Controllers
                 throw new Exception(ex.Message);
             }
         }
+        [HttpGet]
+        [Route("case/{caseId}")]
+        public IActionResult GetNumberOfDocumentsByCase(int caseId)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetNumberOfDocumentsByCase(caseId));
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         [HttpGet]
         public IActionResult Get()
@@ -123,7 +137,7 @@ namespace NSI.REST.Controllers
 
         // POST api/Documents
         [HttpPost]
-        public IActionResult Post(DocumentDto document)
+        public IActionResult Post(CreateDocumentDto document)
         {
             try
             {

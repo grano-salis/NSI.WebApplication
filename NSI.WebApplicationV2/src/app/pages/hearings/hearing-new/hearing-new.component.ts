@@ -4,6 +4,7 @@ import { HearingsService } from '../../../services/hearings.service';
 import { UsersService } from '../../../services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from "../../../services/alert.service";
+import { DatePipe } from '@angular/common';
 
 
 declare var $: any;
@@ -11,13 +12,14 @@ declare var $: any;
 @Component({
   selector: 'app-hearing-new',
   templateUrl: './hearing-new.component.html',
-  styleUrls: ['./hearing-new.component.scss']
+  styleUrls: ['./hearing-new.component.scss'],
+  providers: [DatePipe]
 })
 export class HearingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     let self = this;
-    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, HH:mm:ss" });
     $("#hearingDate").on("dp.change", function (e: any) {
       self.model.hearingDate = $("#hearingDate").val();
     });
@@ -33,7 +35,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   public edit: boolean = false;
 
   constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute,
-    private router: Router, private alertService: AlertService) {
+    private router: Router, private alertService: AlertService, private datePipe: DatePipe) {
     this.query = '';
     this.filteredList = [];
     this.notes = [];
@@ -72,7 +74,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.edit = true;
           console.log(data.hearingDate);
           console.log(new Date(data.hearingDate));
-          this.model.hearingDate = new Date(data.hearingDate).toLocaleString();
+          this.model.hearingDate = this.datePipe.transform(new Date(data.hearingDate).toLocaleString(), 'MM/dd/yyyy, HH:mm:ss');
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
           this.noteText = data.note[0].text;

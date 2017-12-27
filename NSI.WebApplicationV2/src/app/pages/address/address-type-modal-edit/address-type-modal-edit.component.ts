@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {AddressTypeService} from '../../../services/addressType.service';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {AddressType} from '../addressType.model';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AddressTypeService} from '../../../services/addressType.service';
 
 @Component({
   selector: 'app-address-type-modal-edit',
@@ -9,50 +9,24 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: []
 })
 export class AddressTypeModalEditComponent {
-  AddressTypeId: any;
-  model: any;
-  constructor(private router: Router, private route: ActivatedRoute, private addressTypeService: AddressTypeService) { }
-   //@Input() address: AddressType;
-  //AddressType: address= new AddressType;
+
+  @Input() addressType: AddressType;
+  @Output() editAddresTypeEvent = new EventEmitter();
+  addressTypeEdit: AddressType= new AddressType();
+
+  constructor(private addressTypeService: AddressTypeService) { }
 
   ngOnInit() {
-    console.log('editAddressType ngOnInit uslo');
-      this.model=new AddressType();
-     this.AddressTypeId= +this.route.snapshot.paramMap.get('AddressTypeId');
-    console.log('this.caseToEditId', this.AddressTypeId);
-   // this.loadTypeAddress();
+    Object.assign(this.addressTypeEdit, this.addressType);
   }
-
-  loadTypeAddress(){
-    console.log('editAddressType loadTypeAddress uslo');
-    //liniju ispod pada 
-      this.addressTypeService.getAddressTypes(this.AddressTypeId).subscribe( data => {
-        console.log('editAddressType loadTypeAddress uslo2');
-        console.log('dataedit', data);
-      this.model = data;
-    });
-    console.log('editAddressType loadTypeAddress proslo');
+  editAddressType(){
+    console.log('uslo');
+    console.log(this.addressType);
+    this.editAddresTypeEvent.emit({orginal: this.addressType, edited: this.addressTypeEdit})
+    console.log('uslo1');
+    this.addressTypeService.putAddressType(this.addressTypeEdit.addressTypeId, this.addressTypeEdit);
+    console.log('uslo2');
   }
-  onSubmit() {
-    console.log('editAddressType onSubmit uslo');
-    console.log('this.model', this.model);
-    this.addressTypeService.putAddressType(this.model.caseId, this.model).subscribe(data => {
-      console.log('data', data);
-     // this.router.navigate(['address-type-list/all']);
-    });
-  }
-
-  
-  
-  /*
-  editAddressType(address: AddressType){
-     // this.addressTypeService.
-
-    /*this.model.addressType.addressTypeName=address.addressTypeName;
-    this.addressTypeService.postAddressType(this.model).subscribe(data => {
-      console.log('data', data);
-    });
-     //console.log('editAddressType funkcija');
-}*/
-
 }
+
+

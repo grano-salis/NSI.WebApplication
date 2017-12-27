@@ -99,25 +99,25 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool DeleteCaseInfoById(int caseId) {
-            try
-            {
-                var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId);
-                if (caseInfo != null)
-                {
-                    if (_dbContext.CaseInfo.Remove(caseInfo) != null)
-                    {
-                        _dbContext.SaveChanges();
-                        return true;
-                    }
-                }
-                return false;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.InnerException.Message);
-            }
-        }
+        //public bool DeleteCaseInfoById(int caseId) {
+        //    try
+        //    {
+        //        var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId);
+        //        if (caseInfo != null)
+        //        {
+        //            if (_dbContext.CaseInfo.Remove(caseInfo) != null)
+        //            {
+        //                _dbContext.SaveChanges();
+        //                return true;
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.InnerException.Message);
+        //    }
+        //}
 
         public bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto) {
             
@@ -151,13 +151,13 @@ namespace NSI.Repository
         {
 
             var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId && x.IsDeleted == false);
-            if (caseInfo == null) throw new NSIException("Hearing not found");
+            if (caseInfo == null) throw new NSIException("Case not found");
 
             caseInfo.IsDeleted = true;
             caseInfo.DateModified = DateTime.Now;
             if (_dbContext.SaveChanges() == 0)
             {
-                throw new NSIException("Erro while deleting hearing");
+                throw new NSIException("Error while deleting case");
             }
 
         }
