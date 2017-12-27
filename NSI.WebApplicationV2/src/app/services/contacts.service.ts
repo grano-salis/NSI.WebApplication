@@ -25,7 +25,7 @@ export class ContactsService {
       LastName: body.lastName,
       Phones: body.phones,
       Emails: body.emails,
-      AddresId: 1,
+      AddressId: parseInt(body.addressId),
       CreatedByUserId: 6
     };
 
@@ -36,10 +36,9 @@ export class ContactsService {
     return this.http.delete(`${this._url}/api/contacts/` + params.toString());
   }
 
-  postContact(contact: Contact): Observable<any> {
+  postContact(contact: any): Observable<any> {
     const body = JSON.stringify(contact);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    console.log(body);
     return this.http.post(`${this._url}/api/contacts`, body, {headers: headers});
 
   }

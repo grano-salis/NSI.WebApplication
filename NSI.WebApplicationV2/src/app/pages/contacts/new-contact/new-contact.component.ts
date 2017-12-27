@@ -2,10 +2,9 @@ import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@an
 import {Contact} from './contact';
 import {ContactsService} from '../../../services/contacts.service';
 import {ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from '@angular/forms';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {ValidationService} from '../validation.service';
-import {forEach} from "@angular/router/src/utils/collection";
-import {objectify} from "tslint/lib/utils";
+import {AddressService} from '../../../services/address.service';
 
 
 @Component({
@@ -18,15 +17,22 @@ export class NewContactComponent {
   @Input() form: any;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  public addresses: any[];
 
-  constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder) {    // this.phones = [];
+  constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder, private addressService: AddressService) {    // this.phones = [];
     this.temp_contact = new Contact();
+    this.temp_contact.addressId = 1;
+    this.fetchAddresses();
   }
 
+  fetchAddresses(): void {
+    this.addressService.getAddreses().subscribe((addresses: any) => {
+      this.addresses = addresses;
+    });
+  }
 
   newContact() {
     this.temp_contact.taskId = 1;
-    this.temp_contact.addressId = 1;
     this.temp_contact.createdByUserId = 1;
     this.setPhonesAndEmails();
     this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {

@@ -28,6 +28,9 @@ import {AddressTypeModalEditComponent} from './address-type-modal-edit/address-t
     AddressTypeListComponent,
     AddressTypeModalDeleteComponent,
     AddressTypeModalEditComponent
+  ],
+  exports: [
+    AddressNewComponent
   ]
 })
 export class AddressModule { }

@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import {ContactsService} from "../../../services/contacts.service";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {ValidationService} from "../validation.service";
+import {AddressService} from "../../../services/address.service";
 
 
 @Component({
@@ -14,14 +15,22 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   @Input() form: any;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
-  constructor(private contactsService: ContactsService, private formBuilder: FormBuilder) {
+  public addresses: any[];
 
+  constructor(private contactsService: ContactsService, private formBuilder: FormBuilder,  private addressService: AddressService) {
+    this.fetchAddresses();
   }
 
   ngAfterViewInit() {
   }
 
   ngOnInit() {
+  }
+
+  fetchAddresses(): void {
+    this.addressService.getAddreses().subscribe((addresses: any) => {
+      this.addresses = addresses;
+    });
   }
 
   updateContact() {

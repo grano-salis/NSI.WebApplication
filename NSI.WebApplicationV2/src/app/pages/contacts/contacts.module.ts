@@ -10,11 +10,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DeleteContactModalComponent} from './delete-contact-modal/delete-contact-modal.component';
 import {ShowContactComponent} from './show-contact-modal/show-contact.component';
 
-import { AvatarModule } from 'ng2-avatar';
+import {AvatarModule} from 'ng2-avatar';
+import {AddressModule} from '../address/address.module';
 
-import { ControlMessagesComponent } from './control-messages.component';
-import { ValidationService } from './validation.service';
-
+import {ControlMessagesComponent} from './control-messages.component';
+import {ValidationService} from './validation.service';
 
 
 @NgModule({
@@ -24,8 +24,9 @@ import { ValidationService } from './validation.service';
     ContactsRoutingModule,
     FormsModule,
     AlertModule,
+    ReactiveFormsModule,
     AvatarModule.forRoot(),
-    ReactiveFormsModule
+    AddressModule
   ],
   declarations: [
     ContactsComponent,
@@ -35,7 +36,7 @@ import { ValidationService } from './validation.service';
     ShowContactComponent,
     ControlMessagesComponent
   ],
-  providers:[ValidationService]
+  providers: [ValidationService]
 })
 export class ContactsModule {
 }
