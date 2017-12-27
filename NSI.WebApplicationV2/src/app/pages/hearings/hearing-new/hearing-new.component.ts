@@ -32,6 +32,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   date: string;
   noteText: string;
   id: number;
+  noteIndex: number;
   public edit: boolean = false;
 
   constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute,
@@ -90,7 +91,15 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
-    this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
+    this.noteIndex = this.model.note.findIndex(x => x.createdByUserId == 1);
+    if(this.noteIndex != null)
+    {
+      this.model.note.splice(this.noteIndex, 1,{ text: this.noteText, createdByUserId: 1, hearingId: 5 });
+    }
+    else
+    {
+      this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
+    }
     this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => this.alertService.showSuccess("Success", "Hearing updated"),
       (error: any) => this.alertService.showError(error.error.message));
   }
