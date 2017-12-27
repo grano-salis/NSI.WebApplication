@@ -35,7 +35,7 @@
           <div class="form-group">
             <div class="col-md-8  col-md-offset-2 col-xs-12">
               <label for="address"> <b> Address </b> </label>
-              <select [(ngModel)] = "temp_contact.addressId" name ="address" formControlName="address">
+              <select [(ngModel)] = "temp_contact.addressId" name ="address" formControlName="address" class="select form-control form-input-beauty">
                 <option *ngFor = "let address of addresses"
                         [value] = "address.addressId">{{address.address1 + ", " + address.city}}
                 </option>

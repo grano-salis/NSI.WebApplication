@@ -31,8 +31,7 @@
                     <div class="col-md-8  col-md-offset-2 col-xs-12">
                       <label for="form_name"> <b> First name </b> </label>
                       <input id="form_name" type="text" name="name" class="form-control form-input-beauty"
-                             [(ngModel)]="temp_contact.firsttName" formControlName="firstname"
-                             placeholder="First name">
+                             [(ngModel)]="temp_contact.firsttName" formControlName="firstname">
                       <control-messages [control]="form.controls.firstname"></control-messages>
                       <div class="help-block with-errors"></div>
                     </div>
@@ -41,7 +40,6 @@
                     <div class="col-md-8  col-md-offset-2 col-xs-12">
                       <label for="form_lastname"> <b> Last Name </b> </label>
                       <input id="form_lastname" name="surname" class="form-control form-input-beauty"
-                             placeholder="Last name"
                              [(ngModel)]="temp_contact.lastName" formControlName="lastname">
                       <control-messages [control]="form.controls.lastname"></control-messages>
                       <div class="help-block with-errors"></div>
@@ -51,7 +49,7 @@
                   <div class="form-group">
                     <div class="col-md-8  col-md-offset-2 col-xs-12">
                       <label for="address"> <b> Address </b> </label>
-                      <select [(ngModel)] = "temp_contact.addressId" name ="address" formControlName="address">
+                      <select [(ngModel)] = "temp_contact.addressId" name ="address" formControlName="address" class="select form-control form-input-beauty">
                         <option *ngFor = "let address of addresses"
                                 [value] = "address.addressId">{{address.address1 + ", " + address.city}}
                         </option>
@@ -70,7 +68,6 @@
                       <input type="email" class="form-control form-input-beauty"
                              [(ngModel)]="temp_contact.email"
                              name="email-new"
-                             placeholder="Email"
                              formControlName="email">
                       <button type="button" name="addnewemailbtn"
                               class="right btn btn-default button-contact button-beauty"
@@ -90,8 +87,7 @@
                       <div class="form-group">
                         <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
                           <input type="email" class="form-control form-input-beauty"
-                                 formControlName="name"
-                                 placeholder="Email"/>
+                                 formControlName="name"/>
                           <button type="button" class="right btn btn-default button-contact button-beauty"
                                   name="delete-email-btn-{{index}}" (click)="deleteEmail()">
                             <i class="fa fa-minus"></i>
@@ -113,7 +109,7 @@
                   <div class="form-group">
                     <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
                       <input id="form_phone" type="tel" name="phone" [(ngModel)]="temp_contact.phone"
-                             class="form-control form-input-beauty" placeholder="Phone" formControlName="phone">
+                             class="form-control form-input-beauty" formControlName="phone">
                       <button type="button" name="addnewphone-btn"
                               class="right btn btn-default button-contact button-beauty"
                               (click)="newPhone()">
@@ -131,7 +127,7 @@
                     <div *ngFor="let obj of form.get('phones').controls; let i= index; ">
                       <div class="form-group">
                         <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                          <input type="tel" class="form-control form-input-beauty" placeholder="Phone"
+                          <input type="tel" class="form-control form-input-beauty"
                                  formControlName="name">
                           <button type="button" class="right btn btn-default button-contact button-beauty"
                                   name="delete-phone{{index}}" (click)="deletePhone()">

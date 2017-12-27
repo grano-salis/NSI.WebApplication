@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var interceptor_service_1 = require("../../shared/services/interceptor.service");
 require("rxjs/add/operator/map");
-var ExampleService = (function () {
+var ExampleService = /** @class */ (function () {
     function ExampleService(http) {
         this.http = http;
         this.REST_URL = "http://localhost:59737/";
@@ -29,11 +29,11 @@ var ExampleService = (function () {
         return this.http.post(this.urls.postData, JSON.stringify({ a: id, b: text }))
             .map(function (x) { return x.json(); });
     };
+    ExampleService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [interceptor_service_1.Interceptor])
+    ], ExampleService);
     return ExampleService;
 }());
-ExampleService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [interceptor_service_1.Interceptor])
-], ExampleService);
 exports.ExampleService = ExampleService;
 //# sourceMappingURL=example.service.js.map
