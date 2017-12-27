@@ -59,7 +59,7 @@
             <div *ngFor="let item of form.get('emails').controls ; let i=index;">
               <div class="form-group">
                 <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                  <input type="email" class="form-control form-input-beauty"
+                  <input type="email" class="form-control form-input-beauty" (input)="onChangeEmail(i)"
                          formControlName="name"
                          placeholder="Email"/>
                   <button type="button" class="right btn btn-default button-contact button-beauty"
@@ -70,6 +70,11 @@
                 </div>
                 <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
                   <control-messages [control]="form.get('emails').controls[i].controls.name"></control-messages>
+                </div>
+                <div *ngIf="this.emails_unique[i+1]" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                  <div >
+                    <p style="color: red"> Emails must be unique.</p>
+                  </div>
                 </div>
 
               </div>
@@ -100,7 +105,7 @@
             <div *ngFor="let obj of form.get('phones').controls; let i= index; ">
               <div class="form-group">
                 <div [formGroupName]="i" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
-                  <input type="tel" class="form-control form-input-beauty" placeholder="Phone"
+                  <input type="tel" class="form-control form-input-beauty" placeholder="Phone" (input)="onChangePhone(i)"
                          formControlName="name">
                   <button type="button" class="right btn btn-default button-contact button-beauty"
                           name="delete-phone{{index}}" (click)="deletePhone()">
@@ -111,9 +116,14 @@
                 <div class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
                   <control-messages [control]="form.get('phones').controls[i].controls.name"></control-messages>
                 </div>
-
+                <div *ngIf="this.phones_unique[i+1]" class="col-md-8  col-md-offset-2 col-xs-12 div-inline-beauty">
+                  <div >
+                    <p style="color: red"> Phones must be unique.</p>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
           <div class="ln_solid"></div>
           <div class="form-group">
@@ -121,7 +131,7 @@
               <button #closeBtn name="closbtnbtn" type="button" class="btn btn-primary" (click)="clearForm()"
                       data-dismiss="modal">Cancel
               </button>
-              <button name="submit-btnbtn" type="submit" class="btn btn-success" [disabled]="!form.valid">Submit
+              <button name="submit-btnbtn" type="submit" class="btn btn-success" [disabled]="!form.valid || onChangePhone(0) || onChangeEmail(0)">Submit
               </button>
 
             </div>
