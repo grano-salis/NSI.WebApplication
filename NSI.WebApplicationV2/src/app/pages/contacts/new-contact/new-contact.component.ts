@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators, FormArray, FormControl} from '@angul
 import {ValidationService} from '../validation.service';
 import {forEach} from '@angular/router/src/utils/collection';
 import {objectify} from 'tslint/lib/utils';
+import {AddressService} from '../../../services/address.service';
 
 
 @Component({
@@ -18,19 +19,26 @@ export class NewContactComponent {
   @Input() form: any;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
+  public addresses: any[];
   phones_unique: boolean[];
   emails_unique: boolean[];
 
-  constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder) {    // this.phones = [];
+  constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder, private addressService: AddressService) {    // this.phones = [];
     this.temp_contact = new Contact();
     this.phones_unique = new Array();
     this.emails_unique = new Array();
+    this.temp_contact.addressId = 1;
+    this.fetchAddresses();
   }
 
+  fetchAddresses(): void {
+    this.addressService.getAddreses().subscribe((addresses: any) => {
+      this.addresses = addresses;
+    });
+  }
 
   newContact() {
     this.temp_contact.taskId = 1;
-    this.temp_contact.addressId = 1;
     this.temp_contact.createdByUserId = 1;
     this.setPhonesAndEmails();
     this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {

@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outpu
 import {ContactsService} from "../../../services/contacts.service";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {ValidationService} from "../validation.service";
+import {AddressService} from "../../../services/address.service";
 
 
 @Component({
@@ -16,16 +17,22 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   @ViewChild('closeBtn') closeBtn: ElementRef;
   phones_unique: boolean[];
   emails_unique: boolean[];
-
-  constructor(private contactsService: ContactsService, private formBuilder: FormBuilder) {
+  public addresses: any[];
+  constructor(private contactsService: ContactsService, private formBuilder: FormBuilder, private addressService: AddressService) {
     this.phones_unique = new Array();
     this.emails_unique = new Array();
+    this.fetchAddresses();
   }
-
   ngAfterViewInit() {
   }
 
   ngOnInit() {
+  }
+
+  fetchAddresses(): void {
+    this.addressService.getAddreses().subscribe((addresses: any) => {
+      this.addresses = addresses;
+    });
   }
 
   updateContact() {
