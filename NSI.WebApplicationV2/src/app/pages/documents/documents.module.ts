@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { DocumentsRoutingModule } from './documents-routing.module';
 import { DocumentsComponent } from './documents.component';
@@ -18,6 +18,7 @@ import { DocumentsFilterService } from '../../services/documents-filter.service'
     CommonModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     DocumentsRoutingModule
   ],
   declarations: [

@@ -9,3 +9,17 @@
 #addDocumentImage {
 	max-height: 4vh;
 }
+
+#caseHeaderInput {
+    padding-left: 2px;
+}
+
+@media screen and (max-width: 480px) {
+    #caseHeaderInput {
+        font-size: 17px;
+    }
+
+    #addDocument {
+        font-size: 15px;  
+    }
+}

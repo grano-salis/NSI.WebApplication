@@ -57,8 +57,8 @@
 							<td>{{ item.documentCategoryName }} </td>
 							<td>{{ item.documentDescription }}</td>
 							<td>{{ item.author }}
-							<td>{{ item.createdAt }}</td>
-							<td>{{ item.modifiedAt }}</td>
+							<td>{{ item.createdAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+							<td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
 						
 							<td><p data-placement="top" data-toggle="tooltip" title="History" class="text-center">
 								<span type="button" data-title="History" data-toggle="modal" data-target="#history" 

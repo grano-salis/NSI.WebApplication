@@ -137,7 +137,7 @@ namespace NSI.REST.Controllers
 
         // POST api/Documents
         [HttpPost]
-        public IActionResult Post(DocumentDto document)
+        public IActionResult Post(CreateDocumentDto document)
         {
             try
             {

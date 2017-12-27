@@ -1,25 +1,31 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DocumentFilter } from '../../models/documentFilter.model';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { DocumentFilter, DocumentQuery } from '../../models/index.model';
 import { DocumentsService } from '../../../../services/documents.service';
+
+declare var $: any;
 
 @Component({
     selector: 'app-document-filter',
     templateUrl: './document-filter.component.html',
     styleUrls: ['./document-filter.component.css']
 })
-export class DocumentFilterComponent implements OnInit {
+export class DocumentFilterComponent implements OnInit, AfterViewInit {
     localFilterList: string[];
     scopedToCase: boolean = false;
 
     _ref: any;
+    id: number;
     previousChosenFilter: string;
     chosenFilter: string
     hasFollower: boolean;
+    isDateFilter: boolean;
     buttonIcon: string;
+    queryModel: DocumentQuery;
 
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
+        this.queryModel = new DocumentQuery('', 0, 0, '');
         this.buttonIcon = 'fa-plus';
 
         this.documentsService.chosenFilterEvent
@@ -33,9 +39,14 @@ export class DocumentFilterComponent implements OnInit {
 
         this.previousChosenFilter = this.localFilterList[0];
         this.chosenFilter = this.localFilterList[0];
+        this.setIsDateFilter();
 
         let deleteDefaultFilter = new DocumentFilter("add", this, this.localFilterList[0]);
         this.documentsService.chosenFilterEvent.next(deleteDefaultFilter);
+    }
+
+    ngAfterViewInit(): void {
+        $("#"+ this.dateIdentifier()).datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
     }
 
     onButtonClick() {
@@ -53,6 +64,8 @@ export class DocumentFilterComponent implements OnInit {
     }
 
     onFilterChanged() {
+        this.setIsDateFilter();
+
         let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter);
         this.documentsService.chosenFilterEvent.next(addPreviousSelected);  
         
@@ -87,5 +100,31 @@ export class DocumentFilterComponent implements OnInit {
         {
             this.localFilterList = this.documentsService.pushFilterSorted(filterChange.value, this.localFilterList);
         }
+    }
+
+    setIsDateFilter(): void {
+        this.isDateFilter = true;
+
+        if ( this.checkIfDateFilter(this.chosenFilter) ) {
+            this.isDateFilter = false;
+        }
+
+        if ( this.checkIfDateFilter(this.chosenFilter) !== this.checkIfDateFilter(this.previousChosenFilter) ) {
+            this.queryModel.search = '';
+        }
+
+        return;        
+    }
+
+    checkIfDateFilter(filter: string): boolean {
+        if ( filter == "Title" || filter == "Description" || filter == "Case" || filter == "Category" ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    dateIdentifier(): string {
+        return "filterDate" + this.id;
     }
 }
