@@ -15,7 +15,7 @@ namespace NSI.BLL.Interfaces
         bool EditDocument(int id, DocumentDto documentDto);
         List<DocumentDetails> GetAllDocuments();
         Task<string> UploadFileAsync(IFormFile file);
-        bool SaveDocument(DocumentDto document);
+        bool SaveDocument(CreateDocumentDto document);
         List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
         List<DocumentDto> GetDocumentsByCase(int id);
         int GetNumberOfDocumentsByCase(int caseId);

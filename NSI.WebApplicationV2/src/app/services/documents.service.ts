@@ -37,11 +37,11 @@ export class DocumentsService {
   }
 
   getDocuments(): Observable<DocumentDetails[]> {
-    return Observable.create( (observer: Observer<DocumentDetails[]>) => {
-      observer.next(MDD);
-      observer.complete();
-    });
-    //return this.http.get(this._url, {headers: this.headers});
+    //return Observable.create( (observer: Observer<DocumentDetails[]>) => {
+      //observer.next(MDD);
+      //observer.complete();
+    //});
+    return this.http.get<DocumentDetails[]>(this._url, {headers: this.headers});
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {

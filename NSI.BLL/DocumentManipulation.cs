@@ -28,10 +28,10 @@ namespace NSI.BLL
         {
 
             if (file == null || file.Length == 0) return "File not selected";
-
+            var guid = new Guid().ToString().Substring(0,7);
             var path = Path.Combine(
                 Directory.GetCurrentDirectory(), "Documents",
-                file.FileName);
+                file.FileName + guid);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -40,7 +40,7 @@ namespace NSI.BLL
             return path;
         }
 
-        public bool SaveDocument(DocumentDto document)
+        public bool SaveDocument(CreateDocumentDto document)
         {
             if (document == null) throw new Exception("Document is null");
 
