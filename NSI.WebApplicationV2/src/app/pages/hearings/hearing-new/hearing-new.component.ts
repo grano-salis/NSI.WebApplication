@@ -74,7 +74,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.edit = true;
           console.log(data.hearingDate);
           console.log(new Date(data.hearingDate));
-          this.model.hearingDate = this.datePipe.transform(new Date(data.hearingDate).toLocaleString(), 'MM/dd/yyyy, HH:mm:ss');
+          this.model.hearingDate = this.datePipe.transform(new Date(data.hearingDate), 'MM/dd/yyyy, HH:mm:ss');
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
           this.noteText = data.note[0].text;
