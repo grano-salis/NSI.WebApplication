@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { RequestOptions, Headers } from "@angular/http";
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
@@ -13,8 +14,6 @@ import {
 } from '../pages/documents/models/index.model';
 
 import { MDD } from '../pages/documents/models/mockDocumentDetails';
-import { RequestOptions } from "@angular/http";
-import {Headers} from '@angular/http';
 
 @Injectable()
 export class DocumentsService {
@@ -23,12 +22,20 @@ export class DocumentsService {
   filterList: string[];
 
   private readonly filterListFull: string[];    
-  private readonly _url: string;
+  private readonly _url: any;
   private headers = new HttpHeaders();
 
+  documentAdded = new Subject<Document>();
+  documentUpdated = new Subject<{ index: number, document: Document }>();
+  documentUpdatingRequested = new Subject();
+
   constructor(private http: HttpClient) {
-    this._url = environment.serverUrl + '/api/documents/';
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
+    this._url = {
+      'documents': environment.serverUrl + '/api/documents/',
+      'cases': environment.serverUrl + '/api/cases/',
+      'categories': environment.serverUrl + '/api/categories/'
+      };
     
     this.filterListFull = this.generateListOfFilters();
     this.filterList = this.generateListOfFilters();
@@ -41,31 +48,38 @@ export class DocumentsService {
       observer.next(MDD);
       observer.complete();
     });
-    //return this.http.get(this._url, {headers: this.headers});
+    //return this.http.get<DocumentDetails[]>(this._url.documents, {headers: this.headers});
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {
     let body = JSON.stringify(queryModel);
-    return this.http.post(this._url, body, {headers: this.headers});
+    return this.http.post(this._url.documents, body, {headers: this.headers});
   }
 
   getDocumentById(documentId: number): Observable<any> {
-    return this.http.get(this._url + documentId, {headers: this.headers});    
+    return this.http.get(this._url.documents + documentId, {headers: this.headers});    
   }
   
   postDocument(document: Document): Observable<any> {
     let body = JSON.stringify(document);
-    return this.http.post(this._url, body, {headers: this.headers});
+    return this.http.post(this._url.documents, body, {headers: this.headers});
   }
 
-  putDocument(document: Document): Observable<any> {
+  putDocument(index: number, document: Document): Observable<any> {
     let body = JSON.stringify(document);
-    return this.http.post(this._url, body, {headers: this.headers});
+    return this.http.post(this._url.documents, body, {headers: this.headers});
   }
 
-  deleteDocument(document: Document): Observable<any> {
-    let body = JSON.stringify(document);
-    return this.http.post(this._url, body, {headers: this.headers});
+  deleteDocument(documentId: number): Observable<any> {
+    return this.http.post(this._url.documents + documentId, {headers: this.headers});
+  }
+
+  getCaseList(): any {
+    return [];
+  }
+
+  getCategoryList(): any {
+    return [];
   }
 
   onFilterChangeDetected(filterChange: DocumentFilter): void {
@@ -118,10 +132,13 @@ export class DocumentsService {
             "ModifiedAt", "ModifiedAfter"];
   }
 
-  uploadFile(formData: FormData, headers: Headers): string[] {
-     let options = new RequestOptions({ headers: headers });
-     this.http.post(this._url + "upload/", formData)
-                 .subscribe(r => console.log(r));
-    return ["test upload"];
+  uploadFile(formData: FormData, options: any): void {
+     this.http.post(this._url.documents + "upload/", formData, options)
+                  .map((res: any) => res.json())
+                  .catch(error => Observable.throw(error))
+                  .subscribe(
+                      data => console.log('success'),
+                      error => console.log(error)
+                  );
   }
 }

@@ -10,9 +10,22 @@
                 </option>
             </select>
         </div>
-        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-4">
-            <div class="input-group stylish-input-group">
-                <input type="text" class="form-control"  placeholder="Search">
+        
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div [hidden]="isDateFilter">
+                <input type="text" [(ngModel)]="queryModel.search" class="form-control" placeholder="Search">
+            </div>
+            <div [hidden]="!isDateFilter">
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="input-prepend input-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            </span> 
+                            <input type="text" style="margin-bottom: 0px" [name]="dateIdentifier()" [id]="dateIdentifier()" [(ngModel)]="queryModel.search" #{{dateIdentifier()}}="ngModel" class="form-control" placeholder="Choose" required>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
