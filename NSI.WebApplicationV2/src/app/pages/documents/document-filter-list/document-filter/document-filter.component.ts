@@ -25,7 +25,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
-        this.queryModel = new DocumentQuery('sasd', 0, 0, '');
+        this.queryModel = new DocumentQuery('', 0, 0, '');
         this.buttonIcon = 'fa-plus';
 
         this.documentsService.chosenFilterEvent

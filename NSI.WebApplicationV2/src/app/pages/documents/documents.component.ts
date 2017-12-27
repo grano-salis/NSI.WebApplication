@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { Logger } from '../../core/services/logger.service';
 
 const logger = new Logger('documents');
+
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',

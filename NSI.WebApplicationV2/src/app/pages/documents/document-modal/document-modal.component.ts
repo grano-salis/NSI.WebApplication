@@ -32,7 +32,7 @@ export class DocumentModalComponent {
 
     ngOnInit() {
         this.docForm = this.createGroup();
-        this.document = new Document(null, null, null, null, null, null, null);
+        this.document = new Document(null, null, null, null, null, null, null, null);
         this.editingStarted = false;
 
         this.documentsService.documentUpdatingRequested.subscribe((value: DocumentDetails) => { this.editMode ? this.setFormValues(value) : '' });
@@ -92,7 +92,7 @@ export class DocumentModalComponent {
     onUpdateCollection(): void {
         let formData = this.docForm.value;
         let edit = new Document(this.document.documentId, formData.Title, formData.Description, formData.CaseId, 
-            formData.CategoryId, this.document.documentContent, this.document.createdByUserId);
+            formData.CategoryId, this.document.documentContent, this.document.createdByUserId, this.document.documentPath);
         this.documentsService.putDocument(this.documentEditIndex, edit)
             .subscribe(() => {
                 this.resetForm();
