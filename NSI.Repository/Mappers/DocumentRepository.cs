@@ -43,7 +43,8 @@ namespace NSI.Repository.Mappers
                 FileTypeId = document.FileTypeId,
                 DocumentHistory = _dbContext.DocumentHistory.ToList(),
                 CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
-                CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId
+                CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId,
+                Title = document.DocumentTitle
             };
         }
 
@@ -61,6 +62,7 @@ namespace NSI.Repository.Mappers
                 DocumentContent = document.DocumentContent,
                 DocumentDescription = document.Description,
                 DocumentPath = document.DocumentPath,
+                DocumentTitle = document.Title
             };
             return documentDto;
         }
@@ -72,7 +74,7 @@ namespace NSI.Repository.Mappers
             var documentDetails = new DocumentDetails()
             {
                 DocumentId = document.DocumentId,
-                //DocumentTitle = document.
+                DocumentTitle = document.Title,
                 CaseId = document.CaseId,
                 CategoryId = document.DocumentCategoryId,
                 DocumentContent = document.DocumentContent,
