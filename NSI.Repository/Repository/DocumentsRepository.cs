@@ -100,7 +100,7 @@ namespace NSI.Repository.Repository
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.Description = document.DocumentDescription;
             documentEntity.DocumentPath = document.DocumentPath;
-
+            documentEntity.Title = document.DocumentTitle;
             _dbContext.Update(documentEntity);
             var result = _dbContext.SaveChanges();
 
