@@ -52,7 +52,7 @@ namespace NSI.Repository.Repository
                 
                 ItemsPerPage = 10
             };
-            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).ToList();
+            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).Include(f=>f.FileType).ToList();
             var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
                 .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
             result.TotalItems = filteredDocuments.Count();
@@ -129,7 +129,7 @@ namespace NSI.Repository.Repository
 
         DocumentDetails IDocumentRepository.GetDocument(int documentId)
         {
-            var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(x => x.DocumentId == documentId);
+            var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h=>h.DocumentHistory).Include(f=>f.FileType).FirstOrDefault(x => x.DocumentId == documentId);
             return document != null ? DocumentRepository.MapToDocumentDetailsDto(document, _dbContext) : null;
         }
 
@@ -137,6 +137,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
+                document.DocumentId = 0;
                 var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
                 _dbContext.Add(documentEntity);
                 var result = _dbContext.SaveChanges();
