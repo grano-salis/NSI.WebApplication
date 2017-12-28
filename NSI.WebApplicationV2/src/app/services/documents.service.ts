@@ -28,6 +28,9 @@ export class DocumentsService {
   documentAdded = new Subject<Document>();
   documentUpdated = new Subject<{ index: number, document: Document }>();
   documentUpdatingRequested = new Subject();
+  documentCaseChanged = new Subject<number>();
+  documentHistoryRequested = new Subject<DocumentDetails>();
+  documentAll = new Subject();
 
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
@@ -44,16 +47,16 @@ export class DocumentsService {
   }
 
   getDocuments(): Observable<DocumentDetails[]> {
-    // return Observable.create( (observer: Observer<DocumentDetails[]>) => {
-    //   observer.next(MDD);
-    //   observer.complete();
-    // });
     return this.http.get<DocumentDetails[]>(this._url.documents, {headers: this.headers});
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {
     let body = JSON.stringify(queryModel);
-    return this.http.post(this._url.documents, body, {headers: this.headers});
+    return this.http.post(this._url.documents + 'paging', queryModel, {headers: this.headers});
+  }
+
+  getDocumentHistoryByDocumentId(docId: number): Observable<any> {
+    return this.http.get(this._url.documents + 'history' + docId, {headers: this.headers});
   }
 
   getDocumentById(documentId: number): Observable<any> {
@@ -71,15 +74,15 @@ export class DocumentsService {
   }
 
   deleteDocument(documentId: number): Observable<any> {
-    return this.http.post(this._url.documents + documentId, {headers: this.headers});
+    return this.http.delete(this._url.documents + documentId, {headers: this.headers});
   }
 
-  getCaseList(): any {
-    return [];
+  getCaseList(): Observable<any> {
+    return this.http.get<DocumentDetails[]>(this._url.cases, {headers: this.headers});
   }
 
-  getCategoryList(): any {
-    return [];
+  getCategoryList(): Observable<any> {
+    return this.http.get<DocumentDetails[]>(this._url.documents + 'categories', {headers: this.headers});
   }
 
   onFilterChangeDetected(filterChange: DocumentFilter): void {
@@ -128,17 +131,23 @@ export class DocumentsService {
   }
   
   generateListOfFilters(): string[] {
-    return ["Title", "Case", "Category", "Description", "CreatedBefore", "CreatedAt", "CreatedAfter", "ModifiedBefore", 
-            "ModifiedAt", "ModifiedAfter"];
+    return ["Title", "Case", "Category", "Description", "CreatedBefore", /*"CreatedAt",*/ "CreatedAfter", "ModifiedBefore", 
+            /*"ModifiedAt",*/ "ModifiedAfter"];
   }
 
-  uploadFile(formData: FormData, options: any): void {
-     this.http.post(this._url.documents + "upload/", formData, options)
-                  .map((res: any) => res.json())
-                  .catch(error => Observable.throw(error))
-                  .subscribe(
-                      data => console.log('success'),
-                      error => console.log(error)
-                  );
+  uploadFile(formData: FormData, headers: Headers): Observable<any> {
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this._url.documents + "upload", formData)
+              .map((path: string) => { return path; });
   }
+
+  // uploadFile(formData: FormData, options: any): void {
+  //    this.http.post(this._url.documents + "upload/", formData, options)
+  //                 .map((res: any) => res.json())
+  //                 .catch(error => Observable.throw(error))
+  //                 .subscribe(
+  //                     data => console.log('success'),
+  //                     error => console.log(error)
+  //                 );
+  // }
 }

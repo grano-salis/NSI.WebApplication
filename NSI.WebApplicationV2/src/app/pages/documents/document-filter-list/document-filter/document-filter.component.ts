@@ -25,7 +25,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
-        this.queryModel = new DocumentQuery('', 0, 0, '');
+        this.queryModel = new DocumentQuery(0, 0);
         this.buttonIcon = 'fa-plus';
 
         this.documentsService.chosenFilterEvent
@@ -110,7 +110,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         }
 
         if ( this.checkIfDateFilter(this.chosenFilter) !== this.checkIfDateFilter(this.previousChosenFilter) ) {
-            this.queryModel.search = '';
+            this.queryModel.searchByTitle = '';
         }
 
         return;        

@@ -14,6 +14,10 @@
     padding-left: 2px;
 }
 
+.height-26px {
+    height: 26px;
+}
+
 @media screen and (max-width: 480px) {
     #caseHeaderInput {
         font-size: 17px;

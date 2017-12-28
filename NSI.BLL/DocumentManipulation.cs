@@ -28,10 +28,16 @@ namespace NSI.BLL
         {
 
             if (file == null || file.Length == 0) return "File not selected";
-            var guid = new Guid().ToString().Substring(0,7);
+
+            var guid = Guid.NewGuid().ToString().Substring(0,7);
+            List<string> arrayFileName = new List<string>(file.FileName.Split('.'));
+            int lastIndex = arrayFileName.Count - 1;
+            var extension = arrayFileName[lastIndex];
+            arrayFileName.RemoveAt(lastIndex);
+            arrayFileName.Add("-" + guid + "." + extension);
+
             var path = Path.Combine(
-                Directory.GetCurrentDirectory(), "Documents",
-                file.FileName + guid);
+                Directory.GetCurrentDirectory(), "Documents", String.Join("", arrayFileName));
 
             using (var stream = new FileStream(path, FileMode.Create))
             {

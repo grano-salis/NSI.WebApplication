@@ -2,11 +2,11 @@
 							[currentTitle]="selectedDocumentTitle"></app-document-history-modal>
 
 <app-document-modal [scopedToCase]="scopedToCase"
+					[caseNumber]="caseNumber"
 					[editMode]="true"></app-document-modal>							
 
 <div class="row">
 	<div class="x_panel">
-
 		<div class="x_title">
 			<div class="col-md-9">						
 				<h2> Document Overview <small> 12345678 </small> </h2>
@@ -15,7 +15,7 @@
 				<h6 style="float: right"><b>Show</b></h6>
 			</div>
 			<div class="col-md-1">						
-				<select class="form-control" id="category">
+				<select [(ngModel)]="queryModel.resultsPerPage" (change)="onEntriesChanged()" class="form-control" id="category">
 					<option value="5"> 5 </option>
 					<option value="10"> 10 </option>
 					<option value="25"> 25 </option>
@@ -62,7 +62,7 @@
 						
 							<td><p data-placement="top" data-toggle="tooltip" title="History" class="text-center">
 								<span type="button" data-title="History" data-toggle="modal" data-target="#history" 
-								(click)="selectedDocumentTitle = item.documentTitle">
+								(click)="onOpenDocumentHistory(item.documentTitle, item)">
 									<span class="fa fa-history fa-2x"></span></span></p></td>
 							<td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
 								<span type="button" data-title="Edit" data-toggle="modal" data-target="#edit"
@@ -70,7 +70,7 @@
 									<span class="fa fa-edit fa-2x"></span></span></p></td>
 							<td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
 								<span type="button" data-title="Delete" data-toggle="modal" data-target="#delete"
-								(click)="onPreDelete(i)">
+								(click)="onPreDelete(i, item.documentId)">
 									<span class="fa fa-trash fa-2x"></span></span></p></td>
 						</tr>
 					</tbody> 
@@ -81,11 +81,9 @@
 					</div>
 					<div class="col-md-4 col-sm-8 col-xs-8 text-center">
 						<ul class="pagination">
-							<li> <a href="#">Prev</a> </li>
-							<li> <a href="#">1</a> 	</li>
-							<li> <a href="#">2</a>  </li>
-							<li> <a href="#">3</a> 	</li>
-							<li> <a href="#">Next</a> </li>
+							<li> <a (click)="prevPage()"> Prev </a> </li>
+							<li *ngFor="let p of pages">  <a (click)="selectPage(p)">{{ p }} </a> </li> 
+							<li> <a (click)="nextPage()"> Next </a> </li>
 						</ul>
 					</div>
 					<div class="col-md-4 col-sm-2 col-xs-2"></div>
