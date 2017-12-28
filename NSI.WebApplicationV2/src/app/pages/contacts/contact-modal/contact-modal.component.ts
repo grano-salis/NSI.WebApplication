@@ -36,11 +36,16 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   }
 
   updateContact() {
+    this.temp_contact.addressId = this.temp_contact.address.addressId;
     this.setPhonesAndEmails();
     this.contactsService.editContact(this.temp_contact).subscribe((contact: any) => {
       this.closeBtn.nativeElement.click();
       this.onClose.next(this.temp_contact); // emit event
     });
+  }
+
+  byId(item1: any, item2: any) {
+    return item1.addressId === item2.addressId;
   }
 
   newPhone() {
@@ -86,7 +91,6 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
     this.temp_contact.phones = this.temp_contact.phones.concat(mappedPhones);
     for (var i = 0; i < this.temp_contact.phones.length; i++) this.phones_unique[i] = false;
 
-    console.log('phones', this.temp_contact.phones);
     for (let i = 0; i < this.temp_contact.phones.length; i++) {
       for (let j = i + 1; j < this.temp_contact.phones.length; j++) {
         if (this.temp_contact.phones[i].phoneNumber === this.temp_contact.phones[j].phoneNumber) {
@@ -95,7 +99,6 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
         }
       }
     }
-    console.log('index', index);
     return whatToReturn;
   }
 
@@ -108,7 +111,6 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
     let whatToReturn = false;
     this.temp_contact.emails = this.temp_contact.emails.concat(mappedEmails);
     for (var i = 0; i < this.temp_contact.emails.length; i++) this.emails_unique[i] = false;
-    console.log('emails', this.temp_contact.emails);
     for (let i = 0; i < this.temp_contact.emails.length; i++) {
       for (let j = i + 1; j < this.temp_contact.emails.length; j++) {
         if (this.temp_contact.emails[i].emailAddress === this.temp_contact.emails[j].emailAddress) {
@@ -117,7 +119,6 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
         }
       }
     }
-    console.log('index', index);
     return whatToReturn;
   }
   deletePhone(index: number) {

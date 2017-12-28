@@ -49,9 +49,9 @@
                   <div class="form-group">
                     <div class="col-md-8  col-md-offset-2 col-xs-12">
                       <label for="address"> <b> Address </b> </label>
-                      <select [(ngModel)] = "temp_contact.addressId" name ="address" formControlName="address" class="select form-control form-input-beauty">
+                      <select [(ngModel)] = "temp_contact.address" name ="address-new-{{temp_contact.contact1}}" formControlName="address" class="select form-control form-input-beauty">
                         <option *ngFor = "let address of addresses"
-                                [value] = "address.addressId">{{address.address1 + ", " + address.city}}
+                                [ngValue] = "address">{{address.address1 + ", " + address.city}}
                         </option>
                       </select>
                       <div class="help-block with-errors"></div>

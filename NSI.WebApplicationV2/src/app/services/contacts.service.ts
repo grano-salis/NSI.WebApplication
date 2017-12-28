@@ -37,6 +37,7 @@ export class ContactsService {
   }
 
   postContact(contact: any): Observable<any> {
+    delete contact.address;
     const body = JSON.stringify(contact);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post(`${this._url}/api/contacts`, body, {headers: headers});

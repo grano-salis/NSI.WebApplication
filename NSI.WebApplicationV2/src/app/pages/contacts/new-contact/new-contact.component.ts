@@ -40,6 +40,7 @@ export class NewContactComponent {
   newContact() {
     this.temp_contact.taskId = 1;
     this.temp_contact.createdByUserId = 1;
+    this.temp_contact.addressId = this.temp_contact.address.addressId;
     this.setPhonesAndEmails();
     this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {
 
@@ -108,7 +109,6 @@ export class NewContactComponent {
     this.temp_contact.phones = this.temp_contact.phones.concat(mappedPhones);
     for (var i = 0; i < this.temp_contact.phones.length; i++) this.phones_unique[i] = false;
 
-    console.log('phones', this.temp_contact.phones);
     for (let i = 0; i < this.temp_contact.phones.length; i++) {
       for (let j = i + 1; j < this.temp_contact.phones.length; j++) {
         if (this.temp_contact.phones[i].phoneNumber === this.temp_contact.phones[j].phoneNumber) {
@@ -117,7 +117,6 @@ export class NewContactComponent {
         }
       }
     }
-    console.log('index', index);
     return whatToReturn;
   }
 
@@ -130,7 +129,6 @@ export class NewContactComponent {
     let whatToReturn = false;
     this.temp_contact.emails = this.temp_contact.emails.concat(mappedEmails);
     for (var i = 0; i < this.temp_contact.emails.length; i++) this.emails_unique[i] = false;
-    console.log('emails', this.temp_contact.emails);
     for (let i = 0; i < this.temp_contact.emails.length; i++) {
       for (let j = i + 1; j < this.temp_contact.emails.length; j++) {
         if (this.temp_contact.emails[i].emailAddress === this.temp_contact.emails[j].emailAddress) {
@@ -139,7 +137,6 @@ export class NewContactComponent {
         }
       }
     }
-    console.log('index', index);
     return whatToReturn;
   }
 

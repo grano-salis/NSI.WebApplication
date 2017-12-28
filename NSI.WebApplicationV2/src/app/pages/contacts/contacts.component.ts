@@ -79,7 +79,7 @@ export class ContactsComponent implements OnInit {
     this.form = this.formBuilder.group({
       'firstname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
       'lastname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
-      'address': ['', []],
+      'address': ['', [Validators.required]],
       'email': ['', [Validators.required, ValidationService.emailValidator]],
       'phone': ['', [Validators.required, ValidationService.numbersOnlyValidator]],
       'emails': this.formBuilder.array([]),
@@ -112,7 +112,7 @@ export class ContactsComponent implements OnInit {
     this.form = this.formBuilder.group({
       'firstname': [cont.firsttName, [Validators.required, ValidationService.lettersOnlyValidator]],
       'lastname': [cont.lastName, [Validators.required, ValidationService.lettersOnlyValidator]],
-      'address': ['', []],
+      'address': [cont.address, [Validators.required]],
       'email': [firstEmail, [Validators.required, ValidationService.emailValidator]],
       'phone': [firstPhone, [Validators.required, ValidationService.numbersOnlyValidator]],
       'emails': formEmails,
