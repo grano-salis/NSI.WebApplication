@@ -12,7 +12,7 @@ export class TasksService {
   private headers = new HttpHeaders();
 
   constructor(private http: HttpClient) {
-    this._url = environment.serverUrl + '/api/tasks';
+    this._url = environment.serverUrl + '/api/Tasks';
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   }
 

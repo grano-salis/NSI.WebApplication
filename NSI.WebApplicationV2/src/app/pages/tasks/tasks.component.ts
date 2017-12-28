@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
-
+  currentTasks: boolean;
+  tasksHistory: boolean;
   constructor() { }
 
   ngOnInit() {
+    this.currentTasks = true;
   }
 
 }
