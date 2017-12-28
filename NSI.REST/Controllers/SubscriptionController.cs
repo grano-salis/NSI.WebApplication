@@ -77,5 +77,11 @@ namespace NSI.REST.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet("GetBonus/{subscriptionId}/{pricingPackageId}")]
+        public int GetBonusDays(int subscriptionId, int pricingPackageId)
+        {
+            return _subscriptionManipulation.GetBonusDays(subscriptionId, pricingPackageId);
+        }
     }
 }
