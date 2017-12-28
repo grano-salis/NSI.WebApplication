@@ -102,7 +102,7 @@ namespace NSI.REST.Controllers
         //POST /api/Documents/paging
         [HttpPost]
         [Route("paging")]
-        public IActionResult GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
+        public IActionResult GetDocumentsByPage([FromBody]DocumentsPagingQueryModel queryDto)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace NSI.REST.Controllers
 
         // POST api/Documents
         [HttpPost]
-        public IActionResult Post(CreateDocumentDto document)
+        public IActionResult Post([FromBody]CreateDocumentDto document)
         {
             try
             {
