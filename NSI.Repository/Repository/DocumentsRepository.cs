@@ -49,14 +49,13 @@ namespace NSI.Repository.Repository
         {
             var result = new PagingResultModel<DocumentDetails>
             {
-                
-                ItemsPerPage = 10
+                ItemsPerPage = query.ResultsPerPage
             };
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).Include(f=>f.FileType).ToList();
             var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
                 .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
             result.TotalItems = filteredDocuments.Count();
-            result.Results = filteredDocuments.Take(result.ItemsPerPage).ToList();
+            result.Results = filteredDocuments.Skip(query.ResultsPerPage*(query.PageNumber-1)).Take(query.ResultsPerPage).ToList();
             return result;
         }
 
