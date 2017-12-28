@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IkarusEntities;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -23,6 +24,8 @@ namespace NSI.DC.ContactsRepository
         public string Email { get; set; }
         [DataMember]
         public int? AddressId { get; set; }
+        [DataMember]
+        public Address Address { get; set; }
         [DataMember]
         public DateTime CreatedDate { get; set; }
         [DataMember]

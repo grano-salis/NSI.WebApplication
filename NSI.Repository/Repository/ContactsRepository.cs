@@ -72,6 +72,7 @@ namespace NSI.Repository
                     {
                         _dbContext.Entry(item).Collection(p => p.Phone).Load();
                         _dbContext.Entry(item).Collection(p => p.Email).Load();
+                        _dbContext.Entry(item).Reference(p => p.Address).Load();
                         contactDto.Add(Mappers.ContactRepository.MapToDto(item));
                     }
                     var paggedContactsDto = new PaggedContactDto() { Contacts = contactDto, Total = total };
@@ -136,6 +137,7 @@ namespace NSI.Repository
                 {
                     _dbContext.Entry(contact).Collection(p => p.Phone).Load();
                     _dbContext.Entry(contact).Collection(p => p.Email).Load();
+                    _dbContext.Entry(contact).Reference(p => p.Address).Load();
                     return Mappers.ContactRepository.MapToDto(contact);
                 }
             }
@@ -158,6 +160,7 @@ namespace NSI.Repository
                     contactTmp.LastName = contact.LastName;
                     contactTmp.AddressId = contact.AddressId;
                     contactTmp.ModifiedDate = DateTime.Now;
+                    contactTmp.AddressId = contact.AddressId;
                     //delete all phones and emails
                     _dbContext.RemoveRange(_dbContext.Phone.Where(x => x.ContactId == contactTmp.Contact1));
                     _dbContext.RemoveRange(_dbContext.Email.Where(x => x.ContactId == contactTmp.Contact1));
