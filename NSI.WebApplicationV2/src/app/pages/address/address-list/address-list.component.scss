@@ -42,10 +42,9 @@ display: block;
 .modal-body {
   position: relative;
   padding-left: 15px;
-  padding-top: 15px;
   float: left;
   max-width: 100%;
-  margin-top: 20px;
+  margin-top: 3%;
 }
 
 .modal-dialog {
@@ -61,10 +60,10 @@ display: block;
   width: 100%;
 }
 
-#areaField {
-  margin-left: 70px;
-  floaT: left;
-  margin-top: 2%;
+#autoCompleteInput {
+  margin-left: 18%;
+  margin-top: 5%;
+  width: 78%;
 }
 
 .form-group{

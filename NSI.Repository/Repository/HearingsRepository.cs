@@ -41,9 +41,9 @@ namespace NSI.Repository.Repository
                 _dbContext.UserHearing.RemoveRange(atendees);
 
             //remove all notes for this hearing from Note table
-            var notes = _dbContext.Note.Where(x => x.HearingId == hearingId).ToList();
-            if (notes != null)
-                _dbContext.Note.RemoveRange(notes);
+            var note = _dbContext.Note.FirstOrDefault(x => x.HearingId == hearingId && x.CreatedByUserId == model.Note.ElementAt(0).CreatedByUserId);
+            if (note != null)
+                _dbContext.Note.Remove(note);
 
             //update data
             entity.DateModified = DateTime.Now;

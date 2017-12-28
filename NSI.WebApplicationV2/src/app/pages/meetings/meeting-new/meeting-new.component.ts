@@ -101,8 +101,8 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
           console.log(data);
           this.model.title = data.title;
           this.model.meetingPlace = data.meetingPlace;
-          this.model.from = this.datePipe.transform(new Date(data.from).toLocaleString(), 'MM/dd/yyyy, HH:mm:ss');
-          this.model.to = this.datePipe.transform(new Date(data.to).toLocaleString(), 'MM/dd/yyyy, HH:mm:ss');
+          this.model.from = this.datePipe.transform(new Date(data.from), 'MM/dd/yyyy, HH:mm:ss');
+          this.model.to = this.datePipe.transform(new Date(data.to), 'MM/dd/yyyy, HH:mm:ss');
           this.model.userMeeting = data.userMeeting;
         }
         console.log(this.edit);

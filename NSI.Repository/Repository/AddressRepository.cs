@@ -26,9 +26,16 @@ namespace NSI.Repository
             try
             {
                 var address = Mappers.AddressRepository.MapToDbEntity(addressDto);
+
+                address.DateCreated = DateTime.Now;
+                address.DateModified = DateTime.Now;
+
                 _dbContext.Add(address);
+
                 if (_dbContext.SaveChanges() != 0)
+                {
                     return Mappers.AddressRepository.MapToDto(address);
+                }
             }
             catch (Exception ex)
             {
@@ -43,10 +50,11 @@ namespace NSI.Repository
         {
             try
             {
-                var Address = _dbContext.Address.FirstOrDefault(x => x.AddressId == addressId);
-                if (Address != null)
+                var address = _dbContext.Address.FirstOrDefault(x => x.AddressId == addressId);
+
+                if (address != null)
                 {
-                    return Mappers.AddressRepository.MapToDto(Address);
+                    return Mappers.AddressRepository.MapToDto(address);
                 }
             }
             catch (Exception ex)
@@ -61,15 +69,15 @@ namespace NSI.Repository
         {
             try
             {
-                var Addresss = _dbContext.Address;
-                if (Addresss != null)
+                var addresss = _dbContext.Address;
+                if (addresss != null)
                 {
-                    ICollection<AddressDto> AddresssDto = new List<AddressDto>();
-                    foreach (var item in Addresss)
+                    ICollection<AddressDto> addresssDto = new List<AddressDto>();
+                    foreach (var item in addresss)
                     {
-                        AddresssDto.Add(Mappers.AddressRepository.MapToDto(item));
+                        addresssDto.Add(Mappers.AddressRepository.MapToDto(item));
                     }
-                    return AddresssDto;
+                    return addresssDto;
                 }
             }
             catch (Exception ex)
@@ -79,18 +87,19 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool DeleteAddressById(int AddressId)
+        public bool DeleteAddressById(int addressId)
         {
             try
             {
-                var Address = _dbContext.Address.FirstOrDefault(x => x.AddressId == AddressId);
-                if (Address != null)
+                var address = _dbContext.Address.FirstOrDefault(x => x.AddressId == addressId);
+                if (address != null)
                 {
-                    if (_dbContext.Address.Remove(Address) != null)
-                    {
-                        _dbContext.SaveChanges();
-                        return true;
-                    }
+                    address.IsDeleted = true;
+                    address.DateModified = DateTime.Now;
+
+                    _dbContext.SaveChanges();
+
+                    return true;
                 }
                 return false;
             }
@@ -120,12 +129,14 @@ namespace NSI.Repository
 
             try
             {
-                var AddressTmp = _dbContext.Address.FirstOrDefault(x => x.AddressId == addressId);
-                if (AddressTmp != null)
+                var addressTmp = _dbContext.Address.FirstOrDefault(x => x.AddressId == addressId);
+
+                if (addressTmp != null)
                 {
-                    AddressTmp.Address1 = address.Address1 ?? AddressTmp.Address1;
-                    AddressTmp.Address2 = address.Address2 ?? AddressTmp.Address2;
-                    AddressTmp.City = address.City ?? AddressTmp.City;
+                    addressTmp.Address1 = address.Address1 ?? addressTmp.Address1;
+                    addressTmp.Address2 = address.Address2 ?? addressTmp.Address2;
+                    addressTmp.City = address.City ?? addressTmp.City;
+                    addressTmp.DateModified = DateTime.Now;
                     _dbContext.SaveChanges();
                     return true;
                 }
