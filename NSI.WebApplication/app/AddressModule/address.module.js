@@ -8,18 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var address_component_1 = require("./components/address/address.component");
-var AddressModule = (function () {
+var AddressModule = /** @class */ (function () {
     function AddressModule() {
     }
+    AddressModule = __decorate([
+        core_1.NgModule({
+            imports: [],
+            exports: [],
+            declarations: [address_component_1.AddressComponent],
+            providers: []
+        })
+    ], AddressModule);
     return AddressModule;
 }());
-AddressModule = __decorate([
-    core_1.NgModule({
-        imports: [],
-        exports: [],
-        declarations: [address_component_1.AddressComponent],
-        providers: []
-    })
-], AddressModule);
 exports.AddressModule = AddressModule;
 //# sourceMappingURL=address.module.js.map
