@@ -45,7 +45,10 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   }
 
   byId(item1: any, item2: any) {
-    return item1.addressId === item2.addressId;
+    if(item1 && item2) {
+      return item1.addressId == item2.addressId;
+    }
+    return false;
   }
 
   newPhone() {

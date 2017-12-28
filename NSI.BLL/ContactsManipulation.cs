@@ -15,11 +15,17 @@ namespace NSI.BLL
         {
             _contactsRepository = contactRepository;
         }
-      
+
+           
 
         public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
         {
             return _contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder);
+        }
+
+        public IEnumerable<ContactDto> GetContactsForCase(int caseId)
+        {
+            return _contactsRepository.GetContactsForCase(caseId);
         }
 
         public ContactDto CreateContact(ContactDto contactDto)

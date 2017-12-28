@@ -120,6 +120,55 @@
                         </div>
                     </div>
                 </div>
+                
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Available meeting times for all users</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group" *ngIf="usersAvailableForMeeting.length > 0">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users-list">The following users have meeting in the specified time</label>
+                                    <div class="col-md-8">
+                                        <ul style="list-style: none;">
+                                            <li *ngFor="let item of usersAvailableForMeeting">
+                                                <div *ngIf="!(item.from == null || item.to == null)" class="alert alert-danger">
+                                                    <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
+                                                    <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
+                                                    <p class="card-text">Title : {{item.title}}</p>
+                                                    <p *ngFor="let x of item.userMeeting" class="card-text">User attending: {{x.userName}}</p>
+                                                </div>
+                                            </li>
+                                        </ul>   
+                                    </div>
+                                </div>
+
+                                <div class="form-group" *ngIf="availableMeetings.length > 0">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Available meeting times</label>
+                                    <div class="col-md-8">
+                                        <ul style="list-style: none;">
+                                            <li *ngFor="let item of availableMeetings">
+                                                <div class="alert alert-info" *ngIf="!(item.from == null || item.to == null)">
+                                                    <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
+                                                    <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
+                                                </div>
+                                            </li>
+                                        </ul>   
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Submit -->
                 <div class="ln_solid"></div>
@@ -129,6 +178,7 @@
                         <button type="submit" [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)" class="btn btn-success" *ngIf="!edit">Submit</button>
                         <button type="reset" class="btn btn-default" (click)="newMeeting(); meetingForm.reset()">New meeting</button>
                         <button type="button" class="btn btn-danger" (click)="deleteMeeting()" [disabled]="!meetingForm.form.valid">Delete</button>
+                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-default" (click)="checkUsersAvailability()" [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)" >Check users availability</button>      
                     </div>
                 </div>
 

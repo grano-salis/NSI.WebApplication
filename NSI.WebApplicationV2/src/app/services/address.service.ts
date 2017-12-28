@@ -28,4 +28,14 @@ export class AddressService {
     return this.http.post( environment.serverUrl + '/api/address', body, {headers: this.headers});
   }
 
+  updateAddress(address: Address): Observable<any> {
+    const body = JSON.stringify(address);
+    return this.http.put( environment.serverUrl + '/api/address/' + address.addressId, body, {headers: this.headers});
+  }
+
+  deleteAddress(address: Address): Observable<any> {
+    const body = JSON.stringify(address);
+    return this.http.delete( environment.serverUrl + '/api/address/' + address.addressId, {headers: this.headers});
+}
+
 }

@@ -23,7 +23,7 @@ namespace NSI.Repository.Repository
 
         public List<DocumentDetails> GetAllDocuments()
         {
-            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
+            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h=>h.DocumentHistory).Include(f => f.FileType);
             return documents.Where(doc => !doc.IsDeleted).Select(document => DocumentRepository.MapToDocumentDetailsDto(document, _dbContext)).ToList();
         }
 
@@ -37,7 +37,14 @@ namespace NSI.Repository.Repository
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory);
             return documents.Where(doc => !doc.IsDeleted && doc.CaseId == id).Select(document => DocumentRepository.MapToDto(document, _dbContext)).ToList();
         }
+        public int GetNumberOfDocumentsByCase(int caseId)
+        {
+            var documents = _dbContext.Document.Where(x => x.CaseId == caseId);
+            int n = documents.Count();
+            return n;
 
+
+        }
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDetails>
@@ -45,7 +52,7 @@ namespace NSI.Repository.Repository
                 
                 ItemsPerPage = 10
             };
-            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).ToList();
+            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).ToList();
             var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
                 .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
             result.TotalItems = filteredDocuments.Count();
@@ -72,7 +79,7 @@ namespace NSI.Repository.Repository
             var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == id);
             document.IsDeleted = true;
             var response = _dbContext.Update(document);
-            //AddToHistory(document);
+            AddToHistory(document);
             _dbContext.SaveChanges();
             return response != null;
         }
@@ -126,14 +133,14 @@ namespace NSI.Repository.Repository
             return document != null ? DocumentRepository.MapToDocumentDetailsDto(document, _dbContext) : null;
         }
 
-        int IDocumentRepository.SaveDocument(DocumentDto document)
+        int IDocumentRepository.SaveDocument(CreateDocumentDto document)
         {
             try
             {
                 var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
                 _dbContext.Add(documentEntity);
                 var result = _dbContext.SaveChanges();
-                //AddToHistory(documentEntity);
+                AddToHistory(documentEntity);
                 return result;
             }
             catch (Exception ex)

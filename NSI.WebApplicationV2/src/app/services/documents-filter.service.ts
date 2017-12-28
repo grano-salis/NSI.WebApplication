@@ -11,6 +11,7 @@ import { DocumentFilterComponent } from '../pages/documents/document-filter-list
 @Injectable()
 export class DocumentsFilterService {
   rootViewContainer: ViewContainerRef;
+  filterCounter: number = 0;  
 
   constructor(private factoryResolver: ComponentFactoryResolver) {
     this.factoryResolver = factoryResolver;
@@ -31,6 +32,9 @@ export class DocumentsFilterService {
       component.instance.scopedToCase = true;
     }
     component.instance._ref = component;
+    component.instance.id = this.filterCounter + 1;
+
+    this.filterCounter = this.filterCounter + 1;
 
     this.rootViewContainer.insert(component.hostView);
 

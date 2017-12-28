@@ -12,9 +12,9 @@ export class DocumentListComponent implements OnInit {
     documents: DocumentDetails[];
     selectedDocumentTitle: string;
     selectedDocument: DocumentDetails;
-    toBeEditedItem: Document;
     toBeDeletedItemIndex: number;
-
+    toBeDeletedItemId: number;
+    
     constructor(private documentsService: DocumentsService) {}
 
     ngOnInit() {
@@ -25,19 +25,31 @@ export class DocumentListComponent implements OnInit {
         );
     }
 
-    onPreEdit(item: DocumentDetails): void {
-        this.toBeEditedItem.documentId = item.documentId;
+    onPreEdit(value: DocumentDetails): void {
+        let document = new DocumentDetails(value.documentId, value.documentTitle, value.documentDescription, value.caseId, 
+            value.categoryId, value.documentContent, value.createdByUserId, value.fileTypeId, value.documentPath, value.author,
+            value.caseNumber, value.documentCategoryName, value.fileIconPath, value.createdAt, value.modifiedAt);
+
+        this.documentsService.documentUpdatingRequested.next(document);
     }
 
-    onPreDelete(index: number): void {
+    onPreDelete(index: number, id: number): void {
         this.toBeDeletedItemIndex = index;
+        this.toBeDeletedItemId = id;
     }
 
     onDeleteItem(): void {
-        this.documents.splice(this.toBeDeletedItemIndex, 1);
+        this.documentsService.deleteDocument(this.toBeDeletedItemId)
+            .subscribe( () => this.documents.splice(this.toBeDeletedItemIndex, 1));
     }
 
     onCancelDelete(): void {
         this.toBeDeletedItemIndex = -1;
+    }
+
+    subscribe(): void {
+    //     this.addressService.addressAdded.subscribe((address: AddressDetail) => { this.addresses.push(address); });
+    //     this.addressService.addressUpdated.subscribe((item: { index: number, address: AddressDetail }) => { this.addresses[item.index] = item.address });
+    // 
     }
 }

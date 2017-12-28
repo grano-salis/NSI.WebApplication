@@ -3,23 +3,21 @@ export class Document {
     documentTitle: string;
     documentDescription: string;
     caseId: number;
-    documentCategoryId: number;
-    fileTypeId: number;     
-    documentPath: string;
+    categoryId: number;
     documentContent: string;
     createdByUserId: number;
+    documentPath: string; 
 
-    constructor(documentId: number, title: string, description: string, caseId: number, documentCategoryId: number, fileTypeId: number,
-        documentPath: string, documentContent: string, createdByUserId: number) {
+    constructor(documentId: number, title: string, description: string, caseId: number, categoryId: number, 
+        documentContent: string, createdByUserId: number, documentPath: string) {
 
         this.documentId = documentId;
         this.documentTitle = title;
         this.documentDescription = description;
         this.caseId = caseId;
-        this.documentCategoryId = documentCategoryId;
-        this.fileTypeId = fileTypeId;        
-        this.documentPath = documentPath;
+        this.categoryId = categoryId;
         this.documentContent = documentContent;
         this.createdByUserId = createdByUserId;
+        this.documentPath = documentPath;
     } 
 }

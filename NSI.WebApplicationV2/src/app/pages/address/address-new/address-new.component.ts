@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Address} from '../address.model';
 import {AddressService} from '../../../services/address.service';
+import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 import {AddressType} from '../addressType.model';
 import {AddressTypeService} from '../../../services/addressType.service';
 import { Router } from '@angular/router';

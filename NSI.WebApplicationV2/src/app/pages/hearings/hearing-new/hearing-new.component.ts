@@ -4,6 +4,7 @@ import { HearingsService } from '../../../services/hearings.service';
 import { UsersService } from '../../../services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from "../../../services/alert.service";
+import { DatePipe } from '@angular/common';
 
 
 declare var $: any;
@@ -11,13 +12,14 @@ declare var $: any;
 @Component({
   selector: 'app-hearing-new',
   templateUrl: './hearing-new.component.html',
-  styleUrls: ['./hearing-new.component.scss']
+  styleUrls: ['./hearing-new.component.scss'],
+  providers: [DatePipe]
 })
 export class HearingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     let self = this;
-    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, HH:mm:ss" });
     $("#hearingDate").on("dp.change", function (e: any) {
       self.model.hearingDate = $("#hearingDate").val();
     });
@@ -30,10 +32,11 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   date: string;
   noteText: string;
   id: number;
+  noteIndex: number;
   public edit: boolean = false;
 
   constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute,
-    private router: Router, private alertService: AlertService) {
+    private router: Router, private alertService: AlertService, private datePipe: DatePipe) {
     this.query = '';
     this.filteredList = [];
     this.notes = [];
@@ -72,7 +75,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.edit = true;
           console.log(data.hearingDate);
           console.log(new Date(data.hearingDate));
-          this.model.hearingDate = new Date(data.hearingDate).toLocaleString();
+          this.model.hearingDate = this.datePipe.transform(new Date(data.hearingDate), 'MM/dd/yyyy, HH:mm:ss');
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
           this.noteText = data.note[0].text;
@@ -88,7 +91,15 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
-    this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
+    this.noteIndex = this.model.note.findIndex(x => x.createdByUserId == 1);
+    if(this.noteIndex != null)
+    {
+      this.model.note.splice(this.noteIndex, 1,{ text: this.noteText, createdByUserId: 1, hearingId: 5 });
+    }
+    else
+    {
+      this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
+    }
     this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => this.alertService.showSuccess("Success", "Hearing updated"),
       (error: any) => this.alertService.showError(error.error.message));
   }

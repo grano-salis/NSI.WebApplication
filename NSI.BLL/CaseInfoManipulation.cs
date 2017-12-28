@@ -5,6 +5,7 @@ using NSI.BLL.Interfaces;
 using NSI.DC.CaseRepository;
 using NSI.Repository.Interfaces;
 using IkarusEntities;
+using NSI.BLL.Helpers;
 
 namespace NSI.BLL
 {
@@ -37,12 +38,17 @@ namespace NSI.BLL
             return _caseInfoRepository.GetLatestCaseInfos();
         }
 
-        public bool  DeleteCaseInfoById(int caseId) {
-            return _caseInfoRepository.DeleteCaseInfoById(caseId);
-        }
+        //public bool  DeleteCaseInfoById(int caseId) {
+        //    return _caseInfoRepository.DeleteCaseInfoById(caseId);
+        //}
         public bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto) {
             return _caseInfoRepository.EditCaseInfoById(caseId, caseInfoDto);
         }
+        public void Delete(int caseId)
+        {
+            ValidationHelper.IntegerGreaterThanZero(caseId, name: "Case id");
+            _caseInfoRepository.DeleteCase(caseId);
+        }
 
-	}
+    }
 }
