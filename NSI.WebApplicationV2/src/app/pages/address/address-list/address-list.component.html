@@ -16,29 +16,29 @@
                 <th><span class="glyphicon glyphicon-home"></span> Address 2</th>
                 <th>Address Type id</th>
                 <th>City</th>                
-                <th><span class="glyphicon glyphicon-calendar"></span> Date created</th>
-                <th><span class="glyphicon glyphicon-calendar"></span> Date Modified</th>                
+                <th><span class="glyphicon glyphicon-calendar"></span> Date Modified</th>
                 <th>Zip code</th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let address of addresses">                
+            <tbody>                           
+               <ng-container *ngFor="let address of addresses">
+                 <tr *ngIf="!address.isDeleted">   
                 <td>{{address.address1}}</td>
                 <td>{{address.address2}}</td>
                 <td>{{address.addressTypeId}}</td>
                 <td>{{address.city}}</td>                
-                <td>{{address.dateCreated}}</td>
                 <td>{{address.dateModified}}</td>                
                 <td>{{address.zipCode}}</td>
-                <div>
-                  <div>
-                    <button type="button" class="fa fa-edit btn-primary" (click)="openEditModal(address)" data-target="#myModal"></button>
-                  </div>
-                  <div>
-                    <button type="button" class="fa fa-trash btn-danger" (click)="openRemoveModal(address)" data-target="#myModal"></button>
-                  </div>
-                </div>
-              </tr>
+                <td>
+                  <a class="btn btn-primary btn-xs" (click)="openEditModal(address)" data-target="#myModal">
+                    <i class="fa fa-edit"></i>
+                  </a>
+                  <a class="btn btn-danger btn-xs" (click)="openRemoveModal(address)" data-target="#myModal">
+                    <i class="fa fa-trash"></i>
+                  </a>
+                </td></tr>
+               </ng-container>               
+              
             </tbody>
           </table>
         </div>
@@ -58,8 +58,8 @@
           </button>
           <h4 class="modal-title">Edit Address data</h4>
         </div>
-        <div class="form-group" id="areaField">
-          <div class="col-md-6 col-sm-6 col-xs-12">
+        
+          <div class="col-md-12 col-sm-12 col-xs-12" id="autoCompleteInput">
             <fieldset>
               <div class="control-group">
                 <div class="controls">
@@ -70,7 +70,7 @@
               </div>
             </fieldset>
           </div>
-        </div>
+        
         <div class="modal-body">
           <form (ngSubmit)="onSubmit()" #addressNewForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
 

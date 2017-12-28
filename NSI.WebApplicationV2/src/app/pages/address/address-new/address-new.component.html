@@ -6,23 +6,20 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <br />
-
-        <form (ngSubmit)="onSubmit()" #addressNewForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
-
-          <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <fieldset>
-                <div class="control-group">
-                  <div class="controls">
-                    <div class="input-prepend input-group">
-                      <ng4geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+          
+              <div class="col-md-12 col-sm-12 col-xs-12" id="autoCompleteControl">
+                <fieldset>
+                  <div class="control-group">
+                    <div class="controls">
+                      <div class="input-prepend input-group">
+                        <ng4geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </fieldset>
-            </div>
-          </div>
+                </fieldset>
+              </div>            
+
+        <form (ngSubmit)="onSubmit()" #addressNewForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
 
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Address 1<span class="required">*</span>

@@ -42,7 +42,9 @@ namespace NSI.Repository.Mappers
                 City = address.City,
                 ZipCode = address.ZipCode,
                 AddressTypeId = address.AddressTypeId,
-                CreatedByUserId = address.CreatedByUserId
+                CreatedByUserId = address.CreatedByUserId,
+                IsDeleted = address.IsDeleted ?? false,
+                DateModified = address.DateModified
             };
         }
     }

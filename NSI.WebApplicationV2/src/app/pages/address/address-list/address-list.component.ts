@@ -132,10 +132,19 @@ export class AddressListComponent implements OnInit {
   }
 
   deleteAddress(){
+
     this.addressService.deleteAddress(this._address).subscribe((r: any) => console.log('Delete method address: ' + r),
-    (error: any) => console.log('Error: ' + error.message));
+    (error: any) => console.log('Error: ' + error.message));    
+    
+    let index = this.addresses.indexOf(this._address);
+
+    if(index != -1)
+    {
+      this.addresses.splice(index,1);
+    }
+
     this.displayDelete = "none";
 
-    $(document).ready(()=> location.reload());
+    //$(document).ready(()=> location.reload());
   }
 }
