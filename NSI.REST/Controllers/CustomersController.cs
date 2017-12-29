@@ -63,7 +63,6 @@ namespace NSI.REST.Controllers
             try{
                 return Ok(_customersManipulation.DeleteCustomerById(id));
             }catch(Exception error){
-                Console.WriteLine(error);
                 return BadRequest(error.Message);
             }
         }
@@ -75,7 +74,6 @@ namespace NSI.REST.Controllers
             try{
             return Ok(_customersManipulation.EditCustomer(customerDto));
             }catch(Exception error){
-                Console.WriteLine(error.ToString());
                 return BadRequest(error.Message);
             }
         }
