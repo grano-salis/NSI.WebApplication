@@ -7,7 +7,7 @@ using IkarusEntities;
 
 namespace NSI.Repository.Repository
 {
-    public partial class ClientRepository:IClientRepository
+    public partial class ClientRepository : IClientRepository
     {
 
         private readonly IkarusContext _dbContext;
@@ -28,7 +28,7 @@ namespace NSI.Repository.Repository
                 _dbContext.Add(client);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.ClientRepository.MapToDto(client);
-                                    
+
             }
             catch (Exception ex)
             {
@@ -44,7 +44,8 @@ namespace NSI.Repository.Repository
             try
             {
                 var client = _dbContext.Client.FirstOrDefault(x => x.ClientId == clientId);
-                if(client != null){
+                if (client != null)
+                {
                     client.IsDeleted = true;
                     _dbContext.SaveChanges();
 
@@ -91,8 +92,9 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                var client = _dbContext.Client.FirstOrDefault(x=>x.ClientId == clientId);
-                if (client != null){
+                var client = _dbContext.Client.FirstOrDefault(x => x.ClientId == clientId);
+                if (client != null)
+                {
                     return Mappers.ClientRepository.MapToDto(client);
                 }
             }
@@ -110,9 +112,11 @@ namespace NSI.Repository.Repository
             try
             {
                 var client = _dbContext.Client;
-                if (client != null){
+                if (client != null)
+                {
                     ICollection<ClientDTO> clients = new List<ClientDTO>();
-                    foreach (var item in client){
+                    foreach (var item in client)
+                    {
                         if (item.IsDeleted == true)
                         {
                             clients.Add(Mappers.ClientRepository.MapToDto(item));
@@ -120,7 +124,7 @@ namespace NSI.Repository.Repository
                     }
                     return clients;
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -135,16 +139,13 @@ namespace NSI.Repository.Repository
         {
             try
             {
-                var client = _dbContext.Client.Where(x=>x.IsDeleted.Equals(false));
+                var client = _dbContext.Client.Where(x => x.IsDeleted.Equals(false));
                 if (client != null)
                 {
                     ICollection<ClientDTO> clients = new List<ClientDTO>();
                     foreach (var item in client)
                     {
-                        if (item.IsDeleted == true)
-                        {
-                            clients.Add(Mappers.ClientRepository.MapToDto(item));
-                        }
+                        clients.Add(Mappers.ClientRepository.MapToDto(item));
                     }
                     return clients;
                 }
@@ -164,6 +165,7 @@ namespace NSI.Repository.Repository
             try
             {
                 var client = _dbContext.Client.Where(x => searchQuery(x, searchClient));
+                Console.WriteLine(client);
                 if (client != null)
                 {
                     ICollection<ClientDTO> clientDto = new List<ClientDTO>();
@@ -171,6 +173,7 @@ namespace NSI.Repository.Repository
                     {
                         clientDto.Add(Mappers.ClientRepository.MapToDto(item));
                     }
+                    Console.WriteLine(clientDto);
                     return clientDto;
                 }
             }
@@ -184,6 +187,9 @@ namespace NSI.Repository.Repository
 
         public bool searchQuery(Client ClientDTO, ClientSearchDTO clientSearchDto)
         {
+            Console.WriteLine(clientSearchDto.AddressId);
+            Console.WriteLine(clientSearchDto.CustomerId);
+            Console.WriteLine(clientSearchDto.ClientTypeId);
             return (ClientDTO.ClientName.Contains(clientSearchDto.ClientName) || String.IsNullOrWhiteSpace(clientSearchDto.ClientName)) &&
                 (ClientDTO.DateCreated >= clientSearchDto.FromCreated || clientSearchDto.FromCreated.Equals(null)) &&
                 (ClientDTO.DateCreated <= clientSearchDto.ToCreated || clientSearchDto.ToCreated.Equals(null)) &&

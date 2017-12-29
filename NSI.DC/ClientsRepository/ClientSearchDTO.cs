@@ -11,9 +11,9 @@ namespace NSI.DC.ClientsRepository
         [DataMember]
         public bool? IsDeleted { get; set; }
         [DataMember]
-        public int ClientTypeId { get; set; }
+        public int? ClientTypeId { get; set; }
         [DataMember]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [DataMember]
         public int? AddressId { get; set; }
         [DataMember]
