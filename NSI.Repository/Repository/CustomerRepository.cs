@@ -5,12 +5,18 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using NSI.Repository.Interfaces;
+using NSI.DC.Exceptions;
+using NSI.DC.Exceptions.Enums;
+using Npgsql;
+using System.Data.Entity.Infrastructure;
 
 namespace NSI.Repository
 {
     public partial class CustomerRepository : ICustomerRepository
     {
         private readonly IkarusContext _dbContext;
+
+        public Exception NSIExcepiton { get; private set; }
 
         public CustomerRepository(IkarusContext dbContext)
         {
@@ -22,6 +28,7 @@ namespace NSI.Repository
             try
             {
                 var customer = Mappers.CustomerRepository.MapToDbEntity(customerDto);
+                customer.CustomerId = null;
                 customer.DateCreated = DateTime.Now;
                 customer.DateModified = DateTime.Now;
 
@@ -31,10 +38,19 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw ex.InnerException;
-                //throw new Exception("Database error!");
+                if (ex.InnerException.GetType().ToString() == "Npgsql.PostgresException")
+                {
+                        PostgresException postgresException = (PostgresException)ex.InnerException;
+                        if (postgresException.SqlState == "23503")
+                            throw new NSIException("Foreign key error: " + postgresException.Detail, Level.Error, ErrorType.InvalidParameter);
+                        if (postgresException.SqlState == "23505")
+                            throw new NSIException("Primary key error: " + postgresException.Detail, Level.Error, ErrorType.InvalidParameter);
+                        throw new NSIException("Db error: " + postgresException.Detail, Level.Error, ErrorType.DBError);
+                } else {
+                    throw ex.InnerException;
+                }
             }
+
             return null;
 
         }
@@ -51,9 +67,13 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                if (ex.InnerException.GetType().ToString() == "Npgsql.PostgresException")
+                {
+                        PostgresException postgresException = (PostgresException)ex.InnerException;
+                        throw new NSIException("Db error: " + postgresException.Detail, Level.Error, ErrorType.DBError);
+                } else {
+                    throw ex.InnerException;
+                }
             }
             return null;
         }
@@ -75,8 +95,13 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                if (ex.InnerException.GetType().ToString() == "Npgsql.PostgresException")
+                {
+                        PostgresException postgresException = (PostgresException)ex.InnerException;
+                        throw new NSIException("Db error: " + postgresException.Detail, Level.Error, ErrorType.DBError);
+                } else {
+                    throw ex.InnerException;
+                }
             }
             return null;
         }
@@ -96,8 +121,13 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                if (ex.InnerException.GetType().ToString() == "Npgsql.PostgresException")
+                {
+                        PostgresException postgresException = (PostgresException)ex.InnerException;
+                        throw new NSIException("Db error: " + postgresException.Detail, Level.Error, ErrorType.DBError);
+                } else {
+                    throw ex.InnerException;
+                }
             }
         }
 
@@ -134,8 +164,13 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                if (ex.InnerException.GetType().ToString() == "Npgsql.PostgresException")
+                {
+                        PostgresException postgresException = (PostgresException)ex.InnerException;
+                        throw new NSIException("Db error: " + postgresException.Detail, Level.Error, ErrorType.DBError);
+                } else {
+                    throw ex.InnerException;
+                }
             }
         }
 
@@ -156,8 +191,13 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                if (ex.InnerException.GetType().ToString() == "Npgsql.PostgresException")
+                {
+                        PostgresException postgresException = (PostgresException)ex.InnerException;
+                        throw new NSIException("Db error: " + postgresException.Detail, Level.Error, ErrorType.DBError);
+                } else {
+                    throw ex.InnerException;
+                }
             }
             return null;
         }

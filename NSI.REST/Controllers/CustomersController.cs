@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using NSI.BLL.Interfaces;
+using NSI.DC.Exceptions;
 
 namespace NSI.REST.Controllers
 {
@@ -23,13 +24,17 @@ namespace NSI.REST.Controllers
         [HttpGet]
         public ActionResult GetCustomers()
         {   
-            
-            return Ok(_customersManipulation.GetCustomers());
+            List<CustomerDto> CustomerDto=_customersManipulation.GetCustomers().ToList();
+            CustomerDto.ForEach(x => x.logoLink="https://www.seoclerk.com/pics/want54841-1To5V31505980185.png");
+            return Ok( CustomerDto );
+            //return Ok(_customersManipulation.GetCustomers());
         }
         [HttpGet("all")]
         public ActionResult GetAllCustomers()
         {   
-            return Ok(_customersManipulation.GetAllCustomers());
+            List<CustomerDto> CustomerDto=_customersManipulation.GetAllCustomers().ToList();
+            CustomerDto.ForEach(x => x.logoLink="https://www.seoclerk.com/pics/want54841-1To5V31505980185.png");
+            return Ok( CustomerDto );
         }
 
         [HttpGet("{id}")]
@@ -39,22 +44,40 @@ namespace NSI.REST.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNewCustomer(CustomerDto customerDto)
+        public ActionResult CreateNewCustomer([FromBody]CustomerDto customerDto)
         {
-            return Ok(_customersManipulation.CreateCustomer(customerDto));
+            try{
+                return Ok(_customersManipulation.CreateCustomer(customerDto));
+            }catch(NSIException error){
+                //if(error.)
+                return BadRequest(error.Message);
+            } catch(Exception ex){
+                
+                return StatusCode(500,ex.Message);;
+            }
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteCustomer(int id)
         {
-            return Ok(_customersManipulation.DeleteCustomerById(id));
+            try{
+                return Ok(_customersManipulation.DeleteCustomerById(id));
+            }catch(Exception error){
+                Console.WriteLine(error);
+                return BadRequest(error.Message);
+            }
         }
 
 
         [HttpPut]
         public ActionResult EditCustomer(CustomerDto customerDto)
         {
+            try{
             return Ok(_customersManipulation.EditCustomer(customerDto));
+            }catch(Exception error){
+                Console.WriteLine(error.ToString());
+                return BadRequest(error.Message);
+            }
         }
 
         [HttpPost("search")]

@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 export class ClientDetailsComponent implements OnInit {
 
 	id: number;
-	client: Client;
-	private sub: any;
+	client: Client = undefined;
+	private sub: any = [];
 
 	constructor(private clientsService: ClientsService, private route: ActivatedRoute, private router:Router) {
 	}
