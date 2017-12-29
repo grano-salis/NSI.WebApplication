@@ -1,0 +1,179 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div role="main">
+  <div class="clearfix">
+<div class='panel panel-primary' *ngIf='case'>
+  <div class='panel-footer'>
+
+  {{pageTitle + ':' + case.caseNumber}}
+</div>
+<div class='panel-body'>
+  <div class='row'>
+     
+      <div class='col-md-6'>
+          <div class='row'>
+              <div class='col-md-3'>Number:</div>
+              <div class='col-md-6'>{{case.caseNumber}}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Code:</div>
+              <div class='col-md-6'>{{case.courtNumber}}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Value:</div>
+              <div class='col-md-6'>{{case.value  | currency:'USD':true:'1.2-2' }}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Judge:</div>
+              <div class='col-md-6'>{{case.judge | uppercase}}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Court:</div>
+              <div class='col-md-6'>{{case.court | uppercase}}</div>
+          </div>
+          
+          
+          <div class='row'>
+           
+             <div class='col-md-3'>Hearing:</div>
+                  <div class='col-md-6'>
+                     
+                         
+                           
+                              
+                              <tr *ngFor="let hearing of hearings">
+                                    <!--  <td>{{hearings | json}}</td> -->
+                                 <td>{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
+
+                              </tr>
+                          
+                          </div>
+                  </div>
+          </div>
+          
+      <div class='row'>
+                  
+                      <div class='col-md-3'>Documents related:</div>
+                      <div class='col-md-6'>{{document}}</div>
+                      
+                        <div class='col-md-3'>Counter party:</div>
+                        <div class='col-md-6'>{{case.counterParty | uppercase}}</div>
+                    
+                    
+                        <div class='col-md-3'>Case category:</div>
+                        <div class='col-md-6'>{{case.caseCategory | number:0}}</div>
+                    
+                    
+                        <div class='col-md-3'>Date created:</div>
+                        <div class='col-md-6'>{{case.dateCreated  | date :  "dd.MM.y"}}</div>
+                   
+              </div>
+             
+      
+  </div>
+</div>
+
+<ul class="nav nav-pills nav-justified">
+        <!--<div class="col-lg-4 p-0">-->
+               
+            <button id="sectionTabOpen"
+                    class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
+                    (click)="getTab('Hearings')">
+              Hearings
+            </button>
+            <button id="sectionGroupsTabOpen"
+                    class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
+                    (click)="getTab('Contacts')">
+              Contacts
+            </button>
+            <button id="meetingsTabOpen"
+            class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
+            (click)="getTab('Meetings')">
+             Meetings
+            </button>
+            <button id="DocumentsTabOpen"
+            class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
+            (click)="getTab('Documents')">
+            Document
+        </button>
+                </ul> 
+
+<div class='panel-footer'>
+  <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+    <i class='glyphicon glyphicon-chevron-left'></i>Back
+
+</a>
+       
+</div>
+   
+  </div>
+
+
+
+
+
+</div>
+
+</div>
+
+    
+
+
+
+<div>
+    <div *ngIf="taskTabOpenName === 'Hearings'">
+        <h3>Time of hearing for this case is:</h3>
+        <tr *ngFor="let hearing of hearings">
+            <!--  <td>{{hearings | json}}</td> -->
+         <td>{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
+
+      </tr>
+        </div>
+        <div *ngIf="taskTabOpenName === 'Contacts'">
+                <div class='col-md-6'>{{contacts | json}}</div>
+        </div>
+        <div *ngIf="taskTabOpenName === 'Documents'">
+              <!--  <div class='col-md-6'>{{docs | json}}</div> -->
+              <div class="x_content">
+                    <table class="table table-hover">
+                      <thead>
+                      <tr>
+                        <th>Document Title</th>
+                        <th>Category Name</th>
+                        <th>Document Description</th>
+                        <th>Document Content</th>
+                        <th>Last Modified</th>
+                       
+                      </tr>
+                      </thead>
+                      <tbody>
+                    <tr *ngFor="let doc of docs">
+                                  <!--  <td>{{hearings | json}}</td> -->
+                              <!-- <td>{{doc.documentTitle | uppercase}}</td> -->
+                               <td>{{doc.categoryName | uppercase}}</td>
+                               <td></td>
+                               <td>{{doc.documentDescription | uppercase}}</td>
+                               <td>{{doc.documentContent | uppercase}}</td>
+                               <td>{{doc.lastModified | date :  "dd.MM.y"}}</td>
+                               <td></td>
+                      </tbody>
+                    </table>
+          
+          
+          
+                  </div>
+
+        </div>
+        <div *ngIf="taskTabOpenName === 'Meetings'">
+        meetings
+        </div>
+
+
+
+
+
+
+</div>

@@ -1,0 +1,51 @@
+.suggestions{
+	border:solid 1px #f1f1f1;
+	position:absolute;
+	width: 100%;
+    background: white;
+    z-index: 1000;
+    margin-top: 35px;
+}
+
+.suggestions ul{
+	padding: 0px;
+	margin: 0px;
+}
+
+.suggestions ul li{
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.suggestions ul li a{
+	padding:5px;
+	display: block;
+	text-decoration: none;
+	color:#7E7E7E;
+}
+
+.suggestions ul li a:hover{
+	background-color: #f1f1f1;
+}
+
+.selected{
+	border:solid darkcyan 1px;
+	border-radius: 2px;
+	float:left; 
+	margin:2px;
+	padding:2px 15px;
+}
+ 
+.selected a{
+	cursor:pointer;
+	font-weight:bold;
+}
+
+.warningMessages {
+	padding: 1px 1px 1px 1px;
+}
+
+.warningMessages div {
+	padding: 2px 2px 2px 2px;
+}

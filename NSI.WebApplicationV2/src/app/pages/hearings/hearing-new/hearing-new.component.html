@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2 *ngIf="!edit">Create a new hearing</h2>
+                <h2 *ngIf="edit">Update an existing hearing</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                <form (ngSubmit)="onSubmit()" #hearingForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="hearingDate">Hearing date
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <fieldset>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                            </span>
+                                            <input type="text" name="hearingDate" required id="hearingDate" [(ngModel)]="model.hearingDate" #hearingDate="ngModel" class="form-control">
+                                        </div>
+                                        <div class="warningMessages">
+                                            <div class="alert alert-danger" *ngIf="hearingDate.errors && (hearingDate.dirty || hearingDate.touched)">
+                                                <p *ngIf="hearingDate.errors.required">Hearing date is required</p>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="notes">Notes
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <textarea class="form-control" rows="5" id="note" required minlength="5" maxlength="255" name="note" #note="ngModel" [(ngModel)]="noteText"></textarea>
+                            <br>
+                            <br>
+                            <div class="warningMessages">
+                                <div class="alert alert-danger" *ngIf="note.errors && (note.dirty || note.touched)">
+                                    <p *ngIf="note.errors.required">Note is required</p>
+                                    <p *ngIf="note.errors.minlength">Minimum length must be 5 or more letters</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users-list">Users
+                            <!-- <span class="required">*</span> -->
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="users-list" name='users-list' #usersList=ngModel type="text" class="filter-input form-control col-md-7 col-xs-12"
+                                [(ngModel)]=query (keyup)=filter()>
+                            <div class="suggestions" *ngIf="filteredList.length > 0">
+                                <ul *ngFor="let item of filteredList">
+                                    <li>
+                                        <a (click)="add(item)">{{item.userName}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div *ngFor="let item of model.userHearing">
+                                <div class="selected">
+                                    <span>{{item.userName}}</span>
+                                    <a (click)="remove(item)">x</a>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="warningMessages">
+                                <div class="alert alert-danger" *ngIf="(model.userHearing && model.userHearing.length < 1) && (usersList.dirty || usersList.touched)">
+                                    <p>You must add at least 1 user to hearing</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                            <button type="button" class="btn btn-success" (click)="updateHearing()" *ngIf="edit" [disabled]="!hearingForm.form.valid">Update</button>
+                            <button type="submit" [disabled]="!(hearingForm.form.valid && model.userHearing.length > 0)" class="btn btn-success" *ngIf="!edit"
+                                >Submit</button>
+                            <button type="reset" class="btn btn-default" (click)="newHearing(); hearingForm.reset()">New hearing</button>
+                            <button type="button" class="btn btn-danger" (click)="deleteHearing(); hearingForm.reset()" [disabled]="!hearingForm.form.valid">Delete</button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

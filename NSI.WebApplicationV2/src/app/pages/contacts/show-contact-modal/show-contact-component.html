@@ -1,0 +1,75 @@
+<div class="modal fade " id="show-contact" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md x-content">
+    <form ngNativeValidate class="form-horizontal form-label-left">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            ×
+          </button>
+          <h4 class="modal-title" id="myModalLabel">
+            Contact details
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-md-8  col-md-offset-2 col-xs-12">
+              <label>First name: {{temp_contact.firsttName}}</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-8  col-md-offset-2 col-xs-12">
+              <label>Last name: {{temp_contact.lastName}}</label>
+            </div>
+          </div>
+
+            <div class="form-group">
+              <div class="col-md-8  col-md-offset-2 col-xs-12">
+                <table>
+                  <tr>
+                    <td class="td-table-beauty">
+                      <label>Email: </label>
+                    </td>
+                    <td>
+                      <div class="form-group" *ngFor="let obj of temp_contact.emails">
+                        <div class="col-md-8  col-md-offset-2 col-xs-12">
+                          <label>  {{obj.emailAddress}} </label>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+            </div>
+
+          <div class="form-group">
+            <div class="col-md-8  col-md-offset-2 col-xs-12">
+              <table>
+                <tr>
+                  <td class="td-table-beauty" >
+                    <label>Phone: </label>
+                  </td>
+                  <td>
+                    <div *ngFor="let obj of temp_contact.phones; let i= index">
+                      <div  class="col-md-8  col-md-offset-2 col-xs-12">
+                        <label> {{obj.phoneNumber}} </label> </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-4 col-sm-4 col-xs-4 col-md-offset-4 col-sm-offset-4 col-x-offset-4">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

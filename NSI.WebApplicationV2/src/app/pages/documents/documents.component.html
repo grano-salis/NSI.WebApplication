@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-8">
+        <h3> Case number: 12345678 </h3>
+    </div>
+    <div class="col-md-4" data-toggle="modal" data-target="#add" id="addDocument">
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <img src="../../../assets/uploadDocument.jpg" id="addDocumentImage">
+            </div>
+            <div class="col-md-6">                    
+                <span> <b> Add New Document </b> </span>
+            </div>
+            <div class="col-md-3 text-center">
+                <img src="../../../assets/uploadDocument.jpg" id="addDocumentImage">
+            </div>
+        </div>
+    </div>    
+</div>
+<hr>
+
+<app-document-filter-list [scopedToCase]="scopedToCase"></app-document-filter-list>
+
+<app-document-list [scopedToCase]="scopedToCase"></app-document-list>
+
+<app-document-modal [scopedToCase]="scopedToCase"
+                    [editMode]="false"></app-document-modal>

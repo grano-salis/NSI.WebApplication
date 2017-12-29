@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <div class="jumbotron text-center">
+    <h1>
+      <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo"/>
+      <app-comp1></app-comp1>
+    </h1>
+    <app-loader [isLoading]="isLoading"></app-loader>
+    <img [hidden]="isLoading" src="{{imageUrl}}" width="100%" height="100%" alt="">
+
+    Token: {{token | json}}
+  </div>
+
+
+</div>

@@ -1,0 +1,59 @@
+<div role="main">
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="col-md-1 col-sm-1"></div>
+    <div class="col-md-10 col-sm-10 col-xs-12">
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Address type</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date created</th>
+              <th>Date Modified</th>
+              <th>Is deleted</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let addressType of addressTypes; let addressType_index = index">
+              <td>{{addressType.addressTypeName}}</td>
+              <td>{{addressType.createdDate}}</td>
+              <td>{{addressType.modifiedDate}}</td>
+              <td>{{addressType.isDeleted}}</td>
+              <td>
+                
+                <a class="btn btn-primary btn-xs" href="#edit-addressType" data-title="Edit"
+                  data-target="#edit-addressType" data-toggle="modal" >
+                  <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <app-address-type-modal-edit 
+                  [addressType]="addressType"
+                  (editAddresTypeEvent)="editAddressType()"
+                ></app-address-type-modal-edit>
+              
+
+
+                <a href="#delete-addressType{{addressType.addressTypeId}}" class="btn btn-danger btn-xs"
+                  data-target="#delete-addressType{{addressType.addressTypeId}}" data-title="Delete" data-toggle="modal">
+                   <i class="fa fa-trash"></i>
+                </a>
+                <app-address-type-modal-delete 
+                  (removeAddressTypeFromList) = "deleteAddressTypeFromLista(addressType_index)"
+                  [addressType_modal]="addressType">
+                </app-address-type-modal-delete>
+
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1 col-sm-1"></div>
+  </div>
+</div>
+
