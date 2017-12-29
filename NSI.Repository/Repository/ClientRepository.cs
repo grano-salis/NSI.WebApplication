@@ -24,6 +24,7 @@ namespace NSI.Repository.Repository
                 var client = Mappers.ClientRepository.MapToDbEntity(clientDTO);
                 client.DateCreated = DateTime.Now;
                 client.DateModified = null;
+                client.IsDeleted = false;
                 _dbContext.Add(client);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.ClientRepository.MapToDto(client);
@@ -59,11 +60,11 @@ namespace NSI.Repository.Repository
             }
         }
 
-        public bool EditClient(int clientId, ClientDTO clientDTO)
+        public bool EditClient(ClientDTO clientDTO)
         {
             try
             {
-                var client = _dbContext.Client.FirstOrDefault(x => x.ClientId == clientId);
+                var client = _dbContext.Client.FirstOrDefault(x => x.ClientId == clientDTO.ClientId);
                 if (client != null)
                 {
                     client.ClientName = clientDTO.ClientName ?? client.ClientName;
@@ -104,7 +105,7 @@ namespace NSI.Repository.Repository
             return null;
         }
 
-        public ICollection<ClientDTO> GetClients()
+        public ICollection<ClientDTO> GetAllClients()
         {
             try
             {
@@ -112,7 +113,10 @@ namespace NSI.Repository.Repository
                 if (client != null){
                     ICollection<ClientDTO> clients = new List<ClientDTO>();
                     foreach (var item in client){
-                        clients.Add(Mappers.ClientRepository.MapToDto(item));
+                        if (item.IsDeleted == true)
+                        {
+                            clients.Add(Mappers.ClientRepository.MapToDto(item));
+                        }
                     }
                     return clients;
                 }
@@ -127,9 +131,67 @@ namespace NSI.Repository.Repository
             return null;
         }
 
-        public ICollection<ClientDTO> SearchClient(ClientDTO searchCriteria)
+        public ICollection<ClientDTO> GetClients()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var client = _dbContext.Client.Where(x=>x.IsDeleted.Equals(false));
+                if (client != null)
+                {
+                    ICollection<ClientDTO> clients = new List<ClientDTO>();
+                    foreach (var item in client)
+                    {
+                        if (item.IsDeleted == true)
+                        {
+                            clients.Add(Mappers.ClientRepository.MapToDto(item));
+                        }
+                    }
+                    return clients;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //log ex
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
+
+        public ICollection<ClientDTO> SearchClients(ClientSearchDTO searchClient)
+        {
+            try
+            {
+                var client = _dbContext.Client.Where(x => searchQuery(x, searchClient));
+                if (client != null)
+                {
+                    ICollection<ClientDTO> clientDto = new List<ClientDTO>();
+                    foreach (var item in client)
+                    {
+                        clientDto.Add(Mappers.ClientRepository.MapToDto(item));
+                    }
+                    return clientDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Database error!");
+            }
+            return null;
+        }
+
+        public bool searchQuery(Client ClientDTO, ClientSearchDTO clientSearchDto)
+        {
+            return (ClientDTO.ClientName.Contains(clientSearchDto.ClientName) || String.IsNullOrWhiteSpace(clientSearchDto.ClientName)) &&
+                (ClientDTO.DateCreated >= clientSearchDto.FromCreated || clientSearchDto.FromCreated.Equals(null)) &&
+                (ClientDTO.DateCreated <= clientSearchDto.ToCreated || clientSearchDto.ToCreated.Equals(null)) &&
+                (ClientDTO.DateModified >= clientSearchDto.FromModified || clientSearchDto.FromModified.Equals(null)) &&
+                (ClientDTO.DateModified <= clientSearchDto.ToModified || clientSearchDto.FromModified.Equals(null)) &&
+                (ClientDTO.AddressId == clientSearchDto.AddressId || clientSearchDto.AddressId.Equals(null)) &&
+                (ClientDTO.CustomerId == clientSearchDto.CustomerId || clientSearchDto.CustomerId.Equals(null)) &&
+                (ClientDTO.ClientTypeId == clientSearchDto.ClientTypeId || clientSearchDto.ClientTypeId.Equals(null));
         }
     }
 }

@@ -26,9 +26,9 @@ namespace NSI.BLL
             return _clientRepository.DeleteClientById(clientId);
         }
 
-        public bool EditClient(int clientId, ClientDTO clientDTO)
+        public bool EditClient(ClientDTO clientDTO)
         {
-            return _clientRepository.EditClient(clientId, clientDTO); 
+            return _clientRepository.EditClient(clientDTO); 
         }
 
         public ClientDTO GetClientById(int clientId)
@@ -36,15 +36,19 @@ namespace NSI.BLL
             return _clientRepository.GetClientById(clientId);
         }
 
-        public ICollection<ClientDTO> GetClients()
+        public ICollection<ClientDTO> GetAllClients()
         {
-            return _clientRepository.GetClients();
+            return _clientRepository.GetAllClients();
         }
 
-        //public ICollection<ClientDTO> SearchClient(ClientDTO searchCriteria)
-        //{
-        //    //return SearchClient(searchCriteria);
-        //    throw new NotImplementedException();
-        //}
+        public ICollection<ClientDTO> GetClients()
+        {
+            return _clientRepository.GetClients();    
+        }
+
+        public ICollection<ClientDTO> SearchClients(ClientSearchDTO searchCriteria)
+        {
+            return _clientRepository.SearchClients(searchCriteria);
+        }
     }
 }

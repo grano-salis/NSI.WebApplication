@@ -25,8 +25,14 @@ namespace NSI.REST.Controllers
             return Ok(_clientManipulation.GetClientById(id));
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public ActionResult GetAllClients()
+        {
+            return Ok(_clientManipulation.GetAllClients());
+        }
+
+        [HttpGet]
+        public ActionResult GetClients()
         {
             return Ok(_clientManipulation.GetClients());
         }
@@ -43,10 +49,16 @@ namespace NSI.REST.Controllers
             return Ok(_clientManipulation.DeleteClientById(id));
         }
 
-        [HttpPut("{id}")]
-        public ActionResult EditClient(int id, ClientDTO clientDto)
+        [HttpPut]
+        public ActionResult EditClient(ClientDTO clientDto)
         {
-            return Ok(_clientManipulation.EditClient(id, clientDto));
+            return Ok(_clientManipulation.EditClient(clientDto));
+        }
+
+        [HttpPost("search")]
+        public ActionResult SearchClients([FromBody]ClientSearchDTO clientSearch)
+        {
+            return Ok(_clientManipulation.SearchClients(clientSearch));
         }
     }
 }
