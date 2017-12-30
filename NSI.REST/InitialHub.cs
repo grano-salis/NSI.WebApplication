@@ -20,9 +20,7 @@ namespace NSI.REST
         public InitialHub(IConversationsRepository conversationRepository, IConversationsManipulation conversationsManipulation)
         {
             this._convRepo = conversationRepository;
-            this._convManipulation = conversationsManipulation;
-            
-           
+            this._convManipulation = conversationsManipulation;  
         }
         
         public Task persistForOnlineStatus(string username)
@@ -34,12 +32,9 @@ namespace NSI.REST
 
             List<string> onlineUsers = new List<string>();
             foreach (var user in usersAndConnections)
-                onlineUsers.Add(user.Item1);
-
+                onlineUsers.Add(user.Item1);           
             
-            
-            return  Clients.All.InvokeAsync("setOnlineUsers", onlineUsers);
-            
+            return  Clients.All.InvokeAsync("setOnlineUsers", onlineUsers);   
                       
         }
 
@@ -56,8 +51,6 @@ namespace NSI.REST
             List<string> onlineUsers = new List<string>();
             foreach (var user in usersAndConnections)
                 onlineUsers.Add(user.Item1);
-
-
 
             Clients.All.InvokeAsync("setOnlineUsers", onlineUsers);
 
@@ -76,14 +69,13 @@ namespace NSI.REST
             await Task.WhenAll(saveTask, responseTask);
         }
 
-        public Task whoIsTyping(string username)
+        public Task whoIsTyping(string username, int conversationId)
         {
             IReadOnlyList<string> toExclude = new List<string>() { Context.ConnectionId };
-            return Clients.AllExcept(toExclude).InvokeAsync("whoIsTyping", String.Format("{0} is typing...", username));
+            string data = String.Format("{0} is typing...", username);
+            return Clients.AllExcept(toExclude).InvokeAsync("whoIsTyping", data , conversationId);
             
         }
-
-
 
         public async Task JoinGroup(string groupName)
         {
@@ -99,10 +91,8 @@ namespace NSI.REST
 
         public void CreateConversation(int loggedUserId, List<int> usersToParticipants, string conversationName)
         {
-            _convManipulation.CreateConversation(loggedUserId, usersToParticipants, conversationName);
-            
+            _convManipulation.CreateConversation(loggedUserId, usersToParticipants, conversationName);            
         }
-
     }   
 }
 

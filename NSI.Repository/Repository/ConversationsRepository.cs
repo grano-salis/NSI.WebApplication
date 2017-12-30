@@ -136,7 +136,8 @@ namespace NSI.Repository.Repository
             m.Message1 = message;
             m.CreatedByUserId = loggedUserId;
             m.DateCreated = DateTime.Now;
-            m.MessageId = context.Message.Count() + 1;
+           // m.MessageId = context.Message.Last().MessageId;
+          //  m.MessageId += 1;
 
             context.Message.Add(m);
             await context.SaveChangesAsync();
@@ -180,6 +181,11 @@ namespace NSI.Repository.Repository
         public int GetLastParticipantId()
         {
             return context.Participant.Last().ParticipantId;
+        }
+
+        public List<UserInfo> getSystemUsers()
+        {
+            return context.UserInfo.ToList();
         }
     }
 }

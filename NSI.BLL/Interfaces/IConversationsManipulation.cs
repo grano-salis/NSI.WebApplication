@@ -14,7 +14,8 @@ namespace NSI.BLL.Interfaces
         IEnumerable<Participant> GetConversationParticipants(int conversationId);
         ICollection<Conversation> GetConversationForUser(int userId);
         Participant GetParticipantForId(int participantId);
-        void CreateConversation(int loggedUserId, List<int> usersToParticipants, string ConversationName);
+        Conversation CreateConversation(int loggedUserId, List<int> usersToParticipants, string ConversationName);
+        List<UserInfo> GetSystemUsers();
     }
        
 }

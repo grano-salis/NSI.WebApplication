@@ -29,6 +29,14 @@ namespace NSI.REST.Controllers
         }
 
         [HttpGet]
+        [Route("users")]
+        public IActionResult GetSystemUsers()
+        {
+            var systemUsers = mapper.Map<IEnumerable<UserGetDTO>>( conversationManipulation.GetSystemUsers());
+            return Ok(systemUsers);
+        }
+
+        [HttpGet]
         public IActionResult GetConversations()
         {
             try
@@ -73,6 +81,15 @@ namespace NSI.REST.Controllers
                 return StatusCode(500);
             }
 
+        }
+
+        [HttpPost]
+        public IActionResult CreateConversation([FromBody] ConversationPostDTO conv)
+        {
+            var createdConversation = mapper.Map<ConversationGetDTO>( conversationManipulation.CreateConversation(conv.loggedUserId, conv.usersToParticipants, conv.conversationName));
+
+            //we should add real created at route
+            return Created("uriCreatedAtRoute", createdConversation);            
         }
 
     }

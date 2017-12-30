@@ -32,18 +32,10 @@
                         <ul class="nav navbar-right panel_toolbox">
 
                             <li>
-                                <button class="btn btn-toolbar chatActions"> Settings
-                                    <i class="fa fa-gear"></i>
-                                </button>
-                            </li>
-
-                            <li>
                                 <button class="btn btn-toolbar chatActions" (click)='createNewConversation()'> New message
                                     <i class="fa fa-pencil-square-o"></i>
                                 </button>
                             </li>
-
-
 
                         </ul>
                         <div class="clearfix"></div>
@@ -55,17 +47,16 @@
 
                         <div class="col-sm-3 mail_list_column" *ngIf='_conversations && _conversations.length'>
 
-
                             <a class="conversationSide" *ngFor='let conversation of _conversations' (click)='loadMessages(conversation.conversationId)'>
                                 <input type='hidden' value="{{conversation.conversationId}}">
                                 <div class="mail_list">
 
                                     <h3> {{ conversation.conversationName }}
-                                        <small *ngIf = 'conversation.message && conversation.message.length > 0'> {{conversation.message[conversation.message.length -1 ].dateCreated | date : 'dd/MM/yyyy
+                                        <small *ngIf='conversation.message && conversation.message.length > 0'> {{conversation.message[conversation.message.length -1 ].dateCreated | date : 'dd/MM/yyyy
                                             HH:mm'}}
                                         </small>
                                     </h3>
-                                    <p *ngIf = 'conversation.message && conversation.message.length > 0'>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}
+                                    <p *ngIf='conversation.message && conversation.message.length > 0'>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}
                                         <span *ngIf='conversation.message[conversation.message.length -1 ].message.length > 30'>...</span>
                                     </p>
 
@@ -77,12 +68,17 @@
 
                         <!-- CONTENT MAIL -->
                         <div class="col-sm-9 mail_view">
-                            <div class="inbox-body">
-
-
-                                <div class="row" *ngIf = "!isNewMessageClicked && !onStart">
+                            <div class="inbox-body">                                
+                                <div class="row" *ngIf="!isNewMessageClicked && !onStart">
+                                    <span *ngIf="_participants?.length > 2" class="left convParts">
+                                        <i class="fa fa-users"></i>
+                                        <span *ngFor='let p of _participants; let first = first; let last = last;'>
+                                            <span *ngIf='!first && !last'>,</span>
+                                            <span *ngIf="last"><strong><em>and</em></strong></span>
+                                            <strong><em>{{p?.user.firstName}}</em></strong>            
+                                        </span>
+                                    </span>
                                     <ul class="nav navbar-right panel_toolbox">
-
                                         <li>
                                             <button class="btn btn-toolbar chatActions"> Add participant(s)
                                                 <i class="fa fa-user"></i>
@@ -96,23 +92,24 @@
                                         </li>
                                     </ul>
 
-
                                 </div>
-                                <div class="row input-group" *ngIf='isNewMessageClicked'>
+                                <div class="row input-group col-md-12" *ngIf='isNewMessageClicked'>
+
 
                                     <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
                                         (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
 
-                                    <input type="button" class='btn btn-md btn-success' value='Create conversation' (click)="createConversation()">
-
+                                    <div class="col-md-6">
+                                        <input class=" convName form-control btn-md" type="text" placeholder="Conversation name..." [(ngModel)]="newConversationName"
+                                            *ngIf='isGroupConversation()'>
+                                        <input type="button" class='btn btn-md btn-success ' value='Create conversation' (click)="createConversation()" [disabled]='!validateCreateConversation()'>
+                                    </div>
 
                                 </div>
                                 <div class="separator"></div>
-
-
-                                <div class="view-mail scroller" #scrollMe [scrollTop]='scrollMe.scrollHeight'>
-
-                                    <div *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
+                                <div>
+                                    <div class="view-mail scroller" #scrollMe [scrollTop]='scrollMe.scrollHeight' *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
+                                        <p class="conversationCreatorTop">Conversation created by {{ conversationCreatedBy }}</p>
                                         <div class="row" *ngFor='let m of messageListSelectedConversation'>
                                             <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)">
                                                 {{m.message}}
@@ -120,47 +117,32 @@
 
                                             <br>
                                             <div class="clearfix"></div>
-                                            <!-- <small style="margin-left:200px" >{{m.createdByUser.id}}</small>
-                                        <small style="margin-left:200px">{{loggedUserId}}</small>!-->
                                             <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'>
-                                            <small>{{m.createdByUser.userName}}</small>
-                                            <span  *ngIf='checkIfUserIsOnline(m.createdByUser.id)' ><i tooltip ngToolTipClass= "tooltipClass" content= "User is online."  class="online glyphicon glyphicon-user"></i></span>
-
+                                                <small>{{m.createdByUser.userName}}</small>
+                                                <span *ngIf='checkIfUserIsOnline(m.createdByUser.id)'>
+                                                    <i tooltip ngToolTipClass="tooltipClass" content="User is online." class="online glyphicon glyphicon-user"></i>
+                                                </span>
                                             </span>
-
                                         </div>
                                     </div>
 
                                     <div class="separator"></div>
 
-                                    <div *ngIf='whosTyping && whosTyping.length > 0'>
-                                        <i class="fa fa-spin fa-spinner"></i>
-                                        <input type="text" class="typing" [(ngModel)]="whosTyping">
-                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12" *ngIf="!isNewMessageClicked && !onStart">
+                                        <div *ngIf='whosTyping && whosTyping.length > 0 && typingConvId == activeConversationId'>
+                                            <i class="fa fa-spin fa-spinner"></i>
+                                            <input type="text" class="typing" [(ngModel)]="whosTyping">
+                                        </div>
 
-
-
-                                    <div class="col-md-12 col-sm-12 col-xs-12" *ngIf = "!isNewMessageClicked && !onStart">
                                         <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" (keypress)="keyPressEventHandler($event)" placeholder="New message..."
                                             [(ngModel)]="newMessage"></textarea>
 
                                         <button class="btn btn-success" (click)="sendMessage()" [disabled]='!validateNewMessageLength()'>Send
                                             <i class="fa fa-send-o"></i>
                                         </button>
-
                                     </div>
-
                                 </div>
-
-
-
-
                             </div>
-
-
-
-
-
                         </div>
                     </div>
                 </div>

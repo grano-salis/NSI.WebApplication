@@ -42,7 +42,7 @@
 }
 
 .multiSelectDrop {
-    width: 500px;
+    //width: 500px;
 }
 
 .online{
@@ -56,4 +56,22 @@
 
 .conversationSide{
     cursor: pointer;
+}
+
+.convName{
+    width: 50%;
+    margin-right: 3px;
+}
+
+.conversationCreatorTop{
+    text-align: center;
+    font-size: x-small;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.convParts{
+    padding-top: 8px;
+    margin-left: 15px;
 }

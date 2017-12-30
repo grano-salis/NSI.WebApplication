@@ -21,6 +21,6 @@ namespace NSI.Repository.Interfaces
         int CreateParticipant(Participant p);
         int GetLastConversationId();
         int GetLastParticipantId();
-        //void AddParticipantsToConversation(int convId, int partId);
+        List<UserInfo> getSystemUsers();        
     }
 }

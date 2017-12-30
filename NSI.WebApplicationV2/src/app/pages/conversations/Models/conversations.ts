@@ -6,5 +6,6 @@ export interface IConversation {
     conversationName: string;
     message: IMessage[];
     participant: IParticipant[];
+    userId: number;
 
 }
