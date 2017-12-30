@@ -10,21 +10,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var AddressComponent = /** @class */ (function () {
+var AddressComponent = (function () {
     /** address ctor */
     function AddressComponent() {
     }
-    AddressComponent = __decorate([
-        core_1.Component({
-            selector: 'app-address',
-            templateUrl: './address.component.html',
-            styleUrls: ['./address.component.css']
-        })
-        /** address component*/
-        ,
-        __metadata("design:paramtypes", [])
-    ], AddressComponent);
     return AddressComponent;
 }());
+AddressComponent = __decorate([
+    core_1.Component({
+        selector: 'app-address',
+        templateUrl: './address.component.html',
+        styleUrls: ['./address.component.css']
+    })
+    /** address component*/
+    ,
+    __metadata("design:paramtypes", [])
+], AddressComponent);
 exports.AddressComponent = AddressComponent;
 //# sourceMappingURL=address.component.js.map
