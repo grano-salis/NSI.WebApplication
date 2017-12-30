@@ -124,7 +124,9 @@ namespace NSI.REST.Controllers
                     Description = model.Description,
                     DueDate = model.DueDate,
                     Title = model.Title,
-                    UserId = model.UserId
+                    UserId = model.UserId,
+                    Status = model.Status,
+                    DateModified = DateTime.Now
                 };
 
                 return Ok(new NSIResponse<TaskDto> { Data = _taskRepository.EditTask(id, taskDto), Message = "Success" });
@@ -256,7 +258,8 @@ namespace NSI.REST.Controllers
             {
                 dateFrom = dateFrom ?? DateTime.Now.AddDays(-2);
                 dateTo = dateTo ?? DateTime.Now.AddDays(2);
-                return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.GetTasksWithDueDateRange((DateTime)dateFrom, (DateTime)dateTo, page, pageSize), Message = "Success" });
+                int count = _taskRepository.GetTasksWithDueDateRangeCount(DateTime.Now.AddYears(-20), (DateTime)dateTo);
+                return Ok(new NSIResponse<ICollection<TaskDto>> {Count = count, Data = _taskRepository.GetTasksWithDueDateRange((DateTime)dateFrom, (DateTime)dateTo, page, pageSize), Message = "Success" });
             }
             catch (NSIException ex)
             {

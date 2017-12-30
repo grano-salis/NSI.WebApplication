@@ -14,7 +14,7 @@ import { QuoteService } from './services/quote.service';
 import { CookieService } from 'ngx-cookie-service';
 import { TasksService } from './services/tasks.service';
 import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-spinner';
-import { AlertModule } from 'ngx-bootstrap';
+import {AlertModule} from 'ngx-bootstrap';
 import { HelperService } from './services/helper.service';
 import { MeetingsService } from './services/meetings.service';
 import { AddressService } from './services/address.service';

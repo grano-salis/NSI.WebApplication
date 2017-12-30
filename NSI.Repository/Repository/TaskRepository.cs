@@ -119,6 +119,16 @@ namespace NSI.Repository
                 taskTmp.DueDate = task.DueDate != null ? task.DueDate : taskTmp.DueDate;
                 taskTmp.Title = task.Title ?? taskTmp.Title;
                 taskTmp.UserId = task.UserId != 0 ? task.UserId : taskTmp.UserId;
+                if (!String.IsNullOrEmpty(task.Status))
+                {
+                    taskTmp.Status = task.Status;
+                }
+                if (task.DateModified.HasValue)
+                {
+                    taskTmp.DateModified = task.DateModified;
+                }
+                
+                
                 _dbContext.SaveChanges();
                 return Mappers.TaskRepository.MapToDto(taskTmp);
             }

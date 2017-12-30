@@ -16,5 +16,7 @@ namespace NSI.BLL.Interfaces
         ICollection<TaskDto> GetTasksByUserId(int userId, int? pageNumber, int? pageSize);
         ICollection<TaskDto> GetTasksByUsername(string username, int? pageNumber, int? pageSize);
         ICollection<TaskDto> GetTasksWithDueDateRange(DateTime dateTimeStart, DateTime dateTimeEnd, int? pageNumber, int? pageSize);
+        int GetTasksWithDueDateRangeCount(DateTime dateTimeStart, DateTime dateTimeEnd);
+
     }
 }
