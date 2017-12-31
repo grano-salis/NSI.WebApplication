@@ -68,19 +68,25 @@
 
                         <!-- CONTENT MAIL -->
                         <div class="col-sm-9 mail_view">
-                            <div class="inbox-body">                                
+                            <div class="inbox-body">
                                 <div class="row" *ngIf="!isNewMessageClicked && !onStart">
                                     <span *ngIf="_participants?.length > 2" class="left convParts">
                                         <i class="fa fa-users"></i>
                                         <span *ngFor='let p of _participants; let first = first; let last = last;'>
                                             <span *ngIf='!first && !last'>,</span>
-                                            <span *ngIf="last"><strong><em>and</em></strong></span>
-                                            <strong><em>{{p?.user.firstName}}</em></strong>            
+                                            <span *ngIf="last">
+                                                <strong>
+                                                    <em>and</em>
+                                                </strong>
+                                            </span>
+                                            <strong>
+                                                <em>{{p?.user.firstName}}</em>
+                                            </strong>
                                         </span>
                                     </span>
                                     <ul class="nav navbar-right panel_toolbox">
                                         <li>
-                                            <button class="btn btn-toolbar chatActions"> Add participant(s)
+                                            <button class="btn btn-toolbar chatActions" (click)='prepareforAdding()'> Add participant(s)
                                                 <i class="fa fa-user"></i>
                                             </button>
                                         </li>
@@ -145,6 +151,43 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal for adding participants to conversation !-->
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Add participant(s) to conversation</h4>
+                </div>
+                <div class="modal-body col-md-12">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="jumbotron">
+                            <span style="text-align: justify;">
+                                <strong>
+                                    <em>Note:</em>
+                                </strong> Adding a participant(s) to direct message conversation (2 existing participants) will result
+                                in creating a new group conversation. However, conversations that possess more than 2 existing
+                                participants will have chosen participant(s) appended to the list of participants. Therefore,
+                                new participant(s) will have insight on the previous messages of conversation. If you would
+                                like to avoid this scenario, consider creating a new group conversation.</span>
+                        </div>
+                        <angular2-multiselect style="width: 100%;" [data]="dropdownListAP" [(ngModel)]="selectedItemsAP" [settings]="dropdownSettings"
+                            (onSelect)="onItemSelectAP($event)" (onDeSelect)="OnItemDeSelectAP($event)" (onSelectAll)="onSelectAllAP($event)"
+                            (onDeSelectAll)="onDeSelectAllAP($event)"></angular2-multiselect>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" (click)="addNewParticipant()">Add</button>
                 </div>
             </div>
         </div>

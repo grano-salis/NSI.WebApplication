@@ -44,5 +44,13 @@ export class ConversationService {
             }
            return this._http.post<IConversation>(`${this._url}/api/conversations`, payload);
             
+       }
+       addNewParticipantToExistingConversation(convId : number, participants : number[])
+       {
+           let payload = {
+               conversationId : convId,
+               usersToParticipant : participants
+           }
+           return this._http.post(`${this._url}/api/conversations/${convId}/participants`, payload);
        }      
 }

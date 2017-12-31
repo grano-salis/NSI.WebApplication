@@ -51,6 +51,13 @@ namespace NSI.REST.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("{id}/participants")]
+        public IActionResult addParticipantToExistingConv([FromBody] ParticipantPostDTO newParticipants)
+        {
+            return Ok();
+        }
+
         [HttpGet]
         [Route("{id}/participants")]
         public IActionResult GetParticipantsForConversation(int id)
