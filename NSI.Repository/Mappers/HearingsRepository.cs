@@ -32,7 +32,7 @@ namespace NSI.Repository.Mappers
             return new HearingDto()
             {
                 HearingId = entity.HearingId,
-                HearingDate = entity.HearingDate,
+                HearingDate = entity.HearingDate.AddHours(-1),
                 CreatedByUserId = entity.CreatedByUserId,
                 CaseId = entity.CaseId,
                 UserHearing = entity.UserHearing.Select(x => new UserHearingDto()
