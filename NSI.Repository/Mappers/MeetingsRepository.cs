@@ -31,8 +31,8 @@ namespace NSI.Repository.Mappers
                 MeetingId = entity.MeetingId,
                 Title = entity.Title,
                 MeetingPlace = entity.MeetingPlace,
-                From = entity.From,
-                To = entity.To,
+                From = entity.From.AddHours(-1),
+                To = entity.To.GetValueOrDefault().AddHours(-1),
                 UserMeeting = entity.UserMeeting.Select(x => new UserMeetingDto()
                 {
                     UserId = x.UserId,
