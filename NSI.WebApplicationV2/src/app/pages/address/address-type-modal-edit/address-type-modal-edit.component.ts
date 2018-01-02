@@ -13,20 +13,21 @@ export class AddressTypeModalEditComponent implements OnInit {
 
   @Input()
   addressType: AddressType;
-  
-  @Output() 
+
+  @Output()
   editAddressTypeEvent: EventEmitter<AddressType> = new EventEmitter<AddressType>();
 
   addressTypeEdit: AddressType = new AddressType();
+  date_modified: Date = new Date();
 
   constructor(private addressTypeService: AddressTypeService) { }
 
   ngOnInit() {
-    Object.assign(this.addressTypeEdit, this.addressType);  
+    Object.assign(this.addressTypeEdit, this.addressType);
   }
 
-  editAddressType()
-  {
+  editAddressType() {
+    this.addressTypeEdit.modifiedDate = this.date_modified;
     this.addressTypeService.putAddressType(this.addressTypeEdit.addressTypeId, this.addressTypeEdit).subscribe((r: any) => {
       console.log('Put method address: ' + r);
       this.editAddressTypeEvent.emit(this.addressTypeEdit);

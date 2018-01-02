@@ -95,7 +95,7 @@ namespace NSI.REST.Controllers
             {
                 AddressTypeName = model.AddressTypeName,
                 CreatedDate = model.CreatedDate,
-                ModifiedDate = model.ModifiedDate
+                ModifiedDate = DateTime.Now
             };
 
             try

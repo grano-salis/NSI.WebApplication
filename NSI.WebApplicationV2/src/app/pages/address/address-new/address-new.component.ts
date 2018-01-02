@@ -29,7 +29,7 @@ export class AddressNewComponent implements OnInit {
   public componentData1: any = '';
   public userSettings: any = {
     resOnSearchButtonClickOnly: false,
-    inputPlaceholderText: 'Start typing address',
+    inputPlaceholderText: 'Search address on google maps...',
     showSearchButton: false,
     showRecentSearch: false,
     showCurrentLocation: false
@@ -95,17 +95,16 @@ export class AddressNewComponent implements OnInit {
       console.log(data.data)
       this.address.address1 = data.data.address_components[0].long_name;
       this.address.city = String(data.data.address_components[2].long_name);
-      if(data.data.address_components[6] != null){
+      if (data.data.address_components[6] != null) {
       this.address.zipCode = data.data.address_components[6].long_name;
-      }
-      else {
+      } else {
       this.address.zipCode = data.data.address_components[5].long_name;
       }
 
        let lat = data.data.geometry.location.lat;
        let lng = data.data.geometry.location.lng;
 
-      this.initMap(lat,lng);
+      this.initMap(lat, lng);
 
       console.log(this.address.address1 );
       console.log(this.address.city );

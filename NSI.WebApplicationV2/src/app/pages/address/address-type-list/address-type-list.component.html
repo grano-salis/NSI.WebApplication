@@ -13,9 +13,8 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Date created</th>
-                <th>Date Modified</th>
-                <th>Is deleted</th>
+                <th><span class="glyphicon glyphicon-calendar"></span>Date created</th>
+                <th><span class="glyphicon glyphicon-calendar"></span>Date Modified</th>
               </tr>
             </thead>
             <tbody>
@@ -23,21 +22,19 @@
                 <td>{{addressType.addressTypeName}}</td>
                 <td>{{addressType.createdDate}}</td>
                 <td>{{addressType.modifiedDate}}</td>
-                <td>{{addressType.isDeleted}}</td>
                 <td>
 
-                  <a class="btn btn-primary btn-xs" href="#edit-addressType" data-title="Edit" data-target="#edit-addressType" data-toggle="modal">
+                  <a class="btn btn-primary btn-xs" href="#edit-addressType{{addressType.addressTypeId}}" data-title="Edit" data-target="#edit-addressType{{addressType.addressTypeId}}" data-toggle="modal">
                     <span class="glyphicon glyphicon-edit"></span>
                   </a>
-                  
+
                   <app-address-type-modal-edit [addressType]="addressType" (editAddressTypeEvent)="editAddressType($event)"></app-address-type-modal-edit>
-                
+
                   <a href="#delete-addressType{{addressType.addressTypeId}}" class="btn btn-danger btn-xs" data-target="#delete-addressType{{addressType.addressTypeId}}"
                     data-title="Delete" data-toggle="modal">
                     <i class="fa fa-trash"></i>
                   </a>
-                  <app-address-type-modal-delete (removeAddressTypeFromList)="deleteAddressTypeFromLista(addressType_index)" [addressType_modal]="addressType">
-                  </app-address-type-modal-delete>
+                  <app-address-type-modal-delete (removeAddressTypeFromList)="deleteAddressTypeFromLista(addressType_index)" [addressType_modal]="addressType"></app-address-type-modal-delete>
 
                 </td>
               </tr>
