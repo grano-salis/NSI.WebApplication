@@ -15,7 +15,7 @@ namespace NSI.BLL.Interfaces
         ICollection<MeetingDto> SearchMeetings(MeetingDto searchCriteria, int pageNumber, int pageSize);
         ICollection<MeetingDto> GetMeetings(int? page, int? pageSize);
         ICollection<MeetingDto> GetMeetingsByUser(int userId);
-        ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration);
-        ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to);
+        ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration, int currentMeetingId);
+        ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to, int currentMeetingId);
     }
 }
