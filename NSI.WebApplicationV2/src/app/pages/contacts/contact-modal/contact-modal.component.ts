@@ -3,6 +3,7 @@ import {ContactsService} from "../../../services/contacts.service";
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
 import {ValidationService} from "../validation.service";
 import {AddressService} from "../../../services/address.service";
+import {Address} from "../../address/address.model";
 
 
 @Component({
@@ -18,11 +19,21 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
   phones_unique: boolean[];
   emails_unique: boolean[];
   public addresses: any[];
+  newContactAddress: Address;
+  newAddress: boolean;
+
   constructor(private contactsService: ContactsService, private formBuilder: FormBuilder, private addressService: AddressService) {
     this.phones_unique = new Array();
+    this.newContactAddress = new Address();
+    this.newAddress = false;
     this.emails_unique = new Array();
     this.fetchAddresses();
   }
+
+  hajde(a: any) {
+    this.newAddress = !this.newAddress;
+  }
+
   ngAfterViewInit() {
   }
 
@@ -35,17 +46,30 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
     });
   }
 
+  clearForm() {
+    this.newAddress = false;
+    this.newContactAddress = new Address();
+  }
+
   updateContact() {
-    this.temp_contact.addressId = this.temp_contact.address.addressId;
+    if (!this.newAddress) this.temp_contact.addressId = this.temp_contact.address.addressId;
+    this.newContactAddress.createdByUserId = 1;
+    if (!this.newAddress) this.newContactAddress = null;
     this.setPhonesAndEmails();
-    this.contactsService.editContact(this.temp_contact).subscribe((contact: any) => {
-      this.closeBtn.nativeElement.click();
-      this.onClose.next(this.temp_contact); // emit event
+    this.contactsService.editContact(this.temp_contact, this.newContactAddress).subscribe((contact: any) => {
+      this.addressService.getAddreses().subscribe((addresses: any) => {
+        this.newContactAddress = new Address();
+        this.newAddress = false;
+        this.addresses = addresses;
+        this.closeBtn.nativeElement.click();
+        this.onClose.next(this.temp_contact); // emit event
+
+      });
     });
   }
 
   byId(item1: any, item2: any) {
-    if(item1 && item2) {
+    if (item1 && item2) {
       return item1.addressId == item2.addressId;
     }
     return false;
@@ -124,6 +148,7 @@ export class ContactModalComponent implements OnInit, AfterViewInit {
     }
     return whatToReturn;
   }
+
   deletePhone(index: number) {
 
     const control = <FormArray>this.form.controls['phones'];

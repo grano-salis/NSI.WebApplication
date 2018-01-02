@@ -19,12 +19,13 @@ export class ContactsService {
     return this.http.get(`${this._url}/api/contacts`);
   }
 
-  editContact(body: any): Observable<any> {
+  editContact(body: any, tempAddress: any): Observable<any> {
     const contact = {
       FirsttName: body.firsttName,
       LastName: body.lastName,
       Phones: body.phones,
       Emails: body.emails,
+      Address: tempAddress,
       AddressId: parseInt(body.addressId),
       CreatedByUserId: 6
     };
@@ -37,7 +38,6 @@ export class ContactsService {
   }
 
   postContact(contact: any): Observable<any> {
-    delete contact.address;
     const body = JSON.stringify(contact);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post(`${this._url}/api/contacts`, body, {headers: headers});

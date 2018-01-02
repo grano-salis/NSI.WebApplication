@@ -12,17 +12,19 @@ namespace NSI.Repository
     public class ContactsRepository : IContactsRepository
     {
         private readonly IkarusContext _dbContext;
+        private AddressRepository addressRepository;
 
         public ContactsRepository(IkarusContext dbContext)
         {
             _dbContext = dbContext;
+         
         }
 
         public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
         {
             try
             {
-                IQueryable<Contact> contacts = _dbContext.Contact.Where(a => (bool)!a.IsDeleted);
+                 IQueryable<Contact> contacts = _dbContext.Contact.Where(a => (bool)!a.IsDeleted);
                 if (!String.IsNullOrEmpty((string)searchString))
                 {
                     switch ((string)searchColumn)
@@ -109,6 +111,14 @@ namespace NSI.Repository
         {
             try
             {
+                this.addressRepository = new AddressRepository(_dbContext);
+                DC.AddressRepository.AddressDto address = null;
+                if (contactDto.Address != null)
+                {
+                    address = addressRepository.CreateAddress(contactDto.Address);
+                    contactDto.AddressId = address.AddressId;
+                }
+
                 var contact = Mappers.ContactRepository.MapToDbEntity(contactDto);
                 contact.ModifiedDate = contact.CreatedDate = DateTime.Now;
                 contact.IsDeleted = false;
@@ -168,14 +178,24 @@ namespace NSI.Repository
 
         public bool EditContactById(int contactId, ContactDto contact)
         {
+          
             try
             {
+
+                this.addressRepository = new AddressRepository(_dbContext);
                 var contactTmp = _dbContext.Contact.FirstOrDefault(x => x.Contact1 == contactId);
                 if (contactTmp != null)
                 {
+                  
+                    if (contact.Address != null)
+                    {
+                        DC.AddressRepository.AddressDto addresss = null;
+                        addresss = addressRepository.CreateAddress(contact.Address);
+                        contact.AddressId = addresss.AddressId;
+                    }
+
                     contactTmp.FirsttName = contact.FirsttName;
                     contactTmp.LastName = contact.LastName;
-                    contactTmp.AddressId = contact.AddressId;
                     contactTmp.ModifiedDate = DateTime.Now;
                     contactTmp.AddressId = contact.AddressId;
                     //delete all phones and emails

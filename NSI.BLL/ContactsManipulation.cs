@@ -47,5 +47,7 @@ namespace NSI.BLL
         {
             return _contactsRepository.EditContactById(contactId, contact);
         }
+
+     
     }
 }
