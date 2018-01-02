@@ -1,166 +1,42 @@
-<div id="datatable-checkbox_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-  <!--Buttons-->
-  <button class="md-raised md-button md-ink-ripple" type="button" ng-transclude="" [routerLink]="['/tasks/new']" routerLinkActive="active"><span class="ng-scope">New task</span><div class="md-ripple-container" style=""></div></button>
-  <button class="md-raised md-button md-ink-ripple" type="button" (click)="tasksHistory=true; currentTasks=false"><span class="ng-scope">Show history</span><div class="md-ripple-container" style=""></div></button>
-  <button class="md-raised md-button md-ink-ripple" type="button" (click)="tasksHistory=false; currentTasks=true" ng-transclude=""><span class="ng-scope">Current tasks</span><div class="md-ripple-container" style=""></div></button>
-</div>
-<div class="row">
-  <div class="row">
-    <div class="col-sm-12" *ngIf="tasksHistory">
-      <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dataTable no-footer" role="grid" aria-describedby="datatable-checkbox_info">
-        <thead>
-          <tr role="row">
-            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
-							 " style="width: 4px;">
-            </th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 124px;">Task</th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 210px;">Description</th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 89px;">Due date</th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 89px;">Date modified</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>2011/07/25</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Garrett Winters</td>
-            <td>Accountant</td>
-            <td>2011/07/25</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="odd">
+<!--<div id="datatable-checkbox_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">-->
+<!--&lt;!&ndash;Buttons&ndash;&gt;-->
+<!--<button class="md-raised md-button md-ink-ripple" type="button" ng-transclude="" [routerLink]="['/tasks/new']" routerLinkActive="active"><span class="ng-scope">New task</span><div class="md-ripple-container" style=""></div></button>-->
+<!--<button class="md-raised md-button md-ink-ripple" type="button" (click)="tasksHistory=true; currentTasks=false"><span class="ng-scope">Show history</span><div class="md-ripple-container" style=""></div></button>-->
+<!--<button class="md-raised md-button md-ink-ripple" type="button" (click)="tasksHistory=false; currentTasks=true" ng-transclude=""><span class="ng-scope">Current tasks</span><div class="md-ripple-container" style=""></div></button>-->
+<!--</div>-->
 
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Ashton Cox</td>
-            <td>Junior Technical Author</td>
-            <td>2009/01/12</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Cedric Kelly</td>
-            <td>Senior Javascript Developer</td>
-            <td>2012/03/29</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Airi Satou</td>
-            <td>Accountant</td>
-            <td>2008/11/28</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Brielle Williamson</td>
-            <td>Integration Specialist</td>
-            <td>2012/12/02</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Herrod Chandler</td>
-            <td>Sales Assistant</td>
-            <td>2012/08/06</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Rhona Davidson</td>
-            <td>Integration Specialist</td>
-            <td>2010/10/14</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Colleen Hurst</td>
-            <td>Javascript Developer</td>
-            <td>2009/09/15</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Sonya Frost</td>
-            <td>Software Engineer</td>
-            <td>2008/12/13</td>
-            <td>2011/07/25</td>
-          </tr>
-        </tbody>
-      </table>
+
+<div class="">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Tasks</h3>
     </div>
   </div>
-  <div>
-    <ul *ngIf="currentTasks">
-      <li>
-        <a>
-          <h2>Task 1</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
+</div>
+
+<div class="row">
+  <div class="col-xs-2">
+    <!-- required for floating -->
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs tabs-left">
+      <li [routerLink]="['/tasks/new']" routerLinkActive="active">
+        <a href="" data-toggle="tab">New task</a>
       </li>
-      <li>
-        <a>
-          <h2>Task 1</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
+      <li [routerLink]="['/tasks/history']" routerLinkActive="active"><a href="" data-toggle="tab">Show history</a>
       </li>
-      <li>
-        <a>
-          <h2>Task 1</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
-      </li>
-      <li>
-        <a>
-          <h2>Task 1</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
-      <li>
-        <a>
-          <h2>Task 1</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
-      </li>
-      <li>
-        <a>
-          <h2>Task 2</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
-      </li>
-      <li>
-        <a>
-          <h2>Task 3</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
-      </li>
-      <li>
-        <a>
-          <h2>Task 4</h2>
-          <p>Description</p>
-          <p>Due date</p>
-          <p>Date modified</p>
-        </a>
+      <li [routerLink]="['/tasks/current']" routerLinkActive="active"><a href="" data-toggle="tab">Current tasks</a>
       </li>
     </ul>
+  </div>
+  <div class="col-xs-10">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="home">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+
+
 

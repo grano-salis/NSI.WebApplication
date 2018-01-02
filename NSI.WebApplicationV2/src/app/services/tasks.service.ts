@@ -12,7 +12,7 @@ export class TasksService {
   private headers = new HttpHeaders();
 
   constructor(private http: HttpClient) {
-    this._url = environment.serverUrl + '/api/Tasks';
+    this._url = environment.serverUrl + '/api/tasks';
     this.headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   }
 
@@ -31,7 +31,10 @@ export class TasksService {
   }
 
    getTasks(params?: any): Observable<any> {
-     return this.http.get(`${this._url}/api/tasks`);
+     return this.http.get(`${this._url}`);
    }
 
+  getTasksWithDueDateRange(params?: any) {
+    return this.http.get(`${this._url}/getTasksWithDueDateRange`, {params: params})
+  }
 }

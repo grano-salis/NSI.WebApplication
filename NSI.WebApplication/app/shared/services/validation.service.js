@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var ValidationService = /** @class */ (function () {
+var ValidationService = (function () {
     function ValidationService() {
     }
     ValidationService.validateEmailFormat = function (ctrol) {
@@ -16,10 +16,10 @@ var ValidationService = /** @class */ (function () {
     };
     ValidationService.validateDateFormat = function (ctrol) {
     };
-    ValidationService = __decorate([
-        core_1.Injectable()
-    ], ValidationService);
     return ValidationService;
 }());
+ValidationService = __decorate([
+    core_1.Injectable()
+], ValidationService);
 exports.ValidationService = ValidationService;
 //# sourceMappingURL=validation.service.js.map

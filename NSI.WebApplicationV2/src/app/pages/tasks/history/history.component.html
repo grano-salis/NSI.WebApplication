@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="table-responsive">
+      <table class="table table-striped jambo_table bulk_action">
+        <thead>
+        <tr class="headings">
+          <th class="column-title">Status</th>
+          <th class="column-title">Title</th>
+          <th class="column-title">Description</th>
+          <th class="column-title">Due date</th>
+          <th class="column-title">Date modified</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr class="even pointer" *ngFor="let task of tasks.data">
+          <td class="a-center ">
+            <!--<input type="checkbox" class="flat" name="table_records"-->
+                   <!--[(ngModel)]="task.statusTemp"-->
+                   <!--[value]="task.status" (change)="changeTaskStatus(task)">-->
+            <select [(ngModel)]="task.status" (change)="changeTaskStatus(task)">
+              <option *ngFor="let status of taskStatuses" [value]="status">{{status}}</option>
+            </select>
+          </td>
+          <td>{{task.title}}</td>
+          <td>{{task.description}}</td>
+          <td>{{task.dueDate | date:'shortDate'}}</td>
+          <td>{{task.dateModified | date:'shortDate'}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-xs-12">
+    <pagination *ngIf="tasks?.data?.length" [totalItems]="tasks.count"
+                [itemsPerPage]="params.pageSize"
+                [(ngModel)]="params.page" class="pagination-sm pull-right"
+                (pageChanged)="pageChanged($event)"
+                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+
+  </div>
+</div>
