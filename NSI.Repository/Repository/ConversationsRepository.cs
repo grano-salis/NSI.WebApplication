@@ -102,6 +102,7 @@ namespace NSI.Repository.Repository
                 var conversations = context.Conversation.Include("Participant.User").Where(x => x.Participant.Any(y => y.User.UserId == id)).ToList();
 
                 conversations.ForEach(x => x.Message = GetMessagesFromConversation(x.ConversationId));
+                conversations.Sort(Compare);
                 return conversations;
 
                
@@ -187,5 +188,27 @@ namespace NSI.Repository.Repository
         {
             return context.UserInfo.ToList();
         }
+
+        public int Compare(Conversation x, Conversation y)
+        {
+            if ((x.Message == null && y.Message == null) || (x.Message.Count == 0 && y.Message.Count == 0))
+            {
+                return (x.ConversationId > y.ConversationId) ? -1 : 1;
+            }
+            else if ((x.Message == null && y.Message != null) || (x.Message.Count == 0 && y.Message.Count != 0))
+            {
+                return (x.Participant.ToList()[0].DateCreated > y.Message.ToList()[y.Message.Count() - 1].DateCreated) ? -1 : 1;
+            }
+            else if ((x.Message != null && y.Message == null) || (x.Message.Count != 0 && y.Message.Count == 0))
+            {
+                return (x.Message.ToList()[x.Message.Count() - 1].DateCreated > y.Participant.ToList()[0].DateCreated) ? -1 : 1;
+            }
+            else
+            {
+                return (x.Message.ToList()[x.Message.Count() - 1].DateCreated > y.Message.ToList()[y.Message.Count() - 1].DateCreated) ? -1 : 1;
+            }
+
+        }
+
     }
 }
