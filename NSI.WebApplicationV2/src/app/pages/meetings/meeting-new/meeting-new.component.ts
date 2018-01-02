@@ -134,7 +134,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   }
 
   checkUsersAvailability() {
-    this.meetingsService.checkUsersAvailability(this.model.userMeeting,this.model.from,this.model.to)
+    this.meetingsService.checkUsersAvailability(this.model.userMeeting,this.model.from,this.model.to, this.id)
         .subscribe(
           (r: any) => {
             this.usersAvailableForMeeting = r.data; 
@@ -144,7 +144,7 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
   }
 
   getMeetingTimes() {
-    this.meetingsService.getMeetingTimes(this.model.userMeeting, this.model.from, this.model.to, 3)
+    this.meetingsService.getMeetingTimes(this.model.userMeeting, this.model.from, this.model.to, 3, this.id)
         .subscribe(
           (r: any) => {
             this.availableMeetings = r.data;

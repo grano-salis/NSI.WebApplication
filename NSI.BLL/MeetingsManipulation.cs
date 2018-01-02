@@ -66,14 +66,14 @@ namespace NSI.BLL
             return _meetingsRepository.GetMeetingsByUser(userId);
         }
 
-        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration)
+        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration, int currentMeetingId)
         {
-            return _meetingsRepository.GetMeetingTimes(userIds, from, to, meetingDuration);
+            return _meetingsRepository.GetMeetingTimes(userIds, from, to, meetingDuration, currentMeetingId);
         }
 
-        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to)
+        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to, int currentMeetingId)
         {
-            return _meetingsRepository.CheckUsersAvailability(userIds, from, to);
+            return _meetingsRepository.CheckUsersAvailability(userIds, from, to, currentMeetingId);
         }
     }
 }

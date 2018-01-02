@@ -138,15 +138,18 @@ namespace NSI.Repository
         }
 
         //returns intervals of available time for appointing a meeting for given users and time range 
-        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration)
+        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration, int currentMeetingId)
         {
             //gathering the meetings of all the given users
             List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
             for(int i = 0; i < userIds.Count; i++)
             {
                 var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
+                meetings.RemoveAll(m => m.MeetingId == currentMeetingId);
                 userMeetings.Add(meetings);
             }
+
+
 
             List<MeetingTimeDto> listOfAvailableTimes = new List<MeetingTimeDto>();
 
@@ -246,14 +249,15 @@ namespace NSI.Repository
             return listOfAvailableTimes;
         }
 
-        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to)
+        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to, int currentMeetingId)
         {
             // find all meetings for every user
             List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
             for (int i = 0; i < userIds.Count; i++)
             {
                 var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
-                userMeetings.Add(meetings);
+                var sortedMeetings = meetings.OrderBy(m => m.From).ToList(); 
+                userMeetings.Add(sortedMeetings);
             }
 
             // list of colliding meetings, one per every user
@@ -298,6 +302,9 @@ namespace NSI.Repository
                     collidingMeetings.Add(new MeetingDto());
                 }
             }
+
+            collidingMeetings.RemoveAll(m => m.MeetingId == currentMeetingId);
+
 
             return collidingMeetings;
         }
