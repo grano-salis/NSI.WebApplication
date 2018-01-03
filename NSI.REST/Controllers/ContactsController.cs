@@ -47,7 +47,6 @@ namespace NSI.REST.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]ContactDto model)
         {
-            Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
