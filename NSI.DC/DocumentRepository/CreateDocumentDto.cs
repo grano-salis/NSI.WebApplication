@@ -14,14 +14,10 @@ namespace NSI.DC.DocumentRepository
         public string DocumentTitle { get; set; }
         [DataMember]
         public string DocumentDescription { get; set; }
-
         [DataMember]
         public int CaseId { get; set; }
         [DataMember]
         public int CategoryId { get; set; }
-        [DataMember]
-        public int FileTypeId { get; set; }
-
         [DataMember]
         public string DocumentPath { get; set; }
         [DataMember]

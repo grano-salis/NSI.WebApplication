@@ -50,7 +50,7 @@ namespace NSI.BLL
         {
             if (document == null)
             {
-                throw new ArgumentException("Document is null");
+                throw new ArgumentException("Document is not valid.");
             }
 
             var result = _documentRepository.SaveDocument(document);
