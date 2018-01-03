@@ -13,8 +13,10 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="title" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.title" name="title" #title="ngModel" class="form-control col-md-7 col-xs-12">
-                        <br><br>
+                        <input type="text" id="title" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.title" name="title"
+                            #title="ngModel" class="form-control col-md-7 col-xs-12">
+                        <br>
+                        <br>
                         <div class="warningMessages">
                             <div class="alert alert-danger" *ngIf="title.errors && (title.dirty || title.touched)">
                                 <p *ngIf="title.errors.required">Title is required</p>
@@ -22,7 +24,8 @@
                                 <p *ngIf="title.errors.pattern">Title must contain only letters</p>
                             </div>
                         </div>
-                    </div><!--
+                    </div>
+                    <!--
                     <div class='col-md-3 col-sm-3 col-xs-12'>
                         <div class='' [hidden]="meetingPlace.valid || meetingPlace.pristine">
                             Meeting place is required
@@ -36,8 +39,10 @@
                         <span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="meetingplace" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.meetingPlace" name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
-                        <br><br>
+                        <input type="text" id="meetingplace" required minlength="3" maxlength="120" pattern="[A-Za-z0-9 ]*" [(ngModel)]="model.meetingPlace"
+                            name="meetingPlace" #meetingPlace="ngModel" class="form-control col-md-7 col-xs-12">
+                        <br>
+                        <br>
                         <div class="warningMessages">
                             <div class="alert alert-danger" *ngIf="meetingPlace.errors && (meetingPlace.dirty || meetingPlace.touched)">
                                 <p *ngIf="meetingPlace.errors.required">Meeting place is required</p>
@@ -45,7 +50,8 @@
                                 <p *ngIf="meetingPlace.errors.pattern">Meeting place must contain only letters</p>
                             </div>
                         </div>
-                    </div><!--
+                    </div>
+                    <!--
                     <div class='col-md-3 col-sm-3 col-xs-12'>
                         <div class='' [hidden]="meetingPlace.valid || meetingPlace.pristine">
                             Meeting place is required
@@ -86,7 +92,7 @@
                                             <p *ngIf="to.errors.required">End date is required</p>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </fieldset>
                     </div>
@@ -98,7 +104,8 @@
                         <!-- <span class="required">*</span> -->
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="users-list" name='users-list' #usersList="ngModel" type="text" class="filter-input form-control col-md-7 col-xs-12" [(ngModel)]=query (keyup)=filter()>
+                        <input id="users-list" name='users-list' #usersList="ngModel" type="text" class="filter-input form-control col-md-7 col-xs-12"
+                            [(ngModel)]=query (keyup)=filter()>
                         <div class="suggestions" *ngIf="filteredList.length > 0">
                             <ul *ngFor="let item of filteredList">
                                 <li>
@@ -112,7 +119,8 @@
                                 <a (click)="remove(item)">x</a>
                             </div>
                         </div>
-                        <br><br>
+                        <br>
+                        <br>
                         <div class="warningMessages">
                             <div class="alert alert-danger" *ngIf="(model.userMeeting.length < 1) && (usersList.dirty || usersList.touched)">
                                 <p>You must add at least 1 user to meeting</p>
@@ -120,11 +128,11 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Available meeting times for all users</h5>
@@ -136,30 +144,41 @@
                                 <div class="form-group" *ngIf="usersAvailableForMeeting.length > 0">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users-list">The following users have meeting in the specified time</label>
                                     <div class="col-md-8">
-                                        <ul style="list-style: none;">
-                                            <li *ngFor="let item of usersAvailableForMeeting">
-                                                <div *ngIf="!(item.from == null || item.to == null)" class="alert alert-danger">
-                                                    <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
-                                                    <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
-                                                    <p class="card-text">Title : {{item.title}}</p>
-                                                    <p *ngFor="let x of item.userMeeting" class="card-text">User attending: {{x.userName}}</p>
+                                        <div class="modal-users-availability col-md-6" *ngFor="let item of usersAvailableForMeeting; let idx = index">
+                                            <div *ngIf="!(item.from == null || item.to == null)" class="panel">
+                                                <a class="panel-heading collapsed" role="tab" id="heading{{idx}}" data-toggle="collapse" href="#collapse{{idx}}" aria-expanded="false"
+                                                    attr.aria-controls="collapse{{idx}}">
+                                                    <h4>
+                                                        <span *ngFor="let x of item.userMeeting; let isLast=last" class="card-text">
+                                                            {{x.userName}}{{isLast ? '' : ', '}}
+                                                        </span>
+                                                    </h4>
+                                                </a>
+                                                <div id="collapse{{idx}}" class="panel-collapse collapse" role="tabpanel" attr.aria-labelledby="heading{{idx}}" aria-expanded="false"
+                                                    style="height: 0px;">
+                                                    <div class="panel-body">
+                                                        <p class="card-text">
+                                                            <b>Start of meeting:</b> {{ item.from | date:'M-d-y HH:mm'}}</p>
+                                                        <p class="card-text">
+                                                            <b>End of meeting:</b> {{ item.to | date:'M-d-y HH:mm' }}</p>
+                                                        <p class="card-text">
+                                                            <b>Title:</b> {{item.title}}</p>
+                                                    </div>
                                                 </div>
-                                            </li>
-                                        </ul>   
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
+                                <hr>
                                 <div class="form-group" *ngIf="availableMeetings.length > 0">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Available meeting times</label>
                                     <div class="col-md-8">
-                                        <ul style="list-style: none;">
-                                            <li *ngFor="let item of availableMeetings">
-                                                <div class="alert alert-info" *ngIf="!(item.from == null || item.to == null)">
-                                                    <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
-                                                    <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
-                                                </div>
-                                            </li>
-                                        </ul>   
+                                        <div class="col-md-6" *ngFor="let item of availableMeetings">
+                                            <div class="modal-available-meetings" *ngIf="!(item.from == null || item.to == null)" (click)="selectedAvailableDates(item.from, item.to)" data-dismiss="modal">
+                                                <p class="card-text">Start of meeting : {{ item.from | date:'M-d-y HH:mm'}}</p>
+                                                <p class="card-text">End of meeting : {{ item.to | date:'M-d-y HH:mm' }}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -178,7 +197,8 @@
                         <button type="submit" [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)" class="btn btn-success" *ngIf="!edit">Submit</button>
                         <button type="reset" class="btn btn-default" (click)="newMeeting(); meetingForm.reset()">New meeting</button>
                         <button type="button" class="btn btn-danger" (click)="deleteMeeting()" [disabled]="!meetingForm.form.valid">Delete</button>
-                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-default" (click)="checkUsersAvailability()" [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)" >Check users availability</button>      
+                        <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-default" (click)="checkUsersAvailability()"
+                            [disabled]="!(meetingForm.form.valid && model.userMeeting.length > 0)">Check users availability</button>
                     </div>
                 </div>
 

@@ -151,4 +151,9 @@ export class MeetingNewComponent implements OnInit, AfterViewInit {
           }
         )
   }
+
+  selectedAvailableDates(from:any, to:any) {
+    this.model.from = this.datePipe.transform(new Date(from), 'MM/dd/yyyy, HH:mm:ss');
+    this.model.to = this.datePipe.transform(new Date(to), 'MM/dd/yyyy, HH:mm:ss');
+  }
 }
