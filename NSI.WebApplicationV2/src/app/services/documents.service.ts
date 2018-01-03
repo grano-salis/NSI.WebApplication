@@ -5,6 +5,7 @@ import { RequestOptions, Headers } from "@angular/http";
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/map';
 
 import {
   Document,
@@ -135,9 +136,9 @@ export class DocumentsService {
             /*"ModifiedAt",*/ "ModifiedAfter"];
   }
 
-  uploadFile(formData: FormData, headers: Headers): Observable<any> {
-    let options = new RequestOptions({ headers: headers });
-    return this.http.post(this._url.documents + "upload", formData)
+  uploadFile(formData: FormData): Observable<any> {
+    let headers = new HttpHeaders({'Accept': 'application/json'});
+    return this.http.post(this._url.documents + "upload", formData, {headers: headers})
               .map((path: string) => { return path; });
   }
 

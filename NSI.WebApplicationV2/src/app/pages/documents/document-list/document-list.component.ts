@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Document, DocumentDetails, DocumentQuery } from '../models/index.model';
 import { DocumentsService } from '../../../services/documents.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-document-list',
@@ -24,7 +25,7 @@ export class DocumentListComponent implements OnInit {
     currPage: number = 1;
     pages: number[];
     
-    constructor(private documentsService: DocumentsService) {}
+    constructor(private documentsService: DocumentsService, private sanitizer: DomSanitizer) {}
 
     ngOnInit() {
         this.queryModel = new DocumentQuery(1, 5);
@@ -120,10 +121,13 @@ export class DocumentListComponent implements OnInit {
                 {
                     this.queryModel.searchByCaseId = 0;
                     this.updatePage();
-                });
+                }); 
 
     //     this.addressService.addressAdded.subscribe((address: AddressDetail) => { this.addresses.push(address); });
     //     this.addressService.addressUpdated.subscribe((item: { index: number, address: AddressDetail }) => { this.addresses[item.index] = item.address });
-    // 
+    }
+
+    sanitize(url: string): SafeUrl {
+        return this.sanitizer.bypassSecurityTrustUrl(url);
     }
 }

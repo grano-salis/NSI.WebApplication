@@ -4,12 +4,15 @@ import {
   Inject,
   OnInit,   
   ViewChild,
-  ViewContainerRef 
+  ViewChildren,
+  ViewContainerRef,
+  QueryList
 } from '@angular/core';
 
 import { DocumentFilter } from '../models/documentFilter.model'
 import { DocumentsService } from '../../../services/documents.service';
 import { DocumentsFilterService } from '../../../services/documents-filter.service';
+import { DocumentFilterComponent } from './document-filter/document-filter.component';
 
 @Component({
   selector: 'app-document-filter-list',
@@ -23,6 +26,8 @@ export class DocumentFilterListComponent implements OnInit {
     read: ViewContainerRef 
   }) viewContainerRef: ViewContainerRef;
 
+  @ViewChildren('filterComponentList') filters: QueryList<DocumentFilterComponent>;
+
   constructor(private documentsService: DocumentsService, private documentsFilterService: DocumentsFilterService) { }
 
   ngOnInit() {
@@ -31,5 +36,10 @@ export class DocumentFilterListComponent implements OnInit {
       
       this.documentsService.newFilterEvent
         .subscribe(() => this.documentsFilterService.addDocumentFilterComponent(this.scopedToCase));
+  }
+
+  onFilterSearch() {
+    let counter = 0;
+    this.filters.forEach( (child) => console.log(counter++));
   }
 }

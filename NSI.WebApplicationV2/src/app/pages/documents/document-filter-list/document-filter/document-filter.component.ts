@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChildren } from '@angular/core';
 import { DocumentFilter, DocumentQuery } from '../../models/index.model';
 import { DocumentsService } from '../../../../services/documents.service';
 
@@ -47,6 +47,10 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         $("#"+ this.dateIdentifier()).datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+    }
+
+    getSearchValue() {
+        return this.chosenFilter;
     }
 
     onButtonClick() {
