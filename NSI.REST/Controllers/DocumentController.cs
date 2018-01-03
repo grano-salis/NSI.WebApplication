@@ -126,7 +126,7 @@ namespace NSI.REST.Controllers
             {
                 var file = Request.Form.Files.FirstOrDefault();
                 var path = await DocumentManipulation.UploadFileAsync(file);
-                return Ok(path);
+                return Ok(Path.Combine("localhost:59738", path));
             }
             catch (Exception ex)
             {

@@ -26,37 +26,44 @@ namespace NSI.BLL
 
         public async Task<string> UploadFileAsync(IFormFile file)
         {
-
             if (file == null || file.Length == 0) return "File not selected";
 
             var guid = Guid.NewGuid().ToString().Substring(0,7);
             List<string> arrayFileName = new List<string>(file.FileName.Split('.'));
             int lastIndex = arrayFileName.Count - 1;
-            var extension = arrayFileName[lastIndex];
+            string extension = arrayFileName[lastIndex];
             arrayFileName.RemoveAt(lastIndex);
             arrayFileName.Add("-" + guid + "." + extension);
 
-            var path = Path.Combine(
-                Directory.GetCurrentDirectory(), "Documents", String.Join("", arrayFileName));
+            string rightPath = Path.Combine("Documents", String.Join("", arrayFileName));
+            var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot", rightPath);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            return path;
+
+            return rightPath;
         }
 
         public bool SaveDocument(CreateDocumentDto document)
         {
-            if (document == null) throw new Exception("Document is null");
+            if (document == null)
+            {
+                throw new ArgumentException("Document is null");
+            }
 
             var result = _documentRepository.SaveDocument(document);
-            return result != null;
+            return result != 0;
         }
 
         public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
         {
-            if (id == 0) throw new Exception("Id is not valid");
+            if (id == 0)
+            {
+                throw new ArgumentException("Id is not valid");
+            }
+
             return _documentRepository.GetDocumentHistoryByDocumentId(id);
         }
 
@@ -65,35 +72,52 @@ namespace NSI.BLL
             return _documentRepository.GetDocumentsByCase(id);
         }
         public int GetNumberOfDocumentsByCase(int caseId)
-        {
-           
+        {      
             return _documentRepository.GetNumberOfDocumentsByCase(caseId);
         }
 
         public PagingResultModel<DocumentDetails> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
-            if(query.PageNumber < 0) throw new Exception("Page number is not valid");
+            if (query.PageNumber < 0)
+            {
+                throw new ArgumentException("Page number is not valid");
+            }
             return _documentRepository.GetAllDocumentsByPage(query);
         }
 
         public DocumentDetails GetDocumentById(int documentId)
         {
-            if (documentId == 0) throw new Exception("Id is not valid.");
+            if (documentId == 0)
+            {
+                throw new ArgumentException("Id is not valid.");
+            }
+
             return _documentRepository.GetDocument(documentId);
         }
 
         public bool DeleteDocument(int id)
         {
-            if (id == 0) throw new Exception("Id is not valid");
+            if (id == 0)
+            {
+                throw new ArgumentException("Id is not valid.");
+            }
+
             return _documentRepository.DeleteDocument(id);
         }
 
         public bool EditDocument(int id, DocumentDto documentDto)
         {
-            if (id == 0) throw new Exception("Id is not valid");
+            if (id == 0)
+            {
+                throw new ArgumentException("Id is not valid.");
+            }
 
             var document = _documentRepository.GetDocument(documentDto.DocumentId);
-            if (document == null) return false;
+
+            if (document == null)
+            {
+                return false;
+            }
 
             _documentRepository.Update(documentDto);
             return true;
