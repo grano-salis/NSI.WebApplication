@@ -33,7 +33,7 @@
                       <div *ngIf="isItNewContact && (address.address1==='' || !address.address1)"
                            class="col-md-8  col-xs-12 div-inline-beauty">
                         <div>
-                          <p style="color: red"> Required</p>
+                          <p style="color: red; margin:0"> Required</p>
                         </div>
                       </div>
 
@@ -80,7 +80,7 @@
                       <div *ngIf="isItNewContact && !address.addressTypeId"
                            class="col-md-8 col-xs-12 div-inline-beauty">
                         <div>
-                          <p style="color: red"> Required</p>
+                          <p style="color: red; margin:0"> Required</p>
                         </div>
                       </div>
                     </div>
@@ -103,7 +103,7 @@
                       <div *ngIf="isItNewContact && (address.city==='' || !address.city)"
                            class="col-md-8  col-xs-12 div-inline-beauty">
                         <div>
-                          <p style="color: red"> Required</p>
+                          <p style="color: red; margin:0"> Required</p>
                         </div>
                       </div>
                     </div>
@@ -143,7 +143,7 @@
                       <div *ngIf="isItNewContact && (!address.zipCode || address.zipCode.toString() ==='')"
                            class="col-md-8 col-xs-12 div-inline-beauty">
                         <div>
-                          <p style="color: red"> Required</p>
+                          <p style="color: red; margin:0"> Required</p>
                         </div>
                       </div>
                     </div>
@@ -168,3 +168,9 @@
     </div>
   </div>
 </div>
+<style>
+
+  .form-group{
+    margin:0;
+  }
+</style>
