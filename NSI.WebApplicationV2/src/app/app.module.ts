@@ -14,7 +14,7 @@ import { QuoteService } from './services/quote.service';
 import { CookieService } from 'ngx-cookie-service';
 import { TasksService } from './services/tasks.service';
 import { NgLoadingSpinnerModule, NgLoadingSpinnerInterceptor } from 'ng-loading-spinner';
-import { AlertModule } from 'ngx-bootstrap';
+import {AlertModule} from 'ngx-bootstrap';
 import { HelperService } from './services/helper.service';
 import { MeetingsService } from './services/meetings.service';
 import { AddressService } from './services/address.service';
@@ -26,6 +26,7 @@ import { HearingsService } from './services/hearings.service';
 import { AddressTypeService } from './services/addressType.service';
 import { CasesService } from './services/cases.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {PagerService} from "./services/pagination.service";
 
 import { TransactionsService } from './services/transactions.service';
 import { PaymentGatewaysService } from './services/payment-gateways.service';
@@ -67,14 +68,16 @@ const toastrSettings = {
     AddressTypeService,
     UsersService,
     ContactsService,
-    HearingsService,
     DocumentsService,
     DocumentsFilterService,
     AlertService,
     PaymentGatewaysService,
     PricingPackagesService,
     TransactionsService,
-    CasesService
+    CasesService,
+    HearingsService,
+    PagerService
+    //DocumentsService
   ],
   bootstrap: [AppComponent]
 })

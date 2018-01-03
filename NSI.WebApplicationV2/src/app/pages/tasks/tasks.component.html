@@ -1,82 +1,42 @@
-<div id="datatable-checkbox_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-  <div class="row"><div class="col-sm-6"><div class="dataTables_length" id="datatable-checkbox_length"><label>Show <select name="datatable-checkbox_length" aria-controls="datatable-checkbox" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-6"><div id="datatable-checkbox_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="datatable-checkbox"></label></div></div></div><div class="row">
-    <div class="col-sm-12">
-      <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dataTable no-footer" role="grid" aria-describedby="datatable-checkbox_info">
-        <thead>
-          <tr role="row">
-            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
-							 " style="width: 4px;">
-            </th>
-            <th class="sorting_asc" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-sort="ascending" aria-label=": activate to sort column descending" style="width: 27px;"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 124px;">Task</th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 210px;">Description</th>
-            <th class="sorting" tabindex="0" aria-controls="datatable-checkbox" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 89px;">Due date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Garrett Winters</td>
-            <td>Accountant</td>
-            <td>2011/07/25</td>
-          </tr>
-          <tr role="row" class="odd">
+<!--<div id="datatable-checkbox_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">-->
+<!--&lt;!&ndash;Buttons&ndash;&gt;-->
+<!--<button class="md-raised md-button md-ink-ripple" type="button" ng-transclude="" [routerLink]="['/tasks/new']" routerLinkActive="active"><span class="ng-scope">New task</span><div class="md-ripple-container" style=""></div></button>-->
+<!--<button class="md-raised md-button md-ink-ripple" type="button" (click)="tasksHistory=true; currentTasks=false"><span class="ng-scope">Show history</span><div class="md-ripple-container" style=""></div></button>-->
+<!--<button class="md-raised md-button md-ink-ripple" type="button" (click)="tasksHistory=false; currentTasks=true" ng-transclude=""><span class="ng-scope">Current tasks</span><div class="md-ripple-container" style=""></div></button>-->
+<!--</div>-->
 
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Ashton Cox</td>
-            <td>Junior Technical Author</td>
-            <td>2009/01/12</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Cedric Kelly</td>
-            <td>Senior Javascript Developer</td>
-            <td>2012/03/29</td>
-          </tr>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Airi Satou</td>
-            <td>Accountant</td>
-            <td>2008/11/28</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Brielle Williamson</td>
-            <td>Integration Specialist</td>
-            <td>2012/12/02</td>
-          </tr>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Herrod Chandler</td>
-            <td>Sales Assistant</td>
-            <td>2012/08/06</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Rhona Davidson</td>
-            <td>Integration Specialist</td>
-            <td>2010/10/14</td>
-          </tr>
-          <tr role="row" class="odd">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Colleen Hurst</td>
-            <td>Javascript Developer</td>
-            <td>2009/09/15</td>
-          </tr>
-          <tr role="row" class="even">
-            <th class="sorting_1"><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" id="check-all" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></th>
-            <td>Sonya Frost</td>
-            <td>Software Engineer</td>
-            <td>2008/12/13</td>
-          </tr>
-        </tbody>
-      </table>
+
+<div class="">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Tasks</h3>
     </div>
-  </div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="datatable-checkbox_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate"><ul class="pagination"><li class="paginate_button previous disabled" id="datatable-checkbox_previous"><a href="#" aria-controls="datatable-checkbox" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="datatable-checkbox" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="datatable-checkbox" data-dt-idx="2" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="datatable-checkbox" data-dt-idx="3" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="datatable-checkbox" data-dt-idx="4" tabindex="0">4</a></li><li class="paginate_button "><a href="#" aria-controls="datatable-checkbox" data-dt-idx="5" tabindex="0">5</a></li><li class="paginate_button "><a href="#" aria-controls="datatable-checkbox" data-dt-idx="6" tabindex="0">6</a></li><li class="paginate_button next" id="datatable-checkbox_next"><a href="#" aria-controls="datatable-checkbox" data-dt-idx="7" tabindex="0">Next</a></li></ul></div></div></div>
+  </div>
 </div>
+
+<div class="row">
+  <div class="col-xs-2">
+    <!-- required for floating -->
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs tabs-left">
+      <li [routerLink]="['/tasks/new']" routerLinkActive="active">
+        <a href="" data-toggle="tab">New task</a>
+      </li>
+      <li [routerLink]="['/tasks/history']" routerLinkActive="active"><a href="" data-toggle="tab">Show history</a>
+      </li>
+      <li [routerLink]="['/tasks/current']" routerLinkActive="active"><a href="" data-toggle="tab">Current tasks</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-10">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="home">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

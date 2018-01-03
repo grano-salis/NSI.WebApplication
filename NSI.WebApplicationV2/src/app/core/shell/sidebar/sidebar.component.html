@@ -50,33 +50,33 @@
           </ul>
         </li>
 
-        <li >
+        <li [ngClass]="{'active': meetingsRouter.isActive || meetingsNewRouter.isActive}">
           <a id="meetingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Meetings
             <span id="meetingschevron" class="fa fa-chevron-down"></span>
           </a>
-          <ul class="nav child_menu">
-            <li [routerLink]="['/meetings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <ul class="nav child_menu" [ngStyle]="{'display': (meetingsRouter.isActive || meetingsNewRouter.isActive) ? 'block': 'none'}">
+            <li [routerLink]="['/meetings']" routerLinkActive="active" #meetingsRouter="routerLinkActive" [routerLinkActiveOptions]="{exact: true}">
               <a>Overview</a>
             </li>
-            <li [routerLink]="['/meetings/new']" routerLinkActive="active">
+            <li [routerLink]="['/meetings/new']" #meetingsNewRouter="routerLinkActive"  routerLinkActive="active">
               <a>New meeting</a>
             </li>
           </ul>
         </li>
-        <li>
-          <a id="tasksli" (click)="anchorClicked($event)">
+        <li [ngClass]="{'active': tasksRouter.isActive}">
+          <a id="tasksli" (click)="anchorClicked($event)" [routerLink]="['/tasks']"
+             #tasksRouter="routerLinkActive" routerLinkActive="active">
             <i class="fa fa-tasks"></i> Tasks
-            <span id="taskschevron" class="fa fa-chevron-down"></span>
           </a>
-          <ul class="nav child_menu">
+          <!--<ul class="nav child_menu">
             <li [routerLink]="['/tasks']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <a>Overview</a>
             </li>
             <li [routerLink]="['/tasks/new']" routerLinkActive="active">
               <a>New task</a>
             </li>
-          </ul>
+          </ul>-->
         </li>
         <li >
           <a id="hearingsli" (click)="anchorClicked($event)">

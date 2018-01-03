@@ -31,7 +31,10 @@ export class TasksService {
   }
 
    getTasks(params?: any): Observable<any> {
-     return this.http.get(`${this._url}/api/tasks`);
+     return this.http.get(`${this._url}`);
    }
 
+  getTasksWithDueDateRange(params?: any) {
+    return this.http.get(`${this._url}/getTasksWithDueDateRange`, {params: params})
+  }
 }

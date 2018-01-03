@@ -9,7 +9,6 @@ import { AuthenticationGuard } from './authentication/authentication.guard';
 import { I18nService } from './services/i18n.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {NsiHttpInterceptor} from "./http/http.interceptor";
-import {Logger} from "./services/logger.service";
 import { SidebarComponent } from './shell/sidebar/sidebar.component';
 import { TopnavbarComponent } from './shell/topnavbar/topnavbar.component';
 

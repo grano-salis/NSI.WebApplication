@@ -12,8 +12,6 @@ export class AddressTypeListComponent implements OnInit {
 
   public addressTypes: AddressType[];
 
-  //@Output() editAddresTypeEvent = new EventEmitter();
-
   constructor(private addressTypeService: AddressTypeService, private router: Router) { }
 
   ngOnInit() {
@@ -32,13 +30,10 @@ export class AddressTypeListComponent implements OnInit {
   deleteAddressTypeFromLista(index: number){
     this.addressTypes.splice(index, 1);
   }
-/*
-  editAddressType(user: any){
-this.editAddresTypeEvent.emit(user);
-    /*console.log(addressType);
-console.log('editAddressType uslo');
-    this.router.navigate(['address/edit', addressType]);
-console.log('editAddressType proslo');
-console.log(addressType);
-  }*/
+
+  editAddressType(event: AddressType)
+  {
+      let x = this.addressTypes.find(a => a.addressTypeId == event.addressTypeId);
+      x.addressTypeName = event.addressTypeName;
+  }
 }

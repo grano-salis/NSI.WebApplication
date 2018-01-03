@@ -79,6 +79,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
           this.noteText = data.note[0].text;
+          $("#editor-one").html(this.noteText);
         }
         console.log(this.edit);
       },
@@ -92,7 +93,7 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
     this.noteIndex = this.model.note.findIndex(x => x.createdByUserId == 1);
-    if(this.noteIndex != null)
+    if(this.noteIndex != -1)
     {
       this.model.note.splice(this.noteIndex, 1,{ text: this.noteText, createdByUserId: 1, hearingId: 5 });
     }
@@ -106,6 +107,8 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     console.log("Form submitted");
+    this.noteText = $.trim($("#editor-one").html())
+    console.log(this.noteText)
     this.model.hearingDate = $('#hearingDate').val()
     this.notes.push({ text: this.noteText, createdByUserId: 1, hearingId: 5 })
     this.model.note = this.notes

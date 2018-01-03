@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ContactsService} from '../../services/contacts.service';
 
+import {PagerService} from "../../services/pagination.service";
+import {FormBuilder, Validators} from "@angular/forms";
+import {ValidationService} from "./validation.service";
 declare let $: any;
 
 class Contact {
@@ -9,6 +12,7 @@ class Contact {
   phone: any;
   email: any;
   mobile: any;
+
 
   constructor() {
     this.firsttName = '';
@@ -31,25 +35,27 @@ export class ContactsComponent implements OnInit {
   temp_contact: any;
   filterColumn: string;
   filterValue: string;
+  private allItems: any[];
+  form: any;
 
-  constructor(private contactsService: ContactsService) {
+  // pager object
+  pager: any = {};
+  sortNumber: number;
+  pagedItems: any[];
+
+  constructor(private contactsService: ContactsService, private pagerService: PagerService,
+              private formBuilder: FormBuilder) {
     const _this = this;
     this.filterColumn = 'name';
     this.filterValue = '';
-    /*setTimeout(function () {
-      $(function () {
-    //    _this.initTable();
-      });
-    }, 700);*/
     this.temp_contact = new Contact();
+    this.sortNumber = 0;
+    this.clearNewForm();
   }
 
   ngOnInit() {
     const _this = this;
-    this.contactsService.getContacts().subscribe((contacts: any) => {
-      _this.allContacts = contacts;
-      _this.contacts = contacts;
-    });
+    _this.setPage(1);
   }
 
   addContact() {
@@ -58,18 +64,62 @@ export class ContactsComponent implements OnInit {
 
   editContact(contact: any) {
     this.temp_contact = Object.assign({}, contact);
-    if (this.temp_contact.emails.length === 0) {
-      this.temp_contact.emails.push('');
-    }
-    if (this.temp_contact.phones.length === 0) {
-      this.temp_contact.phones.push('');
-    }
+    const con = Object.assign({}, contact);
+    this.editForm(con);
   }
 
   newContact() {
     this.temp_contact = new Contact();
-    this.temp_contact.emails = [];
+    this.temp_contact.emailsArray = [];
     this.temp_contact.phones = [];
+    this.clearNewForm();
+  }
+
+  clearNewForm() {
+    this.form = this.formBuilder.group({
+      'firstname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
+      'lastname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
+      'address': ['', [Validators.required]],
+      'email': ['', [Validators.required, ValidationService.emailValidator]],
+      'phone': ['', [Validators.required, ValidationService.numbersOnlyValidator]],
+      'emails': this.formBuilder.array([]),
+      'phones': this.formBuilder.array([])
+    });
+  }
+
+  editForm(cont: any) {
+    const firstEmail = cont.emails.length === 0 ? '' : cont.emails[0].emailAddress;
+    const firstPhone = cont.phones.length === 0 ? '' : cont.phones[0].phoneNumber;
+    const emails = cont.emails.length === 0 ? cont.emails : cont.emails.splice(1, cont.emails.length - 1);
+    this.temp_contact.email = firstEmail;
+    this.temp_contact.phone = firstPhone;
+    const phones = cont.phones.length === 0 ? cont.phones : cont.phones.splice(1, cont.phones.length - 1);
+    const formEmails = this.formBuilder.array([]);
+    const formPhones = this.formBuilder.array([]);
+
+    emails.forEach((email: any) => {
+        formEmails.controls.push(this.formBuilder.group({
+          'name': [email.emailAddress, [Validators.required, ValidationService.emailValidator]],
+        }));
+      }
+    )
+
+    phones.forEach((phone: any) => {
+      formPhones.controls.push(this.formBuilder.group({
+        'name': [phone.phoneNumber, [Validators.required, ValidationService.numbersOnlyValidator]],
+      }));
+    })
+    this.form = this.formBuilder.group({
+      'firstname': [cont.firsttName, [Validators.required, ValidationService.lettersOnlyValidator]],
+      'lastname': [cont.lastName, [Validators.required, ValidationService.lettersOnlyValidator]],
+      'address': [cont.address, [Validators.required]],
+      'email': [firstEmail, [Validators.required, ValidationService.emailValidator]],
+      'phone': [firstPhone, [Validators.required, ValidationService.numbersOnlyValidator]],
+      'emails': formEmails,
+      'phones': formPhones
+    });
+    delete this.temp_contact.phones;
+    delete this.temp_contact.emails;
   }
 
   showContact(contact: any) {
@@ -77,83 +127,41 @@ export class ContactsComponent implements OnInit {
   }
 
   close() {
-    this.allContacts[this.allContacts.findIndex((c: any) => c.contact1 === this.temp_contact.contact1)] = this.temp_contact;
     this.search();
   }
 
   closeNew() {
-    this.allContacts.push(this.temp_contact);
     this.search();
   }
 
   DeleteElement(contactToDelete: any) {
-    const index = this.allContacts.findIndex((c: any) => c.contact1 === contactToDelete.contact1);
-    this.allContacts.splice(index, 1);
     this.search();
   }
 
-  initTable() {
-    $('#datatable').dataTable(
-      {
-        'searching': false,
-        'bAutoWidth': false,
-        'bLengthChange': false,
-        'aoColumns': [
-          {'bSortable': true},
-          {'bSortable': true},
-          {'bSortable': true},
-          {'bSortable': false},
-          {'bSortable': false},
-          {'bSortable': false}
-        ]
-      }
-    );
-  }
-
   search() {
-    const __this = this;
-    const filterValue = this.filterValue.toLocaleLowerCase();
-    this.contacts = this.allContacts.filter((contact: any) => {
-      if (this.filterColumn === 'name') {
-        return contact.firsttName.toLocaleLowerCase().includes(filterValue) ||
-          contact.lastName.toLocaleLowerCase().includes(filterValue) ||
-          (contact.lastName + ' ' + contact.firsttName).toLocaleLowerCase().includes(filterValue) ||
-          (contact.firsttName + ' ' + contact.lastName).toLocaleLowerCase().includes(filterValue);
-      }
-      if (this.filterColumn === 'phone') {
-        for (const phone of contact.phones) {
-          if (phone.phoneNumber.toLocaleLowerCase().includes(filterValue)) {
-            return true;
-          }
-        }
-        return false;
-      }
-      if (this.filterColumn === 'email') {
-        for (const email of contact.emails) {
-          if (email.emailAddress.toLocaleLowerCase().includes(filterValue)) {
-            return true;
-          }
-        }
-        return false;
-      }
-    });
-    // $('#datatable').dataTable().fnDestroy();
-    /*  setTimeout(function () {
-        $(function () {
-          __this.initTable();
-        });
-      }, 5000);*/
+    this.setPage(1);
   }
 
   changeFilterColumn() {
     const __this = this;
     this.filterValue = '';
-    this.contacts = this.allContacts;
-    /* $('#datatable').dataTable().fnDestroy();
-     setTimeout(function () {
-       $(function () {
-         __this.initTable();
-       });
-     }, 100);*/
+    this.setPage(1);
+  }
+
+  setPage(page: number, sortOrder: string = '') {
+    if (page < 1) {
+      return;
+    }
+    this.contactsService.getPagedContacts(10, page, this.filterValue.toLocaleLowerCase(), this.filterColumn, sortOrder)
+      .subscribe((contacts: any) => {
+        this.pager = this.pagerService.getPager(contacts.total, page);
+        this.contacts = contacts.contacts;
+      });
+  }
+
+
+  sort(column: string, type: number) {
+    this.setPage(1, column);
+    this.sortNumber = type;
   }
 }

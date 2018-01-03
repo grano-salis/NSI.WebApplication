@@ -32,13 +32,12 @@ export class AddressTypeService {
   deleteAddressType(params?: number): Observable<any> {
     return this.http.delete( environment.serverUrl + '/api/addresstype/' + params.toString());
   }
-  putAddressType(id: number, typeAddress: AddressType): Observable<any> {
-    console.log('put service');
-    console.log(id);
-    console.log(typeAddress);
+
+  putAddressType(id: number, typeAddress: AddressType): Observable<any> 
+  {
     const body = JSON.stringify(typeAddress);
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.put(this._url + '/' + id, body, {headers: headers});
+
+    return this.http.put(environment.serverUrl + '/api/addresstype/' + id, body, {headers: this.headers});
   }
 
 

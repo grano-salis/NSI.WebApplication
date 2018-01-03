@@ -79,5 +79,10 @@ namespace NSI.BLL
             var by = "DueDate";
             return PagingHelper<TaskDto>.PagedList(_taskRepository.GetTasksWithDateRange(dateTimeStart, dateTimeEnd, by), (int)pageNumber, (int)pageSize);
         }
+
+        public int GetTasksWithDueDateRangeCount(DateTime dateTimeStart, DateTime dateTimeEnd)
+        {
+            return _taskRepository.GetTasksWithDateRange(dateTimeStart, dateTimeEnd, "DueDate").Count;
+        }
     }
 }
