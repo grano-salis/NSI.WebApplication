@@ -17,6 +17,7 @@ import { RequestOptions, Headers } from '@angular/http';
 })
 export class DocumentModalComponent { 
     @Input() scopedToCase: boolean;
+    @Input() caseNumber: number;     
     @Input() editMode: boolean;
 
     caseList: ListItem[];
@@ -27,8 +28,14 @@ export class DocumentModalComponent {
     docForm: FormGroup;
     document: Document;
     editingStarted: boolean;
+    fileToUpload: any;
+    uploadFormData: FormData;
+    path: string;
+    exam: string;
 
-    constructor(private documentsService : DocumentsService, private formBuilder: FormBuilder) { }
+    constructor(private documentsService : DocumentsService, private formBuilder: FormBuilder) { 
+        this.exam = " sadddddddddddd ";
+    }
 
     ngOnInit() {
         this.docForm = this.createGroup();
@@ -37,8 +44,8 @@ export class DocumentModalComponent {
 
         this.documentsService.documentUpdatingRequested.subscribe((value: DocumentDetails) => { this.editMode ? this.setFormValues(value) : '' });
         
-        this.caseList = [new ListItem(1, "12345678"), new ListItem(2, "72381231"), new ListItem(3, "43257465")];
-        this.categoryList = [new ListItem(1, "Invoice"), new ListItem(2, "Evidence"), new ListItem(3, "Category3")];
+        this.caseList = [new ListItem(3, "12345678"), new ListItem(57, "72381231"), new ListItem(58, "43257465")];
+        this.categoryList = [new ListItem(1, "Theft"), new ListItem(2, "Divorce"), new ListItem(3, "Fight")];
         //this.documentsService.getCaseList().subscribe((list: number[]) => { this.caseList = list; });
         //this.documentsService.getCategoryList().subscribe((list: number[]) => { this.categoryList = list; });
 
@@ -67,26 +74,23 @@ export class DocumentModalComponent {
         this.onCanceled();
     }
 
+    // The idea is to upload document, get documentPath and then submit other form data with received documentPath for post
+    // If clause is used for checking if document has file uploaded...
     onAddToCollection(): void {
-        let formData = this.docForm.value;
-        // var currentdate = new Date(); 
-        // var datetime =  currentdate.getDate() + "/"
-        //                 + (currentdate.getMonth()+1)  + "/" 
-        //                 + currentdate.getFullYear() + " "  
-        //                 + currentdate.getHours() + ":"  
-        //                 + currentdate.getMinutes() + ":" 
-        //                 + currentdate.getSeconds();
+        alert(this.fileToUpload.name);
+        if (this.uploadFormData == null ) {
+            this.addDocument();
+            return;
+        }
+        
+        this.documentsService.uploadFile(this.uploadFormData)
+            .subscribe( (path: string) => 
+                { 
+                    console.log(path);
+                    this.document.documentPath = path;
 
-        this.document.documentTitle = formData.Title;
-        this.document.documentDescription = formData.Description == null ? "" : formData.Description;
-        this.document.caseId = formData.caseId;
-        this.document.categoryId = formData.categoryId;
-        this.document.documentContent = "";
-        this.document.createdByUserId = 1;
-
-        this.documentsService.postDocument(this.document).subscribe(() => {
-            this.resetForm();
-        });
+                    this.addDocument();
+                });
     }
 
     onUpdateCollection(): void {
@@ -100,10 +104,69 @@ export class DocumentModalComponent {
     }
 
     onCanceled(): void {
+        alert(this.exam);
+        this.exam = "abd";
+        alert(this.exam);
         //this.resetForm();
     }
 
-    setFormValues(value: DocumentDetails) {
+    // non working version (save files for later upload with other post data):
+    onFileChange(event: any): void {
+        let fi = event.srcElement;
+        if (fi.files && fi.files[0]) {
+            this.fileToUpload = fi.files[0];
+
+            this.uploadFormData = new FormData();
+            this.uploadFormData.append(this.fileToUpload.name, this.fileToUpload);
+
+            alert(this.exam);
+            this.exam = "abd";
+            alert(this.exam);
+        }
+    }
+
+    // working version (upload immediately):
+    // onFileChange(event: any) {
+    //     let fi = event.srcElement;
+    //     if (fi.files && fi.files[0]) {
+    //         let fileToUpload = fi.files[0];
+
+    //         let formData:FormData = new FormData();
+    //         formData.append(fileToUpload.name, fileToUpload);
+
+    //         // let headers = new Headers();
+    //         // headers.append('Accept', 'application/json');
+    //         // // DON'T SET THE Content-Type to multipart/form-data, You'll get the Missing content-type boundary error
+    //         // let options = new RequestOptions({ headers: headers });
+
+    //         this.documentsService.uploadFile(formData)
+    //             .subscribe( (path: string) => 
+    //                 { 
+    //                     alert(path);
+    //                     this.document.documentPath = path;
+    //                     this.exam = "1234213";
+    //                     alert(this.exam);
+    //                 });
+    //     }
+    // }
+
+    addDocument() {
+        let formData = this.docForm.value;
+        
+        this.document.documentTitle = formData.Title;
+        this.document.documentDescription = formData.Description == null ? "" : formData.Description;
+        this.document.caseId = formData.caseId;
+        this.document.categoryId = formData.categoryId;
+        this.document.documentContent = "";
+        this.document.createdByUserId = 1;
+
+        // this.documentsService.postDocument(this.document).subscribe(() => {
+        //     this.resetForm();
+        //     this.document.uploadFormData = null;
+        // });
+    }
+
+    setFormValues(value: DocumentDetails): void {
         this.editingStarted = true;
         this.docForm.setValue({
             'Title': value.documentTitle,
@@ -122,7 +185,7 @@ export class DocumentModalComponent {
         //this.closeModal.nativeElement.click();
     }
 
-    modalId() {
+    modalId(): string {
         return this.editMode ? 'edit' : 'add';        
     }
 
@@ -136,37 +199,20 @@ export class DocumentModalComponent {
 
     footerCancelText(): string {
         return this.editMode ? 'Cancel' : 'Cancel';
-    }
-
-    onFileChange(event: any) {
-        let fileList: FileList = event.target.files;
-        if(fileList.length > 0) {
-            let file: File = fileList[0];
-            let formData:FormData = new FormData();
-            formData.append('uploadFile', file, file.name);
-            let headers = new Headers();
-            /** No need to include Content-Type in Angular 4 */
-            headers.append('Content-Type', 'multipart/form-data');
-            headers.append('Accept', 'application/json');
-            let options = new RequestOptions({ headers: headers });
-            this.documentsService.uploadFile(formData, options);
-        }
-    }
-
+    }  
+  
     // onFileChange(event: any) {
-    //     let fi = event.srcElement;
-    //     if (fi.files && fi.files[0]) {
-    //         let fileToUpload = fi.files[0];
-
+    //     let fileList: FileList = event.target.files;
+    //     if(fileList.length > 0) {
+    //         let file: File = fileList[0];
     //         let formData:FormData = new FormData();
-    //         formData.append(fileToUpload.name, fileToUpload);
-
+    //         formData.append('uploadFile', file, file.name);
     //         let headers = new Headers();
+    //         /** No need to include Content-Type in Angular 4 */
+    //         headers.append('Content-Type', 'multipart/form-data');
     //         headers.append('Accept', 'application/json');
-    //         // DON'T SET THE Content-Type to multipart/form-data, You'll get the Missing content-type boundary error
     //         let options = new RequestOptions({ headers: headers });
-
-    //         this.documentsService.uploadFile(formData, headers);
+    //         this.documentsService.uploadFile(formData, options);
     //     }
     // }
 }

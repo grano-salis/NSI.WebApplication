@@ -1,3 +1,7 @@
+.btn-primary {
+    background-color: #2A3F54;
+}
+
 #addDocument {
     border-bottom: 2px solid black;
     border: 2px solid #bdc3c7;
@@ -12,6 +16,18 @@
 
 #caseHeaderInput {
     padding-left: 2px;
+}
+
+.height-26px {
+    height: 26px;
+    padding-left: 15px;
+}
+
+.invalid {
+    border-left: 7px solid #c0392b;
+    border-right: 7px solid #c0392b;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 @media screen and (max-width: 480px) {

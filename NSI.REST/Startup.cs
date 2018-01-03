@@ -188,6 +188,8 @@ namespace NSI.REST
             //app.UseAuthHandler();
 
             app.UseMvc();
+
+            app.UseStaticFiles();
         }
     }
 }

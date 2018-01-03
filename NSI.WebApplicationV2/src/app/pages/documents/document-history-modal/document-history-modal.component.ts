@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { DocumentsService } from '../../../services/documents.service';
-import { DocumentDetails } from '../models/documentDetails.model';
+import { DocumentDetails, DocumentHistory } from '../models/index.model';
 
 @Component({
   selector: 'app-document-history-modal',
@@ -11,15 +11,25 @@ import { DocumentDetails } from '../models/documentDetails.model';
 export class DocumentHistoryModalComponent implements OnInit {
   @Input() scopedToCase: boolean;
   @Input() currentTitle: string;
-  documents: DocumentDetails[];
+  documentDetails: DocumentDetails;
+  documentHistories: DocumentHistory[];
 
   constructor(private documentsService: DocumentsService) { }
 
   ngOnInit() {
-    this.documentsService.getDocuments().subscribe(
-      (dT: DocumentDetails[]) => {
-        this.documents = dT;
-      } 
-    );
-}
+    this.subscribe();
+  }
+
+  subscribe() {
+    this.documentsService.documentHistoryRequested
+      .subscribe( (documentDetails: DocumentDetails) => 
+      {
+        this.documentDetails = documentDetails;
+        this.documentsService.getDocumentHistoryByDocumentId(documentDetails.documentId).subscribe(
+          (dH: DocumentHistory[]) => {
+            this.documentHistories = dH;
+          } 
+        );
+      });
+  }
 }

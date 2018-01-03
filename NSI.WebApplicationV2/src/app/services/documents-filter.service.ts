@@ -36,7 +36,7 @@ export class DocumentsFilterService {
 
     this.filterCounter = this.filterCounter + 1;
 
-    this.rootViewContainer.insert(component.hostView);
+    this.rootViewContainer.insert(component.hostView, this.rootViewContainer.length);
 
   }
 }

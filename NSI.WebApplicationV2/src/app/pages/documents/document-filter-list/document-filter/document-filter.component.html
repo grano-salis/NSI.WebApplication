@@ -1,39 +1,33 @@
 <div class="col-lg-5 col-md-11 col-sm-11 col-xs-11">
-    <div class="row">
-        <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
-            <h6 style="float: right"><b>Filter By:</b></h6>
+    <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
+        <h6 style="float: right"><b>Filter By:</b></h6>
+    </div>
+    <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
+        <select class="form-control" id="category" (change)="onFilterChanged()" [(ngModel)]="chosenFilter">
+            <option *ngFor="let lf of localFilterList" [value]="lf">
+                {{ lf }}
+            </option>
+        </select>
+    </div>
+    
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 max-height-34-px">
+        <div [hidden]="isDateFilter">
+            <input type="text" [(ngModel)]="queryModel.searchByTitle" class="form-control" placeholder="Search">
         </div>
-        <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
-            <select class="form-control" id="category" (change)="onFilterChanged()" [(ngModel)]="chosenFilter">
-                <option *ngFor="let lf of localFilterList" [value]="lf">
-                    {{ lf }}
-                </option>
-            </select>
-        </div>
-        
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div [hidden]="isDateFilter">
-                <input type="text" [(ngModel)]="queryModel.search" class="form-control" placeholder="Search">
-            </div>
-            <div [hidden]="!isDateFilter">
-                <div class="control-group">
-                    <div class="controls">
-                        <div class="input-prepend input-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                            </span> 
-                            <input type="text" style="margin-bottom: 0px" [name]="dateIdentifier()" [id]="dateIdentifier()" [(ngModel)]="queryModel.search" #{{dateIdentifier()}}="ngModel" class="form-control" placeholder="Choose" required>
-                        </div>
-                    </div>
-                </div>
+        <div [hidden]="!isDateFilter">
+            <div class="input-prepend input-group">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                </span> 
+                <input type="text" [name]="dateIdentifier()" [id]="dateIdentifier()" [(ngModel)]="queryModel.searchByTitle" #{{dateIdentifier()}}="ngModel" class="form-control" placeholder="Choose" required>
             </div>
         </div>
-        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-            <button type="button" class="btn btn-default" (click)="onButtonClick()" 
-                [disabled]="(localFilterList.length < 2 && buttonIcon == 'fa-plus')"> 
-                <span><i [ngClass]="['fa', buttonIcon]" aria-hidden="true"></i></span>
-            </button>
-        </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+        <button type="button" class="btn btn-default" (click)="onButtonClick()" 
+            [disabled]="(localFilterList.length < 2 && buttonIcon == 'fa-plus')"> 
+            <span><i [ngClass]="['fa', buttonIcon]" aria-hidden="true"></i></span>
+        </button>
     </div>
 </div>
 
