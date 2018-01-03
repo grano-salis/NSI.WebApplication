@@ -56,8 +56,20 @@
                                             HH:mm'}}
                                         </small>
                                     </h3>
-                                    <p *ngIf='conversation.message && conversation.message.length > 0'>{{conversation.message[conversation.message.length -1 ].message | slice:0:29 }}
-                                        <span *ngIf='conversation.message[conversation.message.length -1 ].message.length > 30'>...</span>
+                                    
+                                    <p *ngIf='conversation.message && conversation.message.length > 0'>
+                                        <span *ngIf="conversation.message[conversation.message.length -1].message.includes('!!!INFO!!!'); else normalLastMessage">
+                                                {{conversation.message[conversation.message.length -1 ].message | slice:10 | slice:0:29 }}...
+                                        </span>
+                                        <ng-template #normalLastMessage>
+                                            <p *ngIf="conversation.message[conversation.message.length - 1].message.length > 30; else fullMessage" [innerHTML] = " conversation.message[conversation.message.length - 1].message | slice:0:29 | appendDots" >                                               
+                                                
+                                            </p>  
+                                            <ng-template #fullMessage>
+                                                <p [innerHTML]="conversation.message[conversation.message.length - 1].message"></p>
+                                            </ng-template>                                                                                      
+                                        </ng-template>                                 
+                                        
                                     </p>
 
                                 </div>
@@ -117,18 +129,24 @@
                                     <div class="view-mail scroller" #scrollMe [scrollTop]='scrollMe.scrollHeight' *ngIf='messageListSelectedConversation && messageListSelectedConversation.length'>
                                         <p class="conversationCreatorTop">Conversation created by {{ conversationCreatedBy }}</p>
                                         <div class="row" *ngFor='let m of messageListSelectedConversation'>
-                                            <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)">
-                                                {{m.message}}
-                                            </p>
-
-                                            <br>
-                                            <div class="clearfix"></div>
-                                            <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'>
-                                                <small>{{m.createdByUser.userName}}</small>
-                                                <span *ngIf='checkIfUserIsOnline(m.createdByUser.id)'>
-                                                    <i tooltip ngToolTipClass="tooltipClass" content="User is online." class="online glyphicon glyphicon-user"></i>
+                                            
+                                            <div *ngIf="m.message.includes('!!!INFO!!!'); else normalMessage">
+                                                <p class="conversationCreatorTop"><i class="glyphicon glyphicon-user"></i>{{m.message | slice:10}}</p>
+                                            </div>
+                                            <ng-template #normalMessage>
+                                                <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)" [innerHTML] = "m.message" >
+                                                
+                                                </p>
+    
+                                                <br>
+                                                <div class="clearfix"></div>
+                                                <span style="margin-left:200px" *ngIf='!isMessageSender(m.createdByUser.id,loggedUserId)'>
+                                                    <small>{{m.createdByUser.userName}}</small>
+                                                    <span *ngIf='checkIfUserIsOnline(m.createdByUser.id)'>
+                                                        <i tooltip ngToolTipClass="tooltipClass" content="User is online." class="online glyphicon glyphicon-user"></i>
+                                                    </span>
                                                 </span>
-                                            </span>
+                                            </ng-template>                                            
                                         </div>
                                     </div>
 
@@ -179,15 +197,18 @@
                                 new participant(s) will have insight on the previous messages of conversation. If you would
                                 like to avoid this scenario, consider creating a new group conversation.</span>
                         </div>
+                        <input type="text" class="form-control" style="width: 100%; margin:auto;" *ngIf="directMessageAP" placeholder="Conversation name..." [(ngModel)]="newConversationNameAP">
+                        <div class="separator"></div>
                         <angular2-multiselect style="width: 100%;" [data]="dropdownListAP" [(ngModel)]="selectedItemsAP" [settings]="dropdownSettings"
                             (onSelect)="onItemSelectAP($event)" (onDeSelect)="OnItemDeSelectAP($event)" (onSelectAll)="onSelectAllAP($event)"
                             (onDeSelectAll)="onDeSelectAllAP($event)"></angular2-multiselect>
+                        
                     </div>
                     <div class="col-md-2"></div>
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-success" (click)="addNewParticipant()">Add</button>
+                    <button class="btn btn-success" [disabled]='!validateCreateConversationAP()' (click)="addNewParticipant()">Add</button>
                 </div>
             </div>
         </div>

@@ -133,5 +133,16 @@ namespace NSI.BLL
         {
             return repository.getSystemUsers();
         }
+
+        public List<Participant> AddParticipantToExistingConversation(int convId, List<int> userIds)
+        {
+            List<Participant> newParticipants = new List<Participant>();
+            for(int i = 0; i < userIds.Count; i++)
+            {
+                Participant p = repository.addParticipantToExistingConversation(convId, userIds[i]);
+                newParticipants.Add(p);
+            }
+            return newParticipants;
+        }
     }
 }

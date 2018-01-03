@@ -16,6 +16,7 @@ namespace NSI.BLL.Interfaces
         Participant GetParticipantForId(int participantId);
         Conversation CreateConversation(int loggedUserId, List<int> usersToParticipants, string ConversationName);
         List<UserInfo> GetSystemUsers();
+        List<Participant> AddParticipantToExistingConversation(int convId, List<int> userIds);
     }
        
 }

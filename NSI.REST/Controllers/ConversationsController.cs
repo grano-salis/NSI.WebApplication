@@ -55,7 +55,8 @@ namespace NSI.REST.Controllers
         [Route("{id}/participants")]
         public IActionResult addParticipantToExistingConv([FromBody] ParticipantPostDTO newParticipants)
         {
-            return Ok();
+            var participants = mapper.Map<List<ParticipantGetDTO>>(conversationManipulation.AddParticipantToExistingConversation(newParticipants.conversationId, newParticipants.usersToParticipant));
+            return Created("uriCreatedAtRoute", participants);
         }
 
         [HttpGet]

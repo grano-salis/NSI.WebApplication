@@ -51,6 +51,6 @@ export class ConversationService {
                conversationId : convId,
                usersToParticipant : participants
            }
-           return this._http.post(`${this._url}/api/conversations/${convId}/participants`, payload);
+           return this._http.post<IParticipant[]>(`${this._url}/api/conversations/${convId}/participants`, payload);
        }      
 }

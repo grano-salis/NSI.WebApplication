@@ -210,5 +210,22 @@ namespace NSI.Repository.Repository
 
         }
 
+        public Participant addParticipantToExistingConversation(int convId, int userId)
+        {
+            Participant p = new Participant()
+            {
+                IsSnoozed = false,
+                IsDeleted = false,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now,
+                LastSeenTime = DateTime.Now,
+                UserId = userId,
+                ConversationId = convId
+            };
+            context.Participant.Add(p);            
+            context.SaveChanges();
+            return context.Participant.Include("User").Where(x => x.ParticipantId == p.ParticipantId).FirstOrDefault();
+            
+        }
     }
 }

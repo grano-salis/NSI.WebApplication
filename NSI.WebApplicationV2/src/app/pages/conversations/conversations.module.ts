@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ConversationsRoutingModule } from "./conversations-routing.module";
 import { AngularMultiSelectModule} from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import {ToolTipModule} from 'angular2-tooltip';
+import { AppendDotsPipe } from './append-dots.pipe';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import {ToolTipModule} from 'angular2-tooltip';
     AngularMultiSelectModule,
     ToolTipModule
   ],
-  declarations: [ConversationsComponent]
+  declarations: [ConversationsComponent, AppendDotsPipe]
 })
 export class ConversationsModule { }

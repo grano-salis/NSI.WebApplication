@@ -13,6 +13,7 @@ import { HubConnection } from "@aspnet/signalr-client/dist/src";
 import { environment } from "../../../environments/environment";
 import { Event } from '@angular/router/src/events';
 import { AfterContentChecked, AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
+import { element } from 'protractor';
 declare var $: any;
 
 
@@ -41,6 +42,8 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
     public onStart: boolean;
     public newConversationName: string;
     public conversationCreatedBy: string;
+    public newConversationNameAP: string;
+    public directMessageAP: boolean;
 
     //multiselect
     dropdownList: any = [];
@@ -67,6 +70,8 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
         this.isNewMessageClicked = false;
         this.onStart = true;
         this.newConversationName = "";
+        this.newConversationNameAP = "";
+        this.directMessageAP = false;
 
     }
 
@@ -174,7 +179,7 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
 
     public prepareforAdding(): void {
         this.selectedIdsAP = [];
-        this.selectedItemsAP = []; 
+        this.selectedItemsAP = [];
         let conv = this._conversations.find(c => c.conversationId == this.activeConversationId);
         let idsToHide = [];
         this.dropdownListAP = [];
@@ -192,6 +197,10 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
             if (!exists)
                 this.dropdownListAP.push({ "id": this._systemUsers[i].id, "itemName": this._systemUsers[i].firstName + ' ' + this._systemUsers[i].lastName });
         }
+        if (conv.participant.length <= 2)
+            this.directMessageAP = true;
+
+
 
         $("#myModal").modal('show');
     }
@@ -199,20 +208,46 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
     public addNewParticipant(): void {
         let conv = this._conversations.find(con => con.conversationId == this.activeConversationId);
         if (conv.participant.length <= 2) {
-            //backend - create new conv
-            alert('direct message');
+
+            this.selectedIdsAP = [];
+            this.selectedItemsAP.forEach(element => {
+                this.selectedIdsAP.push(element.id);
+            });
+            for (let i = 0; i < conv.participant.length; i++) {
+                this.selectedIdsAP.push(conv.participant[i].user.id);
+            }
+            this._conversationService.createConversation(this.loggedUserId, this.selectedIdsAP, this.newConversationNameAP)
+                .subscribe(data => {
+                    this._conversations.push(data);
+                    this.selectedIdsAP = [];
+                    this.newConversationNameAP = "";
+                    this.selectedItemsAP = [];
+                });
+
         }
         else {
-            //backend - add participant to existing conv
+
             this.selectedIdsAP = [];
             this.selectedItemsAP.forEach(element => {
                 this.selectedIdsAP.push(element.id);
             });
 
             this._conversationService.addNewParticipantToExistingConversation(this.activeConversationId, this.selectedIdsAP)
-            .subscribe(data => {
-                
-            });
+                .subscribe(data => {
+
+                    for (let i = 0; i < data.length; i++) {
+                        conv.participant.push(data[i]);
+                        let loggedUserPart = conv.participant.find(p => p.user.id == this.loggedUserId);
+                        this.newMessage = "!!!INFO!!! ";
+                        this.newMessage += loggedUserPart.user.firstName + ' ' + loggedUserPart.user.lastName;
+                        this.newMessage += " added ";
+                        this.newMessage += data[i].user.firstName + ' ' + data[i].user.lastName;
+                        this.newMessage += " to conversation.";
+                        this.sendMessage();
+                        this.loadMessages(conv.conversationId);
+
+                    }
+                });
         }
 
     }
@@ -265,6 +300,19 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
         if (this.selectedItems.length >= 2)
             return this.newConversationName.length > 0
         return this.selectedItems.length > 0;
+    }
+
+    public validateCreateConversationAP(): boolean {
+        if (this.activeConversationId) {
+            let conv = this._conversations.find(c => c.conversationId == this.activeConversationId);
+            if (conv.participant.length <= 2) {
+                return this.newConversationNameAP.length > 0 && this.selectedItemsAP.length > 0;
+            }
+            else {
+                return this.selectedItemsAP.length > 0;
+            }
+        }
+        return false;
     }
 
 
