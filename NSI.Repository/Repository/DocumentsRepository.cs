@@ -70,8 +70,8 @@ namespace NSI.Repository.Repository
             if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date > query.CreatedDateTo?.Date) return false;
             if (query.SearchByCategoryId != 0 && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
             if(query.SearchByCaseId != 0 && doc.CaseId != query.SearchByCaseId) return false;
-            if(query.SearchByTitle != "" && doc.Description.Contains(query.SearchByTitle)) return false;
-            return query.SearchByTitle == "" || !doc.Description.Contains(query.SearchByTitle);
+            if(query.SearchByTitle != "" && !doc.Title.Contains(query.SearchByTitle)) return false;
+            return query.SearchByDescription == "" || !doc.Description.Contains(query.SearchByDescription);
         }
 
         public bool DeleteDocument(int id)
