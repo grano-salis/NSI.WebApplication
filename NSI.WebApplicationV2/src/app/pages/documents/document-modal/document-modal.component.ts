@@ -123,6 +123,8 @@ export class DocumentModalComponent {
         let edit = new Document(this.document.documentId, formData.Title, formData.Description, formData.CaseId, 
             formData.CategoryId, this.document.documentContent, this.document.createdByUserId, this.document.documentPath);
 
+        console.log(edit);
+
         this.documentsService.putDocument(this.documentEditIndex, edit)
             .subscribe(() => {
                 this.resetForm();
