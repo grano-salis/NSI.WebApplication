@@ -123,7 +123,12 @@ namespace NSI.Repository.Repository
                 DocumentId = document.DocumentId,
                 ModifiedAt = DateTime.UtcNow,
                 ModifiedByUser = _dbContext.UserInfo.FirstOrDefault(u => u.UserId == 1),
-                ModifiedByUserId = 1
+                ModifiedByUserId = 1,
+                DocumentPath = document.DocumentPath,
+                CaseNumber = document.Case.CaseNumber,
+                DocumentCategoryName = document.DocumentCategory.CategoryTitle,
+                DocumentDescription = document.Description,
+                DocumentTitle = document.Title
             };
             _dbContext.DocumentHistory.Add(documentHistoryRecord);
             _dbContext.SaveChanges();
