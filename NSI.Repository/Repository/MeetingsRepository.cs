@@ -140,6 +140,9 @@ namespace NSI.Repository
         //returns intervals of available time for appointing a meeting for given users and time range 
         public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration, int currentMeetingId)
         {
+            TimeSpan EndOfTheDay = new TimeSpan(23, 59, 59);
+            to = to.Date + EndOfTheDay;
+
             //gathering the meetings of all the given users
             List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
             for(int i = 0; i < userIds.Count; i++)
