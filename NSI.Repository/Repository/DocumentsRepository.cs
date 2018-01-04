@@ -114,7 +114,7 @@ namespace NSI.Repository.Repository
             var allRecords = _dbContext.DocumentHistory.ToList();
             var documentHistoryRecord = new DocumentHistory()
             {
-                DocumentHistoryId = allRecords.Count+1,
+                DocumentHistoryId = 0,
                 Document = document,
                 DocumentId = document.DocumentId,
                 ModifiedAt = DateTime.UtcNow,
