@@ -1,6 +1,7 @@
 ﻿using System;
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using IkarusEntities;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace NSI.Repository.Repository
 
         public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
         {
-            return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
+            return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Include(d => d.Document).Include(d => d.Document.Case).Include(d => d.Document.DocumentCategory).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
         }
 
         public List<DocumentDto> GetDocumentsByCase(int id)
@@ -94,13 +95,18 @@ namespace NSI.Repository.Repository
                 _dbContext.DocumentCategory.FirstOrDefault(c => c.DocumentCategoryId == document.CategoryId);
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.DocumentPath = document.DocumentPath;
-            documentEntity.FileType =
-                _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeId);
-            documentEntity.FileTypeId = document.FileTypeId;
+            //documentEntity.FileType =
+            //    _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeId);
+            //documentEntity.FileTypeId = document.FileTypeId;
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.Description = document.DocumentDescription;
             documentEntity.DocumentPath = document.DocumentPath;
             documentEntity.Title = document.DocumentTitle;
+            if (documentEntity.DocumentPath != null)
+                documentEntity.FileTypeId = _dbContext.FileType
+                    .FirstOrDefault(c => c.Extension == Path.GetExtension(document.DocumentPath).Replace(".", ""))
+                    .FileTypeId;
+            else documentEntity.FileTypeId = _dbContext.Document.Find(documentEntity.DocumentId).FileTypeId;
             _dbContext.Update(documentEntity);
             var result = _dbContext.SaveChanges();
 
@@ -110,8 +116,6 @@ namespace NSI.Repository.Repository
 
         private void AddToHistory(Document document)
         {
-            //TODO get current user
-            var allRecords = _dbContext.DocumentHistory.ToList();
             var documentHistoryRecord = new DocumentHistory()
             {
                 DocumentHistoryId = 0,

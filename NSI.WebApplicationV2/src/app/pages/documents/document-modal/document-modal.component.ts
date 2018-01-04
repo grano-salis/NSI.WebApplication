@@ -95,6 +95,7 @@ export class DocumentModalComponent {
     addDocument() {
         let formData = this.docForm.value;
         
+        this.document.documentId = 0;
         this.document.documentTitle = formData.Title;
         this.document.documentDescription = formData.Description == null ? "" : formData.Description;
         this.document.caseId = formData.CaseId;

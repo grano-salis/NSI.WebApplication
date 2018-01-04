@@ -99,11 +99,13 @@ namespace NSI.Repository.Mappers
         {
             return new DocumentHistoryDto()
             {
-                DocumentId = documentHistory.DocumentId,
-                DocumentHistoryId = documentHistory.DocumentHistoryId,
                 ModifiedAt = documentHistory.ModifiedAt,
-                ModifiedByUser = documentHistory.ModifiedByUser.FirstName + ' ' + documentHistory.ModifiedByUser.LastName,
-                ModifiedByUserId = documentHistory.ModifiedByUserId
+                DocumentTitle = documentHistory.Document.Title,
+                Author = documentHistory.Document.CreatedByUser.FirstName + " " + documentHistory.Document.CreatedByUser.LastName,
+                CaseNumber = documentHistory.Document.Case.CaseNumber,
+                DocumentCategoryName = documentHistory.Document.DocumentCategory.CategoryTitle,
+                DocumentDescription = documentHistory.Document.Description,
+                DocumentPath = documentHistory.Document.DocumentPath
             };
         }
     }

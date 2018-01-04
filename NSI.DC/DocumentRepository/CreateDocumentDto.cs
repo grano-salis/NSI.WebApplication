@@ -19,6 +19,8 @@ namespace NSI.DC.DocumentRepository
         [DataMember]
         public int CategoryId { get; set; }
         [DataMember]
+        public int CreatedByUserId { get; set; }
+        [DataMember]
         public string DocumentPath { get; set; }
         [DataMember]
         public string DocumentContent { get; set; }
