@@ -18,7 +18,7 @@ export class SubscriptionService{
     return this.http.get<any[]>(this._url);
   }
 
-  getActiveSubscription(customerId:number):Observable<any[]>{
+  getActiveSubscription(customerId:number):Observable<any>{
     return this.http.get<any>(this._url+"/active/"+customerId);
   }
 
@@ -37,6 +37,10 @@ export class SubscriptionService{
     return this.http.put(this._url, body, {headers: headers});
   }
 
-  
+  getSubscriptionBonus(subscriptionId:number,pricingPackageId:number):Observable<number>{
+    return this.http.get<number>(this._url+"/getbonus/"+subscriptionId+"/"+pricingPackageId);
+  }
+
+
 
 }

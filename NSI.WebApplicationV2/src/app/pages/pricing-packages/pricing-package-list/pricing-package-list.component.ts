@@ -16,7 +16,7 @@ export class PricingPackageListComponent implements OnInit {
   pricingPackages:any[]=[];
   name:string = "names";
   bonus:number = 0;
-
+  selectedPackage = -1;
   constructor(private pricingPackagesService: PricingPackagesService, private subscriptionService: SubscriptionService) { }
 
   ngOnInit() {
@@ -35,7 +35,24 @@ export class PricingPackageListComponent implements OnInit {
 
   subscribeToPackage(num:number){
     console.log(num);
-    this.modal.open();
+
+    this.subscriptionService.getActiveSubscription(1).subscribe(
+      activeSubscription =>{
+        if(activeSubscription==null){
+
+        }
+        else
+        {
+          this.subscriptionService.getSubscriptionBonus(activeSubscription.subscriptionId,num).subscribe(
+          bonus => {
+              this.bonus = bonus;
+              this.selectedPackage = num;
+              this.modal.open();
+            }
+          )
+      }
+      }
+    )
   }
 
 }

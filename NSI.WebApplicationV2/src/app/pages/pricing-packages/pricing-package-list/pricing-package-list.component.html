@@ -75,17 +75,16 @@
                           </div>
                         </div>
                       </div>
-                      <button (click)="myModal.open()">open my modal</button>
                       <modal #myModal>
                           <modal-header>
-                              <h1>Modal header</h1>
+                              <h1>Subscription info</h1>
                           </modal-header>
                           <modal-content>
                               You are already subscribed to another package. If you subscribe to this package, you will get {{bonus}} days bonus to this one month subscription.
                           </modal-content>
                           <modal-footer>
-                              <button class="btn btn-primary" (click)="closeModal()">close</button>
-                            <button class="btn btn-primary" [routerLink]="['/pricingpackages/buy/2']">okay!</button>
+                              <button class="btn btn-danger" (click)="myModal.close()">Close</button>
+                            <button class="btn btn-primary" [routerLink]="['/pricingpackages/buy/'+selectedPackage]">Subscribe</button>
                           </modal-footer>
                       </modal>
 
