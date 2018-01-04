@@ -83,7 +83,7 @@
 					<div class="col-md-4 col-sm-8 col-xs-8 text-center">
 						<ul class="pagination">
 							<li> <a (click)="prevPage()"> Prev </a> </li>
-							<li *ngFor="let p of pages">  <a (click)="selectPage(p)">{{ p }} </a> </li> 
+							<li [ngClass]="{ 'bColor2A3F54': p == currPage }" *ngFor="let p of pages"> <a (click)="selectPage(p)">{{ p }} </a> </li> 
 							<li> <a (click)="nextPage()"> Next </a> </li>
 						</ul>
 					</div>

@@ -23,3 +23,9 @@ select {
 .fa {
     color: #2A3F54;
 }
+
+.pagination > .bColor2A3F54 > a {
+    background-color: #2A3F54;
+    color: white;
+}
+

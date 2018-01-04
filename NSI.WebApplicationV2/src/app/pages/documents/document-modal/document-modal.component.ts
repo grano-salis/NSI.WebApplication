@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import {Observable} from 'rxjs/Rx';
@@ -21,6 +21,8 @@ export class DocumentModalComponent {
     @Input() scopedToCase: boolean;
     @Input() caseNumber: number;     
     @Input() editMode: boolean;
+
+    @ViewChild('closeModal') closeModal: ElementRef;    
 
     caseList: ListItem[];
     categoryList: ListItem[];
@@ -119,12 +121,39 @@ export class DocumentModalComponent {
     }
 
     onUpdateCollection(): void {
-        let formData = this.docForm.value;
+        if ( this.fileToUploadTitle == "" ) {
+            this.editDocument();
+            return;
+        }
 
+        let uploadFormData = new FormData();
+        uploadFormData.append(this.fileToUpload.name, this.fileToUpload);
+        
+        this.documentsService.uploadFile(uploadFormData)
+            .subscribe( (path: string) => 
+                { 
+                    this.document.documentPath = path;
+                    this.editDocument();
+                });
+    }
+
+    editDocument() {
+        let formData = this.docForm.value;
+        
         let edit = new Document(this.document.documentId, formData.Title, formData.Description, formData.CaseId, 
             formData.CategoryId, this.document.documentContent, this.document.createdByUserId, this.document.documentPath);
 
         console.log(edit);
+
+        // Fake loading bar adjusted to file size (12MB = 12 000 000B => 10% of bar on every (12 000 000 / 40 000) = 300ms
+        if ( this.fileToUploadTitle != "" ) {
+            Observable.interval(this.fileToUpload.size * 1.0 / 40000)
+            .takeWhile( () => this.uploadProgress < 100)
+            .subscribe( () => {
+                this.uploadProgress += 10;    
+                return this.uploadProgress;            
+            });
+        }
 
         this.documentsService.putDocument(this.documentEditIndex, edit)
             .subscribe(() => {
@@ -163,10 +192,15 @@ export class DocumentModalComponent {
     resetForm(): void {
         this.docForm.reset();
 
+        this.docForm.patchValue({
+            'CaseId': this.caseList[0].id,
+            'CategoryId': this.categoryList[0].id
+        });
+
         this.fileToUpload = null;
         this.fileToUploadTitle = "";
         this.uploadProgress = 0;
-        //this.closeModal.nativeElement.click();
+        this.closeModal.nativeElement.click();
     }
 
     modalId(): string {
