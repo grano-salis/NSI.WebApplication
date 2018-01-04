@@ -100,12 +100,12 @@ namespace NSI.Repository.Mappers
             return new DocumentHistoryDto()
             {
                 ModifiedAt = documentHistory.ModifiedAt,
-                DocumentTitle = documentHistory.Document.Title,
-                Author = documentHistory.Document.CreatedByUser.FirstName + " " + documentHistory.Document.CreatedByUser.LastName,
-                CaseNumber = documentHistory.Document.Case.CaseNumber,
-                DocumentCategoryName = documentHistory.Document.DocumentCategory.CategoryTitle,
-                DocumentDescription = documentHistory.Document.Description,
-                DocumentPath = documentHistory.Document.DocumentPath
+                DocumentTitle = documentHistory.DocumentTitle,
+                Author = documentHistory.ModifiedByUser.FirstName + " " + documentHistory.ModifiedByUser.LastName,
+                CaseNumber = documentHistory.CaseNumber,
+                DocumentCategoryName = documentHistory.DocumentCategoryName,
+                DocumentDescription = documentHistory.DocumentDescription,
+                DocumentPath = documentHistory.DocumentPath
             };
         }
     }
