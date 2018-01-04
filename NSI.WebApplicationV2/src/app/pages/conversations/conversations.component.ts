@@ -315,6 +315,26 @@ export class ConversationsComponent implements OnInit, AfterContentChecked, Afte
         return false;
     }
 
+    public interpretEmoticons(message: string): string {
+        
+        if (message.includes(':)'))        
+            message = message.replace( /\:\)/gi, "<img src='assets/emoticons/smile.png'></img>");        
+        if(message.includes(':D'))
+            message = message.replace(/\:D/gi,"<img src='assets/emoticons/laugh.png'></img>");
+        if(message.includes( ":'("))
+            message = message.replace(/\:\'\(/gi, "<img src='assets/emoticons/sad.png'></img>");
+        if(message.includes(":P"))
+            message = message.replace(/\:P/gi, "<img src='assets/emoticons/tongue.png'></img>");
+        if(message.includes(";)"))
+            message = message.replace(/\;\)/gi, "<img src='assets/emoticons/wink.png'></img>");
+        if(message.includes("B)"))
+            message = message.replace(/B\)/gi, "<img src='assets/emoticons/glasses.png'></img>");
+            
+        return message;
+    }
+
+    
+
 
     keyPressEventHandler($event: KeyboardEvent) {
         if ($event.keyCode == 13) {

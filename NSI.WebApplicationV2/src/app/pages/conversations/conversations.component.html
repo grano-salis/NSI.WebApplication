@@ -134,7 +134,7 @@
                                                 <p class="conversationCreatorTop"><i class="glyphicon glyphicon-user"></i>{{m.message | slice:10}}</p>
                                             </div>
                                             <ng-template #normalMessage>
-                                                <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)" [innerHTML] = "m.message" >
+                                                <p class="position-left" [class.position-right]="isMessageSender(m.createdByUser.id,loggedUserId)" [innerHTML] = "interpretEmoticons(m.message)" >
                                                 
                                                 </p>
     
@@ -158,10 +158,10 @@
                                             <input type="text" class="typing" [(ngModel)]="whosTyping">
                                         </div>
 
-                                        <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea" (keypress)="keyPressEventHandler($event)" placeholder="New message..."
+                                        <textarea class="col-md-9 col-sm-9 col-xs-9 resizeable_textarea textAreaCustom" (keypress)="keyPressEventHandler($event)" placeholder="New message..."
                                             [(ngModel)]="newMessage"></textarea>
 
-                                        <button class="btn btn-success" (click)="sendMessage()" [disabled]='!validateNewMessageLength()'>Send
+                                        <button class="btn btn-success sendBtnCustom" (click)="sendMessage()" [disabled]='!validateNewMessageLength()'>Send
                                             <i class="fa fa-send-o"></i>
                                         </button>
                                     </div>
