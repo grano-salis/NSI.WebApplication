@@ -118,7 +118,7 @@ namespace NSI.Tests
         {
             // Arrange
             var controller = new ContactsController(this.contactsManipulation);
-            var contacts = controller.Get(10000,1, "", "", "");
+            var contacts = controller.Get(10000,1, "", "", "",0);
 
             // Assert
             Assert.IsType<OkObjectResult>(contacts);
@@ -130,7 +130,7 @@ namespace NSI.Tests
             // Arrange
             var controller = new ContactsController(this.contactsManipulation);
             
-            var contacts = ((controller.Get(10000, 1, "", "", "") as OkObjectResult).Value as NSI.DC.ContactsRepository.PaggedContactDto);
+            var contacts = ((controller.Get(10000, 1, "", "", "",0) as OkObjectResult).Value as NSI.DC.ContactsRepository.PaggedContactDto);
             if (contacts != null && contacts.Total > 0)
             {
                 var contact = (contacts.Contacts as List<ContactDto>)[0];
@@ -157,7 +157,7 @@ namespace NSI.Tests
                 Emails = new List<EmailDto>(),
                 TaskId = 1
             };
-            var result = controller.Post(contact);
+            var result = controller.Post(0,contact);
             Assert.IsType<OkObjectResult>(result);
            
         }
@@ -175,7 +175,7 @@ namespace NSI.Tests
                 Emails = new List<EmailDto>(),
                 TaskId = 1
             };
-            var result = controller.Post(contact);
+            var result = controller.Post(0,contact);
             Assert.IsType<BadRequestObjectResult>(result);
 
         }
@@ -196,7 +196,7 @@ namespace NSI.Tests
                 Emails = new List<EmailDto>(),
                 TaskId = 1
             };
-            var result = controller.Post(contact);
+            var result = controller.Post(0,contact);
             Assert.IsType<BadRequestObjectResult>(result);
 
         }
@@ -207,7 +207,7 @@ namespace NSI.Tests
         {
             // Arrange
             var controller = new ContactsController(this.contactsManipulation);
-            var result = controller.Post(null);
+            var result = controller.Post(0,null);
             Assert.IsType<NoContentResult>(result);
 
         }
@@ -218,7 +218,7 @@ namespace NSI.Tests
             // Arrange
             var controller = new ContactsController(this.contactsManipulation);
             controller.ModelState.AddModelError("error", "some error");
-            var result = controller.Post(new ContactDto());
+            var result = controller.Post(0,new ContactDto());
             Assert.IsType<BadRequestObjectResult>(result);
 
         }
