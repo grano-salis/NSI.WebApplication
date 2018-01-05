@@ -1,22 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <!--<DebugType>Full</DebugType>-->
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="Stripe.net" Version="11.9.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="Braintree" Version="3.10.1" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="wwwroot\Documents\453768-cats-cute.jpg" />
     <None Include="wwwroot\Documents\images.jpg" />
@@ -28,6 +26,5 @@
     <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
     <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
     <ProjectReference Include="..\NSI.Logger\NSI.Logger.csproj" />
-  </ItemGroup>  
-
+  </ItemGroup>
 </Project>

@@ -1,172 +1,145 @@
-<p>
-  pricing-package-view works!
-</p>
+<div class="">
+  <div class="page-title">
+    <div class="title_left">
+      <h3>Active Package</h3>
+    </div>
 
+    <div class="title_right">
+      <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Pretraga...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">Search!</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div class="">
-            <div class="page-title">
-              <div class="title_left">
-                <h3>Aktivni paket</h3>
-              </div>
+  <div class="clearfix"></div>
 
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Pretraga...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Trazi!</button>
-                    </span>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="x_panel" style="height:600px;">
+        <div class="x_title">
+          <h2>Informations</h2>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Settings 1</a>
+                </li>
+                <li><a href="#">Settings 2</a>
+                </li>
+              </ul>
+            </li>
+            <li><a class="close-link"><i class="fa fa-close"></i></a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+          <div class="row">
+
+            <div class="col-md-12">
+              <!-- price element -->
+              <div class="col-md-3 col-sm-6 col-xs-12" *ngIf="pricingPackage!=null">
+                <div class="pricing">
+                  <div class="title">
+                    <h2>{{pricingPackage.pricingPackageName}}. PAKET</h2>
+                    <h1>{{pricingPackage.price}} USD</h1>
+                    <span>Monthly</span>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel" style="height:600px;">
-                  <div class="x_title">
-                    <h2>Informacije</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-
                   <div class="x_content">
-                    <div class="row">
-
-                      <div class="col-md-12">
-                        <!-- price element -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                          <div class="pricing">
-                            <div class="title">
-                              <h2>CETVRTI PAKET</h2>
-                              <h1>100,00 KM</h1>
-                              <span>Mjesecno</span>
-                            </div>
-                            <div class="x_content">
-                              <div class="">
-                                <div class="pricing_features">
-                                  <ul class="list-unstyled text-left">
-                                    <li><i class="fa fa-check text-success"></i> 2 godine <strong> pristupa necemu</strong></li>
-                                    <li><i class="fa fa-check text-success"></i> <strong>Neograniceno</strong> nesto</li>
-                                    <li><i class="fa fa-check text-success"></i> Ograniceno <strong> nesto drugo</strong></li>
-                                    <li><i class="fa fa-check text-success"></i> <strong>Predobra usluga</strong></li>
-                                    <li><i class="fa fa-check text-success"></i> Sve vrijeme <strong> novo</strong></li>
-                                    <li><i class="fa fa-check text-success"></i> <strong>Neograniceno</strong> nesto waoo</li>
-                                    <li><i class="fa fa-check text-success"></i> <strong>Omoguceno</strong> sve naj naj</li>
-                                  </ul>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </div>
-                        <!-- price element -->
-
-                        <div class="col-xs-9">
-
-                          <div class="x_content">
-                    <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-
-                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum prijave <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Automatsko placanje</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male"> &nbsp; Da &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female"> &nbsp; Ne &nbsp;
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Period automatskog placanja
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-
-                          <fieldset>
-                            <div class="control-group">
-                              <div class="controls">
-                                <div class="input-prepend input-group">
-                                  <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                  <input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" value="01/01/2016 - 01/25/2016" />
-                                </div>
-                              </div>
-                            </div>
-                          </fieldset>
-
-                      </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Obavijesti putem mail-a</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male"> &nbsp; Da &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female"> &nbsp; Ne &nbsp;
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Datum isteka <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
-                        </div>
-                      </div>
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-
-              <button class="btn btn-primary" type="reset">Sacuvaj izmjene</button>
-                          <button type="submit" class="btn btn-success">Izvrsi uplatu</button>
-                        </div>
-                      </div>
-
-                    </form>
-                  </div>
-
-                        </div>
-
+                    <div class="">
+                      <div class="pricing_features">
+                        <ul class="list-unstyled text-left">
+                          <li><i class="fa fa-check text-success"></i> 2 godine <strong> pristupa necemu</strong></li>
+                          <li><i class="fa fa-check text-success"></i> <strong>Neograniceno</strong> nesto</li>
+                          <li><i class="fa fa-check text-success"></i> Ograniceno <strong> nesto drugo</strong></li>
+                          <li><i class="fa fa-check text-success"></i> <strong>Predobra usluga</strong></li>
+                          <li><i class="fa fa-check text-success"></i> Sve vrijeme <strong> novo</strong></li>
+                          <li><i class="fa fa-check text-success"></i> <strong>Neograniceno</strong> nesto waoo</li>
+                          <li><i class="fa fa-check text-success"></i> <strong>Omoguceno</strong> sve naj naj</li>
+                        </ul>
                       </div>
                     </div>
 
                   </div>
+                </div>
+              </div>
+              <!-- price element -->
+
+              <div class="col-xs-9">
+
+                <div class="x_content" >
+          <br />
+          <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" *ngIf="subscription!=null">
+
+             <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription start date <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input name="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionStartDate)" readonly>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Recurring payment</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div id="gender" class="btn-group" data-toggle="buttons">
+                  <label>
+                    <input type="checkbox" name="" value="" [checked]="subscription.recurringPayment" (change)="subscription.recurringPayment=!subscription.recurringPayment">
+                  </label>
 
                 </div>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">E-mail notifications</label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div id="gender" class="btn-group" data-toggle="buttons">
+                  <label>
+                    <input type="checkbox" disabled>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription expiration date <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionExpirationDate)" readonly>
+              </div>
+            </div>
+            <div class="ln_solid"></div>
+            <div class="form-group">
+              <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
+    <button class="btn btn-primary" (click)="saveChanges()">Save changes</button>
+                <button type="submit" class="btn btn-success" (click)="paySubscription()">Pay subscription</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
 
               </div>
 
             </div>
           </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

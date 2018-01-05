@@ -33,7 +33,10 @@ import { PaymentGatewaysService } from './services/payment-gateways.service';
 import { PricingPackagesService } from './services/pricing-packages.service';
 
 import { ToastrModule } from 'ngx-toastr';
-import { AlertService} from './services/alert.service';
+
+import {AlertService} from "./services/alert.service";
+import { SubscriptionService } from './services/subscription.service';
+
 
 const toastrSettings = {
   positionClass: 'toast-top-center',
@@ -76,8 +79,10 @@ const toastrSettings = {
     TransactionsService,
     CasesService,
     HearingsService,
-    PagerService
+    PagerService,
+    SubscriptionService
     //DocumentsService
+
   ],
   bootstrap: [AppComponent]
 })
