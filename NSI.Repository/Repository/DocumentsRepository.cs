@@ -49,14 +49,13 @@ namespace NSI.Repository.Repository
         {
             var result = new PagingResultModel<DocumentDetails>
             {
-                
-                ItemsPerPage = 10
+                ItemsPerPage = query.ResultsPerPage
             };
-            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).ToList();
+            var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).Include(f=>f.FileType).ToList();
             var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
                 .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
             result.TotalItems = filteredDocuments.Count();
-            result.Results = filteredDocuments.Take(result.ItemsPerPage).ToList();
+            result.Results = filteredDocuments.Skip(query.ResultsPerPage*(query.PageNumber-1)).Take(query.ResultsPerPage).ToList();
             return result;
         }
 
@@ -101,7 +100,7 @@ namespace NSI.Repository.Repository
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.Description = document.DocumentDescription;
             documentEntity.DocumentPath = document.DocumentPath;
-
+            documentEntity.Title = document.DocumentTitle;
             _dbContext.Update(documentEntity);
             var result = _dbContext.SaveChanges();
 
@@ -129,7 +128,7 @@ namespace NSI.Repository.Repository
 
         DocumentDetails IDocumentRepository.GetDocument(int documentId)
         {
-            var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(x => x.DocumentId == documentId);
+            var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h=>h.DocumentHistory).Include(f=>f.FileType).FirstOrDefault(x => x.DocumentId == documentId);
             return document != null ? DocumentRepository.MapToDocumentDetailsDto(document, _dbContext) : null;
         }
 
@@ -137,6 +136,7 @@ namespace NSI.Repository.Repository
         {
             try
             {
+                document.DocumentId = 0;
                 var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
                 _dbContext.Add(documentEntity);
                 var result = _dbContext.SaveChanges();

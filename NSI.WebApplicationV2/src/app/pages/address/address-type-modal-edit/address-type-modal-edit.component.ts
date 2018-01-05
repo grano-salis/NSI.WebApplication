@@ -8,24 +8,31 @@ import {AddressTypeService} from '../../../services/addressType.service';
   templateUrl: './address-type-modal-edit.component.html',
   styleUrls: []
 })
-export class AddressTypeModalEditComponent {
 
-  @Input() addressType: AddressType;
-  @Output() editAddresTypeEvent = new EventEmitter();
-  addressTypeEdit: AddressType= new AddressType();
+export class AddressTypeModalEditComponent implements OnInit {
+
+  @Input()
+  addressType: AddressType;
+
+  @Output()
+  editAddressTypeEvent: EventEmitter<AddressType> = new EventEmitter<AddressType>();
+
+  addressTypeEdit: AddressType = new AddressType();
+  date_modified: Date = new Date();
 
   constructor(private addressTypeService: AddressTypeService) { }
 
   ngOnInit() {
     Object.assign(this.addressTypeEdit, this.addressType);
   }
-  editAddressType(){
-    console.log('uslo');
-    console.log(this.addressType);
-    this.editAddresTypeEvent.emit({orginal: this.addressType, edited: this.addressTypeEdit})
-    console.log('uslo1');
-    this.addressTypeService.putAddressType(this.addressTypeEdit.addressTypeId, this.addressTypeEdit);
-    console.log('uslo2');
+
+  editAddressType() {
+    this.addressTypeEdit.modifiedDate = this.date_modified;
+    this.addressTypeService.putAddressType(this.addressTypeEdit.addressTypeId, this.addressTypeEdit).subscribe((r: any) => {
+      console.log('Put method address: ' + r);
+      this.editAddressTypeEvent.emit(this.addressTypeEdit);
+    },
+    (error: any) => console.log('Error: ' + error.message));
   }
 }
 

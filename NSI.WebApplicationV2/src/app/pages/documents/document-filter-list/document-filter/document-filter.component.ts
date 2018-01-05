@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChildren } from '@angular/core';
 import { DocumentFilter, DocumentQuery } from '../../models/index.model';
 import { DocumentsService } from '../../../../services/documents.service';
 
@@ -25,7 +25,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
-        this.queryModel = new DocumentQuery('', 0, 0, '');
+        this.queryModel = new DocumentQuery(0, 0);
         this.buttonIcon = 'fa-plus';
 
         this.documentsService.chosenFilterEvent
@@ -47,6 +47,10 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         $("#"+ this.dateIdentifier()).datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+    }
+
+    getSearchValue() {
+        return this.chosenFilter;
     }
 
     onButtonClick() {
@@ -110,7 +114,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         }
 
         if ( this.checkIfDateFilter(this.chosenFilter) !== this.checkIfDateFilter(this.previousChosenFilter) ) {
-            this.queryModel.search = '';
+            this.queryModel.searchByTitle = '';
         }
 
         return;        

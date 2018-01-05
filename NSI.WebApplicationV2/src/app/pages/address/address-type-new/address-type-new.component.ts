@@ -30,10 +30,7 @@ export class AddressTypeNewComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Usao');
     console.log(this.addressType);
-    console.log('Prosao');
-
     this.addressTypeService.postAddressType(this.addressType).subscribe((r: any) => console.log('Post method addressType: ' + r),
       (error: any) => console.log('Error: ' + error.message));
   }

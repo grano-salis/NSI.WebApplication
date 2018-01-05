@@ -18,6 +18,7 @@ namespace NSI.DC.TransactionRepository
         public int PricingPackageId { get; set; }
         [DataMember]
         public int CustomerId { get; set; }
-
+        [DataMember]
+        public string Status { get; set; }
     }
 }

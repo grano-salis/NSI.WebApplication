@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {ModalModule} from "ngx-modal";
 
 import { PricingPackagesRoutingModule } from './pricing-packages-routing.module';
 import { PricingPackageListComponent } from './pricing-package-list/pricing-package-list.component';
@@ -11,7 +12,8 @@ import { PricingPackageBuyComponent } from './pricing-package-buy/pricing-packag
   imports: [
     CommonModule,
     PricingPackagesRoutingModule,
-    FormsModule
+    FormsModule,
+    ModalModule
   ],
   declarations: [PricingPackageListComponent, PricingPackageViewComponent, PricingPackageBuyComponent]
 })

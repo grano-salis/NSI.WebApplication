@@ -102,7 +102,7 @@ namespace NSI.REST.Controllers
         //POST /api/Documents/paging
         [HttpPost]
         [Route("paging")]
-        public IActionResult GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
+        public IActionResult GetDocumentsByPage([FromBody]DocumentsPagingQueryModel queryDto)
         {
             try
             {
@@ -126,7 +126,7 @@ namespace NSI.REST.Controllers
             {
                 var file = Request.Form.Files.FirstOrDefault();
                 var path = await DocumentManipulation.UploadFileAsync(file);
-                return Ok(path);
+                return Ok(Path.Combine("localhost:59738", path));
             }
             catch (Exception ex)
             {
@@ -137,7 +137,7 @@ namespace NSI.REST.Controllers
 
         // POST api/Documents
         [HttpPost]
-        public IActionResult Post(CreateDocumentDto document)
+        public IActionResult Post([FromBody]CreateDocumentDto document)
         {
             try
             {

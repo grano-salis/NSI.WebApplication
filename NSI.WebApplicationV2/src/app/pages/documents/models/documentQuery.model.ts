@@ -1,15 +1,26 @@
 export class DocumentQuery {
-    search: string;
     pageNumber: number;
     resultsPerPage: number;
-    filterBy: string;
 
-    constructor(search: string, pageNumber: number, resultsPerPage: number, filterBy: string) {
+    searchByTitle: string;
+    searchByCaseId: number;
+    searchByCategoryId: number;
+    searchByDescription: string;
 
-        this.search = search;
+    createdDateFrom: Date;
+    createDateTo: Date;
+    ModifiedDateFrom: Date;
+    ModifiedDateTo: Date;
+
+    constructor(pageNumber: number, resultsPerPage: number) {
+
         this.pageNumber = pageNumber;
         this.resultsPerPage = resultsPerPage;
-        this.filterBy = filterBy;
+
+        this.searchByTitle = "";
+        this.searchByCaseId = 0;
+        this.searchByCategoryId = 0;
+        this.searchByDescription = "";
         
     }
 }

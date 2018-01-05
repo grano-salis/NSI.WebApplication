@@ -1,7 +1,7 @@
         <div class="">
           <div class="page-title">
             <div class="title_left">
-              <h3>Paketi</h3>
+              <h3>Packages</h3>
             </div>
 
             <div class="title_right">
@@ -9,7 +9,7 @@
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="Pretraga...">
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Trazi!</button>
+                    <button class="btn btn-default" type="button">Search!</button>
                   </span>
                 </div>
               </div>
@@ -22,7 +22,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel" style="height:600px;">
                 <div class="x_title">
-                  <h2>Cjenovnik</h2>
+                  <h2>Pricing</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -50,9 +50,9 @@
                       <div class="col-md-3 col-sm-6 col-xs-12" *ngFor="let pricingPackage of pricingPackages">
                         <div class="pricing">
                           <div class="title">
-                            <h2>{{pricingPackage.pricingPackageName}} PAKET</h2>
+                            <h2>{{pricingPackage.pricingPackageName}}. PAKET</h2>
                             <h1>{{pricingPackage.price}} KM</h1>
-                            <span>Mjesecno</span>
+                            <span>Monthly</span>
                           </div>
                           <div class="x_content">
                             <div class="">
@@ -69,12 +69,25 @@
                               </div>
                             </div>
                             <div class="pricing_footer">
-                              <a class="btn btn-success btn-block" role="button" [routerLink]="['/pricingpackages/buy/'+pricingPackage.pricingPackageId]" >Prijavi <span> sada!</span></a>
+                              <a class="btn btn-success btn-block" role="button" (click)="subscribeToPackage(pricingPackage.pricingPackageId)">Subscribe <span> now!</span></a>
 
                             </div>
                           </div>
                         </div>
                       </div>
+                      <modal #myModal>
+                          <modal-header>
+                              <h1>Subscription info</h1>
+                          </modal-header>
+                          <modal-content>
+                              You are already subscribed to another package. If you subscribe to this package, you will get {{bonus}} days bonus to this one month subscription.
+                          </modal-content>
+                          <modal-footer>
+                              <button class="btn btn-danger" (click)="myModal.close()">Close</button>
+                            <button class="btn btn-primary" [routerLink]="['/pricingpackages/buy/'+selectedPackage]">Subscribe</button>
+                          </modal-footer>
+                      </modal>
+
                       <!-- price element -->
 
                       <!-- price element --

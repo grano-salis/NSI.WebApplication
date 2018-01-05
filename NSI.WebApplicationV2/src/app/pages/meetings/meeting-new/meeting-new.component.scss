@@ -49,3 +49,39 @@
 .warningMessages div {
 	padding: 2px 2px 2px 2px;
 }
+
+.modal-users-availability .panel {
+	background-color: #eaeaea;
+	padding: 5px;
+}
+
+.modal-users-availability .panel a {
+	color: #1d1d1d;
+}
+
+.modal-users-availability .panel-body {
+	background-color: whitesmoke;
+    color: black;
+}
+
+.modal-users-availability .panel-heading {
+	padding: 0px;
+}
+
+.modal-available-meetings {
+	padding: 5px;
+    background-color: #7ab4c7;
+    color: #fdfdfd;
+    margin-bottom: 3px;
+    border: 1px solid skyblue;
+	border-radius: 2px;
+	-webkit-transition: background-color 2s ease-out;
+    -moz-transition: background-color 2s ease-out;
+    -o-transition: background-color 2s ease-out;
+    transition: background-color 2s ease-out;
+}
+
+.modal-available-meetings:hover {
+	cursor: pointer;
+	background-color: #346734;
+}

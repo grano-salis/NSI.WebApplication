@@ -14,15 +14,24 @@
     </div> 
 </div>
 
+<!-- <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+    Tooltip with HTML
+</button> -->
+
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div>
-            <h3 *ngIf="scopedToCase"> Case number: &nbsp; 
+            <h3 *ngIf="scopedToCase"> Documents with case number: &nbsp; 
                 <span id="caseHeaderInput">
-                    <input type="text" value="12345678"> 
+                    <input type="text" [(ngModel)]="caseNumber" (change)="onCaseChanged()" 
+                    [ngClass]="{'height-26px': true, 'invalid': !caseNumberValid}"> 
                 </span>
             </h3>
-            <h3 *ngIf="!scopedToCase"> Documents </h3>
+            <h3 *ngIf="!scopedToCase"> 
+                <span>
+                    Documents
+                </span>
+            </h3>
         </div>
     </div>   
 </div>
@@ -30,7 +39,9 @@
 
 <app-document-filter-list [scopedToCase]="scopedToCase"></app-document-filter-list>
 
-<app-document-list [scopedToCase]="scopedToCase"></app-document-list>
+<app-document-list [scopedToCase]="scopedToCase"
+                   [caseNumber]="caseNumber"></app-document-list>
 
 <app-document-modal [scopedToCase]="scopedToCase"
+                    [caseNumber]="caseNumber"
                     [editMode]="false"></app-document-modal>

@@ -71,7 +71,7 @@
                                 <label for="photoimg" id="uploadSurface">
                                     <img class="img-responsive text-center" id="uploadImage" class="text-center" alt="Upload image" src="../../../assets/uploadDocument.png">
                                 </label>
-                                <input type="file" name="photoimg" id="photoimg" (change)="onFileChange($event)" />
+                                <input type="file" name="photoimg" id="photoimg" (change)="onFileChange($event)">
                             </div>
                             <br>
                         
@@ -85,12 +85,14 @@
                         <div class="col-md-2"></div>
                     </div>
                 </form>
+                
             </div>
             <div class="modal-footer"> 
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <!-- <button type="button" class="btn btn-default" (click)="onCancelAction()" data-dismiss="modal"> -->
+                <button type="button" class="btn btn-default" (click)="onCancelAction()">
                     {{ footerCancelText() }}
                 </button> 
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" (click)="onConfirmationAction()">
                     {{ footerConfirmationText() }}
                 </button>
             </div>

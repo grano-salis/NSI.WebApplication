@@ -1,9 +1,9 @@
 
-<div class="modal fade" id="edit-addressType"  role="dialog" >
+<div class="modal fade" id="edit-addressType{{addressType.addressTypeId}}"  role="dialog" >
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Type address</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Address type</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -11,7 +11,6 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Type address:</label>
                   <input type="text" class="form-control" id="edit-modal-name" value="{{addressTypeEdit.addressTypeId}}" [(ngModel)]="addressTypeEdit.addressTypeName" name="addressTypeName">
             </div>
           </form>
