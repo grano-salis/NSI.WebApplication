@@ -13,17 +13,17 @@ var router_1 = require("@angular/router");
 var shared_module_1 = require("./shared/shared.module");
 var example_module_1 = require("./example/example.module");
 var app_component_1 = require("./app.component");
-var AppModule = (function () {
+var AppModule = /** @class */ (function () {
     function AppModule() {
     }
+    AppModule = __decorate([
+        core_1.NgModule({
+            imports: [/*CoreModule.forRoot(),*/ shared_module_1.SharedModule, platform_browser_1.BrowserModule, forms_1.FormsModule, example_module_1.ExampleModule, router_1.RouterModule.forRoot([])],
+            declarations: [app_component_1.AppComponent],
+            bootstrap: [app_component_1.AppComponent]
+        })
+    ], AppModule);
     return AppModule;
 }());
-AppModule = __decorate([
-    core_1.NgModule({
-        imports: [/*CoreModule.forRoot(),*/ shared_module_1.SharedModule, platform_browser_1.BrowserModule, forms_1.FormsModule, example_module_1.ExampleModule, router_1.RouterModule.forRoot([])],
-        declarations: [app_component_1.AppComponent],
-        bootstrap: [app_component_1.AppComponent]
-    })
-], AppModule);
 exports.AppModule = AppModule;
 //# sourceMappingURL=app.module.js.map

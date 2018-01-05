@@ -18,9 +18,9 @@ namespace NSI.BLL
 
            
 
-        public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
+        public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder, int caseId)
         {
-            return _contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder);
+            return _contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder, caseId);
         }
 
         public IEnumerable<ContactDto> GetContactsForCase(int caseId)
@@ -28,9 +28,9 @@ namespace NSI.BLL
             return _contactsRepository.GetContactsForCase(caseId);
         }
 
-        public ContactDto CreateContact(ContactDto contactDto)
+        public ContactDto CreateContact(ContactDto contactDto, int caseId)
         {
-            return _contactsRepository.CreateContact(contactDto);
+            return _contactsRepository.CreateContact(contactDto, caseId);
         }
 
         public bool DeleteContactById(int contactId)
@@ -47,5 +47,7 @@ namespace NSI.BLL
         {
             return _contactsRepository.EditContactById(contactId, contact);
         }
+
+     
     }
 }

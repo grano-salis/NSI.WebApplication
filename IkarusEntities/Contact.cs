@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace IkarusEntities
 {
@@ -28,5 +29,10 @@ namespace IkarusEntities
         public ICollection<ClientContact> ClientContact { get; set; }
         public ICollection<Email> Email { get; set; }
         public ICollection<Phone> Phone { get; set; }
+
+        public static explicit operator Contact(EntityEntry<Contact> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

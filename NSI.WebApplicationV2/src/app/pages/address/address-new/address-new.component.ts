@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Address} from '../address.model';
 import {AddressService} from '../../../services/address.service';
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
@@ -16,9 +16,10 @@ declare var google: any;
 
 
 export class AddressNewComponent implements OnInit {
+  @Input() isItNewContact: any;
   _router: Router;
 
-  address: Address;
+  @Input() address: Address;
   addressTypes: AddressType[];
 
   date_created: Date = new Date();

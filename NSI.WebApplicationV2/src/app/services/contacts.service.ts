@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {Contact} from "../pages/contacts/new-contact/contact";
+
 @Injectable()
 export class ContactsService {
 
@@ -19,12 +19,13 @@ export class ContactsService {
     return this.http.get(`${this._url}/api/contacts`);
   }
 
-  editContact(body: any): Observable<any> {
+  editContact(body: any, tempAddress: any): Observable<any> {
     const contact = {
       FirsttName: body.firsttName,
       LastName: body.lastName,
       Phones: body.phones,
       Emails: body.emails,
+      Address: tempAddress,
       AddressId: parseInt(body.addressId),
       CreatedByUserId: 6
     };
@@ -37,10 +38,9 @@ export class ContactsService {
   }
 
   postContact(contact: any): Observable<any> {
-    delete contact.address;
     const body = JSON.stringify(contact);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post(`${this._url}/api/contacts`, body, {headers: headers});
+    return this.http.post(`${this._url}/api/contacts/0`, body, {headers: headers});
 
   }
 
@@ -50,6 +50,7 @@ export class ContactsService {
     if (searchString !== '' || searchColumn !== '') uri += '&searchString=' + searchString;
     if (searchColumn !== '') uri += '&searchColumn=' + searchColumn;
     if (sortOrder !== '') uri += '&sortOrder=' + sortOrder;
+    uri += '&caseId=0';
     return this.http.get(`${this._url}/api/contacts?` + uri);
   }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NSI.DC.ContactsRepository;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Text.RegularExpressions;
+using NSI.DC.AddressRepository;
 
 namespace NSI.REST.Controllers
 {
@@ -22,9 +23,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/contacts
         [HttpGet]
-        public IActionResult Get(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
+        public IActionResult Get(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder, int caseId)
         {
-            return Ok(contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder));
+            return Ok(contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder,caseId));
         }
 
 
@@ -44,8 +45,8 @@ namespace NSI.REST.Controllers
 
 
         // POST: api/contacts
-        [HttpPost]
-        public IActionResult Post([FromBody]ContactDto model)
+        [HttpPost("{id}")]
+        public IActionResult Post(int id,[FromBody]ContactDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +60,7 @@ namespace NSI.REST.Controllers
                 {
                     if (ValidationContact(model) == "")
                     {
-                        var contact = contactsRepository.CreateContact(model);
+                        var contact = contactsRepository.CreateContact(model,id);
                         return Ok(contact);
                     }
                     else
