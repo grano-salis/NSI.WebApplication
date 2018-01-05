@@ -53,7 +53,6 @@ export class NewContactComponent {
     this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {
         this.addressService.getAddreses().subscribe((addresses: any) => {
           this.addresses = addresses;
-          this.temp_contact.contact1 = r.contact1;
           this.closeBtn.nativeElement.click();
           this.newAddress = false;
           this.newContactAddress = new Address();
