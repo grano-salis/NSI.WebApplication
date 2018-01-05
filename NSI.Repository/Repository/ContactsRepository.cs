@@ -20,11 +20,17 @@ namespace NSI.Repository
          
         }
 
-        public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder)
+        public PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder, int caseId)
         {
             try
             {
-                 IQueryable<Contact> contacts = _dbContext.Contact.Where(a => (bool)!a.IsDeleted);
+                IQueryable<Contact> contacts = null;
+                    if(caseId==0) contacts=_dbContext.Contact.Where(a => (bool)!a.IsDeleted);
+                    else contacts= _dbContext.Contact.Where(a => !(bool)a.IsDeleted && a.CaseContact.Any(b => b.CaseId == caseId));
+                if (contacts == null)
+                {
+                    return null;
+                }
                 if (!String.IsNullOrEmpty((string)searchString))
                 {
                     switch ((string)searchColumn)
@@ -107,10 +113,11 @@ namespace NSI.Repository
             return contactDto;
         }
 
-        public ContactDto CreateContact(ContactDto contactDto)
+        public ContactDto CreateContact(ContactDto contactDto,int caseId)
         {
             try
             {
+                
                 this.addressRepository = new AddressRepository(_dbContext);
                 DC.AddressRepository.AddressDto address = null;
                 if (contactDto.Address != null)
@@ -124,7 +131,21 @@ namespace NSI.Repository
                 contact.IsDeleted = false;
                 _dbContext.Add(contact);
                 if (_dbContext.SaveChanges() != 0)
-                    return Mappers.ContactRepository.MapToDto(contact);
+                {
+                    ContactDto c = Mappers.ContactRepository.MapToDto(contact);
+                    if (caseId != 0)
+                    {
+                        CaseContact caseInfo = new CaseContact();
+                        caseInfo.CaseId = caseId;
+                        caseInfo.Contact = c.Contact1;
+                        this._dbContext.CaseContact.Add(caseInfo);
+                    }
+                    if (_dbContext.SaveChanges() != 0)
+                    {
+                        return c;
+                    }
+
+                }
             }
             catch (Exception ex)
             {
