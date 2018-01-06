@@ -1,8 +1,8 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 <div role="main">
   <div class="clearfix">
 <div class='panel panel-primary' *ngIf='case'>
@@ -79,7 +79,7 @@
 <ul class="nav nav-pills nav-justified">
         <!--<div class="col-lg-4 p-0">-->
                
-            <button id="sectionTabOpen"
+            <button class="btn btn-primary" id="sectionTabOpen"
                     class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
                     (click)="getTab('Hearings')">
               Hearings
@@ -89,11 +89,11 @@
                     (click)="getTab('Contacts')">
               Contacts
             </button>
-            <button id="meetingsTabOpen"
+           <!-- <button id="meetingsTabOpen"
             class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
             (click)="getTab('Meetings')">
              Meetings
-            </button>
+            </button>-->
             <button id="DocumentsTabOpen"
             class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
             (click)="getTab('Documents')">
@@ -138,7 +138,7 @@
         <div *ngIf="taskTabOpenName === 'Documents'">
               <!--  <div class='col-md-6'>{{docs | json}}</div> -->
               <div class="x_content">
-                    <table class="table table-hover">
+                   <!-- <table class="table table-hover">
                       <thead>
                       <tr>
                         <th>Document Title</th>
@@ -153,13 +153,51 @@
                     <tr *ngFor="let doc of docs">
                                   <!--  <td>{{hearings | json}}</td> -->
                               <!-- <td>{{doc.documentTitle | uppercase}}</td> -->
-                               <td>{{doc.categoryName | uppercase}}</td>
+                             <!--  <td>{{doc.categoryName | uppercase}}</td>
                                <td></td>
                                <td>{{doc.documentDescription | uppercase}}</td>
                                <td>{{doc.documentContent | uppercase}}</td>
                                <td>{{doc.lastModified | date :  "dd.MM.y"}}</td>
                                <td></td>
                       </tbody>
+                    </table>-->
+
+                    <table class="table table-bordered jambo_table">
+                        <thead>
+                            <tr>
+                               
+                                <th>Title</th>
+                               
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Author</th>
+                                <th>Created At</th>
+                                <th>Last Modified</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of docs; let i = index">
+                             <!-- <td><p data-placement="top" data-toggle="tooltip" title="View" class="text-center"> 
+                                    <a [href]="sanitize(item.documentPath)"> 
+                                    <button class="btn-default" data-title="View" data-toggle="modal" data-target="" style="border-radius: 5px;">
+                                        <span><i [ngClass]="['fa', item.fileIconPath, 'fa-2x']" aria-hidden="true"></i></span></button></a></p></td>-->
+                                  
+                                <td>{{ item.documentTitle }}</td>
+                               <!-- <td *ngIf="!scopedToCase">{{ item.caseNumber }}</td> -->
+                                <td>{{ item.documentCategoryName }} </td>
+                                <td>{{ item.documentDescription }}</td>
+                                <td>{{ item.author }}
+                                <td>{{ item.createdAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+                                <td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+                            
+                               <!-- <td><p data-placement="top" data-toggle="tooltip" title="History" class="text-center">
+                                    <span type="button" data-title="History" data-toggle="modal" data-target="#history" 
+                                    (click)="onOpenDocumentHistory(item.documentTitle, item)">
+                                        <span class="fa fa-history fa-2x"></span></span></p></td>-->
+                                
+                            </tr>
+                        </tbody> 
                     </table>
           
           
