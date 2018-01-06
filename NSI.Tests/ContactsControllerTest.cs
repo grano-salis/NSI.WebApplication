@@ -65,9 +65,19 @@ namespace NSI.Tests
                 TaskId = 1
             };
 
-            var controller = new ContactsController(this.contactsManipulation);
 
             // Act
+            var mockRepo = new Mock<NSI.Repository.Interfaces.IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            var contManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contManipulation);
+            controller.Post(1, contact);
+
+            //update attributes
+
+            contact.FirsttName = "Johndoe";
+            contact.LastName = "Doeeon";
+
             var result = controller.Put(id, contact);
 
             // Assert
@@ -93,6 +103,7 @@ namespace NSI.Tests
         [Fact]
         public void Delete_ReturnsOK()
         {
+            int id = 100;
             // Arrange
             var contact = new ContactDto()
             {
@@ -102,12 +113,16 @@ namespace NSI.Tests
                 LastName = "Contactslastname",
                 Phones = new List<PhoneDto>(),
                 Emails = new List<EmailDto>(),
-                TaskId = 1
+                TaskId = 1,
             };
-            var controller = new ContactsController(this.contactsManipulation);
-            db.Contact.Add(NSI.Repository.Mappers.ContactRepository.MapToDbEntity(contact));
             // Act
-            var result = controller.Delete(contact.Contact1);
+            var mockRepo = new Mock<NSI.Repository.Interfaces.IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            mockRepo.Setup(x => x.DeleteContactById(It.IsAny<int>())).Returns(true);
+            var contManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contManipulation);
+            controller.Post(1, contact);
+            var result = controller.Delete(id);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
