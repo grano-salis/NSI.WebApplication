@@ -38,7 +38,7 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/caseCategory
         [HttpPost("/caseCategory")]
-        public IActionResult Post([FromBody]CaseCategoryDto model)
+        public IActionResult PostCase([FromBody]CaseCategoryDto model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
@@ -63,7 +63,7 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/caseCategory/1
         [HttpPut("/caseCategory/{id}")]
-        public IActionResult Put(int id, [FromBody]CaseCategoryDto model)
+        public IActionResult PutCase(int id, [FromBody]CaseCategoryDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace NSI.REST.Controllers
 
         // DELETE: api/admin/caseCategory/1
         [HttpDelete("/caseCategory/{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult DeleteCase(int id)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/clientType
         [HttpPost("/clientType")]
-        public IActionResult Post([FromBody]ClientTypeDto model)
+        public IActionResult PostClient([FromBody]ClientTypeDto model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
@@ -148,7 +148,7 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/clientType/1
         [HttpPut("/clientType/{id}")]
-        public IActionResult Put(int id, [FromBody]ClientTypeDto model)
+        public IActionResult PutClient(int id, [FromBody]ClientTypeDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -207,7 +207,7 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/documentCategory
         [HttpPost("/documentCategory")]
-        public IActionResult Post([FromBody]DocumentCategoryDto model)
+        public IActionResult PostDocument([FromBody]DocumentCategoryDto model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
@@ -232,7 +232,7 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/documentCategory/1
         [HttpPut("/documentCategory/{id}")]
-        public IActionResult Put(int id, [FromBody]DocumentCategoryDto model)
+        public IActionResult PutDocument(int id, [FromBody]DocumentCategoryDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -291,7 +291,7 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/fileType
         [HttpPost("/fileType")]
-        public IActionResult Post([FromBody]FileTypeDto model)
+        public IActionResult PostFile([FromBody]FileTypeDto model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
@@ -316,7 +316,7 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/fileType/1
         [HttpPut("/fileType/{id}")]
-        public IActionResult Put(int id, [FromBody]FileTypeDto model)
+        public IActionResult PutFile(int id, [FromBody]FileTypeDto model)
         {
             if (!ModelState.IsValid)
             {
