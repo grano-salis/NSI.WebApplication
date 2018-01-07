@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpParams } from '@angular/common/http';
 import { RequestOptions, Headers } from "@angular/http";
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
@@ -151,4 +151,14 @@ export class DocumentsService {
   //                     error => console.log(error)
   //                 );
   // }
+  getNumberOfDocumentsByCase(caseId: number): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('caseId', String(caseId));
+    return this.http.get(this._url + 'case/' + caseId);  //{headers: this.headers, params: params});    
+  }
+  getDocumentsByCase(caseId: number): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('caseId', String(caseId));
+    return this.http.get(this._url + 'byCase/' + caseId);  //{headers: this.headers, params: params});    
+  }
 }

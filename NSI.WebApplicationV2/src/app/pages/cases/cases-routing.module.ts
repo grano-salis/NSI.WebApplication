@@ -6,12 +6,14 @@ import {NewCaseComponent} from './new-case/new-case.component';
 import {CasesListComponent} from './cases-list/cases-list.component';
 import {EditCaseComponent} from './edit-case/edit-case.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import { CaseDetailComponent } from './case-detail/case-detail.component';
 
 const routes: Routes = [
   { path: 'new', component: NewCaseComponent},
   { path: 'all', component: CasesListComponent},
   { path: 'edit/:caseId', component: EditCaseComponent},
-  { path: 'dashboard', component: DashboardComponent}
+  { path: 'dashboard', component: DashboardComponent},
+  { path: ':id', component: CaseDetailComponent}
 ];
 
 @NgModule({

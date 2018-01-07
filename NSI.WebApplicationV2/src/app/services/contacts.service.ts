@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
@@ -53,4 +53,10 @@ export class ContactsService {
     uri += '&caseId=0';
     return this.http.get(`${this._url}/api/contacts?` + uri);
   }
+  getContactsByCase(caseId: number): Observable<any> {
+		let params = new HttpParams();
+		params = params.append('caseId', String(caseId));
+		return this.http.get(`${this._url}/forcase/` + caseId);
+		//return this.http.get(this._url + 'forcase/' + caseId);  //{headers: this.headers, params: params});    
+	  }
 }
