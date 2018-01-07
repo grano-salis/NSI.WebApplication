@@ -16,18 +16,18 @@ var exampleRoutes = [
     { path: 'example/comp1', component: comp1_component_1.Comp1Component },
     { path: 'example/comp2/:id', component: comp2_component_1.Comp2Component },
 ];
-var ExampleModule = /** @class */ (function () {
+var ExampleModule = (function () {
     function ExampleModule() {
     }
-    ExampleModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule, router_1.RouterModule.forChild(exampleRoutes)],
-            declarations: [comp1_component_1.Comp1Component, comp2_component_1.Comp2Component],
-            providers: [example_service_1.ExampleService],
-            exports: [comp1_component_1.Comp1Component, comp2_component_1.Comp2Component]
-        })
-    ], ExampleModule);
     return ExampleModule;
 }());
+ExampleModule = __decorate([
+    core_1.NgModule({
+        imports: [common_1.CommonModule, router_1.RouterModule.forChild(exampleRoutes)],
+        declarations: [comp1_component_1.Comp1Component, comp2_component_1.Comp2Component],
+        providers: [example_service_1.ExampleService],
+        exports: [comp1_component_1.Comp1Component, comp2_component_1.Comp2Component]
+    })
+], ExampleModule);
 exports.ExampleModule = ExampleModule;
 //# sourceMappingURL=example.module.js.map
