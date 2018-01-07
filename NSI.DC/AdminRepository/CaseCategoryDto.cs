@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
 
-namespace IkarusEntities
+namespace NSI.DC.AdminRepository
 {
-    public partial class CaseCategory
+    [DataContract]
+    public class CaseCategoryDto
     {
-        public CaseCategory()
-        {
-            CaseInfo = new HashSet<CaseInfo>();
-        }
-
+        [DataMember]
         public int CaseCategoryId { get; set; }
-        public string CaseCategoryName { get; set; }
-        public bool? IsDeleted { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public int? CustomerId { get; set; }
 
-        public Customer Customer { get; set; }
-        public ICollection<CaseInfo> CaseInfo { get; set; }
+        [DataMember]
+        public string CaseCategoryName { get; set; }
+
+        [DataMember]
+        public bool? IsDeleted { get; set; }
+
+        [DataMember]
+        public DateTime DateCreated { get; set; }
+
+        [DataMember]
+        public DateTime DateModified { get; set; }
+
+        [DataMember]
+        public int? CustomerId { get; set; }
     }
 }

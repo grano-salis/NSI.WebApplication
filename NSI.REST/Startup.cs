@@ -90,12 +90,17 @@ namespace NSI.REST
             services.AddScoped<IPaymentGatewayManipulation, PaymentGatewayManipulation>();
             services.AddScoped<IPricingPackageRepository, PricingPackageRepository>();
             services.AddScoped<IPricingPackageManipulation, PricingPackageManipulation>();
+<<<<<<< HEAD
             services.AddScoped<ICustomerRepository, Repository.CustomerRepository>();
             services.AddScoped<ICustomerManipulation, CustomerManipulation>();
             services.AddScoped<IClientRepository, Repository.Repository.ClientRepository>();
             services.AddScoped<IClientManipulation, ClientManipulation>();
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<ISubscriptionManipulation, SubscriptionManipulation>();
+=======
+            services.AddScoped<IAdminManipulation, AdminManipulation>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+>>>>>>> charlie_sifarnik
 
 
             services.AddMvc().AddJsonOptions(
