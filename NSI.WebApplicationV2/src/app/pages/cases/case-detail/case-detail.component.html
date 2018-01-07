@@ -89,11 +89,7 @@
                     (click)="getTab('Contacts')">
               Contacts
             </button>
-            <button id="meetingsTabOpen"
-            class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
-            (click)="getTab('Meetings')">
-             Meetings
-            </button>
+          
             <button id="DocumentsTabOpen"
             class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
             (click)="getTab('Documents')">
@@ -138,38 +134,42 @@
         <div *ngIf="taskTabOpenName === 'Documents'">
               <!--  <div class='col-md-6'>{{docs | json}}</div> -->
               <div class="x_content">
-                    <table class="table table-hover">
-                      <thead>
-                      <tr>
-                        <th>Document Title</th>
-                        <th>Category Name</th>
-                        <th>Document Description</th>
-                        <th>Document Content</th>
-                        <th>Last Modified</th>
-                       
-                      </tr>
-                      </thead>
-                      <tbody>
-                    <tr *ngFor="let doc of docs">
-                                  <!--  <td>{{hearings | json}}</td> -->
-                              <!-- <td>{{doc.documentTitle | uppercase}}</td> -->
-                               <td>{{doc.categoryName | uppercase}}</td>
-                               <td></td>
-                               <td>{{doc.documentDescription | uppercase}}</td>
-                               <td>{{doc.documentContent | uppercase}}</td>
-                               <td>{{doc.lastModified | date :  "dd.MM.y"}}</td>
-                               <td></td>
-                      </tbody>
-                    </table>
+                <table class="table table-bordered jambo_table">
+					<thead>
+						<tr>
+						
+							<th>Title</th>
+						
+							<th>Category</th>
+							<th>Description</th>
+							<th>Author</th>
+							<th>Created At</th>
+							<th>Last Modified</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of docs; let i = index">
+							
+							
+							<td>{{ item.documentTitle }}</td>
+							
+							<td>{{ item.documentCategoryName }} </td>
+							<td>{{ item.documentDescription }}</td>
+							<td>{{ item.author }}
+							<td>{{ item.createdAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+							<td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+						
+						</tr>
+					</tbody> 
+				</table>
           
           
           
                   </div>
 
         </div>
-        <div *ngIf="taskTabOpenName === 'Meetings'">
-        meetings
-        </div>
+       
 
 
 

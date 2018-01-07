@@ -159,12 +159,7 @@ export class CaseDetailComponent implements OnInit {
                   document.getElementById('sectionGroupsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
                   document.getElementById('DocumentsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 primaryTabStyle';
                 }
-                else if (tabName === 'Meetings'){
-                  this.taskTabOpenName = 'Meetings';
-                  document.getElementById('sectionTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
-                  document.getElementById('sectionGroupsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
-                  document.getElementById('meetingsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 primaryTabStyle';
-                }
+                
               }          
 
   onBack() : void {
