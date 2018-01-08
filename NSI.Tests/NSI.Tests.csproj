@@ -18,6 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\NSI.BLL\NSI.BLL.csproj" />
     <ProjectReference Include="..\NSI.REST\NSI.REST.csproj" />
+    <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
+    <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
+    <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
+    <ProjectReference Include="..\NSI.WebApplication\NSI.WebApplication.csproj" />
   </ItemGroup>
 
 </Project>
