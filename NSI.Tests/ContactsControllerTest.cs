@@ -29,8 +29,34 @@ namespace NSI.Tests
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-
         }
+
+        [Fact]
+        public void UpdateContactBadRequestFailureTest()
+        {
+            // Arrange
+            int id = 1;
+            var contact = new ContactDto()
+            {
+                Contact1 = id,
+                AddressId = 1,
+                CreatedByUserId = 6,
+                FirsttName = "Contactsfirstname",
+                LastName = "Contactslastname",
+                Phones = new List<PhoneDto>(),
+                Emails = new List<EmailDto>(),
+                TaskId = 1
+            };
+
+            var contactsRepo = new Mock<IContactsRepository>();
+            contactsRepo.Setup(x => x.EditContactById(It.IsAny<int>(), It.IsAny<ContactDto>())).Throws<Exception>();
+            var contactsManipulation = new ContactsManipulation(contactsRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
+            var result = controller.Put(1, contact);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+
 
         [Fact]
         public void Update_ReturnsBadRequest_GivenInvalidModel()
@@ -48,6 +74,42 @@ namespace NSI.Tests
         }
 
 
+        [Fact]
+        public void UpdateContact_ReturnsOkResult()
+        {
+            // Arrange
+            int id = 1;
+            var contact = new ContactDto()
+            {
+                Contact1 = id,
+                AddressId = 1,
+                CreatedByUserId = 6,
+                FirsttName = "Contactsfirstname",
+                LastName = "Contactslastname",
+                Phones = new List<PhoneDto>(),
+                Emails = new List<EmailDto>(),
+                TaskId = 1
+            };
+
+
+            // Act
+            var mockRepo = new Mock<NSI.Repository.Interfaces.IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), id)).Returns(contact);
+            mockRepo.Setup(x => x.EditContactById(id, It.IsAny<ContactDto>())).Returns(true);
+            var contManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contManipulation);
+            controller.Post(1, contact);
+
+            //update attributes
+
+            contact.FirsttName = "Johndoe";
+            contact.LastName = "Doeeon";
+
+            var result = controller.Put(id, contact);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
         [Fact]
         public void UpdateContact_ReturnsNoContentResult()
         {
@@ -68,7 +130,8 @@ namespace NSI.Tests
 
             // Act
             var mockRepo = new Mock<NSI.Repository.Interfaces.IContactsRepository>();
-            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), id)).Returns(contact);
+            mockRepo.Setup(x => x.EditContactById(id, It.IsAny<ContactDto>())).Returns(false);
             var contManipulation = new ContactsManipulation(mockRepo.Object);
             var controller = new ContactsController(contManipulation);
             controller.Post(1, contact);
@@ -126,6 +189,31 @@ namespace NSI.Tests
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
+        }
+
+
+        [Fact]
+        public void DeleteAddressBadRequestFailureTest()
+        {
+            int id = 100;
+            // Arrange
+            var contact = new ContactDto()
+            {
+                AddressId = 1,
+                CreatedByUserId = 6,
+                FirsttName = "Contactsfirstname",
+                LastName = "Contactslastname",
+                Phones = new List<PhoneDto>(),
+                Emails = new List<EmailDto>(),
+                TaskId = 1,
+            };
+
+            var contactsRepo = new Mock<IContactsRepository>();
+            contactsRepo.Setup(x => x.DeleteContactById(It.IsAny<int>())).Throws<Exception>();
+            var contactsManip = new ContactsManipulation(contactsRepo.Object);
+            var controller = new ContactsController(contactsManip);
+            var result = controller.Delete(1);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
