@@ -1,5 +1,6 @@
 ﻿using IkarusEntities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.KeyVault.Models;
 using Moq;
 using NSI.BLL;
 using NSI.BLL.Interfaces;
@@ -220,11 +221,13 @@ namespace NSI.Tests
         public void ContactsGetAll()
         {
             // Arrange
-            var controller = new ContactsController(this.contactsManipulation);
-            var contacts = controller.Get(10000,1, "", "", "",0);
+            var mockRepo = new Mock<IContactsRepository>();
+            var contactsManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
+            var result = controller.Get(10000, 1, "", "", "", 0);
 
             // Assert
-            Assert.IsType<OkObjectResult>(contacts);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -249,8 +252,8 @@ namespace NSI.Tests
         public void AddContactOk()
         {
             // Arrange
-            var controller = new ContactsController(this.contactsManipulation);
-            var contact = new ContactDto()
+            
+            var contact= new ContactDto()
             {
                 AddressId = 1,
                 CreatedByUserId = 6,
@@ -260,6 +263,11 @@ namespace NSI.Tests
                 Emails = new List<EmailDto>(),
                 TaskId = 1
             };
+            var mockRepo = new Mock<IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            var contactsManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
+           
             var result = controller.Post(0,contact);
             Assert.IsType<OkObjectResult>(result);
            
@@ -269,7 +277,7 @@ namespace NSI.Tests
         public void AddContactBadModel()
         {
             // Arrange
-            var controller = new ContactsController(this.contactsManipulation);
+
             var contact = new ContactDto()
             {
                 AddressId = 1,
@@ -278,6 +286,11 @@ namespace NSI.Tests
                 Emails = new List<EmailDto>(),
                 TaskId = 1
             };
+            var mockRepo = new Mock<IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            var contactsManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
+            
             var result = controller.Post(0,contact);
             Assert.IsType<BadRequestObjectResult>(result);
 
@@ -288,7 +301,6 @@ namespace NSI.Tests
         public void AddContactBadValidation()
         {
             // Arrange
-            var controller = new ContactsController(this.contactsManipulation);
             var contact = new ContactDto()
             {
                 AddressId = 1,
@@ -299,6 +311,12 @@ namespace NSI.Tests
                 Emails = new List<EmailDto>(),
                 TaskId = 1
             };
+
+            var mockRepo = new Mock<IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            var contactsManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
+
             var result = controller.Post(0,contact);
             Assert.IsType<BadRequestObjectResult>(result);
 
@@ -309,7 +327,20 @@ namespace NSI.Tests
         public void AddContactEmptyModel()
         {
             // Arrange
-            var controller = new ContactsController(this.contactsManipulation);
+            var contact = new ContactDto()
+            {
+                AddressId = 1,
+                CreatedByUserId = 6,
+                FirsttName = "Contactsfirstname",
+                LastName = "Contactslastname",
+                Phones = new List<PhoneDto>(),
+                Emails = new List<EmailDto>(),
+                TaskId = 1
+            };
+            var mockRepo = new Mock<IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            var contactsManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
             var result = controller.Post(0,null);
             Assert.IsType<NoContentResult>(result);
 
@@ -319,7 +350,21 @@ namespace NSI.Tests
         public void AddContactEmptyModelState()
         {
             // Arrange
-            var controller = new ContactsController(this.contactsManipulation);
+            var contact= new ContactDto()
+            {
+                AddressId = 1,
+                CreatedByUserId = 6,
+                FirsttName = "Contactsfirstname",
+                LastName = "Contactslastname",
+                Phones = new List<PhoneDto>(),
+                Emails = new List<EmailDto>(),
+                TaskId = 1
+            };
+
+            var mockRepo = new Mock<IContactsRepository>();
+            mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
+            var contactsManipulation = new ContactsManipulation(mockRepo.Object);
+            var controller = new ContactsController(contactsManipulation);
             controller.ModelState.AddModelError("error", "some error");
             var result = controller.Post(0,new ContactDto());
             Assert.IsType<BadRequestObjectResult>(result);
