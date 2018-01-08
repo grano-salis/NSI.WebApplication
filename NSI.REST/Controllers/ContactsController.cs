@@ -58,14 +58,10 @@ namespace NSI.REST.Controllers
 
                 if (model != null)
                 {
-                    if (contactsRepository.ValidationContact(model) == "")
-                    {
+                   
                         var contact = contactsRepository.CreateContact(model, id);
                         return Ok(contact);
-                    }
-                    else
-                        throw new Exception(contactsRepository.ValidationContact(model));
-
+                  
                 }
 
                 else
@@ -88,8 +84,7 @@ namespace NSI.REST.Controllers
             }
             try
             {
-                if (contactsRepository.ValidationContact(model) == "")
-                {
+             
                     var contact = contactsRepository.EditContact(id, model);
                     if (contact)
                     {
@@ -99,11 +94,7 @@ namespace NSI.REST.Controllers
                     {
                         return NoContent();
                     }
-                }
-                else
-                {
-                    throw new Exception(contactsRepository.ValidationContact(model));
-                }
+              
             }
             catch (Exception ex)
             {

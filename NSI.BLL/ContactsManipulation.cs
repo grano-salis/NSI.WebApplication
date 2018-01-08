@@ -38,7 +38,13 @@ namespace NSI.BLL
 
         public ContactDto CreateContact(ContactDto contactDto, int caseId)
         {
-            return _contactsRepository.CreateContact(contactDto, caseId);
+            
+                if (this.ValidationContact(contactDto) != "")
+                {
+                    throw new Exception(this.ValidationContact(contactDto));
+                }
+                return _contactsRepository.CreateContact(contactDto, caseId);
+            
         }
 
         public bool DeleteContactById(int contactId)
@@ -53,6 +59,10 @@ namespace NSI.BLL
 
         public bool EditContact(int contactId, ContactDto contact)
         {
+            if (this.ValidationContact(contact) != "")
+            {
+                throw new Exception(this.ValidationContact(contact));
+            }
             return _contactsRepository.EditContactById(contactId, contact);
         }
 
