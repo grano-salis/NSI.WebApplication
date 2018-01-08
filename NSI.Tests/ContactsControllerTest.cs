@@ -257,11 +257,11 @@ namespace NSI.Tests
             {
                 AddressId = 1,
                 CreatedByUserId = 6,
-                FirsttName = "Contactsfirstname",
+                FirsttName = "AdnaFirstName",
                 LastName = "Contactslastname",
                 Phones = new List<PhoneDto>(),
                 Emails = new List<EmailDto>(),
-                TaskId = 1
+                TaskId = 1, 
             };
             var mockRepo = new Mock<IContactsRepository>();
             mockRepo.Setup(x => x.CreateContact(It.IsAny<ContactDto>(), 1)).Returns(contact);
@@ -370,5 +370,7 @@ namespace NSI.Tests
             Assert.IsType<BadRequestObjectResult>(result);
 
         }
+
+       
     }
 }
