@@ -36,7 +36,15 @@ import {ValidationService} from './validation.service';
     ShowContactComponent,
     ControlMessagesComponent
   ],
-  providers: [ValidationService]
+  providers: [ValidationService],
+  exports: [
+    ContactsComponent,
+    ContactModalComponent,
+    DeleteContactModalComponent,
+    NewContactComponent,
+    ShowContactComponent,
+    ControlMessagesComponent
+  ]
 })
 export class ContactsModule {
 }

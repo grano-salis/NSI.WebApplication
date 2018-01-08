@@ -18,6 +18,7 @@ import {Address} from "../../address/address.model";
 export class NewContactComponent {
   @Input() temp_contact: any;
   @Input() form: any;
+  @Input() caseId: any;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
   public addresses: any[];
@@ -50,7 +51,7 @@ export class NewContactComponent {
     if (!this.newAddress) this.newContactAddress = null;
     this.temp_contact.address = this.newContactAddress;
     this.setPhonesAndEmails();
-    this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {
+    this.contactsService.postContact(this.temp_contact, this.caseId).subscribe((r: any) => {
         this.addressService.getAddreses().subscribe((addresses: any) => {
           this.addresses = addresses;
           this.closeBtn.nativeElement.click();

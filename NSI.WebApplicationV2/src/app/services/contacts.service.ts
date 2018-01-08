@@ -37,20 +37,20 @@ export class ContactsService {
     return this.http.delete(`${this._url}/api/contacts/` + params.toString());
   }
 
-  postContact(contact: any): Observable<any> {
+  postContact(contact: any, caseId: number): Observable<any> {
     const body = JSON.stringify(contact);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post(`${this._url}/api/contacts/0`, body, {headers: headers});
+    return this.http.post(`${this._url}/api/contacts/` + caseId, body, {headers: headers});
 
   }
 
-  getPagedContacts(pageSize: number, pageNumber: number, searchString: string,
+  getPagedContacts(pageSize: number, pageNumber: number, caseId: number, searchString: string,
                    searchColumn: string, sortOrder: string) {
     let uri = 'pageSize=' + pageSize + '&pageNumber=' + pageNumber;
     if (searchString !== '' || searchColumn !== '') uri += '&searchString=' + searchString;
     if (searchColumn !== '') uri += '&searchColumn=' + searchColumn;
     if (sortOrder !== '') uri += '&sortOrder=' + sortOrder;
-    uri += '&caseId=0';
+    uri += '&caseId=' + caseId;
     return this.http.get(`${this._url}/api/contacts?` + uri);
   }
   getContactsByCase(caseId: number): Observable<any> {

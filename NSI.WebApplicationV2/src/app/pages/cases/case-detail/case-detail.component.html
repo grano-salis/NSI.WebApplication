@@ -12,7 +12,7 @@
 </div>
 <div class='panel-body'>
   <div class='row'>
-     
+
       <div class='col-md-6'>
           <div class='row'>
               <div class='col-md-3'>Number:</div>
@@ -34,51 +34,51 @@
               <div class='col-md-3'>Court:</div>
               <div class='col-md-6'>{{case.court | uppercase}}</div>
           </div>
-          
-          
+
+
           <div class='row'>
-           
+
              <div class='col-md-3'>Hearing:</div>
                   <div class='col-md-6'>
-                     
-                         
-                           
-                              
+
+
+
+
                               <tr *ngFor="let hearing of hearings">
                                     <!--  <td>{{hearings | json}}</td> -->
                                  <td>{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
 
                               </tr>
-                          
+
                           </div>
                   </div>
           </div>
-          
+
       <div class='row'>
-                  
+
                       <div class='col-md-3'>Documents related:</div>
                       <div class='col-md-6'>{{document}}</div>
-                      
+
                         <div class='col-md-3'>Counter party:</div>
                         <div class='col-md-6'>{{case.counterParty | uppercase}}</div>
-                    
-                    
+
+
                         <div class='col-md-3'>Case category:</div>
                         <div class='col-md-6'>{{case.caseCategory | number:0}}</div>
-                    
-                    
+
+
                         <div class='col-md-3'>Date created:</div>
                         <div class='col-md-6'>{{case.dateCreated  | date :  "dd.MM.y"}}</div>
-                   
+
               </div>
-             
-      
+
+
   </div>
 </div>
 
 <ul class="nav nav-pills nav-justified">
         <!--<div class="col-lg-4 p-0">-->
-               
+
             <button id="sectionTabOpen"
                     class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
                     (click)="getTab('Hearings')">
@@ -89,22 +89,22 @@
                     (click)="getTab('Contacts')">
               Contacts
             </button>
-          
+
             <button id="DocumentsTabOpen"
             class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
             (click)="getTab('Documents')">
             Document
         </button>
-                </ul> 
+                </ul>
 
 <div class='panel-footer'>
   <a class='btn btn-default' (click)='onBack()' style='width:80px'>
     <i class='glyphicon glyphicon-chevron-left'></i>Back
 
 </a>
-       
+
 </div>
-   
+
   </div>
 
 
@@ -115,7 +115,7 @@
 
 </div>
 
-    
+
 
 
 
@@ -129,7 +129,7 @@
       </tr>
         </div>
         <div *ngIf="taskTabOpenName === 'Contacts'">
-                <div class='col-md-6'>{{contacts | json}}</div>
+          <app-contacts [caseId]="param"></app-contacts>
         </div>
         <div *ngIf="taskTabOpenName === 'Documents'">
               <!--  <div class='col-md-6'>{{docs | json}}</div> -->
@@ -137,39 +137,39 @@
                 <table class="table table-bordered jambo_table">
 					<thead>
 						<tr>
-						
+
 							<th>Title</th>
-						
+
 							<th>Category</th>
 							<th>Description</th>
 							<th>Author</th>
 							<th>Created At</th>
 							<th>Last Modified</th>
-							
+
 						</tr>
 					</thead>
 					<tbody>
 						<tr *ngFor="let item of docs; let i = index">
-							
-							
+
+
 							<td>{{ item.documentTitle }}</td>
-							
+
 							<td>{{ item.documentCategoryName }} </td>
 							<td>{{ item.documentDescription }}</td>
 							<td>{{ item.author }}
 							<td>{{ item.createdAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
 							<td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
-						
+
 						</tr>
-					</tbody> 
+					</tbody>
 				</table>
-          
-          
-          
+
+
+
                   </div>
 
         </div>
-       
+
 
 
 

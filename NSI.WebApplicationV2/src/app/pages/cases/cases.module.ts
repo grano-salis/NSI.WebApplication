@@ -9,6 +9,8 @@ import {CasesListComponent} from './cases-list/cases-list.component';
 import { EditCaseComponent } from './edit-case/edit-case.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import{MeetingsModule} from "../meetings/meetings.module";
+import {ContactsComponent} from "../contacts/contacts.component";
+import {ContactsModule} from "../contacts/contacts.module";
 import { CaseDetailComponent } from './case-detail/case-detail.component';
 
 
@@ -19,7 +21,8 @@ import { CaseDetailComponent } from './case-detail/case-detail.component';
     CasesRoutingModule,
     AlertModule,
     FormsModule,
-    MeetingsModule
+    MeetingsModule,
+    ContactsModule
   ],
   declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent, CaseDetailComponent]
 })
