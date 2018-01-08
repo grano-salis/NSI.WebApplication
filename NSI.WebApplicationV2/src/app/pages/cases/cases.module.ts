@@ -12,6 +12,9 @@ import{MeetingsModule} from "../meetings/meetings.module";
 import {ContactsComponent} from "../contacts/contacts.component";
 import {ContactsModule} from "../contacts/contacts.module";
 import { CaseDetailComponent } from './case-detail/case-detail.component';
+import { DocumentsModule } from '../documents/documents.module';
+import {DocumentsComponent} from "../documents/documents.component";
+
 
 
 @NgModule({
@@ -22,7 +25,8 @@ import { CaseDetailComponent } from './case-detail/case-detail.component';
     AlertModule,
     FormsModule,
     MeetingsModule,
-    ContactsModule
+    ContactsModule,
+    DocumentsModule,
   ],
   declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent, CaseDetailComponent]
 })

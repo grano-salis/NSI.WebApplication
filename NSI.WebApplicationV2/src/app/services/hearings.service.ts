@@ -42,7 +42,8 @@ export class HearingsService {
   getHearingsByCase(caseId:number) : Observable<any>{
     let params = new HttpParams();
     params = params.append('caseId', String(caseId));
-    return this.http.get(this._url + '/' + caseId);  //{headers: this.headers, params: params});
+    return this.http.get(this._url + '/case/' + caseId);  //{headers: this.headers, params: params});
     
   }
+
 }

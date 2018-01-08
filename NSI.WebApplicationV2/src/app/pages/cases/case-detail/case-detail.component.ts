@@ -26,6 +26,7 @@ export class CaseDetailComponent implements OnInit {
   docs:any[];
   contacts : any[];
   taskTabOpenName : any;
+  noteText:string;
  
 	private sub: any;
 
@@ -81,6 +82,13 @@ export class CaseDetailComponent implements OnInit {
                
                    // console.log('this.hearing', this.hearing);
                     this.hearings = data.data;
+                  
+                    this.model.hearingDate = data.hearingDate;
+                    this.model.userHearing = data.userHearing;
+                    this.model.note = data.note;
+                    this.noteText = data.note[0].text;
+                    this.hearings=Array.of(this.hearings);
+
                     this.hearings=Array.of(this.hearings);
                     console.log('All: ' + JSON.stringify(this.hearings));
                   }
@@ -158,6 +166,12 @@ export class CaseDetailComponent implements OnInit {
                   document.getElementById('sectionTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
                   document.getElementById('sectionGroupsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
                   document.getElementById('DocumentsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 primaryTabStyle';
+                }
+                else if (tabName === 'Notes'){
+                  this.taskTabOpenName = 'Notes';
+                  document.getElementById('sectionTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
+                  document.getElementById('sectionGroupsTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 secondaryTabStyle';
+                  document.getElementById('NotesTabOpen').className = 'col-lg-3 col-md-3 col-xs-3 primaryTabStyle';
                 }
                 
               }          

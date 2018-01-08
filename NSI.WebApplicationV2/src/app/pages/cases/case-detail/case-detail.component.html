@@ -36,22 +36,7 @@
           </div>
 
 
-          <div class='row'>
-
-             <div class='col-md-3'>Hearing:</div>
-                  <div class='col-md-6'>
-
-
-
-
-                              <tr *ngFor="let hearing of hearings">
-                                    <!--  <td>{{hearings | json}}</td> -->
-                                 <td>{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
-
-                              </tr>
-
-                          </div>
-                  </div>
+          
           </div>
 
       <div class='row'>
@@ -75,28 +60,34 @@
 
   </div>
 </div>
-
-<ul class="nav nav-pills nav-justified">
+<div class="container">
+<ul class="nav nav-tabs">
         <!--<div class="col-lg-4 p-0">-->
 
-            <button id="sectionTabOpen"
-                    class="col-lg-3 col-md-3 col-xs-3 primaryTabStyle"
-                    (click)="getTab('Hearings')">
-              Hearings
-            </button>
-            <button id="sectionGroupsTabOpen"
+            <li id="sectionTabOpen"
+                    class="active"
+                    (click)="getTab('Hearings')" style="width:20%;">
+                    <a data-toggle="pill">Hearings</a>
+              
+        </li>
+            <li id="sectionGroupsTabOpen"
                     class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
-                    (click)="getTab('Contacts')">
-              Contacts
-            </button>
+                    (click)="getTab('Contacts')" style="width:20%;">
+                    <a data-toggle="pill">Contacts</a>
+    </li>
 
-            <button id="DocumentsTabOpen"
+            <li id="DocumentsTabOpen"
             class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
-            (click)="getTab('Documents')">
-            Document
-        </button>
+            (click)="getTab('Documents')"style="width:20%;">
+            <a data-toggle="pill">Documents</a>
+       </li>
+        <li id="NotesTabOpen"
+        class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
+        (click)="getTab('Notes')" style="width:20%;">
+        <a data-toggle="pill">Notes</a>
+    </li>
                 </ul>
-
+            </div>
 <div class='panel-footer'>
   <a class='btn btn-default' (click)='onBack()' style='width:80px'>
     <i class='glyphicon glyphicon-chevron-left'></i>Back
@@ -121,20 +112,57 @@
 
 <div>
     <div *ngIf="taskTabOpenName === 'Hearings'">
-        <h3>Time of hearing for this case is:</h3>
-        <tr *ngFor="let hearing of hearings">
-            <!--  <td>{{hearings | json}}</td> -->
-         <td>{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
+            <div class="clearfix"></div>
 
-      </tr>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">&nbsp;</p>
+       
+   
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    
+                        <th style="width: 20%; text-align:center;color:#4169E1">Date</th>
+                        <th style="width: 20%;text-align:center;color:#4169E1">First User</th>
+                        <th class="table table-striped projects" style="width: 20%;text-align:center;color:#4169E1">Last User</th>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let hearing of hearings;let i = index;">
+                        <td style="width: 20%;text-align:center">{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
+                     
+                        <td *ngFor="let u of hearing.userHearing;let i = index;"style="width: 20%;text-align:center">{{u.userName}}</td>
+                        
+                       
+                        
+                    </tr>
+                </tbody> 
+            </table>
+        
+                  </div></div></div></div>
+     
         </div>
         <div *ngIf="taskTabOpenName === 'Contacts'">
           <app-contacts [caseId]="param"></app-contacts>
         </div>
         <div *ngIf="taskTabOpenName === 'Documents'">
-              <!--  <div class='col-md-6'>{{docs | json}}</div> -->
+             
+           <!-- <app-document-modal [scopedToCase]="scopedToCase"
+              [caseNumber]="caseNumber"></app-document-modal>	-->
+              <div class="clearfix">
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                
+                    <p class="text-muted font-13 m-b-30">&nbsp;</p>
               <div class="x_content">
-                <table class="table table-bordered jambo_table">
+               <table class="table table-bordered jambo_table">
 					<thead>
 						<tr>
 
@@ -142,7 +170,7 @@
 
 							<th>Category</th>
 							<th>Description</th>
-							<th>Author</th>
+							
 							<th>Created At</th>
 							<th>Last Modified</th>
 
@@ -154,11 +182,11 @@
 
 							<td>{{ item.documentTitle }}</td>
 
-							<td>{{ item.documentCategoryName }} </td>
+							<td>{{ item.categoryName }} </td>
 							<td>{{ item.documentDescription }}</td>
-							<td>{{ item.author }}
+							
 							<td>{{ item.createdAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
-							<td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+							<td>{{ item.lastModified | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
 
 						</tr>
 					</tbody>
@@ -166,8 +194,49 @@
 
 
 
-                  </div>
+            </div> 
+        </div>
+    </div>
+  </div>
+</div>
+        </div>
+        <div *ngIf="taskTabOpenName === 'Notes'">
+                <div class="clearfix"></div>
 
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_content">
+                        <p class="text-muted font-13 m-b-30">&nbsp;</p>
+  
+            <table class="table table-striped table-bordered" id="datatable">
+                <thead>
+                    <tr>
+                    
+                       
+                        <th style="width: 20%;text-align:center;color:#4169E1;">Note</th>
+                        <th class="table table-striped projects;" style="width: 20%;text-align:center;color:#4169E1;">First User</th>
+                        <th class="table table-striped projects;" style="width: 20%;text-align:center;color:#4169E1;">Second User</th>
+                        <th class="table table-striped projects;" style="width: 20%;text-align:center;color:#4169E1">Third User</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let hearing of hearings">
+                        
+                       
+                        <td  *ngFor="let e of hearing.note" style="width: 20%;text-align:center">{{e.text}} </td>
+                        <td *ngFor="let u of hearing.userHearing" style="width: 20%;text-align:center">{{u.userName}}</td>
+                        
+                       
+                        
+                    </tr>
+                </tbody> 
+            </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
