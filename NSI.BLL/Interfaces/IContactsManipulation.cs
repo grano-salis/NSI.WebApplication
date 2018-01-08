@@ -14,5 +14,7 @@ namespace NSI.BLL.Interfaces
         ContactDto GetContactById(int contactId);
         bool DeleteContactById(int contactId);
         bool EditContact(int contactId, ContactDto contact);
+        string ValidationContact(ContactDto contact);
+    
     }
 }
