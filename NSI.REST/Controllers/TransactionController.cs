@@ -17,6 +17,8 @@ namespace NSI.REST.Controllers
     {
         private readonly ITransactionManipulation _transactionManipulation;
         private readonly ISubscriptionManipulation _subscriptionManipulation;
+
+        //Braintree gateway instantiation, used for paypal
         private Braintree.BraintreeGateway gateway = new Braintree.BraintreeGateway("access_token$sandbox$f2j8p8tkw323cc6r$533d48e1dff3204ffb1f8a2ccafb85b1");
 
         public TransactionController(ITransactionManipulation trm, ISubscriptionManipulation sm ){
@@ -34,8 +36,6 @@ namespace NSI.REST.Controllers
         [HttpGet("{customerId}")]
         public IEnumerable<TransactionDto> GetTransactionsByCustomer(int customerId)
         {
-            System.Console.WriteLine("iiiiiiiiiiiiiiiiiiiiii?");
-            System.Console.WriteLine(customerId);
             return _transactionManipulation.GetAllTransactionsByCustomer(customerId);
         }
 
@@ -65,7 +65,7 @@ namespace NSI.REST.Controllers
                 else return BadRequest(transaction);
             }
             catch(Exception e){
-                
+                Logger.Logger.LogError(e);
             }
             return BadRequest();
         }
@@ -73,8 +73,10 @@ namespace NSI.REST.Controllers
         [HttpPost("MakePayment")]
         public IActionResult Post([FromBody] StripePaymentRequest paymentRequest){
 
+            //Stripe developer api key
             StripeConfiguration.SetApiKey("sk_test_IhD98M0gMGB1G7rbcHifS3GP");
 
+            //configuration of stripe chrarge object
             var myCharge = new StripeChargeCreateOptions();
             myCharge.SourceTokenOrExistingSourceId = paymentRequest.tokenId;
             myCharge.Amount = paymentRequest.amount;
@@ -100,64 +102,16 @@ namespace NSI.REST.Controllers
                 SubscriptionDto subscription = new SubscriptionDto();
                 subscription.CustomerId = 1;
                 subscription.PricingPackageId = paymentRequest.packageId;
-                Console.WriteLine("111111111<><><><><><><><<>><><><><<><><><><><><><><><");
+
                 _subscriptionManipulation.GetCustomerSubscription(1);
-                Console.WriteLine("2222222222<><><><><><><><><><><><><><><><><><><><><><><><><><>");
+
                 _subscriptionManipulation.SaveSubscription(subscription);
 
             }
             return Ok(stripeCharge);
         }
 
-        /*
-        [HttpPost('PaySubscriptionMonth/{customerId}')]
-        public IActionResult Post(int customerId)
-        {
-            SubscriptionDto subscription = _subscriptionManipulation.GetCustomerSubscription(customerId);
-            if(subscription==null){
-                return BadRequest();
-            }
-            else
-            {
-                StripeConfiguration.SetApiKey("sk_test_IhD98M0gMGB1G7rbcHifS3GP");
 
-                var myCharge = new StripeChargeCreateOptions();
-                myCharge.SourceTokenOrExistingSourceId = paymentRequest.tokenId;
-                myCharge.Amount = paymentRequest.amount;
-                myCharge.Currency = "gbp";
-                myCharge.Description = paymentRequest.productName;
-                myCharge.Metadata = new Dictionary<string, string>();
-                myCharge.Metadata["OurRef"] = "OurRef-" + Guid.NewGuid().ToString();
-
-                var chargeService = new StripeChargeService();
-                StripeCharge stripeCharge = chargeService.Create(myCharge);
-                if (stripeCharge.Status.Equals("succeeded"))
-                {
-
-                    TransactionDto transaction = new TransactionDto();
-                    transaction.Amount = (decimal)(paymentRequest.amount / 100.0);
-                    transaction.Status = "succeeded";
-                    transaction.CustomerId = 1;
-                    transaction.PaymentGatewayId = 1;
-                    transaction.PricingPackageId = paymentRequest.packageId;
-                    transaction.DateCreated = DateTime.Now;
-                    _transactionManipulation.SaveTransaction(transaction);
-
-
-                    SubscriptionDto subscription = new SubscriptionDto();
-                    subscription.CustomerId = 1;
-                    subscription.PricingPackageId = paymentRequest.packageId;
-                    Console.WriteLine("111111111<><><><><><><><<>><><><><<><><><><><><><><><");
-                    _subscriptionManipulation.GetCustomerSubscription(1);
-                    Console.WriteLine("2222222222<><><><><><><><><><><><><><><><><><><><><><><><><><>");
-                    _subscriptionManipulation.SaveSubscription(subscription);
-
-                }
-                return Ok(stripeCharge);
-            }
-
-        }
-        */
 
         [HttpGet("PaypalToken")]
         public String CreateClientPaypalToken(){
@@ -177,8 +131,6 @@ namespace NSI.REST.Controllers
             Braintree.Result<Braintree.Transaction> result = gateway.Transaction.Sale(request);
             if(result.IsSuccess()) 
             {
-                Console.WriteLine("RADI PAYPAL");
-
 
                 TransactionDto transaction = new TransactionDto();
                 transaction.Amount = (decimal)(paymentRequest.amount);
@@ -193,9 +145,9 @@ namespace NSI.REST.Controllers
                 SubscriptionDto subscription = new SubscriptionDto();
                 subscription.CustomerId = 1;
                 subscription.PricingPackageId = paymentRequest.packageId;
-                Console.WriteLine("111111111<><><><><><><><<>><><><><<><><><><><><><><><");
+
                 _subscriptionManipulation.GetCustomerSubscription(1);
-                Console.WriteLine("2222222222<><><><><><><><><><><><><><><><><><><><><><><><><><>");
+
                 _subscriptionManipulation.SaveSubscription(subscription);
                 return Ok("Uspjesan placanje");
             }
