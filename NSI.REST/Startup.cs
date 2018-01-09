@@ -22,6 +22,7 @@ using NSI.BLL;
 using IkarusEntities;
 using Swashbuckle.AspNetCore.Swagger;
 using NSI.Repository.Repository;
+using NSI.DC;
 using AutoMapper;
 
 using IkarusEntities;
@@ -34,6 +35,9 @@ using CaseInfoRepository = NSI.Repository.CaseInfoRepository;
 using HearingsRepository = NSI.Repository.Repository.HearingsRepository;
 using MeetingsRepository = NSI.Repository.MeetingsRepository;
 using TaskRepository = NSI.Repository.TaskRepository;
+using NSI.DC.Mailer;
+using Hangfire;
+using Hangfire.MemoryStorage;
 
 namespace NSI.REST
 {
@@ -59,9 +63,12 @@ namespace NSI.REST
             services.AddDataProtection();
             services.AddLocalization(options => options.ResourcesPath = "Resouces");
             services.AddMemoryCache();
+            services.AddHangfire(c => c.UseMemoryStorage());
 
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IMailerService, MailerService>();
             services.AddDbContext<IkarusContext>();
 
             services.AddScoped<IAddressManipulation, AddressManipulation>();
@@ -96,6 +103,7 @@ namespace NSI.REST
             services.AddScoped<IClientManipulation, ClientManipulation>();
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<ISubscriptionManipulation, SubscriptionManipulation>();
+            services.AddScoped<IScheduledJobService,ScheduledJobService>();
 
 
             services.AddMvc().AddJsonOptions(
@@ -189,6 +197,9 @@ namespace NSI.REST
             //enableti ovaj dio na produkciji
             //dodati neki flag
             //app.UseAuthHandler();
+
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
 
             app.UseMvc();
 

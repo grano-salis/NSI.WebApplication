@@ -20,23 +20,24 @@ namespace NSI.Repository
 
         TransactionDto ITransactionRepository.GetTransaction(int transactionId)
         {
-            Transaction t = _dbContext.Transaction.FirstOrDefault(x => x.TransactionId == transactionId);
-            return t != null ? TransactionRepository.MapToDto(t):null;
+            Transaction transaction = _dbContext.Transaction.FirstOrDefault(x => x.TransactionId == transactionId);
+
+            if (transaction != null) return TransactionRepository.MapToDto(transaction);
+            else return null;
 
         }
 
         IEnumerable<TransactionDto> ITransactionRepository.GetAllTransactions()
         {
             return _dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x));
-            //return _dbContext.Transaction != null ? (ICollection<TransactionDto>)_dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x)) : new ;
         }
 
         IEnumerable<TransactionDto> ITransactionRepository.GetAllTransactionsByCustomer(int customerId)
         {
-            var r=_dbContext.Transaction.Where(x => x.CustomerId == customerId).Select(x => TransactionRepository.MapToDto(x)).ToList();
+            List<TransactionDto> customerTransactions =_dbContext.Transaction.Where(x => x.CustomerId == customerId).Select(x => TransactionRepository.MapToDto(x)).ToList();
 
-            return r;
-            //return _dbContext.Transaction != null ? (ICollection<TransactionDto>)_dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x)) : new ;
+            return customerTransactions;
+
         }
 
         TransactionDto ITransactionRepository.SaveTransaction(TransactionDto transaction)
