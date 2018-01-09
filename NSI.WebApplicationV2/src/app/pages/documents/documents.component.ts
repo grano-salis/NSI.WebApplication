@@ -16,6 +16,7 @@ const logger = new Logger('documents');
 export class DocumentsComponent implements OnInit {
   @Input() scopedToCase: boolean;
   @Input() caseNumber: number;
+
   
   caseNumberValid: boolean;
 
@@ -30,6 +31,7 @@ export class DocumentsComponent implements OnInit {
     }
 
     this.caseNumberValid = true;
+    
   }
 
   toggleScopedToCase(setTo: string) {

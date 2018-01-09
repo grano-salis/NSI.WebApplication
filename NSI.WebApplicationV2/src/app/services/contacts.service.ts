@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {Contact} from "../pages/contacts/new-contact/contact";
+
 @Injectable()
 export class ContactsService {
 
@@ -19,12 +19,13 @@ export class ContactsService {
     return this.http.get(`${this._url}/api/contacts`);
   }
 
-  editContact(body: any): Observable<any> {
+  editContact(body: any, tempAddress: any): Observable<any> {
     const contact = {
       FirsttName: body.firsttName,
       LastName: body.lastName,
       Phones: body.phones,
       Emails: body.emails,
+      Address: tempAddress,
       AddressId: parseInt(body.addressId),
       CreatedByUserId: 6
     };
@@ -36,20 +37,26 @@ export class ContactsService {
     return this.http.delete(`${this._url}/api/contacts/` + params.toString());
   }
 
-  postContact(contact: any): Observable<any> {
-    delete contact.address;
+  postContact(contact: any, caseId: number): Observable<any> {
     const body = JSON.stringify(contact);
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post(`${this._url}/api/contacts`, body, {headers: headers});
+    return this.http.post(`${this._url}/api/contacts/` + caseId, body, {headers: headers});
 
   }
 
-  getPagedContacts(pageSize: number, pageNumber: number, searchString: string,
+  getPagedContacts(pageSize: number, pageNumber: number, caseId: number, searchString: string,
                    searchColumn: string, sortOrder: string) {
     let uri = 'pageSize=' + pageSize + '&pageNumber=' + pageNumber;
     if (searchString !== '' || searchColumn !== '') uri += '&searchString=' + searchString;
     if (searchColumn !== '') uri += '&searchColumn=' + searchColumn;
     if (sortOrder !== '') uri += '&sortOrder=' + sortOrder;
+    uri += '&caseId=' + caseId;
     return this.http.get(`${this._url}/api/contacts?` + uri);
   }
+  getContactsByCase(caseId: number): Observable<any> {
+		let params = new HttpParams();
+		params = params.append('caseId', String(caseId));
+		return this.http.get(`${this._url}/forcase/` + caseId);
+		//return this.http.get(this._url + 'forcase/' + caseId);  //{headers: this.headers, params: params});    
+	  }
 }

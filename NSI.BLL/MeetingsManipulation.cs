@@ -68,11 +68,18 @@ namespace NSI.BLL
 
         public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration, int currentMeetingId)
         {
+            foreach (int userId in userIds)
+                ValidationHelper.IntegerGreaterThanZero(userId, name: "User id");
+            ValidationHelper.IntegerGreaterThanZero(currentMeetingId, name: "Meeting id");
             return _meetingsRepository.GetMeetingTimes(userIds, from, to, meetingDuration, currentMeetingId);
         }
 
         public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to, int currentMeetingId)
         {
+            foreach (int userId in userIds)
+                ValidationHelper.IntegerGreaterThanZero(userId, name: "User id");
+            ValidationHelper.IntegerGreaterThanZero(currentMeetingId, name: "Meeting id");
+
             return _meetingsRepository.CheckUsersAvailability(userIds, from, to, currentMeetingId);
         }
     }

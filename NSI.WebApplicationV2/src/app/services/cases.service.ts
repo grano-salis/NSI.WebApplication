@@ -3,12 +3,14 @@ import { environment } from '../../environments/environment';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import {Case} from '../pages/cases/new-case/case';
+import { CaseDetail } from '../pages/cases/case-detail/caseDetail.model';
 
 @Injectable()
 export class CasesService {
 
   private readonly _url: string;
   private headers = new HttpHeaders();
+ 
 
   constructor(private http: HttpClient) {
     this._url = environment.serverUrl + '/api/case/info';
@@ -43,4 +45,17 @@ export class CasesService {
 
     return this.http.put(this._url + '/' + id, body, {headers: headers});
   }
+  
+  getCase(id:number): Observable<any>{
+    return this.getCases()
+    .map((cases:CaseDetail[]) => cases.find(p => p.caseId===id) );
+
+}
+  getCaseInfoById(id: number): Observable<any>{
+    let params = new HttpParams();
+    params = params.append('id', String(id));
+    return this.http.get(this._url + '/' + id);  //{headers: this.headers, params: params});
+  }
+  
+
 }

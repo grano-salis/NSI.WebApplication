@@ -39,5 +39,11 @@ export class HearingsService {
   deleteHearingById(id: number): Observable<any> {
     return this.http.delete(this._url + "/" + id);
   }
+  getHearingsByCase(caseId:number) : Observable<any>{
+    let params = new HttpParams();
+    params = params.append('caseId', String(caseId));
+    return this.http.get(this._url + '/case/' + caseId);  //{headers: this.headers, params: params});
+    
+  }
 
 }

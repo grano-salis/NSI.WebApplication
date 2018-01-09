@@ -112,7 +112,7 @@
         </div>
 
         <app-contact-modal [temp_contact]="temp_contact" [form]="form" (onClose)="close()"></app-contact-modal>
-        <new-contact-component [temp_contact]="temp_contact" [form]="form"
+        <new-contact-component [temp_contact]="temp_contact" [caseId]="caseId" [form]="form"
                                (onClose)="closeNew()"></new-contact-component>
         <show-contact-component [temp_contact]="temp_contact"></show-contact-component>
       </div>

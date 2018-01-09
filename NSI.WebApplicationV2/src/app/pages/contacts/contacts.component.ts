@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ContactsService} from '../../services/contacts.service';
 
 import {PagerService} from "../../services/pagination.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {ValidationService} from "./validation.service";
+
 declare let $: any;
 
 class Contact {
@@ -30,6 +31,7 @@ class Contact {
 })
 
 export class ContactsComponent implements OnInit {
+  @Input() caseId: any;
   contacts: any[];
   allContacts: any[];
   temp_contact: any;
@@ -55,6 +57,7 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit() {
     const _this = this;
+    if (!this.caseId) this.caseId = 0;
     _this.setPage(1);
   }
 
@@ -79,7 +82,7 @@ export class ContactsComponent implements OnInit {
     this.form = this.formBuilder.group({
       'firstname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
       'lastname': ['', [Validators.required, ValidationService.lettersOnlyValidator]],
-      'address': ['', [Validators.required]],
+      'address': [''],
       'email': ['', [Validators.required, ValidationService.emailValidator]],
       'phone': ['', [Validators.required, ValidationService.numbersOnlyValidator]],
       'emails': this.formBuilder.array([]),
@@ -112,7 +115,7 @@ export class ContactsComponent implements OnInit {
     this.form = this.formBuilder.group({
       'firstname': [cont.firsttName, [Validators.required, ValidationService.lettersOnlyValidator]],
       'lastname': [cont.lastName, [Validators.required, ValidationService.lettersOnlyValidator]],
-      'address': [cont.address, [Validators.required]],
+      'address': [cont.address],
       'email': [firstEmail, [Validators.required, ValidationService.emailValidator]],
       'phone': [firstPhone, [Validators.required, ValidationService.numbersOnlyValidator]],
       'emails': formEmails,
@@ -152,7 +155,7 @@ export class ContactsComponent implements OnInit {
     if (page < 1) {
       return;
     }
-    this.contactsService.getPagedContacts(10, page, this.filterValue.toLocaleLowerCase(), this.filterColumn, sortOrder)
+    this.contactsService.getPagedContacts(10, page, this.caseId, this.filterValue.toLocaleLowerCase(), this.filterColumn, sortOrder)
       .subscribe((contacts: any) => {
         this.pager = this.pagerService.getPager(contacts.total, page);
         this.contacts = contacts.contacts;

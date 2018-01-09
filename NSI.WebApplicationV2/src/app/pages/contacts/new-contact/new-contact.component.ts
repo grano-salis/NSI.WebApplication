@@ -7,6 +7,7 @@ import {ValidationService} from '../validation.service';
 import {forEach} from '@angular/router/src/utils/collection';
 import {objectify} from 'tslint/lib/utils';
 import {AddressService} from '../../../services/address.service';
+import {Address} from "../../address/address.model";
 
 
 @Component({
@@ -17,17 +18,22 @@ import {AddressService} from '../../../services/address.service';
 export class NewContactComponent {
   @Input() temp_contact: any;
   @Input() form: any;
+  @Input() caseId: any;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChild('closeBtn') closeBtn: ElementRef;
   public addresses: any[];
   phones_unique: boolean[];
   emails_unique: boolean[];
+  newContactAddress: Address;
+  newAddress: boolean;
 
   constructor(private contactsService: ContactsService, private route: ActivatedRoute, private formBuilder: FormBuilder, private addressService: AddressService) {    // this.phones = [];
     this.temp_contact = new Contact();
     this.phones_unique = new Array();
     this.emails_unique = new Array();
+    this.newContactAddress = new Address();
     this.temp_contact.addressId = 1;
+    this.newAddress = false;
     this.fetchAddresses();
   }
 
@@ -40,13 +46,20 @@ export class NewContactComponent {
   newContact() {
     this.temp_contact.taskId = 1;
     this.temp_contact.createdByUserId = 1;
-    this.temp_contact.addressId = this.temp_contact.address.addressId;
+    if (!this.newAddress) this.temp_contact.addressId = this.temp_contact.address1.addressId;
+    this.newContactAddress.createdByUserId = 1;
+    if (!this.newAddress) this.newContactAddress = null;
+    this.temp_contact.address = this.newContactAddress;
     this.setPhonesAndEmails();
-    this.contactsService.postContact(this.temp_contact).subscribe((r: any) => {
+    this.contactsService.postContact(this.temp_contact, this.caseId).subscribe((r: any) => {
+        this.addressService.getAddreses().subscribe((addresses: any) => {
+          this.addresses = addresses;
+          this.closeBtn.nativeElement.click();
+          this.newAddress = false;
+          this.newContactAddress = new Address();
+          this.onClose.next(this.temp_contact);
+        });
 
-        this.temp_contact.contact1 = r.contact1;
-        this.closeBtn.nativeElement.click();
-        this.onClose.next(this.temp_contact);
       },
       (error: any) => console.log('Error: ', error.message));
   }
@@ -85,6 +98,8 @@ export class NewContactComponent {
   }
 
   clearForm() {
+    this.newAddress = false;
+    this.newContactAddress = new Address();
   }
 
   deletePhone(index: number) {
@@ -118,6 +133,10 @@ export class NewContactComponent {
       }
     }
     return whatToReturn;
+  }
+
+  hajde(a: any) {
+    this.newAddress = !this.newAddress;
   }
 
   onChangeEmail(index: number): any {
