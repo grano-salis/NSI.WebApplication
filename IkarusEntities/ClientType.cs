@@ -13,7 +13,7 @@ namespace IkarusEntities
         public int ClientTypeId { get; set; }
         public string ClientTypeName { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime? DateModified { get; set; }
+        public DateTime DateModified { get; set; }
         public bool? IsDeleted { get; set; }
         public int? CustomerId { get; set; }
 

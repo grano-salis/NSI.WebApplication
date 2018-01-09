@@ -33,7 +33,7 @@ namespace NSI.Repository
         }
 
         public TaskDto GetTaskById(int taskId) {
-            if (taskId == 0)
+            if (taskId == 0 || taskId < 0)
                 throw new NSIException("Parameter taskId is invalid!", Level.Error, ErrorType.InvalidParameter);
 
             var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
@@ -61,7 +61,7 @@ namespace NSI.Repository
         }
 
         public bool DeleteTaskById(int taskId) {
-            if (taskId == 0)
+            if (taskId == 0 || taskId < 0)
                 throw new NSIException("Parameter taskId is invalid!", Level.Error, ErrorType.InvalidParameter);
 
             var task = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
@@ -109,7 +109,7 @@ namespace NSI.Repository
 
         public TaskDto EditTask(int taskId, TaskDto task)
         {
-            if (taskId == 0 || task==null)
+            if (taskId == 0 || taskId < 0 || task==null)
                 throw new NSIException("Parameter is invalid!", Level.Error, ErrorType.InvalidParameter);
 
             var taskTmp = _dbContext.Task.FirstOrDefault(x => x.TaskId == taskId);
