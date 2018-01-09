@@ -13,6 +13,9 @@ namespace IkarusEntities
         public int FileTypeId { get; set; }
         public string Extension { get; set; }
         public string IconPath { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateModified { get; set; }
 
         public ICollection<Document> Document { get; set; }
     }

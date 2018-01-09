@@ -37,6 +37,7 @@ namespace NSI.BLL
 
             string rightPath = Path.Combine("Documents", String.Join("", arrayFileName));
             var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot", rightPath);
+            new FileInfo(path).Directory.Create();
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -50,7 +51,7 @@ namespace NSI.BLL
         {
             if (document == null)
             {
-                throw new ArgumentException("Document is null");
+                throw new ArgumentException("Document is not valid.");
             }
 
             var result = _documentRepository.SaveDocument(document);
@@ -63,7 +64,6 @@ namespace NSI.BLL
             {
                 throw new ArgumentException("Id is not valid");
             }
-
             return _documentRepository.GetDocumentHistoryByDocumentId(id);
         }
 

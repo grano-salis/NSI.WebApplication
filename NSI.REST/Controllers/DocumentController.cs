@@ -18,12 +18,12 @@ namespace NSI.REST.Controllers
     public class DocumentController : Controller
     {
         private IDocumentManipulation DocumentManipulation { get; }
-        private ILogger<DocumentController> Logger { get; }
+        //private ILogger<DocumentController> Logger { get; }
 
-        public DocumentController(IDocumentManipulation documentManipulation, ILogger<DocumentController> logger)
+        public DocumentController(IDocumentManipulation documentManipulation)
         {
             DocumentManipulation = documentManipulation;
-            Logger = logger;
+          //  Logger = logger;
         }
 
         // GET: api/Documents
@@ -36,7 +36,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -64,7 +64,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -79,7 +79,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -94,7 +94,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -110,7 +110,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -130,7 +130,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -146,7 +146,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -162,7 +162,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -177,7 +177,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.Message);
+                Logger.Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }

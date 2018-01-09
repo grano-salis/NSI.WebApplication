@@ -1,23 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
 
-namespace IkarusEntities
+namespace NSI.DC.AdminRepository
 {
-    public partial class DocumentCategory
+    [DataContract]
+    public class DocumentCategoryDto
     {
-        public DocumentCategory()
-        {
-            Document = new HashSet<Document>();
-        }
-
+        [DataMember]
         public int DocumentCategoryId { get; set; }
+
+        [DataMember]
         public string DocumentCategoryTitle { get; set; }
+
+        [DataMember]
         public bool IsDeleted { get; set; }
+
+        [DataMember]
         public DateTime DateCreated { get; set; }
+
+        [DataMember]
         public DateTime DateModified { get; set; }
+
+        [DataMember]
         public int CustomerId { get; set; }
 
-        public Customer Customer { get; set; }
-        public ICollection<Document> Document { get; set; }
     }
 }

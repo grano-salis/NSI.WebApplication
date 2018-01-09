@@ -2,11 +2,10 @@
     margin-left: auto;
     margin-right: auto;
 }
-.image-upload > input
-{
+
+.image-upload > input {
     margin-left: auto;
     margin-right: auto;
-    display: none;
 }
 
 #uploadImage {
@@ -22,7 +21,6 @@
     border-right: 2px solid #3498db;
     border-left: 2px solid #3498db;
     border-radius: 10px;
-    /* background-image: url("https://thumbs.dreamstime.com/z/old-white-wood-background-rustic-wooden-surface-copy-space-52646540.jpg");   */
 }
 
 textarea {
@@ -31,7 +29,23 @@ textarea {
     resize: none;
 }
 
-.item .alert {
+label span input {
+    z-index: 999;
+    line-height: 0;
+    font-size: 50px;
+    position: absolute;
+    top: -2px;
+    left: -700px;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    -ms-filter: "alpha(opacity=0)";
+    cursor: pointer;
+    _cursor: hand;
+    margin: 0;
+    padding:0;
+}
+
+/* .item .alert {
     float: left;
     margin: 0 0 0 20px;
     padding: 3px 10px;
@@ -62,4 +76,4 @@ textarea {
 .item.bad .alert {
     left: 0;
     opacity: 1
-}
+} */
