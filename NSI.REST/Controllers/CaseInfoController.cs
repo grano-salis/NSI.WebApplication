@@ -25,6 +25,7 @@ namespace NSI.REST.Controllers
 		ICaseInfoManipulation _caseInfoRepository { get; set; }
         private readonly IMapper _mapper;
 
+        // public CaseInfoController(ICaseInfoManipulation caseInfoManipulation, IMapper mapper)
         public CaseInfoController(ICaseInfoManipulation caseInfoManipulation, IMapper mapper)
 		{
 			_caseInfoRepository = caseInfoManipulation;
