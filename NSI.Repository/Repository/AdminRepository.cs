@@ -12,6 +12,8 @@ namespace NSI.Repository
     {
         private readonly IkarusContext _dbContext;
 
+        public object ModelState { get; set; }
+
         public AdminRepository(IkarusContext dbContext)
         {
             _dbContext = dbContext;
