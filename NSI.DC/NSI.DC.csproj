@@ -17,6 +17,7 @@
     <Folder Include="CustomersRepository\" />
     <Folder Include="ClientsRepository\" />
     <Folder Include="SubscriptionRepository\" />
+    <Folder Include="Mailer\" />
 
   </ItemGroup>
   <ItemGroup>
