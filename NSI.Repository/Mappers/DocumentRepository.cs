@@ -83,7 +83,7 @@ namespace NSI.Repository.Mappers
                 DocumentPath = document.DocumentPath,
                 FileTypeId = document.FileTypeId,
                 CaseNumber = document.Case.CaseNumber,
-                DocumentCategoryName = document.DocumentCategory.CategoryTitle,
+                DocumentCategoryName = document.DocumentCategory.DocumentCategoryTitle,
                 FileIconPath = document.FileType.IconPath,
                 ModifiedAt = history.LastOrDefault(),
                 CreatedAt = history.FirstOrDefault(),
