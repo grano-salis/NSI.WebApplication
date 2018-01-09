@@ -10,25 +10,30 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class DocumentListComponent implements OnInit { 
     @Input() scopedToCase: boolean; 
-    @Input() caseNumber: number; 
+    @Input() caseNumber: number;
+
     documents: DocumentDetails[];
 
-    selectedDocumentTitle: string;
     selectedDocument: DocumentDetails;
+    selectedDocumentTitle: string;
 
     toBeDeletedItemIndex: number;
     toBeDeletedItemId: number;
 
     queryModel: DocumentQuery;
-    totalItems: number = 6;
-    itemsPerPage: number = 3;
-    currPage: number = 1;
+    numberOfVisiblePages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    currPage: number;
     pages: number[];
     
-    constructor(private documentsService: DocumentsService, private sanitizer: DomSanitizer) {}
+    constructor(private documentsService: DocumentsService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.queryModel = new DocumentQuery(1, 5);
+        this.numberOfVisiblePages = 5;
+        this.currPage = 0;
+
         this.subscribe();
         this.updatePage();     
     }
@@ -86,7 +91,7 @@ export class DocumentListComponent implements OnInit {
     }
 
     nextPage(): void {
-        if ( this.currPage == (this.totalItems / this.itemsPerPage) ) {
+        if ( this.currPage == Math.ceil(this.totalItems / this.itemsPerPage) ) {
             return;
         }
 
@@ -97,13 +102,23 @@ export class DocumentListComponent implements OnInit {
     }
 
     updatePage(): void {
+        this.queryModel.resultsPerPage = 3;
         this.documentsService.getDocumentsWithPaging(this.queryModel).subscribe(
             (page: any) => {
-              this.totalItems = page.totalItems;
-              this.itemsPerPage = page.itemsPerPage;
-              
-              this.documents = page.results;
-              this.pages = Array.apply(null, { length: Math.ceil(this.totalItems * 1.0 / this.itemsPerPage) }).map(function(element: any, index: any) { return index + 1; });
+                this.totalItems = page.totalItems;
+                this.itemsPerPage = page.itemsPerPage;
+                
+                this.documents = page.results;
+                let numberOfPages = Math.ceil(this.totalItems * 1.0 / this.itemsPerPage);
+                
+                let offset1 = numberOfPages >= this.numberOfVisiblePages ? numberOfPages - (this.numberOfVisiblePages - 1) : 1;
+                let offset2 = this.currPage > Math.floor(this.numberOfVisiblePages / 2) ? this.currPage - Math.floor(this.numberOfVisiblePages / 2) : 1
+                let offset = Math.min(offset1, offset2);
+
+                this.pages = Array.apply(null, { length: Math.min(this.numberOfVisiblePages, numberOfPages) })
+                                .map(function(element: any, index: any) { 
+                                    return index + offset; 
+                                });
             } 
         );
     }

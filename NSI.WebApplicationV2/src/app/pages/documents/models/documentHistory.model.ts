@@ -1,17 +1,21 @@
 export class DocumentHistory {
-    documentHistoryId: number;        
-    modifiedByUserId: number;
-    modifiedAt: string;
-    documentId: number;
-    modifiedByUser: string;
+    documentPath: string;
+    documentTitle: string;
+    caseNumber: string;
+    documentCategoryName: string;
+    documentDescription: string;
+    author: string;
+    modifiedAt: Date;
     
-    constructor(documentHistoryId: number, modifiedByUserId: number, modifiedAt: string, 
-        documentId: number, modifiedByUser: string) {
-
-        this.documentHistoryId = documentHistoryId;
-        this.modifiedByUserId = modifiedByUserId;
+    constructor(documentPath: string, documentTitle: string, caseNumber: string, documentCategoryName: string,
+        documentDescription: string, author: string, modifiedAt: Date) {
+        
+        this.documentPath = documentPath;
+        this.documentTitle = documentTitle;
+        this.caseNumber = caseNumber;
+        this.documentCategoryName = documentCategoryName;
+        this.documentDescription = documentDescription;
+        this.author = author;
         this.modifiedAt = modifiedAt;
-        this.documentId = documentId;
-        this.modifiedByUser = modifiedByUser;
     }
 }

@@ -57,7 +57,7 @@ export class DocumentsService {
   }
 
   getDocumentHistoryByDocumentId(docId: number): Observable<any> {
-    return this.http.get(this._url.documents + 'history' + docId, {headers: this.headers});
+    return this.http.get(this._url.documents + 'history/' + docId, {headers: this.headers});
   }
 
   getDocumentById(documentId: number): Observable<any> {
@@ -71,7 +71,7 @@ export class DocumentsService {
 
   putDocument(index: number, document: Document): Observable<any> {
     let body = JSON.stringify(document);
-    return this.http.post(this._url.documents, body, {headers: this.headers});
+    return this.http.put(this._url.documents + document.documentId, body, {headers: this.headers});
   }
 
   deleteDocument(documentId: number): Observable<any> {
