@@ -71,7 +71,8 @@ namespace NSI.REST.Controllers
         }
 
         [HttpPost("MakePayment")]
-        public IActionResult Post([FromBody] StripePaymentRequest paymentRequest){
+        public IActionResult Post([FromBody] StripePaymentRequest paymentRequest)
+        {
 
             //Stripe developer api key
             StripeConfiguration.SetApiKey("sk_test_IhD98M0gMGB1G7rbcHifS3GP");
@@ -87,8 +88,9 @@ namespace NSI.REST.Controllers
 
             var chargeService = new StripeChargeService();
             StripeCharge stripeCharge = chargeService.Create(myCharge);
-            if(stripeCharge.Status.Equals("succeeded")){
-                
+            if (stripeCharge.Status.Equals("succeeded"))
+            {
+
                 TransactionDto transaction = new TransactionDto();
                 transaction.Amount = (decimal)(paymentRequest.amount / 100.0);
                 transaction.Status = "succeeded";
@@ -106,6 +108,45 @@ namespace NSI.REST.Controllers
                 _subscriptionManipulation.GetCustomerSubscription(1);
 
                 _subscriptionManipulation.SaveSubscription(subscription);
+
+            }
+            return Ok(stripeCharge);
+        }
+
+        [HttpPost("MakeExtendSubscriptionPaymentStripe")]
+        public IActionResult ExtendSubscriptionStripe([FromBody] StripePaymentRequest paymentRequest)
+        {
+
+            //Stripe developer api key
+            StripeConfiguration.SetApiKey("sk_test_IhD98M0gMGB1G7rbcHifS3GP");
+
+            //configuration of stripe chrarge object
+            var myCharge = new StripeChargeCreateOptions();
+            myCharge.SourceTokenOrExistingSourceId = paymentRequest.tokenId;
+            myCharge.Amount = paymentRequest.amount;
+            myCharge.Currency = "gbp";
+            myCharge.Description = paymentRequest.productName;
+            myCharge.Metadata = new Dictionary<string, string>();
+            myCharge.Metadata["OurRef"] = "OurRef-" + Guid.NewGuid().ToString();
+
+            var chargeService = new StripeChargeService();
+            StripeCharge stripeCharge = chargeService.Create(myCharge);
+            if (stripeCharge.Status.Equals("succeeded"))
+            {
+
+                TransactionDto transaction = new TransactionDto();
+                transaction.Amount = (decimal)(paymentRequest.amount / 100.0);
+                transaction.Status = "succeeded";
+                transaction.CustomerId = 1;
+                transaction.PaymentGatewayId = 1;
+                transaction.PricingPackageId = paymentRequest.packageId;
+                transaction.DateCreated = DateTime.Now;
+                _transactionManipulation.SaveTransaction(transaction);
+
+
+                SubscriptionDto subscription = _subscriptionManipulation.GetCustomerSubscription(1);
+                subscription.SubscriptionExpirationDate = subscription.SubscriptionExpirationDate.AddMonths(1);
+                _subscriptionManipulation.UpdateSubscription(subscription);
 
             }
             return Ok(stripeCharge);
@@ -149,6 +190,42 @@ namespace NSI.REST.Controllers
                 _subscriptionManipulation.GetCustomerSubscription(1);
 
                 _subscriptionManipulation.SaveSubscription(subscription);
+                return Ok("Uspjesan placanje");
+            }
+            else
+            {
+                return BadRequest("Neuspjesna transakcija!");
+            }
+        }
+
+        [HttpPost("MakeExtendSubscriptionPaymentPaypal")]
+        public IActionResult ExtendSubscriptionPaypal([FromBody] PaypalPaymentRequest paymentRequest)
+        {
+            Console.WriteLine(paymentRequest.paymentNonce);
+            Braintree.TransactionRequest request = new Braintree.TransactionRequest()
+            {
+                PaymentMethodNonce = paymentRequest.paymentNonce,
+                Amount = (decimal)(paymentRequest.amount)
+            };
+
+            Braintree.Result<Braintree.Transaction> result = gateway.Transaction.Sale(request);
+            if (result.IsSuccess())
+            {
+
+                TransactionDto transaction = new TransactionDto();
+                transaction.Amount = (decimal)(paymentRequest.amount);
+                transaction.Status = "succeeded";
+                transaction.CustomerId = 1;
+                transaction.PaymentGatewayId = 2;
+                transaction.PricingPackageId = paymentRequest.packageId;
+                transaction.DateCreated = DateTime.Now;
+                _transactionManipulation.SaveTransaction(transaction);
+
+
+                SubscriptionDto subscription = _subscriptionManipulation.GetCustomerSubscription(1);
+                subscription.SubscriptionExpirationDate = subscription.SubscriptionExpirationDate.AddMonths(1);
+                _subscriptionManipulation.UpdateSubscription(subscription);
+
                 return Ok("Uspjesan placanje");
             }
             else

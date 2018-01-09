@@ -29,7 +29,7 @@ namespace NSI.Repository
 
         IEnumerable<TransactionDto> ITransactionRepository.GetAllTransactions()
         {
-            return _dbContext.Transaction.ToList().Select(x => TransactionRepository.MapToDto(x));
+            return _dbContext.Transaction.OrderBy(x=>x.DateCreated).ToList().Select(x => TransactionRepository.MapToDto(x));
         }
 
         IEnumerable<TransactionDto> ITransactionRepository.GetAllTransactionsByCustomer(int customerId)

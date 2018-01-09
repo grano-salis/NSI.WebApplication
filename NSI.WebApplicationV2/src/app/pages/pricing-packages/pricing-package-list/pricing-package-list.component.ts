@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PricingPackagesService } from '../../../services/pricing-packages.service';
 import { SubscriptionService } from '../../../services/subscription.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import {ModalModule} from "ngx-modal";
 
 
@@ -17,7 +18,7 @@ export class PricingPackageListComponent implements OnInit {
   name:string = "names";
   bonus:number = 0;
   selectedPackage = -1;
-  constructor(private pricingPackagesService: PricingPackagesService, private subscriptionService: SubscriptionService) { }
+  constructor(private pricingPackagesService: PricingPackagesService, private subscriptionService: SubscriptionService,private router: Router) { }
 
   ngOnInit() {
     this.loadPricingPackages();
@@ -38,11 +39,12 @@ export class PricingPackageListComponent implements OnInit {
 
     this.subscriptionService.getActiveSubscription(1).subscribe(
       activeSubscription =>{
+        console.log("active subscription", activeSubscription);
         if(activeSubscription==null){
-
+          console.log("/pricingpackages/buy/"+num);
+          this.router.navigate(['/pricingpackages/buy/'+num]);
         }
-        else
-        {
+        else{
           this.subscriptionService.getSubscriptionBonus(activeSubscription.subscriptionId,num).subscribe(
           bonus => {
               this.bonus = bonus;
@@ -50,7 +52,7 @@ export class PricingPackageListComponent implements OnInit {
               this.modal.open();
             }
           )
-      }
+        }
       }
     )
   }

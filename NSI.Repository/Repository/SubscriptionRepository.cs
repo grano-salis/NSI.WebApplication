@@ -67,6 +67,7 @@ namespace NSI.Repository
             var pendingSubscription = _dbContext.Subscription.FirstOrDefault(s => s.SubscriptionId == subscriptionId);
 
             pendingSubscription.IsActive = false;
+            pendingSubscription.SubscriptionExpirationDate = DateTime.Now;
             _dbContext.SaveChanges();
         }
 

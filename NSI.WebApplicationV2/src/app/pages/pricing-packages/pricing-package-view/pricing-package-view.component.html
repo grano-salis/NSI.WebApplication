@@ -73,7 +73,7 @@
               </div>
               <!-- price element -->
 
-              <div class="">
+              <div *ngIf="subscription===null">
                 <h1 style="text-align:center">
                   There is no active subscription.
                   <br>
@@ -88,7 +88,7 @@
           <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" *ngIf="subscription!=null">
 
              <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription start date <span class="required">*</span>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription start date <span class="required"></span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input name="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionStartDate)" readonly>
@@ -113,14 +113,14 @@
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div id="gender" class="btn-group" data-toggle="buttons">
                   <label>
-                    <input type="checkbox" disabled>
+                    <input type="checkbox" disabled checked>
                   </label>
                 </div>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription expiration date <span class="required">*</span>
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Subscription expiration date <span class="required"></span>
               </label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [value]="formatTimeDate(subscription.subscriptionExpirationDate)" readonly>
@@ -129,9 +129,9 @@
             <div class="ln_solid"></div>
             <div class="form-group">
               <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-
-    <button class="btn btn-primary" (click)="saveChanges()">Save changes</button>
-                <button type="submit" class="btn btn-success" (click)="paySubscription()">Pay subscription</button>
+                <strong>Options for extending subscription</strong>
+                <button id="stripe-checkout-button" class="stripe-button-el" style="visibility: visible;"><span style="display: block; min-height: 30px;">Stripe <small>Checkout</small> </span></button>
+                <div id="paypal-button-container"></div>
               </div>
             </div>
 

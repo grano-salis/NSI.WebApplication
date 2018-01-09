@@ -26,7 +26,7 @@ namespace NSI.Repository
 
         IEnumerable<PricingPackageDto> IPricingPackageRepository.GetAllPricingPackages()
         {
-            return _dbContext.PricingPackage.ToList().Select(x => PricingPackageRepository.MapToDto(x));
+            return _dbContext.PricingPackage.OrderByDescending(x => x.Price).ToList().Select(x => PricingPackageRepository.MapToDto(x));
         }
 
 
