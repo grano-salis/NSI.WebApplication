@@ -104,8 +104,8 @@ namespace NSI.REST
             services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
             services.AddScoped<ISubscriptionManipulation, SubscriptionManipulation>();
             services.AddScoped<IScheduledJobService,ScheduledJobService>();
-
-
+            services.AddScoped<IAdminManipulation, AdminManipulation>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);

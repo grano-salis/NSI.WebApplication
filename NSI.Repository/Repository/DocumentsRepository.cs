@@ -126,7 +126,7 @@ namespace NSI.Repository.Repository
                 ModifiedByUserId = 1,
                 DocumentPath = document.DocumentPath,
                 CaseNumber = document.Case.CaseNumber,
-                DocumentCategoryName = document.DocumentCategory.CategoryTitle,
+                DocumentCategoryName = document.DocumentCategory.DocumentCategoryTitle,
                 DocumentDescription = document.Description,
                 DocumentTitle = document.Title
             };
