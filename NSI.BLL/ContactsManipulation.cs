@@ -12,11 +12,13 @@ using NSI.DC.ContactsRepository;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Text.RegularExpressions;
 using NSI.DC.AddressRepository;
+using NSI.DC.Exceptions;
+
 namespace NSI.BLL
 {
     public class ContactsManipulation : Interfaces.IContactsManipulation
     {
-        IContactsRepository _contactsRepository;
+       readonly IContactsRepository _contactsRepository;
 
 
         public ContactsManipulation(IContactsRepository contactRepository)
@@ -36,14 +38,14 @@ namespace NSI.BLL
             return _contactsRepository.GetContactsForCase(caseId);
         }
 
-        public ContactDto CreateContact(ContactDto contactDto, int caseId)
+        public ContactDto CreateContact(ContactDto model, int caseId)
         {
             
-                if (this.ValidationContact(contactDto) != "")
+                if (this.ValidationContact(model) != "")
                 {
-                    throw new Exception(this.ValidationContact(contactDto));
+                    throw new NSIException(this.ValidationContact(model));
                 }
-                return _contactsRepository.CreateContact(contactDto, caseId);
+                return _contactsRepository.CreateContact(model, caseId);
             
         }
 
@@ -61,7 +63,7 @@ namespace NSI.BLL
         {
             if (this.ValidationContact(contact) != "")
             {
-                throw new Exception(this.ValidationContact(contact));
+                throw new NSIException(this.ValidationContact(contact));
             }
             return _contactsRepository.EditContactById(contactId, contact);
         }

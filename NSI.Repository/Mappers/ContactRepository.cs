@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NSI.Repository.Mappers
 {
-    public class ContactRepository
+    public static class ContactRepository
     {
         public static Contact MapToDbEntity(ContactDto contactDto)
         {
