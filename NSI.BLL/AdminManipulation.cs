@@ -8,7 +8,7 @@ namespace NSI.BLL
 {
     public class AdminManipulation : Interfaces.IAdminManipulation
     {
-        IAdminRepository _adminRepository;
+        private readonly IAdminRepository _adminRepository;
 
 
         public AdminManipulation(IAdminRepository adminRepository)
@@ -24,9 +24,9 @@ namespace NSI.BLL
             return _adminRepository.GetCaseCategories();
         }
 
-        public CaseCategoryDto CreateCaseCategory(CaseCategoryDto caseCategoryDto)
+        public CaseCategoryDto CreateCaseCategory(CaseCategoryDto model)
         {
-            return _adminRepository.CreateCaseCategory(caseCategoryDto);
+            return _adminRepository.CreateCaseCategory(model);
         }
 
         public bool DeleteCaseCategorytById(int caseCategoryId)
@@ -39,9 +39,9 @@ namespace NSI.BLL
             return _adminRepository.GetCaseCategoryById(caseCategoryId);
         }
 
-        public bool EditCaseCategory(int caseCategoryId, CaseCategoryDto caseCategoryDto)
+        public bool EditCaseCategory(int caseCategoryId, CaseCategoryDto caseCategory)
         {
-            return _adminRepository.EditCaseCategory(caseCategoryId, caseCategoryDto);
+            return _adminRepository.EditCaseCategory(caseCategoryId, caseCategory);
         }
 
         //Document Category
@@ -51,9 +51,9 @@ namespace NSI.BLL
             return _adminRepository.GetDocumentCategories();
         }
 
-        public DocumentCategoryDto CreateDocumentCategory(DocumentCategoryDto documentCategoryDto)
+        public DocumentCategoryDto CreateDocumentCategory(DocumentCategoryDto model)
         {
-            return _adminRepository.CreateDocumentCategory(documentCategoryDto);
+            return _adminRepository.CreateDocumentCategory(model);
         }
 
         public bool DeleteDocumentCategorytById(int documentCategoryId)
@@ -66,9 +66,9 @@ namespace NSI.BLL
             return _adminRepository.GetDocumentCategoryById(documentCategoryId);
         }
 
-        public bool EditDocumentCategory(int documentCategoryId, DocumentCategoryDto documentCategoryDto)
+        public bool EditDocumentCategory(int documentCategoryId, DocumentCategoryDto documentCategory)
         {
-            return _adminRepository.EditDocumentCategory(documentCategoryId, documentCategoryDto);
+            return _adminRepository.EditDocumentCategory(documentCategoryId, documentCategory);
         }
 
         //File Type
@@ -77,9 +77,9 @@ namespace NSI.BLL
             return _adminRepository.GetFileTypes();
         }
 
-        public FileTypeDto CreateFileType(FileTypeDto fileTypeDto)
+        public FileTypeDto CreateFileType(FileTypeDto model)
         {
-            return _adminRepository.CreateFileType(fileTypeDto);
+            return _adminRepository.CreateFileType(model);
         }
 
         public bool DeleteFileTypeById(int fileTypeId)
@@ -92,9 +92,9 @@ namespace NSI.BLL
             return _adminRepository.GetFileTypeById(fileTypeId);
         }
 
-        public bool EditFileType(int fileTypeId, FileTypeDto fileTypeDto)
+        public bool EditFileType(int fileTypeId, FileTypeDto fileType)
         {
-            return _adminRepository.EditFileType(fileTypeId, fileTypeDto);
+            return _adminRepository.EditFileType(fileTypeId, fileType);
         }
 
 
@@ -105,9 +105,9 @@ namespace NSI.BLL
             return _adminRepository.GetClientTypes();
         }
 
-        public ClientTypeDto CreateClientType(ClientTypeDto clientTypeDto)
+        public ClientTypeDto CreateClientType(ClientTypeDto model)
         {
-            return _adminRepository.CreateClientType(clientTypeDto);
+            return _adminRepository.CreateClientType(model);
         }
 
         public bool DeleteClientTypeById(int clientTypeId)

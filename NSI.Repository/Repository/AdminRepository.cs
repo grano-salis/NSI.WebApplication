@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NSI.DC.AdminRepository;
+using System.Collections;
 
 namespace NSI.Repository
 {
@@ -36,17 +37,17 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get case categories!");
             }
-            return null;
+            return new List<CaseCategoryDto>();
         }
 
-        public CaseCategoryDto CreateCaseCategory(CaseCategoryDto caseCategoryDto)
+        public CaseCategoryDto CreateCaseCategory(CaseCategoryDto model)
         {
             try
             {
-                var caseCategory = Mappers.AdminRepository.MapToDbEntity(caseCategoryDto);
+                var caseCategory = Mappers.AdminRepository.MapToDbEntity(model);
                 caseCategory.DateModified = caseCategory.DateCreated = DateTime.Now;
                 caseCategory.IsDeleted = false;
                 _dbContext.Add(caseCategory);
@@ -55,8 +56,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot create new case category!");
             }
             return null;
         }
@@ -77,8 +78,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot delete case category!");
             }
         }
 
@@ -94,21 +95,21 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get case category!");
             }
             return null;
         }
 
-        public bool EditCaseCategory(int caseCategoryId, CaseCategoryDto caseCategoryDto)
+        public bool EditCaseCategory(int caseCategoryId, CaseCategoryDto model)
         {
             try
             {
                 var caseCategory = _dbContext.CaseCategory.FirstOrDefault(x => x.CaseCategoryId == caseCategoryId);
                 if (caseCategory != null)
                 {
-                    caseCategory.CaseCategoryName = caseCategoryDto.CaseCategoryName;
-                    caseCategory.CustomerId = caseCategoryDto.CustomerId;
+                    caseCategory.CaseCategoryName = model.CaseCategoryName;
+                    caseCategory.CustomerId = model.CustomerId;
                     caseCategory.DateModified = DateTime.Now;
                     _dbContext.SaveChanges();
                     return true;
@@ -117,8 +118,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot update case category!");
             }
         }
 
@@ -142,17 +143,17 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get client types!");
             }
-            return null;
+            return new List<ClientTypeDto>();
         }
 
-        public ClientTypeDto CreateClientType(ClientTypeDto clientTypeDto)
+        public ClientTypeDto CreateClientType(ClientTypeDto model)
         {
             try
             {
-                var clientType = Mappers.AdminRepository.MapToDbEntityClient(clientTypeDto);
+                var clientType = Mappers.AdminRepository.MapToDbEntityClient(model);
                 clientType.DateModified = clientType.DateCreated = DateTime.Now;
                 clientType.IsDeleted = false;
                 _dbContext.Add(clientType);
@@ -161,8 +162,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot create new client type!");
             }
             return null;
         }
@@ -183,8 +184,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot delete client type!");
             }
         }
 
@@ -200,21 +201,21 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get client type!");
             }
             return null;
         }
 
-        public bool EditClientType(int clientTypeId, ClientTypeDto clientTypeDto)
+        public bool EditClientType(int clientTypeId, ClientTypeDto model)
         {
             try
             {
                 var clientType = _dbContext.ClientType.FirstOrDefault(x => x.ClientTypeId == clientTypeId);
                 if (clientType != null)
                 {
-                    clientType.ClientTypeName = clientTypeDto.ClientTypeName;
-                    clientType.CustomerId = clientTypeDto.CustomerId;
+                    clientType.ClientTypeName = model.ClientTypeName;
+                    clientType.CustomerId = model.CustomerId;
                     clientType.DateModified = DateTime.Now;
                     _dbContext.SaveChanges();
                     return true;
@@ -223,8 +224,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot update client type!");
             }
         }
 
@@ -238,27 +239,27 @@ namespace NSI.Repository
                 var documentCategories = _dbContext.DocumentCategory.Where(x => x.IsDeleted == false);
                 if (documentCategories != null)
                 {
-                    ICollection<DocumentCategoryDto> clientTypeDto = new List<DocumentCategoryDto>();
+                    ICollection<DocumentCategoryDto> documentCategoryDto = new List<DocumentCategoryDto>();
                     foreach (var item in documentCategories)
                     {
-                        clientTypeDto.Add(Mappers.AdminRepository.MapToDtoDocument(item));
+                        documentCategoryDto.Add(Mappers.AdminRepository.MapToDtoDocument(item));
                     }
-                    return clientTypeDto;
+                    return documentCategoryDto;
                 }
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get document categories!");
             }
-            return null;
+            return new List<DocumentCategoryDto>();
         }
 
-        public DocumentCategoryDto CreateDocumentCategory(DocumentCategoryDto documentCategoryDto)
+        public DocumentCategoryDto CreateDocumentCategory(DocumentCategoryDto model)
         {
             try
             {
-                var documentCategory = Mappers.AdminRepository.MapToDbEntityDocument(documentCategoryDto);
+                var documentCategory = Mappers.AdminRepository.MapToDbEntityDocument(model);
                 documentCategory.DateModified = documentCategory.DateCreated = DateTime.Now;
                 documentCategory.IsDeleted = false;
                 _dbContext.Add(documentCategory);
@@ -267,8 +268,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot create new document category!");
             }
             return null;
         }
@@ -289,8 +290,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot delete document category!");
             }
         }
 
@@ -306,21 +307,21 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get document category!");
             }
             return null;
         }
 
-        public bool EditDocumentCategory(int documentCategoryId, DocumentCategoryDto documentCategoryDto)
+        public bool EditDocumentCategory(int documentCategoryId, DocumentCategoryDto model)
         {
             try
             {
                 var documentCategory = _dbContext.DocumentCategory.FirstOrDefault(x => x.DocumentCategoryId == documentCategoryId);
                 if (documentCategory != null)
                 {
-                    documentCategory.DocumentCategoryTitle = documentCategoryDto.DocumentCategoryTitle;
-                    documentCategory.CustomerId = documentCategoryDto.CustomerId;
+                    documentCategory.DocumentCategoryTitle = model.DocumentCategoryTitle;
+                    documentCategory.CustomerId = model.CustomerId;
                     documentCategory.DateModified = DateTime.Now;
                     _dbContext.SaveChanges();
                     return true;
@@ -329,8 +330,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot update document category!");
             }
         }
 
@@ -353,17 +354,17 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get file types!");
             }
-            return null;
+            return new List<FileTypeDto>();
         }
 
-        public FileTypeDto CreateFileType(FileTypeDto fileTypeDto)
+        public FileTypeDto CreateFileType(FileTypeDto model)
         {
             try
             {
-                var fileType = Mappers.AdminRepository.MapToDbEntityFile(fileTypeDto);
+                var fileType = Mappers.AdminRepository.MapToDbEntityFile(model);
                 fileType.DateModified = fileType.DateCreated = DateTime.Now;
                 fileType.IsDeleted = false;
                 _dbContext.Add(fileType);
@@ -372,8 +373,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot create new file type!");
             }
             return null;
         }
@@ -394,8 +395,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot delete file type!");
             }
         }
 
@@ -411,21 +412,21 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot get file type!");
             }
             return null;
         }
 
-        public bool EditFileType(int fileTypeId, FileTypeDto fileTypeDto)
+        public bool EditFileType(int fileTypeId, FileTypeDto model)
         {
             try
             {
                 var fileType = _dbContext.FileType.FirstOrDefault(x => x.FileTypeId == fileTypeId);
                 if (fileType != null)
                 {
-                    fileType.Extension = fileTypeDto.Extension;
-                    fileType.IconPath = fileTypeDto.IconPath;
+                    fileType.Extension = model.Extension;
+                    fileType.IconPath = model.IconPath;
                     fileType.DateModified = DateTime.Now;
                     _dbContext.SaveChanges();
                     return true;
@@ -434,8 +435,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.InnerException);
+                throw new Exception("Cannot update file type!");
             }
         }   
     }
