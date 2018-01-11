@@ -51,8 +51,6 @@ namespace NSI.REST.Controllers
                 var caseCategory = adminRepository.CreateCaseCategory(model);
                 if (caseCategory != null)
                     return Ok(caseCategory);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -137,8 +135,6 @@ namespace NSI.REST.Controllers
                 var clientType = adminRepository.CreateClientType(model);
                 if (clientType != null)
                     return Ok(clientType);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -221,8 +217,6 @@ namespace NSI.REST.Controllers
                 var documentCategory = adminRepository.CreateDocumentCategory(model);
                 if (documentCategory != null)
                     return Ok(documentCategory);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -305,8 +299,6 @@ namespace NSI.REST.Controllers
                 var fileType = adminRepository.CreateFileType(model);
                 if (fileType != null)
                     return Ok(fileType);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {

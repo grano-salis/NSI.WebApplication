@@ -360,7 +360,7 @@ namespace NSI.Tests
             var adminManipulation = new AdminManipulation(mockRepo.Object);
             var controller = new AdminController(adminManipulation);
             var result = controller.PutClient(10, clientType);
-            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
