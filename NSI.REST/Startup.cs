@@ -34,6 +34,7 @@ using CaseInfoRepository = NSI.Repository.CaseInfoRepository;
 using HearingsRepository = NSI.Repository.Repository.HearingsRepository;
 using MeetingsRepository = NSI.Repository.MeetingsRepository;
 using TaskRepository = NSI.Repository.TaskRepository;
+using AdminRepository = NSI.Repository.AdminRepository;
 
 namespace NSI.REST
 {

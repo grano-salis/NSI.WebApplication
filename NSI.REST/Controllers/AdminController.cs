@@ -89,6 +89,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
+
                 if (adminRepository.DeleteCaseCategoryById(id))
                 {
                     return Ok(id);

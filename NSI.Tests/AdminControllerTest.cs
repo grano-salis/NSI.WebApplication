@@ -42,16 +42,19 @@ namespace NSI.Tests
 
 
         [Fact]
-        public void AddContactTest()
+        public void AddCaseCategoryTest()
         {
-            //Empty Model
-
-            var controller = new AdminController(this.adminManipulation);
-
+            var mockRepo = new Mock<IAdminManipulation>();
+            var controller = new AdminController(mockRepo.Object);
             // Empty Model state
             controller.ModelState.AddModelError("error", "some error");
 
             var result = controller.PostCase(new CaseCategoryDto());
+            Assert.IsType<BadRequestObjectResult>(result);
+
+            //Empty Model
+            controller.ModelState.AddModelError("error", "some error");
+            result = controller.PostCase(null);
             Assert.IsType<BadRequestObjectResult>(result);
 
             //Bad Case Model 
@@ -73,6 +76,7 @@ namespace NSI.Tests
             Assert.IsType<BadRequestObjectResult>(result);
 
         }
+
 
         [Fact]
         public void AddCaseOk()
@@ -123,6 +127,37 @@ namespace NSI.Tests
 
             result = controller.PutCase(30, model: null);
             Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void UpdateCaseCategoryOkTest()
+        {
+            var caseCategory = new CaseCategoryDto()
+            {
+                CaseCategoryName = "firstCase",
+                IsDeleted = false,
+                CustomerId = 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+            var caseCategory1 = new CaseCategoryDto()
+            {
+                CaseCategoryId = 10,
+                CaseCategoryName = "name",
+                IsDeleted = false,
+                CustomerId = 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+
+            var mockRepo = new Mock<IAdminRepository>();
+            mockRepo.Setup(x => x.EditCaseCategory(It.IsAny<int>(),It.IsAny<CaseCategoryDto>())).Returns(true);
+            var adminManipulation = new AdminManipulation(mockRepo.Object);
+            var controller = new AdminController(adminManipulation);
+            var result = controller.PutCase(10, caseCategory);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -298,6 +333,37 @@ namespace NSI.Tests
         }
 
         [Fact]
+        public void UpdateClientTypeOkTest()
+        {
+            var clientType = new ClientTypeDto()
+            {
+                ClientTypeName = "firstClient",
+                IsDeleted = false,
+                CustomerId = 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+            var clientType1 = new ClientTypeDto()
+            {
+                ClientTypeId = 10,
+                ClientTypeName = "name",
+                IsDeleted = false,
+                CustomerId = 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+
+            var mockRepo = new Mock<IAdminRepository>();
+            mockRepo.Setup(x => x.EditClientType(It.IsAny<int>(), It.IsAny<ClientTypeDto>())).Returns(true);
+            var adminManipulation = new AdminManipulation(mockRepo.Object);
+            var controller = new AdminController(adminManipulation);
+            var result = controller.PutClient(10, clientType);
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
         public void DeleteClientTypeTest()
         {
             var clientType = new ClientTypeDto()
@@ -467,6 +533,37 @@ namespace NSI.Tests
 
             result = controller.PutDocument(30, model: null);
             Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void UpdateDocumentCategoryOkTest()
+        {
+            var documentCategoryDto = new DocumentCategoryDto()
+            {
+                DocumentCategoryTitle = "firstDocument",
+                IsDeleted = false,
+                CustomerId = 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+            var documentCategoryDto1 = new DocumentCategoryDto()
+            {
+                DocumentCategoryId = 10,
+                DocumentCategoryTitle = "name",
+                IsDeleted = false,
+                CustomerId = 1,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+
+            var mockRepo = new Mock<IAdminRepository>();
+            mockRepo.Setup(x => x.EditDocumentCategory(It.IsAny<int>(), It.IsAny<DocumentCategoryDto>())).Returns(true);
+            var adminManipulation = new AdminManipulation(mockRepo.Object);
+            var controller = new AdminController(adminManipulation);
+            var result = controller.PutDocument(10, documentCategoryDto);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -640,6 +737,37 @@ namespace NSI.Tests
 
             result = controller.PutFile(30, model: null);
             Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void UpdateFileTypeOkTest()
+        {
+            var fileTypeDto = new FileTypeDto()
+            {
+                Extension = "docx",
+                IconPath = "link.com",
+                IsDeleted = false,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+            var fileTypeDto1 = new FileTypeDto()
+            {
+                FileTypeId = 1,
+                Extension = "PDF",
+                IconPath = "link.com",
+                IsDeleted = false,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+
+            var mockRepo = new Mock<IAdminRepository>();
+            mockRepo.Setup(x => x.EditFileType(It.IsAny<int>(), It.IsAny<FileTypeDto>())).Returns(true);
+            var adminManipulation = new AdminManipulation(mockRepo.Object);
+            var controller = new AdminController(adminManipulation);
+            var result = controller.PutFile(1, fileTypeDto);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]

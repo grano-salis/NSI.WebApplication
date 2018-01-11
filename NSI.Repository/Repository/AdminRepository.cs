@@ -45,6 +45,11 @@ namespace NSI.Repository
 
         public CaseCategoryDto CreateCaseCategory(CaseCategoryDto model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model), "Model is null!");
+            }
+
             try
             {
                 var caseCategory = Mappers.AdminRepository.MapToDbEntity(model);
