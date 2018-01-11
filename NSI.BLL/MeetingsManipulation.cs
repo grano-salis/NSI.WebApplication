@@ -39,18 +39,18 @@ namespace NSI.BLL
             _meetingsRepository.DeleteMeeting(meetingId);
         }
 
-        public MeetingDto GetMeetingById(int meetingId)
+        public MeetingDto GetMeetingById(int id)
         {
-            ValidationHelper.IntegerGreaterThanZero(meetingId, name: "Meeting id");
-            return _meetingsRepository.GetMeetingById(meetingId);
+            ValidationHelper.IntegerGreaterThanZero(id, name: "Meeting id");
+            return _meetingsRepository.GetMeetingById(id);
         }
 
-        public ICollection<MeetingDto> GetMeetings(int? pageNumber = null, int? pageSize = null)
+        public ICollection<MeetingDto> GetMeetings(int? page = null, int? pageSize = null)
         {
             var meetings = _meetingsRepository.GetMeetings();
-            if (pageNumber != null && pageSize != null)
+            if (page != null && pageSize != null)
             {
-                return PagingHelper<MeetingDto>.PagedList(meetings, (int)pageNumber, (int)pageSize);
+                return PagingHelper<MeetingDto>.PagedList(meetings, (int)page, (int)pageSize);
             }
             return meetings;
         }

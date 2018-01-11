@@ -61,8 +61,10 @@ namespace NSI.Repository
             meeting.Title = model.Title ?? meeting.Title;
             meeting.MeetingPlace = model.MeetingPlace ?? meeting.MeetingPlace;
             meeting.DateModified = DateTimeOffset.UtcNow;
-            meeting.From = model.From != null ? model.From : meeting.From;
-            meeting.To = model.To != null ? model.To : meeting.To;
+            if (model.From != null)
+                meeting.From = model.From;
+            if (model.To != null)
+                meeting.To = model.To;
 
             //update users
             foreach (var item in model.UserMeeting)
