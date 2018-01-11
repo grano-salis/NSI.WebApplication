@@ -1,0 +1,73 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2 >Create new document category</h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <form #taskForm="ngForm" class="form-horizontal form-label-left">
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
+              Document category title
+              <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="text" id="title" required name="title" class="form-control col-md-7 col-xs-12">
+            </div>
+            <div class='col-md-3 col-sm-3 col-xs-12'>
+            </div>
+          </div>
+          <div class="ln_solid"></div>
+          <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+              <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="x_panel">
+      <div class="x_title">
+        <h2> Document category list </h2>
+        <div class="clearfix"></div>
+      </div>
+      <div class="row">		
+        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-5">
+          <div class="input-group stylish-input-group">
+            <input type="text" class="form-control"  placeholder="Search">
+            <span class="input-group-addon">
+              <button type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>  
+            </span>
+          </div>
+        </div>
+      </div>  
+      <div class="x-content">
+        <div class="table-responsive">
+          <table class="table table-bordered jambo_table">
+            <thead>
+              <tr>
+                <th>Document category name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of documents; let i = index">
+                <td>{{ item.documentCategoryTitle }}</td>
+                
+                <td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
+                  <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+                    <span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                <td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
+                  <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                    <span class="glyphicon glyphicon-trash"></span></button></p></td>
+              </tr>
+            </tbody> 
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
