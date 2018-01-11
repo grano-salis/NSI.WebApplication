@@ -16,6 +16,7 @@
 
 #caseHeaderInput {
     padding-left: 2px;
+    padding-left: 2px;
 }
 
 .height-26px {
@@ -24,8 +25,8 @@
 }
 
 .invalid {
-    border-left: 7px solid #c0392b;
-    border-right: 7px solid #c0392b;
+    border-left: 6px solid rgba(192, 57, 43, 0.6);
+    border-right: 6px solid rgba(192, 57, 43, 0.6);
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }

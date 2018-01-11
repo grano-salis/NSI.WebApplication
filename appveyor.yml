@@ -1,9 +1,16 @@
 version: 1.0.{build}
 image: Visual Studio 2017
+init: 
+- choco install "msbuild-sonarqube-runner" -y
 before_build:
 - cmd: dotnet restore
+- MSBuild.SonarQube.Runner.exe begin /k:"NSIApp" /d:sonar.organization="grano-salis-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="b0e6a926745704f4f20fbcbfed5a1511c77f47c2"
 build:
+  project: NSI.WebApplication.sln
   publish_nuget: true
   publish_nuget_symbols: true
   include_nuget_references: true
   verbosity: minimal
+
+after_build:
+- SonarQube.Scanner.MSBuild.exe end /d:sonar.login="b0e6a926745704f4f20fbcbfed5a1511c77f47c2"
