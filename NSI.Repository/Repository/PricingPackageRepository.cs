@@ -46,7 +46,7 @@ namespace NSI.Repository
 
         bool IPricingPackageRepository.DeletePricingPackage(int id)
         {
-            var pricingPackage = _dbContext.PricingPackage.FirstOrDefault(x => x.PricingPackageId == pricingPackageId);
+            var pricingPackage = _dbContext.PricingPackage.FirstOrDefault(x => x.PricingPackageId == id);
             pricingPackage.IsDeleted = false;
             pricingPackage.IsActive = false;
             if (_dbContext.SaveChanges() != 0) return true;
