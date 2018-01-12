@@ -66,7 +66,7 @@ namespace NSI.Tests
         {
             var controller = new SubscriptionController(ism);
             // Act
-            var result = controller.GetSubscription(2);
+            var result = controller.GetSubscription(71);
             // Assert
             Assert.IsType<OkObjectResult>(result);
         }
@@ -129,7 +129,7 @@ namespace NSI.Tests
         {
             var controller = new SubscriptionController(ism);
             // Act
-            var result = controller.GetBonusDays(2,2);
+            var result = controller.GetBonusDays(71,3);
             // Assert
             Assert.IsType<Int32>(result);
             Assert.NotEqual(0, result);

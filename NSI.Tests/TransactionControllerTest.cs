@@ -44,7 +44,7 @@ namespace NSI.Tests
         {
             var controller = new TransactionController(itm, ism);
             // Act
-            var result = controller.GetTransaction(25);
+            var result = controller.GetTransaction(113);
             // Assert
             Assert.IsType<OkObjectResult>(result);
         }
@@ -58,19 +58,6 @@ namespace NSI.Tests
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
         }
-
-        [Fact]
-        public void Post_ReturnsNOK2()
-        {
-            var controller = new TransactionController(itm, ism);
-            // Act
-            TransactionDto transaction = new TransactionDto();
-            var result = controller.Post(transaction);
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        
 
         [Fact]
         public void Post_ReturnsNOK()
