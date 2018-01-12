@@ -71,7 +71,6 @@ namespace NSI.REST.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            //return NoContent();
         }
 
         // PUT: api/contacts/5

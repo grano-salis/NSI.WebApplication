@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace NSI.Logger
 {
-    public class Logger
+    public static class Logger
     {
 
         private static readonly ILog log = LogManager.GetLogger(typeof(Logger));
