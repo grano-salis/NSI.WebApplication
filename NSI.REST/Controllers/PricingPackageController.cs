@@ -54,7 +54,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception e)
             {
-
+                Logger.Logger.LogError(e.Message);
             }
             return BadRequest();
         }
