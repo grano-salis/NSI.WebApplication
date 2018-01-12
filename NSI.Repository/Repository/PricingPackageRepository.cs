@@ -26,7 +26,7 @@ namespace NSI.Repository
 
         IEnumerable<PricingPackageDto> IPricingPackageRepository.GetAllPricingPackages()
         {
-            return _dbContext.PricingPackage.OrderByDescending(x => x.Price).ToList().Select(x => PricingPackageRepository.MapToDto(x));
+            return _dbContext.PricingPackage.OrderByDescending(x => x.Price).Select(x => PricingPackageRepository.MapToDto(x));
         }
 
 
@@ -44,7 +44,7 @@ namespace NSI.Repository
             return _dbContext.PricingPackage.Where(x => x.IsActive == true).Select(p => MapToDto(p)).ToList();
         }
 
-        bool IPricingPackageRepository.DeletePricingPackage(int pricingPackageId)
+        bool IPricingPackageRepository.DeletePricingPackage(int id)
         {
             var pricingPackage = _dbContext.PricingPackage.FirstOrDefault(x => x.PricingPackageId == pricingPackageId);
             pricingPackage.IsDeleted = false;

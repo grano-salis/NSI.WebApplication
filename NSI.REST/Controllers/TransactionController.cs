@@ -19,7 +19,7 @@ namespace NSI.REST.Controllers
         private readonly ISubscriptionManipulation _subscriptionManipulation;
 
         //Braintree gateway instantiation, used for paypal
-        private Braintree.BraintreeGateway gateway = new Braintree.BraintreeGateway("access_token$sandbox$f2j8p8tkw323cc6r$533d48e1dff3204ffb1f8a2ccafb85b1");
+        private readonly Braintree.BraintreeGateway gateway = new Braintree.BraintreeGateway("access_token$sandbox$f2j8p8tkw323cc6r$533d48e1dff3204ffb1f8a2ccafb85b1");
 
         public TransactionController(ITransactionManipulation trm, ISubscriptionManipulation sm ){
             _transactionManipulation = trm;
