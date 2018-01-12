@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NSI.Repository.Mappers
 {
-    class AdminRepository
+    public class AdminRepository
     {
         //Case Category
 

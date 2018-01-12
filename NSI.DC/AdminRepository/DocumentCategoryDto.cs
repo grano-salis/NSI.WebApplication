@@ -24,7 +24,7 @@ namespace NSI.DC.AdminRepository
         public DateTime DateModified { get; set; }
 
         [DataMember]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
     }
 }
