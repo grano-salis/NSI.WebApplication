@@ -37,7 +37,7 @@ namespace NSI.BLL
 
             string rightPath = Path.Combine("Documents", String.Join("", arrayFileName));
             var path = Path.Combine( Directory.GetCurrentDirectory(), "wwwroot", rightPath);
-            new FileInfo(path).Directory.Create();
+            new FileInfo(path).Directory?.Create();
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -76,6 +76,11 @@ namespace NSI.BLL
             return _documentRepository.GetNumberOfDocumentsByCase(caseId);
         }
 
+        public List<DocumentCategoryNamesDto> GetDocumentCategories()
+        {
+            return _documentRepository.GetDocumentCategories();
+        }
+
         public PagingResultModel<DocumentDetails> GetDocumentsByPage(DocumentsPagingQueryModel query)
         {
             if (query.PageNumber < 0)
@@ -105,7 +110,7 @@ namespace NSI.BLL
             return _documentRepository.DeleteDocument(id);
         }
 
-        public bool EditDocument(int id, DocumentDto documentDto)
+        public DocumentDto EditDocument(int id, DocumentDto documentDto)
         {
             if (id == 0)
             {
@@ -116,11 +121,11 @@ namespace NSI.BLL
 
             if (document == null)
             {
-                return false;
+                throw new Exception("Document with that id does not exist");
             }
 
             _documentRepository.Update(documentDto);
-            return true;
+            return documentDto;
         }
 
 

@@ -1,12 +1,11 @@
 ﻿using System;
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using IkarusEntities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NSI.DC.DocumentRepository;
+using NSI.DC.Exceptions;
 using NSI.Repository.Interfaces;
 using NSI.Repository.Mappers;
 using NSI.REST.Models;
@@ -46,6 +45,12 @@ namespace NSI.Repository.Repository
 
 
         }
+
+        public List<DocumentCategoryNamesDto> GetDocumentCategories()
+        {
+            return _dbContext.DocumentCategory.Select(d => DocumentRepository.MapToDocumentCategoryNamesDto(d)).ToList();
+        }
+
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDetails>
@@ -53,30 +58,30 @@ namespace NSI.Repository.Repository
                 ItemsPerPage = query.ResultsPerPage
             };
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).Include(f=>f.FileType).ToList();
-            var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
-                .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
-            result.TotalItems = filteredDocuments.Count();
+            var filteredDocuments = documents.Where(doc => doc.IsDeleted == false && SearchByMultipleProperties(query, doc))
+                .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext)).ToList();
+            result.TotalItems = filteredDocuments.Count;
             result.Results = filteredDocuments.Skip(query.ResultsPerPage*(query.PageNumber-1)).Take(query.ResultsPerPage).ToList();
             return result;
         }
 
         private static bool SearchByMultipleProperties(DocumentsPagingQueryModel query, Document doc)
         {
-            if (doc.IsDeleted) return false;
             var documentHistory = doc.DocumentHistory.Where(d => d.DocumentId == doc.DocumentId).OrderBy(document => document.ModifiedAt).ToList();
             if (query.CreatedDateFrom?.Date != null && documentHistory.FirstOrDefault()?.ModifiedAt.Date < query.CreatedDateFrom?.Date) return false;
             if (query.CreatedDateFrom?.Date != null && documentHistory.FirstOrDefault()?.ModifiedAt.Date > query.CreatedDateFrom?.Date) return false;
             if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date < query.CreatedDateTo?.Date) return false;
             if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date > query.CreatedDateTo?.Date) return false;
-            if (query.SearchByCategoryId != 0 && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
-            if(query.SearchByCaseId != 0 && doc.CaseId != query.SearchByCaseId) return false;
-            if(query.SearchByTitle != "" && !doc.Title.Contains(query.SearchByTitle)) return false;
-            return query.SearchByDescription == "" || !doc.Description.Contains(query.SearchByDescription);
+            if (query.SearchByCategoryId != 0 && query.SearchByCategoryId != null && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
+            if(query.SearchByCaseId != 0 && query.SearchByCaseId != null && doc.CaseId != query.SearchByCaseId) return false;
+            if (!string.IsNullOrEmpty(query.SearchByTitle) && !doc.Title.Contains(query.SearchByTitle)) return false;
+            return string.IsNullOrEmpty(query.SearchByDescription) || doc.Title.Contains(query.SearchByDescription);
         }
 
         public bool DeleteDocument(int id)
         {
             var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == id);
+            if (document == null) return false;
             document.IsDeleted = true;
             var response = _dbContext.Update(document);
             AddToHistory(document);
@@ -88,6 +93,7 @@ namespace NSI.Repository.Repository
         {
             var documentEntity = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == document.DocumentId);
 
+            if (documentEntity == null) return -1;
             documentEntity.DocumentId = document.DocumentId;
             documentEntity.CaseId = document.CaseId;
             documentEntity.Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId);
@@ -95,9 +101,6 @@ namespace NSI.Repository.Repository
                 _dbContext.DocumentCategory.FirstOrDefault(c => c.DocumentCategoryId == document.CategoryId);
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.DocumentPath = document.DocumentPath;
-            //documentEntity.FileType =
-            //    _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeId);
-            //documentEntity.FileTypeId = document.FileTypeId;
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.Description = document.DocumentDescription;
             documentEntity.DocumentPath = document.DocumentPath;
@@ -112,6 +115,7 @@ namespace NSI.Repository.Repository
 
             AddToHistory(documentEntity);
             return result;
+
         }
 
         private void AddToHistory(Document document)
@@ -154,18 +158,9 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
-        }
-
-        IEnumerable<DocumentDto> IDocumentRepository.SearchDocuments(DocumentSearchCriteriaDto searchCriteria)
-        {
-            if (searchCriteria == null)
-            {
-                throw new ArgumentNullException("searchCriteria");
-            }
-
-            return null;
         }
     }
 }

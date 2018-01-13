@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
 
 namespace NSI.Repository.Mappers
 {
-    public class DocumentRepository
+    public static class DocumentRepository
     {
         public static Document MapToDbEntity(DocumentDto document, IkarusContext _dbContext)
         {
@@ -106,6 +105,15 @@ namespace NSI.Repository.Mappers
                 DocumentCategoryName = documentHistory.DocumentCategoryName,
                 DocumentDescription = documentHistory.DocumentDescription,
                 DocumentPath = documentHistory.DocumentPath
+            };
+        }
+
+        public static DocumentCategoryNamesDto MapToDocumentCategoryNamesDto(DocumentCategory documentCategory)
+        {
+            return new DocumentCategoryNamesDto()
+            {
+                Id = documentCategory.DocumentCategoryId,
+                Name = documentCategory.DocumentCategoryTitle
             };
         }
     }
