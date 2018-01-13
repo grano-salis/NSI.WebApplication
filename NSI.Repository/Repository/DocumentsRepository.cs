@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using IkarusEntities;
@@ -74,8 +75,8 @@ namespace NSI.Repository.Repository
             if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date > query.CreatedDateTo?.Date) return false;
             if (query.SearchByCategoryId != 0 && query.SearchByCategoryId != null && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
             if(query.SearchByCaseId != 0 && query.SearchByCaseId != null && doc.CaseId != query.SearchByCaseId) return false;
-            if (!string.IsNullOrEmpty(query.SearchByTitle) && !doc.Title.Contains(query.SearchByTitle)) return false;
-            return string.IsNullOrEmpty(query.SearchByDescription) || doc.Title.Contains(query.SearchByDescription);
+            if (!string.IsNullOrEmpty(query.SearchByTitle) && !doc.Title.ToLower().Contains(query.SearchByTitle.ToLower())) return false;
+            return string.IsNullOrEmpty(query.SearchByDescription) || doc.Description.ToLower().Contains(query.SearchByDescription.ToLower());
         }
 
         public bool DeleteDocument(int id)
