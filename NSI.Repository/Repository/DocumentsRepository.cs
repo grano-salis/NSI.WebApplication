@@ -70,7 +70,7 @@ namespace NSI.Repository.Repository
         {
             var documentHistory = doc.DocumentHistory.Where(d => d.DocumentId == doc.DocumentId).OrderBy(document => document.ModifiedAt).ToList();
             if (query.CreatedDateFrom?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date >= query.CreatedDateFrom?.Date)) return false;
-            if (query.CreatedDateTo?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date <= query.CreatedDateFrom?.Date)) return false;
+            if (query.CreatedDateTo?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date <= query.CreatedDateTo?.Date)) return false;
             if (query.ModifiedDateFrom?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date >= query.ModifiedDateFrom?.Date)) return false;
             if (query.ModifiedDateTo?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date <= query.ModifiedDateTo?.Date)) return false;
             if (query.SearchByCategoryId != 0 && query.SearchByCategoryId != null && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
