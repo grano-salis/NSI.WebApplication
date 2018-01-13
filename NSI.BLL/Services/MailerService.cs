@@ -46,8 +46,6 @@ namespace NSI.BLL
                 //The last parameter here is to use SSL (Which you should!)
                 emailClient.Connect("smtp.gmail.com", 465, SecureSocketOptions.SslOnConnect);
 
-                //Remove any OAuth functionality as we won't be using it. 
-                //emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
 
                 emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
 

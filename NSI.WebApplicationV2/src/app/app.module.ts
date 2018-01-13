@@ -37,6 +37,11 @@ import { ToastrModule } from 'ngx-toastr';
 import {AlertService} from "./services/alert.service";
 import { SubscriptionService } from './services/subscription.service';
 
+import { CaseCategoryService } from './services/caseCategory.service';
+import { DocumentCategoryService } from './services/document-category.service';
+import { FileTypeService } from './services/file-type.service';
+import { ClientTypeService } from './services/clientType.service';
+
 
 const toastrSettings = {
   positionClass: 'toast-top-center',
@@ -80,7 +85,11 @@ const toastrSettings = {
     CasesService,
     HearingsService,
     PagerService,
-    SubscriptionService
+    SubscriptionService,
+    CaseCategoryService,
+    ClientTypeService,
+    DocumentCategoryService,
+    FileTypeService
     //DocumentsService
 
   ],

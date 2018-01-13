@@ -15,7 +15,7 @@ namespace IkarusEntities
         public bool IsDeleted { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
 
         public Customer Customer { get; set; }
         public ICollection<Document> Document { get; set; }

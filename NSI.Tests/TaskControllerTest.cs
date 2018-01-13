@@ -491,7 +491,7 @@ namespace NSI.Tests
 
             var result = controller.Search(null, 1, 1);
            
-            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
 
         }
 

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace NSI.Repository.Mappers
 {
-    public partial class MeetingsRepository
+    public static partial class MeetingsRepository
     {
         public static Meeting MapToDbEntity(MeetingDto model)
         {

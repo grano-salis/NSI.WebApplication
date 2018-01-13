@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSI.DC.AdminRepository;
+using NSI.REST.Models;
 
 namespace NSI.REST.Controllers
 {
@@ -38,21 +39,26 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/caseCategory
         [HttpPost("/caseCategory")]
-        public IActionResult PostCase([FromBody]CaseCategoryDto model)
+        public IActionResult PostCase([FromBody]CaseCategoryCreateModel model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            CaseCategoryDto caseCategoryDto = new CaseCategoryDto()
+            {
+                CaseCategoryName = model.CaseCategoryName,
+                CustomerId = model.CustomerId,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
 
-                var caseCategory = adminRepository.CreateCaseCategory(model);
+                var caseCategory = adminRepository.CreateCaseCategory(caseCategoryDto);
                 if (caseCategory != null)
                     return Ok(caseCategory);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -63,15 +69,23 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/caseCategory/1
         [HttpPut("/caseCategory/{id}")]
-        public IActionResult PutCase(int id, [FromBody]CaseCategoryDto model)
+        public IActionResult PutCase(int id, [FromBody]CaseCategoryEditModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            CaseCategoryDto caseCategoryDto = new CaseCategoryDto()
+            {
+                CaseCategoryId = model.CaseCategoryId,
+                CaseCategoryName = model.CaseCategoryName,
+                CustomerId = model.CustomerId,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
-                var caseCategory = adminRepository.EditCaseCategory(id, model);
+                var caseCategory = adminRepository.EditCaseCategory(id, caseCategoryDto);
                 if (caseCategory)
                     return Ok(caseCategory);
                 else return NoContent();
@@ -89,6 +103,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
+
                 if (adminRepository.DeleteCaseCategoryById(id))
                 {
                     return Ok(id);
@@ -123,21 +138,26 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/clientType
         [HttpPost("/clientType")]
-        public IActionResult PostClient([FromBody]ClientTypeDto model)
+        public IActionResult PostClient([FromBody]ClientTypeCreateModel model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            ClientTypeDto clientTypeDto = new ClientTypeDto()
+            {
+                ClientTypeName = model.ClientTypeName,
+                CustomerId = model.CustomerId,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
 
-                var clientType = adminRepository.CreateClientType(model);
+                var clientType = adminRepository.CreateClientType(clientTypeDto);
                 if (clientType != null)
                     return Ok(clientType);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -148,15 +168,23 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/clientType/1
         [HttpPut("/clientType/{id}")]
-        public IActionResult PutClient(int id, [FromBody]ClientTypeDto model)
+        public IActionResult PutClient(int id, [FromBody]ClientTypeEditModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            ClientTypeDto clientTypeDto = new ClientTypeDto()
+            {
+                ClientTypeId = model.ClientTypeId,
+                ClientTypeName = model.ClientTypeName,
+                CustomerId = model.CustomerId,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
-                var clientType = adminRepository.EditClientType(id, model);
+                var clientType = adminRepository.EditClientType(id, clientTypeDto);
                 if (clientType)
                     return Ok(clientType);
                 else return NoContent();
@@ -207,21 +235,26 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/documentCategory
         [HttpPost("/documentCategory")]
-        public IActionResult PostDocument([FromBody]DocumentCategoryDto model)
+        public IActionResult PostDocument([FromBody]DocumentCategoryCreateModel model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            DocumentCategoryDto documentCategoryDto = new DocumentCategoryDto()
+            {
+                DocumentCategoryTitle = model.DocumentCategoryTitle,
+                CustomerId = model.CustomerId,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
 
-                var documentCategory = adminRepository.CreateDocumentCategory(model);
+                var documentCategory = adminRepository.CreateDocumentCategory(documentCategoryDto);
                 if (documentCategory != null)
                     return Ok(documentCategory);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -232,15 +265,23 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/documentCategory/1
         [HttpPut("/documentCategory/{id}")]
-        public IActionResult PutDocument(int id, [FromBody]DocumentCategoryDto model)
+        public IActionResult PutDocument(int id, [FromBody]DocumentCategoryEditModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            DocumentCategoryDto documentCategoryDto = new DocumentCategoryDto()
+            {
+                DocumentCategoryId = model.DocumentCategoryId,
+                DocumentCategoryTitle = model.DocumentCategoryTitle,
+                CustomerId = model.CustomerId,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
-                var documentCategory = adminRepository.EditDocumentCategory(id, model);
+                var documentCategory = adminRepository.EditDocumentCategory(id, documentCategoryDto);
                 if (documentCategory)
                     return Ok(documentCategory);
                 else return NoContent();
@@ -291,21 +332,26 @@ namespace NSI.REST.Controllers
 
         // POST: api/admin/fileType
         [HttpPost("/fileType")]
-        public IActionResult PostFile([FromBody]FileTypeDto model)
+        public IActionResult PostFile([FromBody]FileTypeCreateModel model)
         {
             Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            FileTypeDto fileTypeDto = new FileTypeDto()
+            {
+                Extension = model.Extension,
+                IconPath = model.IconPath,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
 
-                var fileType = adminRepository.CreateFileType(model);
+                var fileType = adminRepository.CreateFileType(fileTypeDto);
                 if (fileType != null)
                     return Ok(fileType);
-                else
-                    return NoContent();
             }
             catch (Exception ex)
             {
@@ -316,15 +362,22 @@ namespace NSI.REST.Controllers
 
         // PUT: api/admin/fileType/1
         [HttpPut("/fileType/{id}")]
-        public IActionResult PutFile(int id, [FromBody]FileTypeDto model)
+        public IActionResult PutFile(int id, [FromBody]FileTypeEditModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            FileTypeDto fileTypeDto = new FileTypeDto()
+            {
+                Extension = model.Extension,
+                IconPath = model.IconPath,
+                DateCreated = DateTime.Now,
+                DateModified = DateTime.Now
+            };
             try
             {
-                var fileType = adminRepository.EditFileType(id, model);
+                var fileType = adminRepository.EditFileType(id, fileTypeDto);
                 if (fileType)
                     return Ok(fileType);
                 else return NoContent();

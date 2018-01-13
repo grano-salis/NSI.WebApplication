@@ -38,7 +38,7 @@ using TaskRepository = NSI.Repository.TaskRepository;
 using NSI.DC.Mailer;
 using Hangfire;
 using Hangfire.MemoryStorage;
-
+using AdminRepository = NSI.Repository.AdminRepository;
 namespace NSI.REST
 {
     public class Startup

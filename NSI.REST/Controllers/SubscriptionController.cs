@@ -54,7 +54,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception e)
             {
-
+                Logger.Logger.LogError(e.Message);
             }
             return BadRequest();
         }
@@ -65,7 +65,7 @@ namespace NSI.REST.Controllers
             try
             {
                 if (ModelState.IsValid)
-                {;
+                {
                     var result = _subscriptionManipulation.UpdateSubscription(subscription);
                     if (result != null) return Ok(result);
                 }
@@ -73,7 +73,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception e)
             {
-
+                Logger.Logger.LogError(e.Message);
             }
             return BadRequest();
         }
