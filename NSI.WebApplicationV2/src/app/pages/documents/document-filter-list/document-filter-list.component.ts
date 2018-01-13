@@ -6,7 +6,10 @@ import {
   ViewChild,
   ViewChildren,
   ViewContainerRef,
-  QueryList
+  QueryList,
+  ContentChild,
+  ContentChildren,
+  EmbeddedViewRef
 } from '@angular/core';
 
 import { DocumentFilter } from '../models/documentFilter.model'
@@ -39,7 +42,6 @@ export class DocumentFilterListComponent implements OnInit {
   }
 
   onFilterSearch() {
-    let counter = 0;
-    this.filters.forEach( (child) => console.log(counter++));
+      this.documentsService.submitFiltering.next();
   }
 }

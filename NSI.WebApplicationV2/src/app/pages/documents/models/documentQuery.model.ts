@@ -7,10 +7,10 @@ export class DocumentQuery {
     searchByCategoryId: number;
     searchByDescription: string;
 
-    createdDateFrom: Date;
-    createDateTo: Date;
-    ModifiedDateFrom: Date;
-    ModifiedDateTo: Date;
+    createdDateFrom: any;
+    createDateTo: any;
+    modifiedDateFrom: any;
+    modifiedDateTo: any;
 
     constructor(pageNumber: number, resultsPerPage: number) {
 
@@ -21,6 +21,10 @@ export class DocumentQuery {
         this.searchByCaseId = 0;
         this.searchByCategoryId = 0;
         this.searchByDescription = "";
-        
+
+        this.createdDateFrom = null;
+        this.createDateTo = null;
+        this.modifiedDateFrom = null;
+        this.modifiedDateTo = null;        
     }
 }

@@ -2,6 +2,7 @@
     <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
         <h6 style="float: right"><b>Filter By:</b></h6>
     </div>
+
     <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
         <select class="form-control" id="category" (change)="onFilterChanged()" [(ngModel)]="chosenFilter">
             <option *ngFor="let lf of localFilterList" [value]="lf">
@@ -9,20 +10,21 @@
             </option>
         </select>
     </div>
-    
+
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 max-height-34-px">
         <div [hidden]="isDateFilter">
-            <input type="text" [(ngModel)]="queryModel.searchByTitle" class="form-control" placeholder="Search">
+            <input type="text" (change)="onFilterValueChangeDetected()" [(ngModel)]="queryValue" class="form-control" placeholder="Search">
         </div>
         <div [hidden]="!isDateFilter">
             <div class="input-prepend input-group">
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 </span> 
-                <input type="text" [name]="dateIdentifier()" [id]="dateIdentifier()" [(ngModel)]="queryModel.searchByTitle" #{{dateIdentifier()}}="ngModel" class="form-control" placeholder="Choose" required>
+                <input type="text" [name]="dateIdentifier()" [id]="dateIdentifier()" [(ngModel)]="queryValue" #{{dateIdentifier()}}="ngModel" class="form-control" placeholder="Choose" required>
             </div>
         </div>
     </div>
+
     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
         <button type="button" class="btn btn-default" (click)="onButtonClick()" 
             [disabled]="(localFilterList.length < 2 && buttonIcon == 'fa-plus')"> 
