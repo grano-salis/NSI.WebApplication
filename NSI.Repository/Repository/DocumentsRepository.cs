@@ -69,10 +69,10 @@ namespace NSI.Repository.Repository
         private static bool SearchByMultipleProperties(DocumentsPagingQueryModel query, Document doc)
         {
             var documentHistory = doc.DocumentHistory.Where(d => d.DocumentId == doc.DocumentId).OrderBy(document => document.ModifiedAt).ToList();
-            if (query.CreatedDateFrom?.Date != null && documentHistory.FirstOrDefault()?.ModifiedAt.Date < query.CreatedDateFrom?.Date) return false;
-            if (query.CreatedDateFrom?.Date != null && documentHistory.FirstOrDefault()?.ModifiedAt.Date > query.CreatedDateFrom?.Date) return false;
-            if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date < query.CreatedDateTo?.Date) return false;
-            if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date > query.CreatedDateTo?.Date) return false;
+            if (query.CreatedDateFrom?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date >= query.CreatedDateFrom?.Date)) return false;
+            if (query.CreatedDateTo?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date <= query.CreatedDateFrom?.Date)) return false;
+            if (query.ModifiedDateFrom?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date >= query.ModifiedDateFrom?.Date)) return false;
+            if (query.ModifiedDateTo?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date <= query.ModifiedDateTo?.Date)) return false;
             if (query.SearchByCategoryId != 0 && query.SearchByCategoryId != null && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
             if(query.SearchByCaseId != 0 && query.SearchByCaseId != null && doc.CaseId != query.SearchByCaseId) return false;
             if (!string.IsNullOrEmpty(query.SearchByTitle) && !doc.Title.ToLower().Contains(query.SearchByTitle.ToLower())) return false;
