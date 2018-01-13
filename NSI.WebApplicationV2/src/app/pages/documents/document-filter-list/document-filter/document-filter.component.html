@@ -12,10 +12,15 @@
     </div>
 
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 max-height-34-px">
-        <div [hidden]="isDateFilter">
+        <div [hidden]="filterType != 'input'">
             <input type="text" (change)="onFilterValueChangeDetected()" [(ngModel)]="queryValue" class="form-control" placeholder="Search">
         </div>
-        <div [hidden]="!isDateFilter">
+        <div [hidden]="filterType != 'dropDown'">
+            <select (change)="onFilterValueChangeDetected()" [(ngModel)]="queryValue" class="form-control" placeholder="Search">
+                <option value="1"> 1234 </option>
+            </select>
+        </div>
+        <div [hidden]="filterType != 'date'">
             <div class="input-prepend input-group">
                 <span class="input-group-addon">
                     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>

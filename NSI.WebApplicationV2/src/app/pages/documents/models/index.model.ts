@@ -6,3 +6,4 @@ export { DocumentFilter } from "./documentFilter.model";
 export { DocumentCategory } from "./documentCategory.model";
 export { DocumentCase } from "./documentCase.model";
 export { ListItem } from "./listItem.model";
+export { DropDown } from "./dropDown.model";

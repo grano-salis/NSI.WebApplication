@@ -179,7 +179,7 @@ export class DocumentListComponent implements OnInit {
                 this.queryModel.searchByDescription = filter.value;
                 break;
             case "CreatedBefore":
-                this.queryModel.createDateTo = filter.value;
+                this.queryModel.createdDateTo = filter.value;
                 break;
             case "CreatedAfter":
                 this.queryModel.createdDateFrom = filter.value;

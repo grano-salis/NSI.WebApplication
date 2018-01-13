@@ -8,7 +8,7 @@ export class DocumentQuery {
     searchByDescription: string;
 
     createdDateFrom: any;
-    createDateTo: any;
+    createdDateTo: any;
     modifiedDateFrom: any;
     modifiedDateTo: any;
 
@@ -23,7 +23,7 @@ export class DocumentQuery {
         this.searchByDescription = "";
 
         this.createdDateFrom = null;
-        this.createDateTo = null;
+        this.createdDateTo = null;
         this.modifiedDateFrom = null;
         this.modifiedDateTo = null;        
     }

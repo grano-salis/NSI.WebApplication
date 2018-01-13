@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChildren } from '@angular/core';
-import { DocumentFilter, DocumentQuery } from '../../models/index.model';
+import { DocumentFilter, DocumentCase, DocumentCategory, DropDown } from '../../models/index.model';
 import { DocumentsService } from '../../../../services/documents.service';
 
 declare var $: any;
@@ -18,9 +18,11 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     previousChosenFilter: string;
     chosenFilter: string
     hasFollower: boolean;
-    isDateFilter: boolean;
     buttonIcon: string;
     queryValue: any;
+
+    filterType: string;   
+    dropDownArray: DropDown[];
 
     constructor(private documentsService: DocumentsService) { }
 
@@ -38,7 +40,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
 
         this.previousChosenFilter = this.localFilterList[0];
         this.chosenFilter = this.localFilterList[0];
-        this.setIsDateFilter();
+        this.setFilterType();
 
         let deleteDefaultFilter = new DocumentFilter("add", this, this.localFilterList[0], null);
         this.documentsService.chosenFilterEvent.next(deleteDefaultFilter);
@@ -48,7 +50,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         let self = this;
 
         let identifier = "#"+ this.dateIdentifier();
-        $(identifier).datetimepicker({ useCurrent: false, format: "YYYY-MM-DD HH:mm:ss.SSS" });
+        $(identifier).datetimepicker({ useCurrent: false, format: "YYYY-MM-DD" });
         $(identifier).on("dp.change", function (e: any) {
             self.queryValue = $(identifier).val();
             self.onFilterValueChangeDetected();
@@ -74,7 +76,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     }
 
     onFilterChanged() {
-        this.setIsDateFilter();
+        this.setFilterType();
 
         let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter, null);
         this.documentsService.chosenFilterEvent.next(addPreviousSelected);  
@@ -116,35 +118,80 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     onFilterValueChangeDetected() {
         let value = this.queryValue;
 
-        if ( this.checkIfDateFilter(this.chosenFilter) ) {
-            let explode = this.queryValue.split(" ");
-            value = explode[0] + 'T' + explode[1] + 'Z';
+        if ( this.getFilterType(this.chosenFilter) == "date") {
+            value = this.queryValue.split(" ")[0] + 'T' + "00:00:00.000" + 'Z';
         }
 
         let documentFilter = new DocumentFilter(null, null, this.chosenFilter, value);
         this.documentsService.updateFilter.next(documentFilter);
     }
 
-    setIsDateFilter(): void {
-        this.isDateFilter = false;
+    setFilterType(): void {
+        this.filterType = "input";
+        this.dropDownArray = null;
 
-        if ( this.checkIfDateFilter(this.chosenFilter) ) {
-            this.isDateFilter = true;
+        if ( this.getFilterType(this.chosenFilter) == "date") {
+            this.filterType = "date";
         }
 
-        if ( this.checkIfDateFilter(this.chosenFilter) !== this.checkIfDateFilter(this.previousChosenFilter) ) {
+        if ( this.getFilterType(this.chosenFilter) == "dropDown") {
+            this.filterType = "dropDown";
+            this.fillDropDown();
+        }
+
+        if ( this.getFilterType(this.chosenFilter) !== this.getFilterType(this.previousChosenFilter) ) {
             this.queryValue = '';
         }
 
         return;        
     }
 
-    checkIfDateFilter(filter: string): boolean {
-        if ( filter == "Title" || filter == "Description" || filter == "Case" || filter == "Category" ) {
-            return false;
+    getFilterType(filter: string): string {
+        if ( filter == "Title" || filter == "Description" ) {
+            return "input";
+        }
+        
+        if ( filter == "Case" || filter == "Category" ) {
+            return "dropDown";
         }
 
-        return true;
+        return "date";
+    }
+
+    fillDropDown() {
+        if (this.filterType == "Case") {
+            this.documentsService.getCaseList()
+                .subscribe( (cases: DocumentCase[]) => 
+                {
+                    for (let index in cases) {
+                        this.dropDownArray.push(this.mapToDDFromCase(cases[index]));
+                    }
+                });
+        }
+
+        else if (this.filterType == "Category") {
+            this.documentsService.getCategoryList()
+            .subscribe( (categories: DocumentCategory[]) => 
+            {
+                for (let index in categories) {
+                    this.dropDownArray.push(this.mapToDDFromCategory(categories[index]));
+                }
+            });
+        }
+    }
+
+    mapToDDFromCase(docCase: DocumentCase) {
+        return new DropDown(
+            docCase.caseId,
+            docCase.caseNumber.toString()
+        );
+    }
+    
+    mapToDDFromCategory(docCategory: DocumentCategory) {
+        return new DropDown(
+            docCategory.documentCategoryId,
+            docCategory.categoryTitle
+        );
     }
 
     dateIdentifier(): string {
