@@ -20,12 +20,11 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     hasFollower: boolean;
     isDateFilter: boolean;
     buttonIcon: string;
-    queryModel: DocumentQuery;
+    queryValue: any;
 
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
-        this.queryModel = new DocumentQuery(0, 0);
         this.buttonIcon = 'fa-plus';
 
         this.documentsService.chosenFilterEvent
@@ -41,12 +40,19 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         this.chosenFilter = this.localFilterList[0];
         this.setIsDateFilter();
 
-        let deleteDefaultFilter = new DocumentFilter("add", this, this.localFilterList[0]);
+        let deleteDefaultFilter = new DocumentFilter("add", this, this.localFilterList[0], null);
         this.documentsService.chosenFilterEvent.next(deleteDefaultFilter);
     }
 
     ngAfterViewInit(): void {
-        $("#"+ this.dateIdentifier()).datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+        let self = this;
+
+        let identifier = "#"+ this.dateIdentifier();
+        $(identifier).datetimepicker({ useCurrent: false, format: "YYYY-MM-DD HH:mm:ss.SSS" });
+        $(identifier).on("dp.change", function (e: any) {
+            self.queryValue = $(identifier).val();
+            self.onFilterValueChangeDetected();
+        });
     }
 
     getSearchValue() {
@@ -58,7 +64,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
             this.documentsService.newFilterEvent.next();
             this.buttonIcon = "fa-minus";
 
-            let deleteSelected = new DocumentFilter("add", this, this.chosenFilter);
+            let deleteSelected = new DocumentFilter("add", this, this.chosenFilter, null);
             this.documentsService.chosenFilterEvent.next(deleteSelected); 
 
             return;        
@@ -70,17 +76,18 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     onFilterChanged() {
         this.setIsDateFilter();
 
-        let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter);
+        let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter, null);
         this.documentsService.chosenFilterEvent.next(addPreviousSelected);  
+        this.onFilterValueChangeDetected();
         
-        let deleteSelected = new DocumentFilter("add", this, this.chosenFilter);
+        let deleteSelected = new DocumentFilter("add", this, this.chosenFilter, null);
         this.documentsService.chosenFilterEvent.next(deleteSelected);  
         
         this.previousChosenFilter = this.chosenFilter;        
     }
 
     onFilterDeleted() {
-        let docFilModel = new DocumentFilter("delete", this, this.chosenFilter);
+        let docFilModel = new DocumentFilter("delete", this, this.chosenFilter, null);
         this.documentsService.chosenFilterEvent.next(docFilModel);
         this._ref.destroy();        
     }
@@ -94,7 +101,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         if (filterChange.type == "add") 
         {
             for (let i = this.localFilterList.length - 1; i >= 0; i--) {
-                if (this.localFilterList[i] === filterChange.value) {
+                if (this.localFilterList[i] === filterChange.field) {
                     this.localFilterList.splice(i, 1);
                     break;
                 }
@@ -102,19 +109,31 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         }
         else if (filterChange.type == "delete")
         {
-            this.localFilterList = this.documentsService.pushFilterSorted(filterChange.value, this.localFilterList);
+            this.localFilterList = this.documentsService.pushFilterSorted(filterChange.field, this.localFilterList);
         }
     }
 
-    setIsDateFilter(): void {
-        this.isDateFilter = true;
+    onFilterValueChangeDetected() {
+        let value = this.queryValue;
 
         if ( this.checkIfDateFilter(this.chosenFilter) ) {
-            this.isDateFilter = false;
+            let explode = this.queryValue.split(" ");
+            value = explode[0] + 'T' + explode[1] + 'Z';
+        }
+
+        let documentFilter = new DocumentFilter(null, null, this.chosenFilter, value);
+        this.documentsService.updateFilter.next(documentFilter);
+    }
+
+    setIsDateFilter(): void {
+        this.isDateFilter = false;
+
+        if ( this.checkIfDateFilter(this.chosenFilter) ) {
+            this.isDateFilter = true;
         }
 
         if ( this.checkIfDateFilter(this.chosenFilter) !== this.checkIfDateFilter(this.previousChosenFilter) ) {
-            this.queryModel.searchByTitle = '';
+            this.queryValue = '';
         }
 
         return;        
@@ -122,10 +141,10 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
 
     checkIfDateFilter(filter: string): boolean {
         if ( filter == "Title" || filter == "Description" || filter == "Case" || filter == "Category" ) {
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     dateIdentifier(): string {

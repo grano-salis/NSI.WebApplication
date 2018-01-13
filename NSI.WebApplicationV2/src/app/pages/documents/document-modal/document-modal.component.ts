@@ -116,6 +116,7 @@ export class DocumentModalComponent {
         }
 
         this.documentsService.postDocument(this.document).subscribe(() => {
+            //this.documentsService.documentAdded.next(this.document);
             this.resetForm();
         });
     }
@@ -157,6 +158,7 @@ export class DocumentModalComponent {
 
         this.documentsService.putDocument(this.documentEditIndex, edit)
             .subscribe(() => {
+                //this.documentsService.documentUpdated.next(this.document);
                 this.resetForm();
             });
     }

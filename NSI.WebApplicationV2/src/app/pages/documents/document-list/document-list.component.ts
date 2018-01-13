@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Document, DocumentDetails, DocumentQuery } from '../models/index.model';
 import { DocumentsService } from '../../../services/documents.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DocumentFilter } from '../models/documentFilter.model';
 
 @Component({
   selector: 'app-document-list',
@@ -102,7 +103,6 @@ export class DocumentListComponent implements OnInit {
     }
 
     updatePage(): void {
-        this.queryModel.resultsPerPage = 3;
         this.documentsService.getDocumentsWithPaging(this.queryModel).subscribe(
             (page: any) => {
                 this.totalItems = page.totalItems;
@@ -137,10 +137,61 @@ export class DocumentListComponent implements OnInit {
                     this.queryModel.searchByCaseId = 0;
                     this.updatePage();
                 }); 
+        
+        this.documentsService.chosenFilterEvent
+            .subscribe( (filter: DocumentFilter) =>
+                {
+                    if ( filter.type == "delete" ) {
+                        filter.value = null;
+                        this.setFilter(filter);
+                    }
+                }); 
 
-    //     this.addressService.addressAdded.subscribe((address: AddressDetail) => { this.addresses.push(address); });
-    //     this.addressService.addressUpdated.subscribe((item: { index: number, address: AddressDetail }) => { this.addresses[item.index] = item.address });
+        this.documentsService.updateFilter
+            .subscribe( (filter: DocumentFilter) =>
+                {
+                    this.setFilter(filter);
+                }); 
+
+        this.documentsService.submitFiltering
+            .subscribe( () =>
+                {
+                    console.log(this.queryModel);
+                    this.updatePage();
+                }); 
+
+    //     this.documentService.documentAdded.subscribe((document: DocumentDetail) => { this.documents.push(document); });
+    //     this.documentService.documentUpdated.subscribe((item: { index: number, document: DocumentDetail }) => { this.documents[item.index] = item.document });
     }
+
+    setFilter(filter: DocumentFilter) {
+        switch(filter.field) {
+            case "Title":
+                this.queryModel.searchByTitle = filter.value;
+                break;
+            case "Case":
+                this.queryModel.searchByCaseId = filter.value;
+                break;
+            case "Category":
+                this.queryModel.searchByCategoryId = filter.value;
+                break;
+            case "Description":
+                this.queryModel.searchByDescription = filter.value;
+                break;
+            case "CreatedBefore":
+                this.queryModel.createDateTo = filter.value;
+                break;
+            case "CreatedAfter":
+                this.queryModel.createdDateFrom = filter.value;
+                break;
+            case "ModifiedBefore":
+                this.queryModel.modifiedDateTo = filter.value;
+                break;
+            case "ModifiedAfter":
+                this.queryModel.modifiedDateFrom = filter.value;
+                break;
+        }
+      }
 
     sanitize(url: string): SafeUrl {
         return this.sanitizer.bypassSecurityTrustUrl(url);
