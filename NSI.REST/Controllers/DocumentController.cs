@@ -156,7 +156,7 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                DocumentManipulation.SaveDocument(document);
+                //DocumentManipulation.SaveDocument(document);
                 return Ok(document);
             }
             catch (Exception ex)
