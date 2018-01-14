@@ -1,16 +1,13 @@
-﻿using IkarusEntities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NSI.BLL;
 using NSI.BLL.Interfaces;
 using NSI.DC.AddressRepository;
-using NSI.Repository;
 using NSI.Repository.Interfaces;
 using NSI.REST.Controllers;
 using NSI.REST.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -26,7 +23,7 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void getAddressByIdTest()
+        public void GetAddressByIdTest()
         {
             int id = 1;
             string Address1 = "Test";
@@ -67,7 +64,7 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void getAddressesTest()
+        public void GetAddressesTest()
         {
             int id = 1;
             string Address1 = "Test";

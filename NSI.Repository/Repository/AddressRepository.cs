@@ -39,7 +39,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
 
@@ -59,7 +59,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
             return null;
@@ -82,9 +82,10 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
-            return null;
+            return new List<AddressDto>();
         }
 
         public bool DeleteAddressById(int addressId)
@@ -105,7 +106,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);//log ex
                 throw;
             }
         }
@@ -117,7 +118,7 @@ namespace NSI.Repository
                 throw new ArgumentNullException(nameof(searchCriteria), "Argument SearchCriteria is not provided!");
             }
 
-            return null;
+            return new List<AddressDto>();
         }
 
         public bool EditAddress(int addressId, AddressDto address)
@@ -144,7 +145,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
         }
