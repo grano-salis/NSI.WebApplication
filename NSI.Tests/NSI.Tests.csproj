@@ -20,7 +20,6 @@
     <ProjectReference Include="..\NSI.Repository\NSI.Repository.csproj" />
     <ProjectReference Include="..\NSI.DC\NSI.DC.csproj" />
     <ProjectReference Include="..\IkarusEntities\IkarusEntities.csproj" />
-    <ProjectReference Include="..\NSI.WebApplication\NSI.WebApplication.csproj" />
     <ProjectReference Include="..\NSI.BLL\NSI.BLL.csproj" />
   </ItemGroup>
 

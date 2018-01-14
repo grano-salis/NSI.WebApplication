@@ -146,16 +146,16 @@ namespace NSI.Repository.Repository
             return document != null ? DocumentRepository.MapToDocumentDetailsDto(document, _dbContext) : null;
         }
 
-        int IDocumentRepository.SaveDocument(CreateDocumentDto document)
+        DocumentDetails IDocumentRepository.SaveDocument(CreateDocumentDto document)
         {
             try
             {
                 document.DocumentId = 0;
                 var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
                 _dbContext.Add(documentEntity);
-                var result = _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
                 AddToHistory(documentEntity);
-                return result;
+                return DocumentRepository.MapToDbEntity(documentEntity);
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSI.BLL.Interfaces;
 using NSI.DC.DocumentRepository;
 using NSI.DC.Exceptions;
@@ -16,12 +17,12 @@ namespace NSI.REST.Controllers
     public class DocumentController : Controller
     {
         private IDocumentManipulation DocumentManipulation { get; }
-        //private ILogger<DocumentController> Logger { get; }
+        private ILogger<DocumentController> Logger { get; }
 
-        public DocumentController(IDocumentManipulation documentManipulation)
+        public DocumentController(IDocumentManipulation documentManipulation, ILogger<DocumentController> logger)
         {
             DocumentManipulation = documentManipulation;
-          //  Logger = logger;
+            Logger = logger;
         }
 
         // GET: api/Documents
@@ -34,7 +35,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -49,7 +50,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -65,7 +66,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -79,7 +80,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -94,7 +95,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -109,7 +110,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -125,7 +126,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -145,7 +146,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
@@ -156,12 +157,12 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                //DocumentManipulation.SaveDocument(document);
+                DocumentManipulation.SaveDocument(document);
                 return Ok(document);
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
@@ -177,8 +178,8 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
-                throw new Exception(ex.Message);
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }
 
@@ -192,7 +193,7 @@ namespace NSI.REST.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Logger.LogError(ex.Message);
+                Logger.LogError(ex.Message);
                 throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
         }

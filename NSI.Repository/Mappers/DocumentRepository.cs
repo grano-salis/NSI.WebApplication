@@ -116,5 +116,30 @@ namespace NSI.Repository.Mappers
                 Name = documentCategory.DocumentCategoryTitle
             };
         }
+
+        public static DocumentDetails MapToDbEntity(Document document)
+        {
+            var history = document.DocumentHistory.OrderBy(d => d.ModifiedAt).Select(doc => doc.ModifiedAt).ToList();
+            var documentDetails = new DocumentDetails()
+            {
+                DocumentId = document.DocumentId,
+                DocumentTitle = document.Title,
+                CaseId = document.CaseId,
+                CategoryId = document.DocumentCategoryId,
+                DocumentContent = document.DocumentContent,
+                DocumentDescription = document.Description,
+                DocumentPath = document.DocumentPath,
+                FileTypeId = document.FileTypeId,
+                CaseNumber = document.Case.CaseNumber,
+                DocumentCategoryName = document.DocumentCategory.DocumentCategoryTitle,
+                FileIconPath = document.FileType.IconPath,
+                ModifiedAt = history.LastOrDefault(),
+                CreatedAt = history.FirstOrDefault(),
+                CreatedByUserId = 1,
+                Author = "John Doe",
+
+            };
+            return documentDetails;
+        }
     }
 }
