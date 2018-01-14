@@ -110,7 +110,7 @@ namespace NSI.BLL
             return _documentRepository.DeleteDocument(id);
         }
 
-        public DocumentDto EditDocument(int id, DocumentDto documentDto)
+        public DocumentDetails EditDocument(int id, DocumentDto documentDto)
         {
             if (id == 0)
             {
@@ -125,7 +125,8 @@ namespace NSI.BLL
             }
 
             _documentRepository.Update(documentDto);
-            return documentDto;
+            var returnDocumentDto = _documentRepository.GetDocument(documentDto.DocumentId);
+            return returnDocumentDto;
         }
 
 
