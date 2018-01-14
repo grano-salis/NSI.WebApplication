@@ -121,6 +121,9 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         if ( this.getFilterType(this.chosenFilter) == "date") {
             value = this.queryValue.split(" ")[0] + 'T' + "00:00:00.000" + 'Z';
         }
+        else if ( this.getFilterType(this.chosenFilter) == "dropDown") {
+            value = +value;
+        }
 
         let documentFilter = new DocumentFilter(null, null, this.chosenFilter, value);
         this.documentsService.updateFilter.next(documentFilter);
@@ -165,6 +168,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
                 {
                     this.itemList = cases;
                     this.queryValue = cases[0].id;
+                    this.onFilterValueChangeDetected();                    
                 });
         }
 
@@ -173,7 +177,8 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
                 .subscribe( (categories: Item[]) => 
                 {
                     this.itemList = categories;
-                    this.queryValue = categories[0].id;                    
+                    this.queryValue = categories[0].id;   
+                    this.onFilterValueChangeDetected();                    
                 });
         }
     }
