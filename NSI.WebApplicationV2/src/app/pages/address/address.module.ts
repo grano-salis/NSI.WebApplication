@@ -15,6 +15,7 @@ import {AddressTypeModalEditComponent} from './address-type-modal-edit/address-t
 import { SortableColumnComponent } from './sortable-column/sortable-column.component';
 import { SortableTableDirective } from './sortable-table/sortable-table.directive';
 import { SortService } from '../../services/sortService.service';
+import { FilterPipe } from './filter/filter.pipe';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,6 +34,7 @@ import { SortService } from '../../services/sortService.service';
     AddressTypeModalEditComponent,
     SortableColumnComponent,
     SortableTableDirective,
+    FilterPipe
   ],
   exports: [
     AddressNewComponent

@@ -19,6 +19,7 @@ declare var google: any;
 export class AddressListComponent implements OnInit {
   _router: Router;
   addresses: Address[];
+  searchText: String;
 
   temp_addressType: AddressType;
 
