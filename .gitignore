@@ -317,3 +317,5 @@ xcuserdata/
 # System Files
 .DS_Store
 Thumbs.db
+NSI.WebApplicationV2/package-lock.json
+NSI.WebApplicationV2/package.json

@@ -5,6 +5,8 @@ import { each } from "lodash";
 import { AddressTypeService } from "../../../services/addressType.service";
 import { AddressType } from "../addressType.model";
 import { Router } from "@angular/router";
+import { AddressSearchCriteria } from "../addressSearchCriteria.model";
+import { forEach } from "@angular/router/src/utils/collection";
 declare var $: any;
 declare var google: any;
 
@@ -17,6 +19,8 @@ declare var google: any;
 export class AddressListComponent implements OnInit {
   _router: Router;
   addresses: Address[];
+
+  temp_addressType: AddressType;
 
   constructor(private addressService: AddressService, private addressTypeService: AddressTypeService, router: Router) {
     this._router = router;
@@ -146,5 +150,13 @@ export class AddressListComponent implements OnInit {
     this.displayDelete = "none";
 
     //$(document).ready(()=> location.reload());
+  }
+
+  getSortedAddresses(criteria: AddressSearchCriteria){
+    this.addresses = this.addressService.getSortedAddresses(criteria, this.addresses);
+  }
+ 
+ onSorted($event: any){
+   this.getSortedAddresses($event);
   }
 }

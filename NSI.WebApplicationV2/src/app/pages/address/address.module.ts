@@ -12,6 +12,9 @@ import { AddressTypeNewComponent } from './address-type-new/address-type-new.com
 import { Ng4GeoautocompleteModule } from 'ng4-geoautocomplete';
 import {AddressTypeModalDeleteComponent} from './address-type-modal-delete/address-type-modal-delete.component';
 import {AddressTypeModalEditComponent} from './address-type-modal-edit/address-type-modal-edit.component';
+import { SortableColumnComponent } from './sortable-column/sortable-column.component';
+import { SortableTableDirective } from './sortable-table/sortable-table.directive';
+import { SortService } from '../../services/sortService.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -27,10 +30,13 @@ import {AddressTypeModalEditComponent} from './address-type-modal-edit/address-t
     AddressTypeNewComponent,
     AddressTypeListComponent,
     AddressTypeModalDeleteComponent,
-    AddressTypeModalEditComponent
+    AddressTypeModalEditComponent,
+    SortableColumnComponent,
+    SortableTableDirective,
   ],
   exports: [
     AddressNewComponent
-  ]
+  ],
+  providers: [SortService]
 })
 export class AddressModule { }
