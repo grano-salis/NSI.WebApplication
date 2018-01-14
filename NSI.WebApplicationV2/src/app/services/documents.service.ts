@@ -59,6 +59,7 @@ export class DocumentsService {
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {
+    console.log(queryModel);
     return this.http.post(this._url.documents + 'paging', queryModel, {headers: this.headers});
   }
 
