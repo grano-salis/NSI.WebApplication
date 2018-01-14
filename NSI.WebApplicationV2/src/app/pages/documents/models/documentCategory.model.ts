@@ -1,10 +1,10 @@
 export class DocumentCategory {
-    documentCategoryId: number;
-    categoryTitle: string;
+    id: number;
+    name: string;
 
-    constructor(documentCategoryId: number, categoryTitle: string, customerId: number) {
+    constructor(id: number, name: string) {
 
-        this.documentCategoryId = documentCategoryId;
-        this.categoryTitle = categoryTitle;
+        this.id = id;
+        this.name = name;
     }
 }

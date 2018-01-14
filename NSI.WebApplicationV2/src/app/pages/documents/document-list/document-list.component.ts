@@ -18,6 +18,7 @@ export class DocumentListComponent implements OnInit {
     selectedDocument: DocumentDetails;
     selectedDocumentTitle: string;
 
+    toBeUpdatedItemIndex: number;
     toBeDeletedItemIndex: number;
     toBeDeletedItemId: number;
 
@@ -33,13 +34,15 @@ export class DocumentListComponent implements OnInit {
     ngOnInit() {
         this.queryModel = new DocumentQuery(1, 5);
         this.numberOfVisiblePages = 5;
-        this.currPage = 0;
+        this.currPage = 1;
 
         this.subscribe();
         this.updatePage();     
     }
 
-    onPreEdit(value: DocumentDetails): void {
+    onPreEdit(index: number, value: DocumentDetails): void {
+        this.toBeUpdatedItemIndex = index;
+
         let document = new DocumentDetails(value.documentId, value.documentTitle, value.documentDescription, value.caseId, 
             value.categoryId, value.documentContent, value.createdByUserId, value.fileTypeId, value.documentPath, value.author,
             value.caseNumber, value.documentCategoryName, value.fileIconPath, value.createdAt, value.modifiedAt);
@@ -156,12 +159,23 @@ export class DocumentListComponent implements OnInit {
         this.documentsService.submitFiltering
             .subscribe( () =>
                 {
-                    console.log(this.queryModel);
                     this.updatePage();
                 }); 
 
-    //     this.documentService.documentAdded.subscribe((document: DocumentDetail) => { this.documents.push(document); });
-    //     this.documentService.documentUpdated.subscribe((item: { index: number, document: DocumentDetail }) => { this.documents[item.index] = item.document });
+        this.documentsService.documentAdded
+            .subscribe((document: DocumentDetails) => 
+                { 
+                    this.documents.unshift(document); 
+                });
+        
+        this.documentsService.documentUpdated
+            .subscribe((document: DocumentDetails) => 
+                {          
+                    console.log("Indeks: " + this.toBeUpdatedItemIndex);                    
+                    console.log("Prije: " + JSON.stringify(this.documents[this.toBeUpdatedItemIndex]));
+                    console.log("Poslije: " + JSON.stringify(document));
+                    this.documents[this.toBeUpdatedItemIndex] = document; 
+                });
     }
 
     setFilter(filter: DocumentFilter) {
@@ -191,7 +205,21 @@ export class DocumentListComponent implements OnInit {
                 this.queryModel.modifiedDateFrom = filter.value;
                 break;
         }
-      }
+    }
+
+    shouldDisplayPrev(): boolean {
+        if (this.currPage == 1) {
+            return false;
+        }
+        return true;
+    }
+
+    shouldDisplayNext(): boolean {
+        if (this.currPage == Math.ceil(this.totalItems / this.itemsPerPage)) {
+            return false;
+        }
+        return true;
+    }
 
     sanitize(url: string): SafeUrl {
         return this.sanitizer.bypassSecurityTrustUrl(url);

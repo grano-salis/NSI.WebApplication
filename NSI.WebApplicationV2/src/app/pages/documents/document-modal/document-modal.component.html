@@ -16,7 +16,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="title">
-                                        Title:
+                                        Title: <span class="red-asterix"> * </span>
                                     </label>
                                     <input formControlName="Title" id="Title" type="text" class="form-control" id="title">
                                 </div>
@@ -25,11 +25,11 @@
                             <div class="col-md-6">                        
                                 <div class="form-group">
                                     <label for="category">
-                                        Category:
+                                        Category: <span class="red-asterix"> * </span>
                                     </label>
                                     <select formControlName="CategoryId" id="Category" class="form-control">
                                         <option *ngFor="let category of categoryList" [value]="category.id">
-                                            {{ category.name }}
+                                            {{ category.value }}
                                         </option>
                                     </select>
                                 </div>
@@ -39,7 +39,7 @@
 
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
-                            <div [ngClass]="{'col-md-6': (!scopedToCase || editMode), 'col-md-12': !(!scopedToCase || editMode)}">                                                                        
+                            <div [ngClass]="{'col-md-6': (!scopedToCase || editMode), 'col-md-12': (scopedToCase && !editMode)}">                                                                        
                                 <div class="form-group">
                                     <label for="description">
                                         Description:
@@ -48,14 +48,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">                                    
+                            <div *ngIf="!scopedToCase || editMode" class="col-md-6">                                    
                                 <div class="form-group">
                                     <label for="case">
-                                        Case number:
+                                        Case number: <span class="red-asterix"> * </span>
                                     </label>
                                     <select formControlName="CaseId" id="CaseId" class="form-control" id="case">
                                         <option *ngFor="let case of caseList" [value]="case.id">
-                                            {{ case.name }}
+                                            {{ case.value }}
                                         </option>
                                     </select>
                                 </div>
@@ -74,13 +74,17 @@
                                 </label>
                             </div>
                             <br>
-                        
-                            <div class="progress">
+                            
+                            <div *ngIf="!showFileUploadLabel" class="progress">
                                 <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" 
                                     [attr.aria-valuenow]="uploadProgress" aria-valuemin="0" aria-valuemax="100" 
                                     [style.width]="uploadProgress + '%'">
                                     {{ fileToUploadTitle }}
                                 </div>
+                            </div>
+
+                            <div *ngIf="showFileUploadLabel">
+                                {{ fileToUploadTitle }}
                             </div>
                         </div>		
                         <div class="col-md-2"></div>
@@ -88,11 +92,14 @@
                 </form>
                 
             </div>
-            <div class="modal-footer"> 
-                <button type="button" class="btn btn-default" (click)="onCancelAction()" data-dismiss="modal">
+            <div class="modal-footer">
+                <p class="footer-text-left"> 
+                    <span class="red-asterix">*</span> Fields are required! 
+                </p> 
+                <button type="button" class="btn btn-default" (click)="onCancelAction()" data-dismiss="modal" #closeModal>
                     {{ footerCancelText() }}
                 </button> 
-                <button type="button" class="btn btn-primary" (click)="onConfirmationAction()" #closeModal>
+                <button type="button" class="btn btn-primary" (click)="onConfirmationAction()" [disabled]="!docForm.valid">
                     {{ footerConfirmationText() }}
                 </button>
             </div>

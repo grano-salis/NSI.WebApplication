@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChildren } from '@angular/core';
-import { DocumentFilter, DocumentCase, DocumentCategory, DropDown } from '../../models/index.model';
+import { DocumentFilter, DocumentCategory, Item } from '../../models/index.model';
 import { DocumentsService } from '../../../../services/documents.service';
 
 declare var $: any;
@@ -22,7 +22,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     queryValue: any;
 
     filterType: string;   
-    dropDownArray: DropDown[];
+    itemList: Item[];
 
     constructor(private documentsService: DocumentsService) { }
 
@@ -57,11 +57,11 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         });
     }
 
-    getSearchValue() {
+    getSearchValue(): string {
         return this.chosenFilter;
     }
 
-    onButtonClick() {
+    onButtonClick(): void {
         if (this.buttonIcon == "fa-plus") {
             this.documentsService.newFilterEvent.next();
             this.buttonIcon = "fa-minus";
@@ -75,7 +75,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         this.onFilterDeleted();
     }
 
-    onFilterChanged() {
+    onFilterChanged(): void {
         this.setFilterType();
 
         let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter, null);
@@ -88,13 +88,13 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         this.previousChosenFilter = this.chosenFilter;        
     }
 
-    onFilterDeleted() {
+    onFilterDeleted(): void {
         let docFilModel = new DocumentFilter("delete", this, this.chosenFilter, null);
         this.documentsService.chosenFilterEvent.next(docFilModel);
         this._ref.destroy();        
     }
 
-    onFilterChangeDetected(filterChange: DocumentFilter) {
+    onFilterChangeDetected(filterChange: DocumentFilter): void {
         if (filterChange.component === this) 
         {
             return;
@@ -115,7 +115,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         }
     }
 
-    onFilterValueChangeDetected() {
+    onFilterValueChangeDetected(): void {
         let value = this.queryValue;
 
         if ( this.getFilterType(this.chosenFilter) == "date") {
@@ -128,7 +128,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
 
     setFilterType(): void {
         this.filterType = "input";
-        this.dropDownArray = null;
+        this.itemList = null;
 
         if ( this.getFilterType(this.chosenFilter) == "date") {
             this.filterType = "date";
@@ -158,40 +158,24 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         return "date";
     }
 
-    fillDropDown() {
-        if (this.filterType == "Case") {
+    fillDropDown(): void {
+        if (this.chosenFilter == "Case") {
             this.documentsService.getCaseList()
-                .subscribe( (cases: DocumentCase[]) => 
+                .subscribe( (cases: Item[]) => 
                 {
-                    for (let index in cases) {
-                        this.dropDownArray.push(this.mapToDDFromCase(cases[index]));
-                    }
+                    this.itemList = cases;
+                    this.queryValue = cases[0].id;
                 });
         }
 
-        else if (this.filterType == "Category") {
+        else if (this.chosenFilter == "Category") {
             this.documentsService.getCategoryList()
-            .subscribe( (categories: DocumentCategory[]) => 
-            {
-                for (let index in categories) {
-                    this.dropDownArray.push(this.mapToDDFromCategory(categories[index]));
-                }
-            });
+                .subscribe( (categories: Item[]) => 
+                {
+                    this.itemList = categories;
+                    this.queryValue = categories[0].id;                    
+                });
         }
-    }
-
-    mapToDDFromCase(docCase: DocumentCase) {
-        return new DropDown(
-            docCase.caseId,
-            docCase.caseNumber.toString()
-        );
-    }
-    
-    mapToDDFromCategory(docCategory: DocumentCategory) {
-        return new DropDown(
-            docCategory.documentCategoryId,
-            docCategory.categoryTitle
-        );
     }
 
     dateIdentifier(): string {
