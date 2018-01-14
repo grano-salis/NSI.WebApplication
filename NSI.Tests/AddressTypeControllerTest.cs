@@ -321,7 +321,7 @@ namespace NSI.Tests
             var addressTypeManipulation = new AddressTypeManipulation(addressRepo.Object);
             var controller = new AddressTypeController(addressTypeManipulation);
             var result = controller.DeleteAddressType(1);
-            Assert.IsType<OkResult>(result);
+            Assert.IsType<NoContentResult>(result);
             
         }
 

@@ -284,7 +284,7 @@ namespace NSI.Tests
             mockRepo.Setup(x => x.Address);
             var addressRepository = new AddressRepository(mockRepo.Object);
             var result = addressRepository.GetAddreses();
-            Assert.Null(result);
+            Assert.Empty(result);
 
         }
 
@@ -666,7 +666,7 @@ namespace NSI.Tests
 
             var result = addressRepository.SearchAddreses(addressDto);
 
-            Assert.Null(result);
+            Assert.Empty(result);
 
         }
 
