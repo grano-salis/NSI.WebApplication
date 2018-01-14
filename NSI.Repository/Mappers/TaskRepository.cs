@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NSI.Repository.Mappers
 {
-    public partial class TaskRepository
+    public static partial class TaskRepository
     {
         public static Task MapToDbEntity(TaskDto taskDto)
         {

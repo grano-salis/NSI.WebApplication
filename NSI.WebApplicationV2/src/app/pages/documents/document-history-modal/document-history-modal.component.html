@@ -30,11 +30,11 @@
                                     <button class="btn-default" data-title="View" data-toggle="modal" data-target="" style="border-radius: 5px;">
                                       <span><i [ngClass]="['fa', documentDetails.fileIconPath, 'fa-2x']" aria-hidden="true"></i></span></button></p></td>
                                   
-                                  <td>{{ documentDetails.documentTitle }}</td>
-                                  <td *ngIf="!scopedToCase">{{ documentDetails.caseNumber }}</td>
-                                  <td>{{ documentDetails.documentCategoryName }} </td>
-                                  <td>{{ documentDetails.documentDescription }}</td>
-                                  <td>{{ item.modifiedByUser }}</td>
+                                  <td>{{ item.documentTitle }}</td>
+                                  <td *ngIf="!scopedToCase">{{ item.caseNumber }}</td>
+                                  <td>{{ item.documentCategoryName }}</td>
+                                  <td>{{ item.documentDescription }}</td>
+                                  <td>{{ item.author }}</td>
                                   <td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
                               </tr>
                           </tbody> 

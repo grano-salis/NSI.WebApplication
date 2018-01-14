@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Document, DocumentDetails, DocumentQuery } from '../models/index.model';
 import { DocumentsService } from '../../../services/documents.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DocumentFilter } from '../models/documentFilter.model';
 
 @Component({
   selector: 'app-document-list',
@@ -10,25 +11,30 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class DocumentListComponent implements OnInit { 
     @Input() scopedToCase: boolean; 
-    @Input() caseNumber: number; 
+    @Input() caseNumber: number;
+
     documents: DocumentDetails[];
 
-    selectedDocumentTitle: string;
     selectedDocument: DocumentDetails;
+    selectedDocumentTitle: string;
 
     toBeDeletedItemIndex: number;
     toBeDeletedItemId: number;
 
     queryModel: DocumentQuery;
-    totalItems: number = 6;
-    itemsPerPage: number = 3;
-    currPage: number = 1;
+    numberOfVisiblePages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    currPage: number;
     pages: number[];
     
-    constructor(private documentsService: DocumentsService, private sanitizer: DomSanitizer) {}
+    constructor(private documentsService: DocumentsService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         this.queryModel = new DocumentQuery(1, 5);
+        this.numberOfVisiblePages = 5;
+        this.currPage = 0;
+
         this.subscribe();
         this.updatePage();     
     }
@@ -86,7 +92,7 @@ export class DocumentListComponent implements OnInit {
     }
 
     nextPage(): void {
-        if ( this.currPage == (this.totalItems / this.itemsPerPage) ) {
+        if ( this.currPage == Math.ceil(this.totalItems / this.itemsPerPage) ) {
             return;
         }
 
@@ -99,11 +105,20 @@ export class DocumentListComponent implements OnInit {
     updatePage(): void {
         this.documentsService.getDocumentsWithPaging(this.queryModel).subscribe(
             (page: any) => {
-              this.totalItems = page.totalItems;
-              this.itemsPerPage = page.itemsPerPage;
-              
-              this.documents = page.results;
-              this.pages = Array.apply(null, { length: Math.ceil(this.totalItems * 1.0 / this.itemsPerPage) }).map(function(element: any, index: any) { return index + 1; });
+                this.totalItems = page.totalItems;
+                this.itemsPerPage = page.itemsPerPage;
+                
+                this.documents = page.results;
+                let numberOfPages = Math.ceil(this.totalItems * 1.0 / this.itemsPerPage);
+                
+                let offset1 = numberOfPages >= this.numberOfVisiblePages ? numberOfPages - (this.numberOfVisiblePages - 1) : 1;
+                let offset2 = this.currPage > Math.floor(this.numberOfVisiblePages / 2) ? this.currPage - Math.floor(this.numberOfVisiblePages / 2) : 1
+                let offset = Math.min(offset1, offset2);
+
+                this.pages = Array.apply(null, { length: Math.min(this.numberOfVisiblePages, numberOfPages) })
+                                .map(function(element: any, index: any) { 
+                                    return index + offset; 
+                                });
             } 
         );
     }
@@ -122,10 +137,61 @@ export class DocumentListComponent implements OnInit {
                     this.queryModel.searchByCaseId = 0;
                     this.updatePage();
                 }); 
+        
+        this.documentsService.chosenFilterEvent
+            .subscribe( (filter: DocumentFilter) =>
+                {
+                    if ( filter.type == "delete" ) {
+                        filter.value = null;
+                        this.setFilter(filter);
+                    }
+                }); 
 
-    //     this.addressService.addressAdded.subscribe((address: AddressDetail) => { this.addresses.push(address); });
-    //     this.addressService.addressUpdated.subscribe((item: { index: number, address: AddressDetail }) => { this.addresses[item.index] = item.address });
+        this.documentsService.updateFilter
+            .subscribe( (filter: DocumentFilter) =>
+                {
+                    this.setFilter(filter);
+                }); 
+
+        this.documentsService.submitFiltering
+            .subscribe( () =>
+                {
+                    console.log(this.queryModel);
+                    this.updatePage();
+                }); 
+
+    //     this.documentService.documentAdded.subscribe((document: DocumentDetail) => { this.documents.push(document); });
+    //     this.documentService.documentUpdated.subscribe((item: { index: number, document: DocumentDetail }) => { this.documents[item.index] = item.document });
     }
+
+    setFilter(filter: DocumentFilter) {
+        switch(filter.field) {
+            case "Title":
+                this.queryModel.searchByTitle = filter.value;
+                break;
+            case "Case":
+                this.queryModel.searchByCaseId = filter.value;
+                break;
+            case "Category":
+                this.queryModel.searchByCategoryId = filter.value;
+                break;
+            case "Description":
+                this.queryModel.searchByDescription = filter.value;
+                break;
+            case "CreatedBefore":
+                this.queryModel.createdDateTo = filter.value;
+                break;
+            case "CreatedAfter":
+                this.queryModel.createdDateFrom = filter.value;
+                break;
+            case "ModifiedBefore":
+                this.queryModel.modifiedDateTo = filter.value;
+                break;
+            case "ModifiedAfter":
+                this.queryModel.modifiedDateFrom = filter.value;
+                break;
+        }
+      }
 
     sanitize(url: string): SafeUrl {
         return this.sanitizer.bypassSecurityTrustUrl(url);

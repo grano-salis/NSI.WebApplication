@@ -1,11 +1,12 @@
 ﻿using System;
-
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using IkarusEntities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NSI.DC.DocumentRepository;
+using NSI.DC.Exceptions;
 using NSI.Repository.Interfaces;
 using NSI.Repository.Mappers;
 using NSI.REST.Models;
@@ -29,7 +30,7 @@ namespace NSI.Repository.Repository
 
         public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
         {
-            return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
+            return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Include(d => d.Document).Include(d => d.Document.Case).Include(d => d.Document.DocumentCategory).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
         }
 
         public List<DocumentDto> GetDocumentsByCase(int id)
@@ -45,6 +46,12 @@ namespace NSI.Repository.Repository
 
 
         }
+
+        public List<DocumentCategoryNamesDto> GetDocumentCategories()
+        {
+            return _dbContext.DocumentCategory.Select(d => DocumentRepository.MapToDocumentCategoryNamesDto(d)).ToList();
+        }
+
         PagingResultModel<DocumentDetails> IDocumentRepository.GetAllDocumentsByPage(DocumentsPagingQueryModel query)
         {
             var result = new PagingResultModel<DocumentDetails>
@@ -52,30 +59,30 @@ namespace NSI.Repository.Repository
                 ItemsPerPage = query.ResultsPerPage
             };
             var documents = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).Include(h => h.DocumentHistory).Include(f=>f.FileType).ToList();
-            var filteredDocuments = documents.Where(doc => SearchByMultipleProperties(query, doc))
-                .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext));
-            result.TotalItems = filteredDocuments.Count();
+            var filteredDocuments = documents.Where(doc => doc.IsDeleted == false && SearchByMultipleProperties(query, doc))
+                .Select(d => DocumentRepository.MapToDocumentDetailsDto(d, _dbContext)).ToList();
+            result.TotalItems = filteredDocuments.Count;
             result.Results = filteredDocuments.Skip(query.ResultsPerPage*(query.PageNumber-1)).Take(query.ResultsPerPage).ToList();
             return result;
         }
 
         private static bool SearchByMultipleProperties(DocumentsPagingQueryModel query, Document doc)
         {
-            if (doc.IsDeleted) return false;
             var documentHistory = doc.DocumentHistory.Where(d => d.DocumentId == doc.DocumentId).OrderBy(document => document.ModifiedAt).ToList();
-            if (query.CreatedDateFrom?.Date != null && documentHistory.FirstOrDefault()?.ModifiedAt.Date < query.CreatedDateFrom?.Date) return false;
-            if (query.CreatedDateFrom?.Date != null && documentHistory.FirstOrDefault()?.ModifiedAt.Date > query.CreatedDateFrom?.Date) return false;
-            if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date < query.CreatedDateTo?.Date) return false;
-            if (query.CreatedDateTo?.Date != null && documentHistory.LastOrDefault()?.ModifiedAt.Date > query.CreatedDateTo?.Date) return false;
-            if (query.SearchByCategoryId != 0 && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
-            if(query.SearchByCaseId != 0 && doc.CaseId != query.SearchByCaseId) return false;
-            if(query.SearchByTitle != "" && doc.Description.Contains(query.SearchByTitle)) return false;
-            return query.SearchByTitle == "" || !doc.Description.Contains(query.SearchByTitle);
+            if (query.CreatedDateFrom?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date >= query.CreatedDateFrom?.Date)) return false;
+            if (query.CreatedDateTo?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date <= query.CreatedDateFrom?.Date)) return false;
+            if (query.ModifiedDateFrom?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date >= query.ModifiedDateFrom?.Date)) return false;
+            if (query.ModifiedDateTo?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date <= query.ModifiedDateTo?.Date)) return false;
+            if (query.SearchByCategoryId != 0 && query.SearchByCategoryId != null && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
+            if(query.SearchByCaseId != 0 && query.SearchByCaseId != null && doc.CaseId != query.SearchByCaseId) return false;
+            if (!string.IsNullOrEmpty(query.SearchByTitle) && !doc.Title.ToLower().Contains(query.SearchByTitle.ToLower())) return false;
+            return string.IsNullOrEmpty(query.SearchByDescription) || doc.Description.ToLower().Contains(query.SearchByDescription.ToLower());
         }
 
         public bool DeleteDocument(int id)
         {
             var document = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == id);
+            if (document == null) return false;
             document.IsDeleted = true;
             var response = _dbContext.Update(document);
             AddToHistory(document);
@@ -87,6 +94,7 @@ namespace NSI.Repository.Repository
         {
             var documentEntity = _dbContext.Document.Include(x => x.Case).Include(x => x.DocumentCategory).FirstOrDefault(d => d.DocumentId == document.DocumentId);
 
+            if (documentEntity == null) return -1;
             documentEntity.DocumentId = document.DocumentId;
             documentEntity.CaseId = document.CaseId;
             documentEntity.Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId);
@@ -94,32 +102,38 @@ namespace NSI.Repository.Repository
                 _dbContext.DocumentCategory.FirstOrDefault(c => c.DocumentCategoryId == document.CategoryId);
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.DocumentPath = document.DocumentPath;
-            documentEntity.FileType =
-                _dbContext.FileType.FirstOrDefault(c => c.FileTypeId == document.FileTypeId);
-            documentEntity.FileTypeId = document.FileTypeId;
             documentEntity.DocumentContent = document.DocumentContent;
             documentEntity.Description = document.DocumentDescription;
             documentEntity.DocumentPath = document.DocumentPath;
             documentEntity.Title = document.DocumentTitle;
+            if (documentEntity.DocumentPath != null)
+                documentEntity.FileTypeId = _dbContext.FileType
+                    .FirstOrDefault(c => c.Extension == Path.GetExtension(document.DocumentPath).Replace(".", ""))
+                    .FileTypeId;
+            else documentEntity.FileTypeId = _dbContext.Document.Find(documentEntity.DocumentId).FileTypeId;
             _dbContext.Update(documentEntity);
             var result = _dbContext.SaveChanges();
 
             AddToHistory(documentEntity);
             return result;
+
         }
 
         private void AddToHistory(Document document)
         {
-            //TODO get current user
-            var allRecords = _dbContext.DocumentHistory.ToList();
             var documentHistoryRecord = new DocumentHistory()
             {
-                DocumentHistoryId = allRecords.Count+1,
+                DocumentHistoryId = 0,
                 Document = document,
                 DocumentId = document.DocumentId,
                 ModifiedAt = DateTime.UtcNow,
                 ModifiedByUser = _dbContext.UserInfo.FirstOrDefault(u => u.UserId == 1),
-                ModifiedByUserId = 1
+                ModifiedByUserId = 1,
+                DocumentPath = document.DocumentPath,
+                CaseNumber = document.Case.CaseNumber,
+                DocumentCategoryName = document.DocumentCategory.DocumentCategoryTitle,
+                DocumentDescription = document.Description,
+                DocumentTitle = document.Title
             };
             _dbContext.DocumentHistory.Add(documentHistoryRecord);
             _dbContext.SaveChanges();
@@ -145,18 +159,9 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Logger.Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
             }
-        }
-
-        IEnumerable<DocumentDto> IDocumentRepository.SearchDocuments(DocumentSearchCriteriaDto searchCriteria)
-        {
-            if (searchCriteria == null)
-            {
-                throw new ArgumentNullException("searchCriteria");
-            }
-
-            return null;
         }
     }
 }

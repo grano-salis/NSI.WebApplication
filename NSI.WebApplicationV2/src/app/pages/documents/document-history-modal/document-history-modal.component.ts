@@ -11,6 +11,7 @@ import { DocumentDetails, DocumentHistory } from '../models/index.model';
 export class DocumentHistoryModalComponent implements OnInit {
   @Input() scopedToCase: boolean;
   @Input() currentTitle: string;
+  
   documentDetails: DocumentDetails;
   documentHistories: DocumentHistory[];
 

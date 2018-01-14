@@ -19,9 +19,9 @@ namespace NSI.Repository.Repository
             _dbContext = dbContext;
         }
 
-        public HearingDto InsertHearing(HearingDto model)
+        public HearingDto InsertHearing(HearingDto Model)
         {
-            var entity = Mappers.HearingsRepository.MapToDbEntity(model);
+            var entity = Mappers.HearingsRepository.MapToDbEntity(Model);
             _dbContext.Hearing.Add(entity);
             if (_dbContext.SaveChanges() > 0)
             {
@@ -47,7 +47,8 @@ namespace NSI.Repository.Repository
 
             //update data
             entity.DateModified = DateTime.Now;
-            entity.HearingDate = model.HearingDate != null ? model.HearingDate : entity.HearingDate;
+            if (model.HearingDate != null)
+                entity.HearingDate = model.HearingDate;
 
             //update users
             foreach (var item in model.UserHearing)

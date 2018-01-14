@@ -9,19 +9,25 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-          <table class="table table-hover">
+          <table sortable-table (sorted)="onSorted($event)" class="table table-hover">
             <thead>
+
+              <div class="col-md-12">
+                <input [(ngModel)]="searchText" placeholder="Enter search text here.." class="form-control col-md-12">
+                <br><br><br>  
+              </div>
+
               <tr>                
-                <th><span class="glyphicon glyphicon-home"></span> Address 1</th>
+                <th sortable-column="address1" sort-direction="asc"><span class="glyphicon glyphicon-home"></span> Address 1</th>
                 <th><span class="glyphicon glyphicon-home"></span> Address 2</th>
                 <th>Address Type id</th>
-                <th>City</th>                
+                <th sortable-column="city">City</th>                
                 <th><span class="glyphicon glyphicon-calendar"></span> Date Modified</th>
-                <th>Zip code</th>
+                <th sortable-column="zipcode">Zip code</th>
               </tr>
             </thead>
             <tbody>                           
-               <ng-container *ngFor="let address of addresses">
+               <ng-container *ngFor="let address of addresses | filter: searchText">
                  <tr *ngIf="!address.isDeleted">   
                 <td>{{address.address1}}</td>
                 <td>{{address.address2}}</td>

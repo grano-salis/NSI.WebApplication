@@ -7,32 +7,39 @@ import { Observer } from 'rxjs/Observer';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
+import { CaseDetail } from '../pages/cases/case-detail/caseDetail.model';
+
 import {
   Document,
   DocumentDetails,
   DocumentQuery,
-  DocumentFilter
+  DocumentFilter,
+  DocumentCase,
+  DocumentCategory
 } from '../pages/documents/models/index.model';
 
 import { MDD } from '../pages/documents/models/mockDocumentDetails';
 
 @Injectable()
 export class DocumentsService {
-  newFilterEvent = new Subject();
-  chosenFilterEvent = new Subject<DocumentFilter>();
   filterList: string[];
 
   private readonly filterListFull: string[];    
   private readonly _url: any;
   private headers = new HttpHeaders();
 
-  documentAdded = new Subject<Document>();
-  documentUpdated = new Subject<{ index: number, document: Document }>();
+  documentAdded = new Subject<DocumentDetails>();
+  documentUpdated = new Subject<{ index: number, document: DocumentDetails }>();
   documentUpdatingRequested = new Subject();
   documentCaseChanged = new Subject<number>();
   documentHistoryRequested = new Subject<DocumentDetails>();
   documentAll = new Subject();
-
+  
+  newFilterEvent = new Subject();
+  chosenFilterEvent = new Subject<DocumentFilter>();
+  updateFilter = new Subject<DocumentFilter>();
+  submitFiltering = new Subject();
+  
   constructor(private http: HttpClient) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
     this._url = {
@@ -43,8 +50,8 @@ export class DocumentsService {
     
     this.filterListFull = this.generateListOfFilters();
     this.filterList = this.generateListOfFilters();
-
-    this.chosenFilterEvent.subscribe((documentFilter: DocumentFilter) => this.onFilterChangeDetected(documentFilter));
+    
+    this.subscribe();
   }
 
   getDocuments(): Observable<DocumentDetails[]> {
@@ -52,12 +59,11 @@ export class DocumentsService {
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {
-    let body = JSON.stringify(queryModel);
     return this.http.post(this._url.documents + 'paging', queryModel, {headers: this.headers});
   }
 
   getDocumentHistoryByDocumentId(docId: number): Observable<any> {
-    return this.http.get(this._url.documents + 'history' + docId, {headers: this.headers});
+    return this.http.get(this._url.documents + 'history/' + docId, {headers: this.headers});
   }
 
   getDocumentById(documentId: number): Observable<any> {
@@ -71,19 +77,35 @@ export class DocumentsService {
 
   putDocument(index: number, document: Document): Observable<any> {
     let body = JSON.stringify(document);
-    return this.http.post(this._url.documents, body, {headers: this.headers});
+    return this.http.put(this._url.documents + document.documentId, body, {headers: this.headers});
   }
 
   deleteDocument(documentId: number): Observable<any> {
     return this.http.delete(this._url.documents + documentId, {headers: this.headers});
   }
 
-  getCaseList(): Observable<any> {
-    return this.http.get<DocumentDetails[]>(this._url.cases, {headers: this.headers});
+  getCaseList(): Observable<DocumentCase[]> {
+    return this.http.get<CaseDetail[]>(this._url.cases, {headers: this.headers})
+      .map((cases: CaseDetail[]) => {
+        let casesPluck: DocumentCase[];
+
+        for (let index in cases) {
+          casesPluck.push(this.mapToCasePluck(cases[index]))
+        }
+        console.log(cases);
+        return casesPluck;
+      });
   }
 
-  getCategoryList(): Observable<any> {
-    return this.http.get<DocumentDetails[]>(this._url.documents + 'categories', {headers: this.headers});
+  mapToCasePluck(caseFull: CaseDetail): DocumentCase {
+    return new DocumentCase(
+      caseFull.caseId,
+      +caseFull.caseNumber
+    );
+  }
+
+  getCategoryList(): Observable<DocumentCategory[]> {
+    return this.http.get<DocumentCategory[]>(this._url.categories, {headers: this.headers});
   }
 
   onFilterChangeDetected(filterChange: DocumentFilter): void {
@@ -93,7 +115,7 @@ export class DocumentsService {
     else if (filterChange.type == "add") 
     {
       for (let i = this.filterList.length - 1; i >= 0; i--) {
-        if (this.filterList[i] === filterChange.value) {
+        if (this.filterList[i] === filterChange.field) {
           this.filterList.splice(i, 1);
           break;
         }
@@ -101,7 +123,7 @@ export class DocumentsService {
     }
     else if (filterChange.type == "delete")
     {
-        this.filterList = this.pushFilterSorted(filterChange.value, this.filterList);
+        this.filterList = this.pushFilterSorted(filterChange.field, this.filterList);
     }
   }
 
@@ -132,8 +154,7 @@ export class DocumentsService {
   }
   
   generateListOfFilters(): string[] {
-    return ["Title", "Case", "Category", "Description", "CreatedBefore", /*"CreatedAt",*/ "CreatedAfter", "ModifiedBefore", 
-            /*"ModifiedAt",*/ "ModifiedAfter"];
+    return ["Title", "Case", "Category", "Description", "CreatedBefore", "CreatedAfter", "ModifiedBefore", "ModifiedAfter"];
   }
 
   uploadFile(formData: FormData): Observable<any> {
@@ -142,23 +163,19 @@ export class DocumentsService {
               .map((path: string) => { return path; });
   }
 
-  // uploadFile(formData: FormData, options: any): void {
-  //    this.http.post(this._url.documents + "upload/", formData, options)
-  //                 .map((res: any) => res.json())
-  //                 .catch(error => Observable.throw(error))
-  //                 .subscribe(
-  //                     data => console.log('success'),
-  //                     error => console.log(error)
-  //                 );
-  // }
   getNumberOfDocumentsByCase(caseId: number): Observable<any> {
     let params = new HttpParams();
     params = params.append('caseId', String(caseId));
     return this.http.get(this._url.documents + 'case/' + caseId);  //{headers: this.headers, params: params});    
   }
+
   getDocumentsByCase(caseId: number): Observable<any> {
     let params = new HttpParams();
     params = params.append('caseId', String(caseId));
     return this.http.get(this._url.documents + 'byCase/' + caseId);  //{headers: this.headers, params: params});    
+  }
+
+  subscribe() {
+    this.chosenFilterEvent.subscribe((documentFilter: DocumentFilter) => this.onFilterChangeDetected(documentFilter));
   }
 }

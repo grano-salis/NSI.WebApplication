@@ -57,12 +57,7 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
     })
   }
 
-  subscribeToPackage(): void {
-    if(this.pricingPackageLoaded==true){
-      this.transactionsService.postTransaction(this.transaction).
-      subscribe(()=>{this.router.navigate(['/transactions']);});
-    }
-  }
+  //Stripe payment logic - END
 
 
     takePaymentResult: string;
@@ -109,19 +104,12 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
         });
     }
 
-    buyTShirt() {
-        this.openCheckout("T-Shirt", 1000, (token: any) => this.takePayment("T-Shirt", 1000, token));
-    }
-    buyTrainers() {
-        this.openCheckout("Trainers", 1500, (token: any) => this.takePayment("Trainers", 1500, token));
-    }
-    buyJeans() {
-        this.openCheckout("Jeans", 2002, (token: any) => this.takePayment("Jeans", 2002, token));
-    }
 
     buyPackage(){
         this.openCheckout("Paket"+this.pricingPackage.pricingPackageName,this.transaction.Amount*1.05*100,(token: any) => this.takePayment("Paket"+this.pricingPackage.pricingPackageName,this.transaction.Amount*1.05*100, token));
     }
+
+    //Stripe payment logic - END
 
     loadToken(tAmount:number,tPricingPackageId:number){
       this.http.get(environment.serverUrl +'/api/Transactions/PaypalToken').
@@ -130,26 +118,21 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
         paypal.Button.render({
 
             // Pass in the Braintree SDK
-
             braintree: braintree,
 
             // Pass in your Braintree authorization key
-
             client: {
                 sandbox: res,
                 production: '<insert production auth key>'
             },
 
             // Set your environment
-
             env: 'sandbox', // sandbox | production
 
             // Wait for the PayPal button to be clicked
-
             payment: function(data:any, actions:any) {
 
                 // Make a call to create the payment
-
                 return actions.payment.create({
                     payment: {
                         transactions: [
@@ -162,7 +145,6 @@ export class PricingPackageBuyComponent implements OnInit, AfterViewInit {
             },
 
             // Wait for the payment to be authorized by the customer
-
             onAuthorize: (data:any, actions:any)=>{
               console.log(tPricingPackageId+" package idddddd")
                 return actions.payment.tokenize().then((data:any) =>{

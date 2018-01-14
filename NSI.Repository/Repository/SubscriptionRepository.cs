@@ -26,7 +26,7 @@ namespace NSI.Repository
 
         IEnumerable<SubscriptionDto> ISubscriptionRepository.GetAllSubscriptions()
         {
-            return _dbContext.Subscription.ToList().Select(x => SubscriptionRepository.MapToDto(x));
+            return _dbContext.Subscription.Select(x => SubscriptionRepository.MapToDto(x));
         }
 
 
@@ -41,7 +41,7 @@ namespace NSI.Repository
 
         IEnumerable<SubscriptionDto> ISubscriptionRepository.GetActiveSubscriptions()
         {
-            return _dbContext.Subscription.Where(x => x.IsActive == true).Select(s => MapToDto(s)).ToList();
+            return _dbContext.Subscription.Where(x => x.IsActive).Select(s => MapToDto(s)).ToList();
         }
 
         bool ISubscriptionRepository.DeleteSubscription(int subscriptionId)
@@ -55,7 +55,7 @@ namespace NSI.Repository
 
         SubscriptionDto ISubscriptionRepository.GetCustomerSubscription(int customerId)
         {
-            var latestSubscription = _dbContext.Subscription.Where(t => t.CustomerId == customerId && t.IsActive == true).OrderByDescending(x => x.SubscriptionStartDate).FirstOrDefault();
+            var latestSubscription = _dbContext.Subscription.Where(t => t.CustomerId == customerId && t.IsActive).OrderByDescending(x => x.SubscriptionStartDate).FirstOrDefault();
             if( latestSubscription != null )
             {
                 return MapToDto(latestSubscription);
@@ -67,6 +67,7 @@ namespace NSI.Repository
             var pendingSubscription = _dbContext.Subscription.FirstOrDefault(s => s.SubscriptionId == subscriptionId);
 
             pendingSubscription.IsActive = false;
+            pendingSubscription.SubscriptionExpirationDate = DateTime.Now;
             _dbContext.SaveChanges();
         }
 

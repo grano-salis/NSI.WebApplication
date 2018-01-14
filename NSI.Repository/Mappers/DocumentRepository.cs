@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
 
 namespace NSI.Repository.Mappers
 {
-    public class DocumentRepository
+    public static class DocumentRepository
     {
         public static Document MapToDbEntity(DocumentDto document, IkarusContext _dbContext)
         {
@@ -39,8 +38,9 @@ namespace NSI.Repository.Mappers
                 DocumentCategory = _dbContext.DocumentCategory.FirstOrDefault(d => d.DocumentCategoryId == document.CategoryId),
                 Description = document.DocumentDescription,
                 Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId),
-                FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeId),
-                FileTypeId = document.FileTypeId,
+                // Work here
+                FileType = _dbContext.FileType.FirstOrDefault(),
+                FileTypeId = 1,
                 DocumentHistory = _dbContext.DocumentHistory.Where(d=> d.DocumentId == document.DocumentId).ToList(),
                 CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
                 CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId,
@@ -82,7 +82,7 @@ namespace NSI.Repository.Mappers
                 DocumentPath = document.DocumentPath,
                 FileTypeId = document.FileTypeId,
                 CaseNumber = document.Case.CaseNumber,
-                DocumentCategoryName = document.DocumentCategory.CategoryTitle,
+                DocumentCategoryName = document.DocumentCategory.DocumentCategoryTitle,
                 FileIconPath = document.FileType.IconPath,
                 ModifiedAt = history.LastOrDefault(),
                 CreatedAt = history.FirstOrDefault(),
@@ -98,11 +98,22 @@ namespace NSI.Repository.Mappers
         {
             return new DocumentHistoryDto()
             {
-                DocumentId = documentHistory.DocumentId,
-                DocumentHistoryId = documentHistory.DocumentHistoryId,
                 ModifiedAt = documentHistory.ModifiedAt,
-                ModifiedByUser = documentHistory.ModifiedByUser.FirstName + ' ' + documentHistory.ModifiedByUser.LastName,
-                ModifiedByUserId = documentHistory.ModifiedByUserId
+                DocumentTitle = documentHistory.DocumentTitle,
+                Author = documentHistory.ModifiedByUser.FirstName + " " + documentHistory.ModifiedByUser.LastName,
+                CaseNumber = documentHistory.CaseNumber,
+                DocumentCategoryName = documentHistory.DocumentCategoryName,
+                DocumentDescription = documentHistory.DocumentDescription,
+                DocumentPath = documentHistory.DocumentPath
+            };
+        }
+
+        public static DocumentCategoryNamesDto MapToDocumentCategoryNamesDto(DocumentCategory documentCategory)
+        {
+            return new DocumentCategoryNamesDto()
+            {
+                Id = documentCategory.DocumentCategoryId,
+                Name = documentCategory.DocumentCategoryTitle
             };
         }
     }

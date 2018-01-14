@@ -52,7 +52,7 @@ namespace NSI.BLL
                 return _subscriptionRepository.SaveSubscription(subscription);
             }
             catch(Exception e){
-                Console.WriteLine(e.Message);
+                Logger.Logger.LogError(e.Message);
             }
             return null;
         }

@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import {Address} from '../pages/address/address.model';
+import { AddressSearchCriteria } from '../pages/address/addressSearchCriteria.model';
 
 @Injectable()
 export class AddressService {
@@ -36,6 +37,23 @@ export class AddressService {
   deleteAddress(address: Address): Observable<any> {
     const body = JSON.stringify(address);
     return this.http.delete( environment.serverUrl + '/api/address/' + address.addressId, {headers: this.headers});
-}
+  }
+
+  getSortedAddresses(criteria: AddressSearchCriteria, addresses: Address[]): Address[] {
+    return addresses.sort((a,b) => {
+      if(criteria.sortDirection === 'desc'){
+        if (a[criteria.sortColumn] < b[criteria.sortColumn]){
+          return 1;
+        }
+        else return -1;
+      }
+      else {
+        if(a[criteria.sortColumn] > b[criteria.sortColumn]){
+          return 1;
+        }
+        else return -1;
+      }
+    });
+  }
 
 }

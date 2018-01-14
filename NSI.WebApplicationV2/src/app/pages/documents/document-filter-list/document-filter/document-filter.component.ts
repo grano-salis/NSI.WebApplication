@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit, ViewChildren } from '@angular/core';
-import { DocumentFilter, DocumentQuery } from '../../models/index.model';
+import { DocumentFilter, DocumentCase, DocumentCategory, DropDown } from '../../models/index.model';
 import { DocumentsService } from '../../../../services/documents.service';
 
 declare var $: any;
@@ -18,14 +18,15 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     previousChosenFilter: string;
     chosenFilter: string
     hasFollower: boolean;
-    isDateFilter: boolean;
     buttonIcon: string;
-    queryModel: DocumentQuery;
+    queryValue: any;
+
+    filterType: string;   
+    dropDownArray: DropDown[];
 
     constructor(private documentsService: DocumentsService) { }
 
     ngOnInit() {
-        this.queryModel = new DocumentQuery(0, 0);
         this.buttonIcon = 'fa-plus';
 
         this.documentsService.chosenFilterEvent
@@ -39,14 +40,21 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
 
         this.previousChosenFilter = this.localFilterList[0];
         this.chosenFilter = this.localFilterList[0];
-        this.setIsDateFilter();
+        this.setFilterType();
 
-        let deleteDefaultFilter = new DocumentFilter("add", this, this.localFilterList[0]);
+        let deleteDefaultFilter = new DocumentFilter("add", this, this.localFilterList[0], null);
         this.documentsService.chosenFilterEvent.next(deleteDefaultFilter);
     }
 
     ngAfterViewInit(): void {
-        $("#"+ this.dateIdentifier()).datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+        let self = this;
+
+        let identifier = "#"+ this.dateIdentifier();
+        $(identifier).datetimepicker({ useCurrent: false, format: "YYYY-MM-DD" });
+        $(identifier).on("dp.change", function (e: any) {
+            self.queryValue = $(identifier).val();
+            self.onFilterValueChangeDetected();
+        });
     }
 
     getSearchValue() {
@@ -58,7 +66,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
             this.documentsService.newFilterEvent.next();
             this.buttonIcon = "fa-minus";
 
-            let deleteSelected = new DocumentFilter("add", this, this.chosenFilter);
+            let deleteSelected = new DocumentFilter("add", this, this.chosenFilter, null);
             this.documentsService.chosenFilterEvent.next(deleteSelected); 
 
             return;        
@@ -68,19 +76,20 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
     }
 
     onFilterChanged() {
-        this.setIsDateFilter();
+        this.setFilterType();
 
-        let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter);
+        let addPreviousSelected = new DocumentFilter("delete", this, this.previousChosenFilter, null);
         this.documentsService.chosenFilterEvent.next(addPreviousSelected);  
+        this.onFilterValueChangeDetected();
         
-        let deleteSelected = new DocumentFilter("add", this, this.chosenFilter);
+        let deleteSelected = new DocumentFilter("add", this, this.chosenFilter, null);
         this.documentsService.chosenFilterEvent.next(deleteSelected);  
         
         this.previousChosenFilter = this.chosenFilter;        
     }
 
     onFilterDeleted() {
-        let docFilModel = new DocumentFilter("delete", this, this.chosenFilter);
+        let docFilModel = new DocumentFilter("delete", this, this.chosenFilter, null);
         this.documentsService.chosenFilterEvent.next(docFilModel);
         this._ref.destroy();        
     }
@@ -94,7 +103,7 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         if (filterChange.type == "add") 
         {
             for (let i = this.localFilterList.length - 1; i >= 0; i--) {
-                if (this.localFilterList[i] === filterChange.value) {
+                if (this.localFilterList[i] === filterChange.field) {
                     this.localFilterList.splice(i, 1);
                     break;
                 }
@@ -102,30 +111,87 @@ export class DocumentFilterComponent implements OnInit, AfterViewInit {
         }
         else if (filterChange.type == "delete")
         {
-            this.localFilterList = this.documentsService.pushFilterSorted(filterChange.value, this.localFilterList);
+            this.localFilterList = this.documentsService.pushFilterSorted(filterChange.field, this.localFilterList);
         }
     }
 
-    setIsDateFilter(): void {
-        this.isDateFilter = true;
+    onFilterValueChangeDetected() {
+        let value = this.queryValue;
 
-        if ( this.checkIfDateFilter(this.chosenFilter) ) {
-            this.isDateFilter = false;
+        if ( this.getFilterType(this.chosenFilter) == "date") {
+            value = this.queryValue.split(" ")[0] + 'T' + "00:00:00.000" + 'Z';
         }
 
-        if ( this.checkIfDateFilter(this.chosenFilter) !== this.checkIfDateFilter(this.previousChosenFilter) ) {
-            this.queryModel.searchByTitle = '';
+        let documentFilter = new DocumentFilter(null, null, this.chosenFilter, value);
+        this.documentsService.updateFilter.next(documentFilter);
+    }
+
+    setFilterType(): void {
+        this.filterType = "input";
+        this.dropDownArray = null;
+
+        if ( this.getFilterType(this.chosenFilter) == "date") {
+            this.filterType = "date";
+        }
+
+        if ( this.getFilterType(this.chosenFilter) == "dropDown") {
+            this.filterType = "dropDown";
+            this.fillDropDown();
+        }
+
+        if ( this.getFilterType(this.chosenFilter) !== this.getFilterType(this.previousChosenFilter) ) {
+            this.queryValue = '';
         }
 
         return;        
     }
 
-    checkIfDateFilter(filter: string): boolean {
-        if ( filter == "Title" || filter == "Description" || filter == "Case" || filter == "Category" ) {
-            return true;
+    getFilterType(filter: string): string {
+        if ( filter == "Title" || filter == "Description" ) {
+            return "input";
+        }
+        
+        if ( filter == "Case" || filter == "Category" ) {
+            return "dropDown";
         }
 
-        return false;
+        return "date";
+    }
+
+    fillDropDown() {
+        if (this.filterType == "Case") {
+            this.documentsService.getCaseList()
+                .subscribe( (cases: DocumentCase[]) => 
+                {
+                    for (let index in cases) {
+                        this.dropDownArray.push(this.mapToDDFromCase(cases[index]));
+                    }
+                });
+        }
+
+        else if (this.filterType == "Category") {
+            this.documentsService.getCategoryList()
+            .subscribe( (categories: DocumentCategory[]) => 
+            {
+                for (let index in categories) {
+                    this.dropDownArray.push(this.mapToDDFromCategory(categories[index]));
+                }
+            });
+        }
+    }
+
+    mapToDDFromCase(docCase: DocumentCase) {
+        return new DropDown(
+            docCase.caseId,
+            docCase.caseNumber.toString()
+        );
+    }
+    
+    mapToDDFromCategory(docCategory: DocumentCategory) {
+        return new DropDown(
+            docCategory.documentCategoryId,
+            docCategory.categoryTitle
+        );
     }
 
     dateIdentifier(): string {

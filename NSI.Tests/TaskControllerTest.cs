@@ -28,7 +28,7 @@ namespace NSI.Tests
         {
             var controller = new TasksController(itm);
             var result = controller.GetTasks(-1, null);
-            Assert.IsType<NoContentResult>(result);            
+            Assert.IsType<OkObjectResult>(result);            
 
         }
 
@@ -46,7 +46,6 @@ namespace NSI.Tests
                  new TaskDto()
                  {
                      TaskId = 1
-
                  }
              };
 
@@ -69,12 +68,10 @@ namespace NSI.Tests
 
             };
 
-            var taskRepo = new Mock<ITaskRepository>();
-            taskRepo.Setup(x => x.CreateTask(task2));
-            var taskManipulation = new TaskManipulation(taskRepo.Object);
-            var controller = new TasksController(taskManipulation);
+            var taskMan = new Mock<ITaskManipulation>();
+            var controller = new TasksController(taskMan.Object);
 
-            var result = controller.GetTasks(21,1);
+            var result = controller.GetTasks(21, 1);
             Assert.IsType<OkObjectResult>(result);
 
         }
@@ -98,7 +95,7 @@ namespace NSI.Tests
             var controller = new TasksController(TaskManipulation);
             
             var result = controller.GetTaskById(-1);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
         #endregion
 
@@ -110,16 +107,12 @@ namespace NSI.Tests
             string description = "Test";
             DateTime dueDate = DateTime.Now;
             String title = "Test Task";
-            
-
-
 
             var userOnTask = new List<TaskDto>()
             {
                  new TaskDto()
                  {
-                     UserId = 69
-                     
+                     UserId = 69                     
                  }
              };
 
@@ -142,10 +135,8 @@ namespace NSI.Tests
 
             };
 
-            var taskRepo = new Mock<ITaskRepository>();
-            taskRepo.Setup(x => x.CreateTask(task2));
-            var taskManipulation = new TaskManipulation(taskRepo.Object);
-            var controller = new TasksController(taskManipulation);
+            var taskMan = new Mock<ITaskManipulation>(); 
+            var controller = new TasksController(taskMan.Object);
 
             var result = controller.GetTasksByUserId(69,3,1);
             Assert.IsType<OkObjectResult>(result);
@@ -161,7 +152,7 @@ namespace NSI.Tests
 
             var result = controller.GetTasksByUserId(1, null, null);
 
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
 
         }
         #endregion
@@ -296,7 +287,7 @@ namespace NSI.Tests
             var TaskManipulation = new TaskManipulation(TaskRepo.Object);
             var controller = new TasksController(TaskManipulation);
 
-            var result = controller.ChangeTask(-1, null);
+            var result = controller.ChangeTask(5,model: null);
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
@@ -362,7 +353,7 @@ namespace NSI.Tests
             controller.ModelState.AddModelError("error", "some error");
 
             var result = controller.DeleteTask(-1);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -374,7 +365,7 @@ namespace NSI.Tests
 
             var result = controller.DeleteTask(-1);
             
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         #endregion
@@ -384,7 +375,6 @@ namespace NSI.Tests
         [Fact]
         public void searchTask_returnOK()
         {
-
             int id = 21;
             string description = "Test";
             DateTime dueDate = DateTime.Now;
@@ -428,10 +418,8 @@ namespace NSI.Tests
             };
 
 
-            var taskRepo = new Mock<ITaskRepository>();
-            taskRepo.Setup(x => x.CreateTask(task2));
-            var taskManipulation = new TaskManipulation(taskRepo.Object);
-            var controller = new TasksController(taskManipulation);
+            var taskMan = new Mock<ITaskManipulation>();
+            var controller = new TasksController(taskMan.Object);
 
             var result = controller.Search(taskSearchModel, 1, 1);
 
@@ -491,7 +479,7 @@ namespace NSI.Tests
 
 
             var result = controller.Search(taskSearchModel, null, null);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -549,15 +537,12 @@ namespace NSI.Tests
 
 
             };
-
-            var taskRepo = new Mock<ITaskRepository>();
-            taskRepo.Setup(x => x.CreateTask(task2));
-            var taskManipulation = new TaskManipulation(taskRepo.Object);
-            var controller = new TasksController(taskManipulation);
+            var taskMan = new Mock<ITaskManipulation>();
+            var controller = new TasksController(taskMan.Object);
 
             var result = controller.GetTasksWithDueDateRange(dueDateFrom, dueDateTo, 1, 1);
-
             Assert.IsType<OkObjectResult>(result);
+            
         }
 
         [Fact]
@@ -570,7 +555,7 @@ namespace NSI.Tests
             DateTime dateTo = DateTime.Now;
             dateTo.AddYears(-20);
             var result = controller.GetTasksWithDueDateRange(dateFrom, dateTo, 1, 1);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
 

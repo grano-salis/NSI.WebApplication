@@ -8,7 +8,7 @@ namespace NSI.BLL
 {
     public class TransactionManipulation:ITransactionManipulation
     {
-        private ITransactionRepository _transactionRepository;
+        private readonly ITransactionRepository _transactionRepository;
         public TransactionManipulation(ITransactionRepository transactionRepository)
         {
             _transactionRepository = transactionRepository;

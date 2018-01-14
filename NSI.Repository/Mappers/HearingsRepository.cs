@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NSI.Repository.Mappers
 {
-    public partial class HearingsRepository
+    public static partial class HearingsRepository
     {
         public static Hearing MapToDbEntity(HearingDto model)
         {

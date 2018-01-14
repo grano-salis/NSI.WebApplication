@@ -1,7 +1,5 @@
 ﻿using NSI.DC.DocumentRepository;
 using System.Collections.Generic;
-using IkarusEntities;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NSI.REST.Models;
 
 namespace NSI.Repository.Interfaces
@@ -9,7 +7,6 @@ namespace NSI.Repository.Interfaces
     public interface IDocumentRepository
     {
         DocumentDetails GetDocument(int documentId);
-        IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
         int SaveDocument(CreateDocumentDto document);
         PagingResultModel<DocumentDetails> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
@@ -18,5 +15,6 @@ namespace NSI.Repository.Interfaces
         List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
         List<DocumentDto> GetDocumentsByCase(int id);
         int GetNumberOfDocumentsByCase(int caseId);
+        List<DocumentCategoryNamesDto> GetDocumentCategories();
     }
 }

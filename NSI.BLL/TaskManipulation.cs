@@ -11,7 +11,7 @@ namespace NSI.BLL
 {
     public class TaskManipulation : ITaskManipulation
     {
-        ITaskRepository _taskRepository;
+        readonly ITaskRepository _taskRepository;
 
 
         public TaskManipulation(ITaskRepository taskRepository)
