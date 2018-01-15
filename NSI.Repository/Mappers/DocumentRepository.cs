@@ -137,7 +137,7 @@ namespace NSI.Repository.Mappers
                 CreatedAt = history.FirstOrDefault(),
                 CreatedByUserId = 1,
                 Author = "John Doe",
-
+                
             };
             return documentDetails;
         }
