@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
 
@@ -94,9 +95,9 @@ namespace NSI.Repository.Mappers
 
         }
 
-        public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory)
+        public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory, IkarusContext _dbContext, int id)
         {
-            return new DocumentHistoryDto()
+            var documentHistoryDto =  new DocumentHistoryDto()
             {
                 ModifiedAt = documentHistory.ModifiedAt,
                 DocumentTitle = documentHistory.DocumentTitle,
@@ -104,8 +105,12 @@ namespace NSI.Repository.Mappers
                 CaseNumber = documentHistory.CaseNumber,
                 DocumentCategoryName = documentHistory.DocumentCategoryName,
                 DocumentDescription = documentHistory.DocumentDescription,
-                DocumentPath = documentHistory.DocumentPath
+                DocumentPath = documentHistory.DocumentPath,
             };
+                var extension = Path.GetExtension(documentHistoryDto.DocumentPath).Replace(".", "");
+                if (extension != null) documentHistoryDto.IconPath = _dbContext.FileType.FirstOrDefault(c => c.Extension == extension).IconPath;
+
+            return documentHistoryDto;
         }
 
         public static DocumentCategoryNamesDto MapToDocumentCategoryNamesDto(DocumentCategory documentCategory)
