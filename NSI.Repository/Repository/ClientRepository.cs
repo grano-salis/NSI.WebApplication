@@ -151,7 +151,6 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 Console.WriteLine(ex.InnerException);
                 throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }

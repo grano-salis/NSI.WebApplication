@@ -32,9 +32,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw ex.InnerException;
-                //throw new Exception("Database error!");
+                Console.WriteLine(ex.InnerException);
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
 
@@ -52,9 +51,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -76,8 +74,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Console.WriteLine(ex.InnerException);
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -97,8 +95,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Console.WriteLine(ex.InnerException);
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
         }
 
@@ -135,8 +133,8 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw new Exception("Database error!");
+                Console.WriteLine(ex.InnerException);
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
         }
 
@@ -211,7 +209,7 @@ namespace NSI.Repository
             try
             {
                 var customer = _dbContext.Customer.FirstOrDefault(x => x.CustomerId == CustomerId);
-                if (customer != null)
+                if (customer != null && Year > 0 && Year <9999)
                 {
                     CustomerReportDto customerDto = new CustomerReportDto();
                     var clientNumber = _dbContext.Client.Where(x => x.CustomerId == CustomerId).Count();
