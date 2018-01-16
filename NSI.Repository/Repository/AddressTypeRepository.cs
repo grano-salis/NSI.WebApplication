@@ -26,6 +26,8 @@ namespace NSI.Repository
             try
             {
                 var addressType = Mappers.AddressTypeRepository.MapToDbEntity(addressTypeDto);
+                addressType.CreatedDate = DateTime.Now;
+
                 _dbContext.Add(addressType);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.AddressTypeRepository.MapToDto(addressType);
@@ -122,6 +124,8 @@ namespace NSI.Repository
                 if (AddressTypeTmp != null)
                 {
                     AddressTypeTmp.AddressTypeName = addressType.AddressTypeName ?? AddressTypeTmp.AddressTypeName;
+                    AddressTypeTmp.ModifiedDate = DateTime.Now;
+
                     _dbContext.SaveChanges();
                     return true;
                 }
