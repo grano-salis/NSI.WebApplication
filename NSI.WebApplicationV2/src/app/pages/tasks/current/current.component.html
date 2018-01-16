@@ -1,71 +1,14 @@
 <div class="row">
   <div class="col-xs-12">
-    <div>
-      <ul>
-        <li>
-          <a>
-            <h2>Task 1</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <h2>Task 1</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <h2>Task 1</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <h2>Task 1</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        <li>
-          <a>
-            <h2>Task 1</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <h2>Task 2</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <h2>Task 3</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-        <li>
-          <a>
-            <h2>Task 4</h2>
-            <p>Description</p>
-            <p>Due date</p>
-            <p>Date modified</p>
-          </a>
-        </li>
-      </ul>
-    </div>
+          <ul >
+            <li *ngFor="let task of tasks.data" >
+              <a *ngIf="(task.status == 'In progress')">
+              <h2>{{task.title}}</h2>
+              <p>{{task.description}}</p>
+              <p>{{task.dueDate | date:'shortDate'}}</p>
+              <p>{{task.status}}</p>
+              </a>
+            </li>
+          </ul>
   </div>
 </div>

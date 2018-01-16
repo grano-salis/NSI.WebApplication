@@ -9,19 +9,25 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-          <table class="table table-hover">
+          <table sortable-table (sorted)="onSorted($event)" class="table table-hover">
             <thead>
+
+              <div class="col-md-12">
+                <input [(ngModel)]="searchText" placeholder="Enter search text here.." class="form-control col-md-12">
+                <br><br><br>  
+              </div>
+
               <tr>                
-                <th><span class="glyphicon glyphicon-home"></span> Address 1</th>
+                <th sortable-column="address1" sort-direction="asc"><span class="glyphicon glyphicon-home"></span> Address 1</th>
                 <th><span class="glyphicon glyphicon-home"></span> Address 2</th>
                 <th>Address Type id</th>
-                <th>City</th>                
+                <th sortable-column="city">City</th>                
                 <th><span class="glyphicon glyphicon-calendar"></span> Date Modified</th>
-                <th>Zip code</th>
+                <th sortable-column="zipcode">Zip code</th>
               </tr>
             </thead>
             <tbody>                           
-               <ng-container *ngFor="let address of addresses">
+               <ng-container *ngFor="let address of addresses | filter: searchText">
                  <tr *ngIf="!address.isDeleted">   
                 <td>{{address.address1}}</td>
                 <td>{{address.address2}}</td>
@@ -41,6 +47,20 @@
               
             </tbody>
           </table>
+          <div class="footer" role="toolbar" style="margin: 0;">
+            <div class="btn-group">
+                 <label style="margin-top:10px">Page {{currentIndex}}/{{pageNumber}}</label>
+              </div>
+              <div class="btn-group pull-right">
+                 <ul class="pagination" >
+                    <li [ngClass]="{'disabled': (currentIndex == 1 || pageNumber == 0)}" ><a  (click)="prevPage()" >Prev</a></li>
+                       <li *ngFor="let page of pagesIndex"  [ngClass]="{'active': (currentIndex == page)}">
+                          <a (click)="setPage(page)" >{{page}}</a>
+                       </li>
+                    <li [ngClass]="{'disabled': (currentIndex == pageNumber || pageNumber == 0)}" ><a   (click)="nextPage()" >Next</a></li>
+                 </ul>
+              </div>
+           </div>
         </div>
       </div>
     </div>

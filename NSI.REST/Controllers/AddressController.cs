@@ -65,7 +65,6 @@ namespace NSI.REST.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.InnerException);
-                //return BadRequest(ex.Message);
             }
             return NoContent();
         }

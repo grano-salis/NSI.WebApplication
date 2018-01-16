@@ -13,7 +13,7 @@
             <span class="required">*</span>
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <input type="text" id="title" required name="title" class="form-control col-md-7 col-xs-12">
+            <input type="text" name="title" id="title" required [(ngModel)]="model.title" #title="ngModel" class="form-control col-md-7 col-xs-12">
           </div>
           <div class='col-md-3 col-sm-3 col-xs-12'>
           </div>
@@ -26,7 +26,7 @@
             <span class="required">*</span>
           </label>
           <div class="col-md-6 col-sm-6 col-xs-12">
-            <textarea class="form-control col-md-7 col-xs-12"> </textarea>
+            <textarea name="description" id="description" required [(ngModel)]="model.description" #description="ngModel" class="form-control col-md-7 col-xs-12"> </textarea>
           </div>
           <div class='col-md-3 col-sm-3 col-xs-12'>
           </div>
