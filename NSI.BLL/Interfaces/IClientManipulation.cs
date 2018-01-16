@@ -6,12 +6,12 @@ namespace NSI.BLL.Interfaces
 {
     public interface IClientManipulation
     {
-        ClientDTO CreateClient(ClientDTO clientDTO);
-        ClientDTO GetClientById(int clientId);
-        ICollection<ClientDTO> GetAllClients();
-        ICollection<ClientDTO> GetClients();
+        ClientDto CreateClient(ClientDto clientDTO);
+        ClientDto GetClientById(int clientId);
+        ICollection<ClientDto> GetAllClients();
+        ICollection<ClientDto> GetClients();
         bool DeleteClientById(int clientId);
-        bool EditClient(ClientDTO clientDTO);
-        ICollection<ClientDTO> SearchClients(ClientSearchDTO searchClient);
+        bool EditClient(ClientDto clientDTO);
+        ICollection<ClientDto> SearchClients(ClientSearchDTO searchClient);
     }
 }

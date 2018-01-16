@@ -38,7 +38,7 @@ namespace NSI.REST.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNewClient(ClientDTO clientDto)
+        public ActionResult CreateNewClient(ClientDto clientDto)
         {
             return Ok(_clientManipulation.CreateClient(clientDto));
         }
@@ -50,7 +50,7 @@ namespace NSI.REST.Controllers
         }
 
         [HttpPut]
-        public ActionResult EditClient(ClientDTO clientDto)
+        public ActionResult EditClient(ClientDto clientDto)
         {
             return Ok(_clientManipulation.EditClient(clientDto));
         }

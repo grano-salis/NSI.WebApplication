@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using NSI.DC.ClientsRepository;
 using NSI.Repository.Interfaces;
 using IkarusEntities;
+using NSI.DC.Exceptions;
+using NSI.DC.Exceptions.Enums;
 
 namespace NSI.Repository.Repository
 {
@@ -17,11 +19,12 @@ namespace NSI.Repository.Repository
             _dbContext = dbContext;
         }
 
-        public ClientDTO CreateClient(ClientDTO clientDTO)
+        public ClientDto CreateClient(ClientDto clientDTO)
         {
             try
             {
                 var client = Mappers.ClientRepository.MapToDbEntity(clientDTO);
+                client.ClientId = null;
                 client.DateCreated = DateTime.Now;
                 client.DateModified = null;
                 client.IsDeleted = false;
@@ -32,9 +35,8 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
-                throw ex.InnerException;
-                //throw new Exception("Database error!");
+                Console.WriteLine(ex.InnerException);
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -55,13 +57,12 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
         }
 
-        public bool EditClient(ClientDTO clientDTO)
+        public bool EditClient(ClientDto clientDTO)
         {
             try
             {
@@ -69,11 +70,11 @@ namespace NSI.Repository.Repository
                 if (client != null)
                 {
                     client.ClientName = clientDTO.ClientName ?? client.ClientName;
-                    client.DateModified = clientDTO.DateModified ?? DateTime.Now;
+                    client.DateModified = DateTime.Now;
                     client.IsDeleted = clientDTO.IsDeleted ?? client.IsDeleted;
-                    client.ClientTypeId = clientDTO.ClientTypeId;
-                    client.CustomerId = clientDTO.CustomerId;
-                    client.AddressId = clientDTO.AddressId;
+                    client.ClientTypeId = clientDTO.ClientTypeId ?? client.ClientTypeId;
+                    client.CustomerId = clientDTO.CustomerId ?? client.CustomerId;
+                    client.AddressId = clientDTO.AddressId ?? client.AddressId;
 
                     _dbContext.SaveChanges();
                     return true;
@@ -82,13 +83,12 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
         }
 
-        public ClientDTO GetClientById(int clientId)
+        public ClientDto GetClientById(int clientId)
         {
             try
             {
@@ -100,21 +100,20 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
 
-        public ICollection<ClientDTO> GetAllClients()
+        public ICollection<ClientDto> GetAllClients()
         {
             try
             {
                 var client = _dbContext.Client;
                 if (client != null)
                 {
-                    ICollection<ClientDTO> clients = new List<ClientDTO>();
+                    ICollection<ClientDto> clients = new List<ClientDto>();
                     foreach (var item in client)
                     {
                         if (item.IsDeleted == true)
@@ -128,21 +127,20 @@ namespace NSI.Repository.Repository
             }
             catch (Exception ex)
             {
-                //log ex
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
 
-        public ICollection<ClientDTO> GetClients()
+        public ICollection<ClientDto> GetClients()
         {
             try
             {
                 var client = _dbContext.Client.Where(x => x.IsDeleted.Equals(false));
                 if (client != null)
                 {
-                    ICollection<ClientDTO> clients = new List<ClientDTO>();
+                    ICollection<ClientDto> clients = new List<ClientDto>();
                     foreach (var item in client)
                     {
                         clients.Add(Mappers.ClientRepository.MapToDto(item));
@@ -155,12 +153,12 @@ namespace NSI.Repository.Repository
             {
                 //log ex
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
 
-        public ICollection<ClientDTO> SearchClients(ClientSearchDTO searchClient)
+        public ICollection<ClientDto> SearchClients(ClientSearchDTO searchClient)
         {
             try
             {
@@ -168,7 +166,7 @@ namespace NSI.Repository.Repository
                 Console.WriteLine(client);
                 if (client != null)
                 {
-                    ICollection<ClientDTO> clientDto = new List<ClientDTO>();
+                    ICollection<ClientDto> clientDto = new List<ClientDto>();
                     foreach (var item in client)
                     {
                         clientDto.Add(Mappers.ClientRepository.MapToDto(item));
@@ -180,7 +178,7 @@ namespace NSI.Repository.Repository
             catch (Exception ex)
             {
                 Console.WriteLine(ex.InnerException);
-                throw new Exception("Database error!");
+                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
