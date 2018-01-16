@@ -40,5 +40,20 @@ namespace NSI.BLL
         {
             return _customerRepository.CreateCustomer(customerDto);
         }
+
+        public ICollection<CustomerReportDto> GetCustomerClients()
+        {
+            return _customerRepository.GetCustomerClients();
+        }
+
+        public CustomerReportDto GetCustomerCasesYearly(int CustomerId)
+        {
+            return _customerRepository.GetCustomerCasesYearly(CustomerId);
+        }
+
+        public CustomerReportDto GetCustomerCasesMonthly(int CustomerId, int Year)
+        {
+            return _customerRepository.GetCustomerCasesMonthly(CustomerId,Year);
+        }
     }
 }
