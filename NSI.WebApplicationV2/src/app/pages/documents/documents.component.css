@@ -1,0 +1,42 @@
+.btn-primary {
+    background-color: #2A3F54;
+}
+
+#addDocument {
+    border-bottom: 2px solid black;
+    border: 2px solid #bdc3c7;
+    border-radius: 15px;
+    padding: 5px;
+    font-size: 20px;   
+}
+
+#addDocumentImage {
+	max-height: 4vh;
+}
+
+#caseHeaderInput {
+    padding-left: 2px;
+    padding-left: 2px;
+}
+
+.height-26px {
+    height: 26px;
+    padding-left: 15px;
+}
+
+.invalid {
+    border-left: 6px solid rgba(192, 57, 43, 0.6);
+    border-right: 6px solid rgba(192, 57, 43, 0.6);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+@media screen and (max-width: 480px) {
+    #caseHeaderInput {
+        font-size: 17px;
+    }
+
+    #addDocument {
+        font-size: 15px;  
+    }
+}

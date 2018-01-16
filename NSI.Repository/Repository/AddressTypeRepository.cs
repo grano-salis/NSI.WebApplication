@@ -26,13 +26,15 @@ namespace NSI.Repository
             try
             {
                 var addressType = Mappers.AddressTypeRepository.MapToDbEntity(addressTypeDto);
+                addressType.CreatedDate = DateTime.Now;
+
                 _dbContext.Add(addressType);
                 if (_dbContext.SaveChanges() != 0)
                     return Mappers.AddressTypeRepository.MapToDto(addressType);
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
 
@@ -51,7 +53,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
             return null;
@@ -74,30 +76,27 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
-            return null;
+            return new List<AddressTypeDto>();
         }
 
-        public bool DeleteAddressTypeById(int AddressTypeId)
+        public bool DeleteAddressTypeById(int addressTypeId)
         {
             try
             {
-                var AddressType = _dbContext.AddressType.FirstOrDefault(x => x.AddressTypeId == AddressTypeId);
-                if (AddressType != null)
+                var AddressType = _dbContext.AddressType.FirstOrDefault(x => x.AddressTypeId == addressTypeId);
+                if (AddressType != null && _dbContext.AddressType.Remove(AddressType) != null)
                 {
-                    if (_dbContext.AddressType.Remove(AddressType) != null)
-                    {
                         _dbContext.SaveChanges();
                         return true;
-                    }
                 }
                 return false;
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
         }
@@ -109,22 +108,24 @@ namespace NSI.Repository
                 throw new ArgumentNullException(nameof(searchCriteria), "SearchCriteria argument is not provided!");
             }
 
-            return null;
+            return new List<AddressTypeDto>();
         }
 
-        public bool EditAddressType(int AddressTypeId, AddressTypeDto AddressType)
+        public bool EditAddressType(int addressTypeId, AddressTypeDto addressType)
         {
-            if (AddressType == null)
+            if (addressType == null)
             {
-                throw new ArgumentNullException(nameof(AddressType), "AddressType argument is not provided!");
+                throw new ArgumentNullException(nameof(addressType), "AddressType argument is not provided!");
             }
 
             try
             {
-                var AddressTypeTmp = _dbContext.AddressType.FirstOrDefault(x => x.AddressTypeId == AddressTypeId);
+                var AddressTypeTmp = _dbContext.AddressType.FirstOrDefault(x => x.AddressTypeId == addressTypeId);
                 if (AddressTypeTmp != null)
                 {
-                    AddressTypeTmp.AddressTypeName = AddressType.AddressTypeName ?? AddressTypeTmp.AddressTypeName;
+                    AddressTypeTmp.AddressTypeName = addressType.AddressTypeName ?? AddressTypeTmp.AddressTypeName;
+                    AddressTypeTmp.ModifiedDate = DateTime.Now;
+
                     _dbContext.SaveChanges();
                     return true;
                 }
@@ -132,7 +133,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                //log ex
+                Console.WriteLine(ex.InnerException);
                 throw;
             }
         }

@@ -208,13 +208,32 @@ namespace NSI.REST.Controllers
 
         [HttpGet]
         [Route("getMeetingTimes")]
-        public IActionResult GetMeetingsTimes(ICollection<int> userIds, DateTime from, DateTime to, int meeetingDuration)
+        public IActionResult GetMeetingsTimes(ICollection<int> userIds, DateTime from, DateTime to, int meeetingDuration, int currentMeetingId)
         {
             try
             {
                 return Ok(new NSIResponse<ICollection<MeetingTimeDto>>()
                 {
-                    Data = _meetingsManipulation.GetMeetingTimes(userIds, from, to, meeetingDuration),
+                    Data = _meetingsManipulation.GetMeetingTimes(userIds, from, to, meeetingDuration, currentMeetingId),
+                    Message = "Success"
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.LogError(ex.Message);
+                return BadRequest(new NSIResponse<object> { Data = null, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("checkUsersAvailability")]
+        public IActionResult CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to, int currentMeetingId)
+        {
+            try
+            {
+                return Ok(new NSIResponse<ICollection<MeetingDto>>()
+                {
+                    Data = _meetingsManipulation.CheckUsersAvailability(userIds, from, to, currentMeetingId),
                     Message = "Success"
                 });
             }

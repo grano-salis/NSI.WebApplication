@@ -19,9 +19,9 @@ namespace NSI.Repository.Repository
             _dbContext = dbContext;
         }
 
-        public HearingDto InsertHearing(HearingDto model)
+        public HearingDto InsertHearing(HearingDto Model)
         {
-            var entity = Mappers.HearingsRepository.MapToDbEntity(model);
+            var entity = Mappers.HearingsRepository.MapToDbEntity(Model);
             _dbContext.Hearing.Add(entity);
             if (_dbContext.SaveChanges() > 0)
             {
@@ -41,13 +41,14 @@ namespace NSI.Repository.Repository
                 _dbContext.UserHearing.RemoveRange(atendees);
 
             //remove all notes for this hearing from Note table
-            var notes = _dbContext.Note.Where(x => x.HearingId == hearingId).ToList();
-            if (notes != null)
-                _dbContext.Note.RemoveRange(notes);
+            var note = _dbContext.Note.FirstOrDefault(x => x.HearingId == hearingId && x.CreatedByUserId == model.Note.ElementAt(0).CreatedByUserId);
+            if (note != null)
+                _dbContext.Note.Remove(note);
 
             //update data
             entity.DateModified = DateTime.Now;
-            entity.HearingDate = model.HearingDate != null ? model.HearingDate : entity.HearingDate;
+            if (model.HearingDate != null)
+                entity.HearingDate = model.HearingDate;
 
             //update users
             foreach (var item in model.UserHearing)
@@ -88,12 +89,14 @@ namespace NSI.Repository.Repository
                 .Include(x => x.UserHearing)
                 .ThenInclude(userHearing => userHearing.User).FirstOrDefault();
 
+            if (hearing == null) throw new NSIException("Hearing not found");
+
             var correctNote = _dbContext.Entry(hearing).Collection(h => h.Note)
                 .Query().Where(n => n.CreatedByUserId == hearing.CreatedByUserId).ToList();
 
             hearing.Note = correctNote;
 
-            if (hearing == null) throw new NSIException("Hearing not found");
+            
             return Mappers.HearingsRepository.MapToDto(hearing);
         }
 

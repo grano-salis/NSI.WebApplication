@@ -39,10 +39,10 @@ namespace NSI.BLL
             return _hearingsRepository.GetHearings();
         }
 
-        public HearingDto GetHearingById(int hearingId)
+        public HearingDto GetHearingById(int id)
         {
-            ValidationHelper.IntegerGreaterThanZero(hearingId, name: "Hearing id");
-            return _hearingsRepository.GetHearingById(hearingId);
+            ValidationHelper.IntegerGreaterThanZero(id, name: "Hearing id");
+            return _hearingsRepository.GetHearingById(id);
         }
 
         public void Delete(int hearingId)

@@ -11,6 +11,7 @@ using IkarusEntities;
 using NSI.DC.CaseRepository;
 using NSI.Logger;
 using Microsoft.Extensions.Logging;
+using NSI.DC.Exceptions;
 
 namespace NSI.Repository
 {
@@ -98,25 +99,25 @@ namespace NSI.Repository
             return null;
         }
 
-        public bool DeleteCaseInfoById(int caseId) {
-            try
-            {
-                var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId);
-                if (caseInfo != null)
-                {
-                    if (_dbContext.CaseInfo.Remove(caseInfo) != null)
-                    {
-                        _dbContext.SaveChanges();
-                        return true;
-                    }
-                }
-                return false;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.InnerException.Message);
-            }
-        }
+        //public bool DeleteCaseInfoById(int caseId) {
+        //    try
+        //    {
+        //        var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId);
+        //        if (caseInfo != null)
+        //        {
+        //            if (_dbContext.CaseInfo.Remove(caseInfo) != null)
+        //            {
+        //                _dbContext.SaveChanges();
+        //                return true;
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.InnerException.Message);
+        //    }
+        //}
 
         public bool EditCaseInfoById(int caseId, CaseInfoDto caseInfoDto) {
             
@@ -146,5 +147,20 @@ namespace NSI.Repository
             }
         }
 
-	}
+        public void DeleteCase(int caseId)
+        {
+
+            var caseInfo = _dbContext.CaseInfo.FirstOrDefault(x => x.CaseId == caseId && x.IsDeleted == false);
+            if (caseInfo == null) throw new NSIException("Case not found");
+
+            caseInfo.IsDeleted = true;
+            caseInfo.DateModified = DateTime.Now;
+            if (_dbContext.SaveChanges() == 0)
+            {
+                throw new NSIException("Error while deleting case");
+            }
+
+        }
+
+    }
 }

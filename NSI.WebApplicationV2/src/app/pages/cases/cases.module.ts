@@ -9,6 +9,12 @@ import {CasesListComponent} from './cases-list/cases-list.component';
 import { EditCaseComponent } from './edit-case/edit-case.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import{MeetingsModule} from "../meetings/meetings.module";
+import {ContactsComponent} from "../contacts/contacts.component";
+import {ContactsModule} from "../contacts/contacts.module";
+import { CaseDetailComponent } from './case-detail/case-detail.component';
+import { DocumentsModule } from '../documents/documents.module';
+import {DocumentsComponent} from "../documents/documents.component";
+
 
 
 @NgModule({
@@ -18,8 +24,10 @@ import{MeetingsModule} from "../meetings/meetings.module";
     CasesRoutingModule,
     AlertModule,
     FormsModule,
-    MeetingsModule
+    MeetingsModule,
+    ContactsModule,
+    DocumentsModule,
   ],
-  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent]
+  declarations: [NewCaseComponent, CasesListComponent, EditCaseComponent, DashboardComponent, CaseDetailComponent]
 })
 export class CasesModule { }

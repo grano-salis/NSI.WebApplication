@@ -41,28 +41,41 @@
   border-color: #00aeef;
 }
 
-.form-input-beauty{
+control-messages {
+  color: red;
+}
+
+.sort {
+  display: block;
+  cursor: pointer;
+}
+
+.table-bordered {
+  margin-top: 50px !important;
+}
+
+.form-input-beauty {
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: content-box;
   width: 100%;
 }
 
-.div-inline-beauty{
+.div-inline-beauty {
   display: inline-flex;
   width: 72%;
 }
 
-.button-beauty{
+.button-beauty {
   margin-left: 7px;
   margin-top: 7px;
   width: calc(24% - 50px);
 }
 
-.label-beauty{
+.label-beauty {
   margin-bottom: 0px;
 }
 
-.td-table-beauty{
+.td-table-beauty {
   vertical-align: baseline;
 }

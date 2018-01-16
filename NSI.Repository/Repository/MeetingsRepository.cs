@@ -61,8 +61,10 @@ namespace NSI.Repository
             meeting.Title = model.Title ?? meeting.Title;
             meeting.MeetingPlace = model.MeetingPlace ?? meeting.MeetingPlace;
             meeting.DateModified = DateTimeOffset.UtcNow;
-            meeting.From = model.From != null ? model.From : meeting.From;
-            meeting.To = model.To != null ? model.To : meeting.To;
+            if (model.From != null)
+                meeting.From = model.From;
+            if (model.To != null)
+                meeting.To = model.To;
 
             //update users
             foreach (var item in model.UserMeeting)
@@ -138,15 +140,21 @@ namespace NSI.Repository
         }
 
         //returns intervals of available time for appointing a meeting for given users and time range 
-        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration)
+        public ICollection<MeetingTimeDto> GetMeetingTimes(ICollection<int> userIds, DateTime from, DateTime to, int meetingDuration, int currentMeetingId)
         {
+            TimeSpan EndOfTheDay = new TimeSpan(23, 59, 59);
+            to = to.Date + EndOfTheDay;
+
             //gathering the meetings of all the given users
             List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
             for(int i = 0; i < userIds.Count; i++)
             {
                 var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
+                meetings.RemoveAll(m => m.MeetingId == currentMeetingId);
                 userMeetings.Add(meetings);
             }
+
+
 
             List<MeetingTimeDto> listOfAvailableTimes = new List<MeetingTimeDto>();
 
@@ -244,6 +252,66 @@ namespace NSI.Repository
             }
 
             return listOfAvailableTimes;
+        }
+
+        public ICollection<MeetingDto> CheckUsersAvailability(ICollection<int> userIds, DateTime from, DateTime to, int currentMeetingId)
+        {
+            // find all meetings for every user
+            List<List<MeetingDto>> userMeetings = new List<List<MeetingDto>>();
+            for (int i = 0; i < userIds.Count; i++)
+            {
+                var meetings = GetMeetingsByUser(userIds.ElementAt(i)).ToList();
+                var sortedMeetings = meetings.OrderBy(m => m.From).ToList(); 
+                userMeetings.Add(sortedMeetings);
+            }
+
+            // list of colliding meetings, one per every user
+            List<MeetingDto> collidingMeetings = new List<MeetingDto>();
+
+            bool foundCollidingMeeting = false;
+
+            // go through meetings to find out if there are any colliding meetings
+            // if there is a colliding meeting for a user put it in the list, if not put an empty meeting dto into the list
+            for (int i = 0; i < userMeetings.Count; i++)
+            {
+                foundCollidingMeeting = false;
+                for (int j = 0; j < userMeetings[i].Count; j++)
+                {
+                    if (userMeetings[i][j].From > from && to > userMeetings[i][j].To)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                    else if (userMeetings[i][j].From <= from && to > userMeetings[i][j].To && userMeetings[i][j].To > from)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                    else if (userMeetings[i][j].From > from && to <= userMeetings[i][j].To && userMeetings[i][j].From < to)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                    else if (userMeetings[i][j].From <= from && to <= userMeetings[i][j].To)
+                    {
+                        collidingMeetings.Add(userMeetings[i][j]);
+                        foundCollidingMeeting = true;
+                        break;
+                    }
+                }
+                if (!foundCollidingMeeting)
+                {
+                    collidingMeetings.Add(new MeetingDto());
+                }
+            }
+
+            collidingMeetings.RemoveAll(m => m.MeetingId == currentMeetingId);
+
+
+            return collidingMeetings;
         }
     }
 }

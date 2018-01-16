@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AddressType } from '../addressType.model';
 import { AddressTypeService } from '../../../services/addressType.service';
 import {Router} from "@angular/router";
@@ -31,10 +31,9 @@ export class AddressTypeListComponent implements OnInit {
     this.addressTypes.splice(index, 1);
   }
 
-  editAddressType(addressType: any){
-    console.log(addressType);
-console.log('editAddressType uslo');
-    this.router.navigate(['address/edit', addressType]);
-console.log('editAddressType proslo');
+  editAddressType(event: AddressType)
+  {
+      let x = this.addressTypes.find(a => a.addressTypeId == event.addressTypeId);
+      x.addressTypeName = event.addressTypeName;
   }
 }

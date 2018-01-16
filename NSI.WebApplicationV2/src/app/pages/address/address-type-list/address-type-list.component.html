@@ -11,40 +11,33 @@
         <div class="x_content">
           <table class="table table-hover">
             <thead>
-            <tr>
-              <th>Name</th>
-              <th>Date created</th>
-              <th>Date Modified</th>
-              <th>Is deleted</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
+              <tr>
+                <th>Name</th>
+                <th><span class="glyphicon glyphicon-calendar"></span>Date created</th>
+                <th><span class="glyphicon glyphicon-calendar"></span>Date Modified</th>
+              </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let addressType of addressTypes; let addressType_index = index">
-              <td>{{addressType.addressTypeName}}</td>
-              <td>{{addressType.createdDate}}</td>
-              <td>{{addressType.modifiedDate}}</td>
-              <td>{{addressType.isDeleted}}</td>
-              <td (click)="editAddressType(addressType.addressTypeId)">
-                <a class="btn btn-primary btn-xs" href="#" data-target="#" data-title="Edit" >
-                   <span class="glyphicon glyphicon-edit"></span> Edit
-                </a>
-              </td>
-              <td>
-                <p class="text-center" data-placement="top" data-toggle="tooltip"
-                   title="Delete">
-                  <a href="#delete-addressType{{addressType.addressTypeId}}" class="btn btn-danger btn-xs"
-                     data-target="#delete-addressType{{addressType.addressTypeId}}" data-title="Delete" data-toggle="modal">
+              <tr *ngFor="let addressType of addressTypes; let addressType_index = index">
+                <td>{{addressType.addressTypeName}}</td>
+                <td>{{addressType.createdDate}}</td>
+                <td>{{addressType.modifiedDate}}</td>
+                <td>
+
+                  <a class="btn btn-primary btn-xs" href="#edit-addressType{{addressType.addressTypeId}}" data-title="Edit" data-target="#edit-addressType{{addressType.addressTypeId}}" data-toggle="modal">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </a>
+
+                  <app-address-type-modal-edit [addressType]="addressType" (editAddressTypeEvent)="editAddressType($event)"></app-address-type-modal-edit>
+
+                  <a href="#delete-addressType{{addressType.addressTypeId}}" class="btn btn-danger btn-xs" data-target="#delete-addressType{{addressType.addressTypeId}}"
+                    data-title="Delete" data-toggle="modal">
                     <i class="fa fa-trash"></i>
                   </a>
-                </p>
-                <app-address-type-modal-delete 
-                  (removeAddressTypeFromList) = "deleteAddressTypeFromLista(addressType_index)"
-                  [addressType_modal]="addressType">
-                </app-address-type-modal-delete>
-              </td>
-            </tr>
+                  <app-address-type-modal-delete (removeAddressTypeFromList)="deleteAddressTypeFromLista(addressType_index)" [addressType_modal]="addressType"></app-address-type-modal-delete>
+
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -53,4 +46,3 @@
     <div class="col-md-1 col-sm-1"></div>
   </div>
 </div>
-

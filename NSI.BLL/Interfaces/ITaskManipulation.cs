@@ -9,9 +9,14 @@ namespace NSI.BLL.Interfaces
     {
         TaskDto GetTaksById(int taskId);
         TaskDto CreateTask(TaskDto taskDto);
-        ICollection<TaskDto> GetTasks(int? pageNumber=0, int? pageSize=20);
+        ICollection<TaskDto> GetTasks(int? pageNumber, int? pageSize);
         bool DeleteTaskById(int taskId);
         TaskDto EditTask(int taskId, TaskDto task);
-        ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int pageNumber, int pageSize);
+        ICollection<TaskDto> SearchTasks(TaskSearchCriteriaDto searchCriteria, int? pageNumber, int? pageSize);
+        ICollection<TaskDto> GetTasksByUserId(int userId, int? pageNumber, int? pageSize);
+        ICollection<TaskDto> GetTasksByUsername(string username, int? pageNumber, int? pageSize);
+        ICollection<TaskDto> GetTasksWithDueDateRange(DateTime dateTimeStart, DateTime dateTimeEnd, int? pageNumber, int? pageSize);
+        int GetTasksWithDueDateRangeCount(DateTime dateTimeStart, DateTime dateTimeEnd);
+
     }
 }

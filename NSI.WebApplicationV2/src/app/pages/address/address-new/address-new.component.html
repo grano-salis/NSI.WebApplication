@@ -6,25 +6,20 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <br />
 
-        <form (ngSubmit)="onSubmit()" #addressNewForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
-
-          <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12">Auto-complete address by searching on enter manually down there
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <fieldset>
-                <div class="control-group">
-                  <div class="controls">
-                    <div class="input-prepend input-group">
-                      <ng4geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+              <div class="col-md-12 col-sm-12 col-xs-12" id="autoCompleteControl">
+                <fieldset>
+                  <div class="control-group">
+                    <div class="controls">
+                      <div class="input-prepend input-group">
+                        <ng4geo-autocomplete [userSettings]="userSettings" (componentCallback)="autoCompleteCallback1($event)"></ng4geo-autocomplete>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </fieldset>
-            </div>
-          </div>
+                </fieldset>
+              </div>
+
+        <form (ngSubmit)="onSubmit()" #addressNewForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
 
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Address 1<span class="required">*</span>
@@ -35,11 +30,19 @@
                   <div class="controls">
                     <div class="input-prepend input-group">
                       <input type="text" required class="form-control" id="address1" name="address1" [(ngModel)]="address.address1">
+                      <div *ngIf="isItNewContact && (address.address1==='' || !address.address1)"
+                           class="col-md-8  col-xs-12 div-inline-beauty">
+                        <div>
+                          <p style="color: red; margin:0"> Required</p>
+                        </div>
+                      </div>
+
                     </div>
                       <!--<div class="well" style="float: left;width: 100%;margin-top: 20px;">-->
                         <!--<p>Sample Output:</p>-->
                         <!--<samp style="word-wrap: break-word;">{{componentData1}}</samp>-->
                       <!--</div>-->
+
                   </div>
                 </div>
               </fieldset>
@@ -56,6 +59,7 @@
                     <div class="input-prepend input-group">
                       <input type="text" class="form-control" id="address2" name="address2" [(ngModel)]="address.address2">
                     </div>
+
                   </div>
                 </div>
               </fieldset>
@@ -73,7 +77,14 @@
                       <select class="form-control" required id="addresstypeid" name="addresstypeid" [(ngModel)]="address.addressTypeId">
                         <option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">{{addressType.addressTypeName}}</option>
                       </select>
+                      <div *ngIf="isItNewContact && !address.addressTypeId"
+                           class="col-md-8 col-xs-12 div-inline-beauty">
+                        <div>
+                          <p style="color: red; margin:0"> Required</p>
+                        </div>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </fieldset>
@@ -89,14 +100,22 @@
                   <div class="controls">
                     <div class="input-prepend input-group">
                       <input type="text" required class="form-control" id="city" name="city" [(ngModel)]="address.city">
+                      <div *ngIf="isItNewContact && (address.city==='' || !address.city)"
+                           class="col-md-8  col-xs-12 div-inline-beauty">
+                        <div>
+                          <p style="color: red; margin:0"> Required</p>
+                        </div>
+                      </div>
                     </div>
+
                   </div>
+
                 </div>
               </fieldset>
             </div>
           </div>
 
-          <div class="form-group">
+          <div *ngIf="!isItNewContact" class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">Created by user id<span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -121,14 +140,21 @@
                   <div class="controls">
                     <div class="input-prepend input-group">
                       <input type="number" required class="form-control" id="zipcode" name="zipcode" [(ngModel)]="address.zipCode">
+                      <div *ngIf="isItNewContact && (!address.zipCode || address.zipCode.toString() ==='')"
+                           class="col-md-8 col-xs-12 div-inline-beauty">
+                        <div>
+                          <p style="color: red; margin:0"> Required</p>
+                        </div>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </fieldset>
             </div>
           </div>
 
-          <div class="form-group">
+          <div *ngIf='!isItNewContact' class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
               <button type="submit" class="btn btn-default">Submit</button>
               <button type="reset" class="btn btn-default" (click)="newAddress(); addressNewForm.reset()">Clear fields</button>
@@ -136,9 +162,15 @@
           </div>
 
         </form>
-        
-        <div id="map"></div>
+
+        <div *ngIf="!isItNewContact" id="map"></div>
       </div>
     </div>
   </div>
 </div>
+<style>
+
+  .form-group{
+    margin:0;
+  }
+</style>

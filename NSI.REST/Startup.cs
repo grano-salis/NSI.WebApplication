@@ -22,6 +22,7 @@ using NSI.BLL;
 using IkarusEntities;
 using Swashbuckle.AspNetCore.Swagger;
 using NSI.Repository.Repository;
+using NSI.DC;
 using AutoMapper;
 
 using NSI.Repository.Mappers;
@@ -31,7 +32,10 @@ using CaseInfoRepository = NSI.Repository.CaseInfoRepository;
 using HearingsRepository = NSI.Repository.Repository.HearingsRepository;
 using MeetingsRepository = NSI.Repository.MeetingsRepository;
 using TaskRepository = NSI.Repository.TaskRepository;
-
+using NSI.DC.Mailer;
+using Hangfire;
+using Hangfire.MemoryStorage;
+using AdminRepository = NSI.Repository.AdminRepository;
 namespace NSI.REST
 {
     public class Startup
@@ -56,9 +60,12 @@ namespace NSI.REST
             services.AddDataProtection();
             services.AddLocalization(options => options.ResourcesPath = "Resouces");
             services.AddMemoryCache();
+            services.AddHangfire(c => c.UseMemoryStorage());
 
             // Dependancy Injection
             services.AddSingleton<IConfiguration>(sp => { return Configuration; });
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IMailerService, MailerService>();
             services.AddDbContext<IkarusContext>();
 
             services.AddScoped<IAddressManipulation, AddressManipulation>();
@@ -91,8 +98,12 @@ namespace NSI.REST
             services.AddScoped<ICustomerManipulation, CustomerManipulation>();
             services.AddScoped<IClientRepository, Repository.Repository.ClientRepository>();
             services.AddScoped<IClientManipulation, ClientManipulation>();
-
-
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<ISubscriptionManipulation, SubscriptionManipulation>();
+            services.AddScoped<IScheduledJobService,ScheduledJobService>();
+            services.AddScoped<IAdminManipulation, AdminManipulation>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            
             services.AddMvc().AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             //services.AddDbContext<dbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("EntityCS")), ServiceLifetime.Transient);
@@ -185,7 +196,12 @@ namespace NSI.REST
             //dodati neki flag
             //app.UseAuthHandler();
 
+            app.UseHangfireServer();
+            app.UseHangfireDashboard();
+
             app.UseMvc();
+
+            app.UseStaticFiles();
         }
     }
 }

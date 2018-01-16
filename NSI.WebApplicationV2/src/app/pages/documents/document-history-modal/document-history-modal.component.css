@@ -1,0 +1,25 @@
+.table {
+    font-size: 12px;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+td, small {
+    font-size: 13px;
+}
+
+.table-responsive { overflow-x: initial; }
+
+p, button, td, button {
+    margin: 0px;
+}	
+
+select {
+    margin-bottom: 10px;
+}
+
+.fa {
+    color: #2A3F54;
+}

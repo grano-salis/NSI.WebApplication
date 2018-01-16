@@ -1,6 +1,7 @@
-import { Document } from "./index.model";
+import { Document } from "./document.model";
 
 export class DocumentDetails extends Document {
+    fileTypeId: number;        
     author: string;
     caseNumber: number;
     documentCategoryName: string;
@@ -8,11 +9,13 @@ export class DocumentDetails extends Document {
     createdAt: string;
     modifiedAt: string;
     
-    constructor(documentId: number, title: string, description: string, caseId: number, documentCategoryId: number, fileTypeId: number, 
-        documentPath: string, documentContent: string, createdByUserId: number, author: string, 
-        caseNumber: number, documentCategoryName: string, fileIconPath: string, createdAt: string, modifiedAt: string) {
+    constructor(documentId: number, title: string, description: string, caseId: number, categoryId: number, documentContent: string,
+        createdByUserId: number, fileTypeId: number, documentPath: string, author: string, caseNumber: number, 
+        documentCategoryName: string, fileIconPath: string, createdAt: string, modifiedAt: string) {
 
-        super(documentId, title, description, caseId, documentCategoryId, fileTypeId, documentPath, documentContent, createdByUserId);
+        super(documentId, title, description, caseId, categoryId, documentContent, createdByUserId, documentPath);
+        this.fileTypeId = fileTypeId;        
+        this.documentPath = documentPath;
         this.author = author;
         this.caseNumber = caseNumber;
         this.documentCategoryName = documentCategoryName;

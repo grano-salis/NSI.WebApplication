@@ -45,5 +45,9 @@ export class CasesListComponent implements OnInit {
       }
     });
   }
+  onCaseClick(id: number) {
+    
+		this.router.navigate([`/cases/${id}`]);
+  }
 
 }

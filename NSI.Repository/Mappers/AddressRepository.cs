@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NSI.Repository.Mappers
 {
-    public partial class AddressRepository
+    public static class AddressRepository
     {
         public static Address MapToDbEntity(AddressDto addressDto)
         {
@@ -42,7 +42,9 @@ namespace NSI.Repository.Mappers
                 City = address.City,
                 ZipCode = address.ZipCode,
                 AddressTypeId = address.AddressTypeId,
-                CreatedByUserId = address.CreatedByUserId
+                CreatedByUserId = address.CreatedByUserId,
+                IsDeleted = address.IsDeleted ?? false,
+                DateModified = address.DateModified
             };
         }
     }

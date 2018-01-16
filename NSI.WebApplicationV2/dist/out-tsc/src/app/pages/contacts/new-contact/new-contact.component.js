@@ -19,7 +19,7 @@ var NewContactComponent = (function () {
         this.route = route;
         this.onClose = new core_1.EventEmitter();
         this.phones = [];
-        this.emails = [];
+        this.emailsArray = [];
         this.temp_contact = new contact_1.Contact();
     }
     NewContactComponent.prototype.newContact = function () {
@@ -36,10 +36,10 @@ var NewContactComponent = (function () {
     };
     NewContactComponent.prototype.setPhonesAndEmails = function () {
         this.temp_contact.emails = [{ emailAddress: this.temp_contact.email }];
-        var mappedEmails = this.emails.map(function (email) {
+        var mappedEmails = this.emailsArray.map(function (email) {
             return { emailAddress: email };
         });
-        this.temp_contact.emails = this.temp_contact.emails.concat(mappedEmails);
+        this.temp_contact.emails = this.temp_contact.emailsArray.concat(mappedEmails);
         this.temp_contact.phones = [{ phoneNumber: this.temp_contact.phone }];
         var mappedPhones = this.phones.map(function (phone) {
             return { phoneNumber: phone };
@@ -50,13 +50,13 @@ var NewContactComponent = (function () {
         this.phones.push('');
     };
     NewContactComponent.prototype.newEmail = function () {
-        this.emails.push('');
+        this.emailsArray.push('');
     };
     NewContactComponent.prototype.deletePhone = function () {
         this.phones.pop();
     };
     NewContactComponent.prototype.deleteEmail = function () {
-        this.emails.pop();
+        this.emailsArray.pop();
     };
     NewContactComponent.prototype.trackByIndex = function (index, obj) {
         return index;

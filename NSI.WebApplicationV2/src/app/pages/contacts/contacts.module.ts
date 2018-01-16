@@ -6,11 +6,15 @@ import {ContactsComponent} from './contacts.component';
 import {SharedModule} from '../../shared/shared.module';
 import {NewContactComponent} from './new-contact/new-contact.component';
 import {AlertModule} from 'ngx-bootstrap';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DeleteContactModalComponent} from './delete-contact-modal/delete-contact-modal.component';
 import {ShowContactComponent} from './show-contact-modal/show-contact.component';
 
-import { AvatarModule } from 'ng2-avatar';
+import {AvatarModule} from 'ng2-avatar';
+import {AddressModule} from '../address/address.module';
+
+import {ControlMessagesComponent} from './control-messages.component';
+import {ValidationService} from './validation.service';
 
 
 @NgModule({
@@ -20,14 +24,26 @@ import { AvatarModule } from 'ng2-avatar';
     ContactsRoutingModule,
     FormsModule,
     AlertModule,
-    AvatarModule.forRoot()
+    ReactiveFormsModule,
+    AvatarModule.forRoot(),
+    AddressModule
   ],
   declarations: [
     ContactsComponent,
     ContactModalComponent,
     DeleteContactModalComponent,
     NewContactComponent,
-    ShowContactComponent
+    ShowContactComponent,
+    ControlMessagesComponent
+  ],
+  providers: [ValidationService],
+  exports: [
+    ContactsComponent,
+    ContactModalComponent,
+    DeleteContactModalComponent,
+    NewContactComponent,
+    ShowContactComponent,
+    ControlMessagesComponent
   ]
 })
 export class ContactsModule {
