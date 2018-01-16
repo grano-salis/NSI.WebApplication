@@ -163,8 +163,7 @@ export class AddressListComponent implements OnInit {
     }
 
     this.displayDelete = "none";
-
-    //$(document).ready(()=> location.reload());
+    
   }
 
   init() {

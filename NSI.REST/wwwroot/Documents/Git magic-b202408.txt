@@ -1,0 +1,26 @@
+/////////////
+// GENERAL //
+/////////////
+git status
+	On branch initial_design
+	Your branch is up to date with 'origin/initial_design'.    === if the branch is synchronized with remote
+
+	nothing to commit, working tree clean
+
+git checkout -b my_branch
+	git fetch                        if it exists on remote
+	git push -u origin/my_branch     to create it
+
+git branch -u origin/initial_design    --to set remote tracking
+
+
+////////////////
+// HARD RESET //
+////////////////
+git reset --hard commitNo
+git push -f origin
+
+///////////
+// AMEND //
+///////////
+git commit --amend --no-edit

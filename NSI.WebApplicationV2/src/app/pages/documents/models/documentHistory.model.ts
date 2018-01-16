@@ -1,5 +1,6 @@
 export class DocumentHistory {
     documentPath: string;
+    fileTypeIcon: string;
     documentTitle: string;
     caseNumber: string;
     documentCategoryName: string;
@@ -7,10 +8,11 @@ export class DocumentHistory {
     author: string;
     modifiedAt: Date;
     
-    constructor(documentPath: string, documentTitle: string, caseNumber: string, documentCategoryName: string,
+    constructor(documentPath: string, fileTypeIcon: string, documentTitle: string, caseNumber: string, documentCategoryName: string,
         documentDescription: string, author: string, modifiedAt: Date) {
         
         this.documentPath = documentPath;
+        this.fileTypeIcon = fileTypeIcon;
         this.documentTitle = documentTitle;
         this.caseNumber = caseNumber;
         this.documentCategoryName = documentCategoryName;

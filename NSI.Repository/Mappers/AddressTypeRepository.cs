@@ -1,8 +1,6 @@
 ﻿using IkarusEntities;
 using NSI.DC.AddressTypeRepository;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NSI.Repository.Mappers
 {
@@ -20,8 +18,9 @@ namespace NSI.Repository.Mappers
                 AddressTypeId = addressTypeDto.AddressTypeId,
                 AddressTypeName = addressTypeDto.AddressTypeName,
                 IsDeleted = addressTypeDto.IsDeleted,
-                CustomerId = addressTypeDto.CustomerId
-    };
+                CustomerId = addressTypeDto.CustomerId,
+                ModifiedDate = addressTypeDto.ModifiedDate
+            };
         }
 
         public static AddressTypeDto MapToDto(AddressType addressType)
@@ -36,7 +35,9 @@ namespace NSI.Repository.Mappers
                 AddressTypeId = addressType.AddressTypeId,
                 AddressTypeName = addressType.AddressTypeName,
                 IsDeleted = addressType.IsDeleted,
-                CustomerId = addressType.CustomerId
+                CustomerId = addressType.CustomerId,
+                ModifiedDate = addressType.ModifiedDate,
+                CreatedDate = addressType.CreatedDate
             };
         }
     }

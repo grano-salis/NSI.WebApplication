@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Rx';
 import { 
     Document, 
     DocumentDetails,
-    ListItem
+    Item
 } from '../models/index.model';
 
 import { DocumentsService } from '../../../services/documents.service'
@@ -24,17 +24,19 @@ export class DocumentModalComponent {
 
     @ViewChild('closeModal') closeModal: ElementRef;    
 
-    caseList: ListItem[];
-    categoryList: ListItem[];
+    caseList: Item[];
+    categoryList: Item[];
 
     documentEditIndex: number;
     documentEditId: number;    
     docForm: FormGroup;
     document: Document;
     editingStarted: boolean;
+
     fileToUpload: any;
     fileToUploadTitle: string;
     uploadProgress: number;
+    showFileUploadLabel: boolean;
 
     constructor(private documentsService : DocumentsService, private formBuilder: FormBuilder) { }
 
@@ -43,19 +45,28 @@ export class DocumentModalComponent {
         this.document = new Document(null, null, null, null, null, null, null, null);
         this.editingStarted = false;
         this.fileToUploadTitle = "";
+        this.showFileUploadLabel = true;
         this.uploadProgress = 0;        
 
         this.documentsService.documentUpdatingRequested.subscribe((value: DocumentDetails) => { this.editMode ? this.setFormValues(value) : '' });
         
-        this.caseList = [new ListItem(3, "12345678"), new ListItem(57, "72381231"), new ListItem(58, "43257465")];
-        this.categoryList = [new ListItem(1, "Theft"), new ListItem(2, "Divorce"), new ListItem(3, "Fight")];
-        //this.documentsService.getCaseList().subscribe((list: number[]) => { this.caseList = list; });
-        //this.documentsService.getCategoryList().subscribe((list: number[]) => { this.categoryList = list; });
-
-        this.docForm.patchValue({
-            'CaseId': this.caseList[0].id,
-            'CategoryId': this.categoryList[0].id
-        });
+        this.documentsService.getCaseList()
+            .subscribe((list: Item[]) => { 
+                this.caseList = list; 
+                
+                this.docForm.patchValue({
+                    'CaseId': list[0].id,
+                }); 
+            });
+        
+        this.documentsService.getCategoryList()
+            .subscribe((list: Item[]) => { 
+                this.categoryList = list; 
+                
+                this.docForm.patchValue({
+                    'CategoryId': list[0].id
+                });
+            });
 
         this.documentsService.documentUpdatingRequested.subscribe((value: DocumentDetails) => { this.editMode ? this.setFormValues(value) : '' });
     }
@@ -92,6 +103,16 @@ export class DocumentModalComponent {
                     this.document.documentPath = path;
                     this.addDocument();
                 });
+
+        if ( this.fileToUploadTitle != "" ) {
+            this.showFileUploadLabel = false;
+            Observable.interval(this.fileToUpload.size * 1.0 / 40000)
+            .takeWhile( () => this.uploadProgress < 100)
+            .subscribe( () => {
+                this.uploadProgress += 10;    
+                return this.uploadProgress;            
+            });
+        }
     }
 
     addDocument() {
@@ -105,20 +126,11 @@ export class DocumentModalComponent {
         this.document.documentContent = "";
         this.document.createdByUserId = 1;
 
-        // Fake loading bar adjusted to file size (12MB = 12 000 000B => 10% of bar on every (12 000 000 / 40 000) = 300ms
-        if ( this.fileToUploadTitle != "" ) {
-            Observable.interval(this.fileToUpload.size * 1.0 / 40000)
-            .takeWhile( () => this.uploadProgress < 100)
-            .subscribe( () => {
-                this.uploadProgress += 10;    
-                return this.uploadProgress;            
+        this.documentsService.postDocument(this.document)
+            .subscribe( (responseDoc: DocumentDetails) => {
+                this.documentsService.documentAdded.next(responseDoc);
+                this.resetForm();
             });
-        }
-
-        this.documentsService.postDocument(this.document).subscribe(() => {
-            //this.documentsService.documentAdded.next(this.document);
-            this.resetForm();
-        });
     }
 
     onUpdateCollection(): void {
@@ -131,11 +143,10 @@ export class DocumentModalComponent {
         uploadFormData.append(this.fileToUpload.name, this.fileToUpload);
         
         this.documentsService.uploadFile(uploadFormData)
-            .subscribe( (path: string) => 
-                { 
-                    this.document.documentPath = path;
-                    this.editDocument();
-                });
+            .subscribe( (path: string) => { 
+                this.document.documentPath = path;
+                this.editDocument();
+            });
     }
 
     editDocument() {
@@ -144,9 +155,6 @@ export class DocumentModalComponent {
         let edit = new Document(this.document.documentId, formData.Title, formData.Description, formData.CaseId, 
             formData.CategoryId, this.document.documentContent, this.document.createdByUserId, this.document.documentPath);
 
-        console.log(edit);
-
-        // Fake loading bar adjusted to file size (12MB = 12 000 000B => 10% of bar on every (12 000 000 / 40 000) = 300ms
         if ( this.fileToUploadTitle != "" ) {
             Observable.interval(this.fileToUpload.size * 1.0 / 40000)
             .takeWhile( () => this.uploadProgress < 100)
@@ -156,9 +164,9 @@ export class DocumentModalComponent {
             });
         }
 
-        this.documentsService.putDocument(this.documentEditIndex, edit)
-            .subscribe(() => {
-                //this.documentsService.documentUpdated.next(this.document);
+        this.documentsService.putDocument(edit)
+            .subscribe( (responseDoc: DocumentDetails) => {
+                this.documentsService.documentUpdated.next(responseDoc);
                 this.resetForm();
             });
     }
@@ -201,6 +209,7 @@ export class DocumentModalComponent {
 
         this.fileToUpload = null;
         this.fileToUploadTitle = "";
+        this.showFileUploadLabel = true;                
         this.uploadProgress = 0;
         this.closeModal.nativeElement.click();
     }

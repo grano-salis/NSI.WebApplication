@@ -8,13 +8,13 @@
 <div class="row">
 	<div class="x_panel">
 		<div class="x_title">
-			<div class="col-md-9">						
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-7">						
 				<h2> Document Overview <small> 12345678 </small> </h2>
 			</div>
-			<div class="col-md-1">
+			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 				<h6 style="float: right"><b>Show</b></h6>
 			</div>
-			<div class="col-md-1">						
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">						
 				<select [(ngModel)]="queryModel.resultsPerPage" (change)="onEntriesChanged()" class="form-control" id="category">
 					<option value="5"> 5 </option>
 					<option value="10"> 10 </option>
@@ -22,7 +22,7 @@
 					<option value="50"> 50 </option>
 				</select>
 			</div>
-			<div class="col-md-1">
+			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
 				<h6><b>Entries</b></h6>
 			</div>	
 			<div class="clearfix"></div>
@@ -67,7 +67,7 @@
 									<span class="fa fa-history fa-2x"></span></span></p></td>
 							<td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
 								<span type="button" data-title="Edit" data-toggle="modal" data-target="#edit"
-								(click)="onPreEdit(item)">
+								(click)="onPreEdit(i, item)">
 									<span class="fa fa-edit fa-2x"></span></span></p></td>
 							<td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
 								<span type="button" data-title="Delete" data-toggle="modal" data-target="#delete"
@@ -82,9 +82,9 @@
 					</div>
 					<div class="col-md-4 col-sm-8 col-xs-8 text-center">
 						<ul class="pagination">
-							<li> <a (click)="prevPage()"> Prev </a> </li>
+							<li *ngIf="shouldDisplayPrev()"> <a (click)="prevPage()"> Prev </a> </li>
 							<li [ngClass]="{ 'bColor2A3F54': p == currPage }" *ngFor="let p of pages"> <a (click)="selectPage(p)">{{ p }} </a> </li> 
-							<li> <a (click)="nextPage()"> Next </a> </li>
+							<li *ngIf="shouldDisplayNext()"> <a (click)="nextPage()"> Next </a> </li>
 						</ul>
 					</div>
 					<div class="col-md-4 col-sm-2 col-xs-2"></div>

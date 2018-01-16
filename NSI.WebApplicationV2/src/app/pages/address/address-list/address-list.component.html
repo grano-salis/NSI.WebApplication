@@ -14,26 +14,27 @@
 
               <div class="col-md-12">
                 <input [(ngModel)]="searchText" placeholder="Enter search text here.." class="form-control col-md-12">
-                <br><br><br>  
+                <br><br><br>
               </div>
 
-              <tr>                
+              <tr>
                 <th sortable-column="address1" sort-direction="asc"><span class="glyphicon glyphicon-home"></span> Address 1</th>
                 <th><span class="glyphicon glyphicon-home"></span> Address 2</th>
                 <th>Address Type id</th>
-                <th sortable-column="city">City</th>                
+                <th sortable-column="city">City</th>
                 <th><span class="glyphicon glyphicon-calendar"></span> Date Modified</th>
                 <th sortable-column="zipcode">Zip code</th>
+                <th>Actions</th>
               </tr>
             </thead>
-            <tbody>                           
+            <tbody>
                <ng-container *ngFor="let address of addresses | filter: searchText">
-                 <tr *ngIf="!address.isDeleted">   
+                 <tr *ngIf="!address.isDeleted">
                 <td>{{address.address1}}</td>
                 <td>{{address.address2}}</td>
                 <td>{{address.addressTypeId}}</td>
-                <td>{{address.city}}</td>                
-                <td>{{address.dateModified}}</td>                
+                <td>{{address.city}}</td>
+                <td>{{address.dateModified}}</td>
                 <td>{{address.zipCode}}</td>
                 <td>
                   <a class="btn btn-primary btn-xs" (click)="openEditModal(address)" data-target="#myModal">
@@ -43,8 +44,8 @@
                     <i class="fa fa-trash"></i>
                   </a>
                 </td></tr>
-               </ng-container>               
-              
+               </ng-container>
+
             </tbody>
           </table>
           <div class="footer" role="toolbar" style="margin: 0;">
@@ -78,7 +79,7 @@
           </button>
           <h4 class="modal-title">Edit Address data</h4>
         </div>
-        
+
           <div class="col-md-12 col-sm-12 col-xs-12" id="autoCompleteInput">
             <fieldset>
               <div class="control-group">
@@ -90,7 +91,7 @@
               </div>
             </fieldset>
           </div>
-        
+
         <div class="modal-body">
           <form (ngSubmit)="onSubmit()" #addressNewForm="ngForm" data-parsley-validate class="form-horizontal form-label-left">
 
@@ -212,7 +213,7 @@
         </div>
         <div id="map"></div>
         <div class="modal-footer">
-         
+
         </div>
 
       </div>
@@ -225,7 +226,7 @@
   <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayDelete}">
     <div class="modal-dialog" id="deleteModal" role="document">
       <div class="modal-content">
-        <div class="modal-header">          
+        <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCloseDeleteHandled()">
             <span aria-hidden="true">&times;</span>
           </button>

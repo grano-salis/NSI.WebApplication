@@ -1,6 +1,6 @@
 <div class="col-lg-5 col-md-11 col-sm-11 col-xs-11">
     <div class="col-lg-3 col-md-2 col-sm-3 col-xs-3">
-        <h6 style="float: right"><b>Filter By:</b></h6>
+        <h6 class="float-right"><b>Filter By:</b></h6>
     </div>
 
     <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4">
@@ -17,7 +17,9 @@
         </div>
         <div [hidden]="filterType != 'dropDown'">
             <select (change)="onFilterValueChangeDetected()" [(ngModel)]="queryValue" class="form-control" placeholder="Search">
-                <option value="1"> 1234 </option>
+                <option *ngFor="let item of itemList" [value]="item.id"> 
+                    {{ item.value }}
+                </option>
             </select>
         </div>
         <div [hidden]="filterType != 'date'">

@@ -14,8 +14,8 @@ import {
   DocumentDetails,
   DocumentQuery,
   DocumentFilter,
-  DocumentCase,
-  DocumentCategory
+  DocumentCategory,
+  Item
 } from '../pages/documents/models/index.model';
 
 import { MDD } from '../pages/documents/models/mockDocumentDetails';
@@ -29,7 +29,7 @@ export class DocumentsService {
   private headers = new HttpHeaders();
 
   documentAdded = new Subject<DocumentDetails>();
-  documentUpdated = new Subject<{ index: number, document: DocumentDetails }>();
+  documentUpdated = new Subject<DocumentDetails>();
   documentUpdatingRequested = new Subject();
   documentCaseChanged = new Subject<number>();
   documentHistoryRequested = new Subject<DocumentDetails>();
@@ -44,7 +44,7 @@ export class DocumentsService {
     this.headers = new HttpHeaders({'Content-Type': 'application/json'});
     this._url = {
       'documents': environment.serverUrl + '/api/documents/',
-      'cases': environment.serverUrl + '/api/cases/',
+      'cases': environment.serverUrl + '/api/case/info',
       'categories': environment.serverUrl + '/api/categories/'
       };
     
@@ -59,6 +59,7 @@ export class DocumentsService {
   }
 
   getDocumentsWithPaging(queryModel: DocumentQuery): Observable<any> {
+    console.log(queryModel);
     return this.http.post(this._url.documents + 'paging', queryModel, {headers: this.headers});
   }
 
@@ -75,7 +76,7 @@ export class DocumentsService {
     return this.http.post(this._url.documents, body, {headers: this.headers});
   }
 
-  putDocument(index: number, document: Document): Observable<any> {
+  putDocument(document: Document): Observable<any> {
     let body = JSON.stringify(document);
     return this.http.put(this._url.documents + document.documentId, body, {headers: this.headers});
   }
@@ -84,28 +85,44 @@ export class DocumentsService {
     return this.http.delete(this._url.documents + documentId, {headers: this.headers});
   }
 
-  getCaseList(): Observable<DocumentCase[]> {
+  getCaseList(): Observable<Item[]> {
     return this.http.get<CaseDetail[]>(this._url.cases, {headers: this.headers})
       .map((cases: CaseDetail[]) => {
-        let casesPluck: DocumentCase[];
+        let caseItems: Item[] = [];
 
         for (let index in cases) {
-          casesPluck.push(this.mapToCasePluck(cases[index]))
+          caseItems.push(this.mapCaseToItem(cases[index]));
         }
-        console.log(cases);
-        return casesPluck;
+
+        return caseItems;
       });
   }
 
-  mapToCasePluck(caseFull: CaseDetail): DocumentCase {
-    return new DocumentCase(
-      caseFull.caseId,
-      +caseFull.caseNumber
+  getCategoryList(): Observable<Item[]> {
+    return this.http.get<DocumentCategory[]>(this._url.documents + 'category', {headers: this.headers})
+      .map((categories: DocumentCategory[]) => {
+        let categoryItems: Item[] = [];
+
+        for (let index in categories) {
+          categoryItems.push(this.mapCategoryToItem(categories[index]));
+        }
+
+        return categoryItems;
+      });
+  }
+
+  mapCaseToItem(caseDetail: CaseDetail): Item {
+    return new Item(
+      caseDetail.caseId,
+      caseDetail.caseNumber
     );
   }
 
-  getCategoryList(): Observable<DocumentCategory[]> {
-    return this.http.get<DocumentCategory[]>(this._url.categories, {headers: this.headers});
+  mapCategoryToItem(documentCategory: DocumentCategory): Item {
+    return new Item(
+      documentCategory.id,
+      documentCategory.name
+    );
   }
 
   onFilterChangeDetected(filterChange: DocumentFilter): void {

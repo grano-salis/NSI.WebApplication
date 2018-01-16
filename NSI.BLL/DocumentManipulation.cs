@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NSI.BLL.Interfaces;
 using NSI.DC.DocumentRepository;
+using NSI.DC.Exceptions;
 using NSI.Repository.Interfaces;
 using NSI.REST.Models;
 
@@ -47,32 +48,34 @@ namespace NSI.BLL
             return rightPath;
         }
 
-        public bool SaveDocument(CreateDocumentDto document)
+        public DocumentDetails SaveDocument(CreateDocumentDto document)
         {
             if (document == null)
             {
-                throw new ArgumentException("Document is not valid.");
+                throw new NSIException("Document is not valid.");
             }
 
             var result = _documentRepository.SaveDocument(document);
-            return result != 0;
+            return result;
         }
 
         public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
         {
-            if (id == 0)
+            if (id <= 0)
             {
-                throw new ArgumentException("Id is not valid");
+                throw new NSIException("Id is not valid");
             }
             return _documentRepository.GetDocumentHistoryByDocumentId(id);
         }
 
         public List<DocumentDto> GetDocumentsByCase(int id)
         {
+            if (id <= 0) throw new NSIException("Invalid ID");
             return _documentRepository.GetDocumentsByCase(id);
         }
         public int GetNumberOfDocumentsByCase(int caseId)
         {      
+            if (caseId <= 0) throw new NSIException("Invalid ID");
             return _documentRepository.GetNumberOfDocumentsByCase(caseId);
         }
 
@@ -85,16 +88,16 @@ namespace NSI.BLL
         {
             if (query.PageNumber < 0)
             {
-                throw new ArgumentException("Page number is not valid");
+                throw new NSIException("Page number is not valid");
             }
             return _documentRepository.GetAllDocumentsByPage(query);
         }
 
         public DocumentDetails GetDocumentById(int documentId)
         {
-            if (documentId == 0)
+            if (documentId <= 0)
             {
-                throw new ArgumentException("Id is not valid.");
+                throw new NSIException("Id is not valid.");
             }
 
             return _documentRepository.GetDocument(documentId);
@@ -102,30 +105,31 @@ namespace NSI.BLL
 
         public bool DeleteDocument(int id)
         {
-            if (id == 0)
+            if (id <= 0)
             {
-                throw new ArgumentException("Id is not valid.");
+                throw new NSIException("Id is not valid.");
             }
 
             return _documentRepository.DeleteDocument(id);
         }
 
-        public DocumentDto EditDocument(int id, DocumentDto documentDto)
+        public DocumentDetails EditDocument(int id, DocumentDto documentDto)
         {
-            if (id == 0)
+            if (id <= 0)
             {
-                throw new ArgumentException("Id is not valid.");
+                throw new NSIException("Id is not valid.");
             }
 
             var document = _documentRepository.GetDocument(documentDto.DocumentId);
 
             if (document == null)
             {
-                throw new Exception("Document with that id does not exist");
+                throw new NSIException("Document with that id does not exist");
             }
 
             _documentRepository.Update(documentDto);
-            return documentDto;
+            var returnDocumentDto = _documentRepository.GetDocument(documentDto.DocumentId);
+            return returnDocumentDto;
         }
 
 
