@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 import { DocumentsService } from '../../../services/documents.service';
 import { DocumentDetails, DocumentHistory } from '../models/index.model';
@@ -15,7 +16,7 @@ export class DocumentHistoryModalComponent implements OnInit {
   documentDetails: DocumentDetails;
   documentHistories: DocumentHistory[];
 
-  constructor(private documentsService: DocumentsService) { }
+  constructor(private documentsService: DocumentsService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.subscribe();
@@ -32,5 +33,9 @@ export class DocumentHistoryModalComponent implements OnInit {
           } 
         );
       });
+  }
+
+  sanitize(url: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }

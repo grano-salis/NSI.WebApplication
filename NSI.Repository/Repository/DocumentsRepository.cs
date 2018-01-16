@@ -70,7 +70,7 @@ namespace NSI.Repository.Repository
         {
             var documentHistory = doc.DocumentHistory.Where(d => d.DocumentId == doc.DocumentId).OrderBy(document => document.ModifiedAt).ToList();
             if (query.CreatedDateFrom?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date >= query.CreatedDateFrom?.Date)) return false;
-            if (query.CreatedDateTo?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date <= query.CreatedDateFrom?.Date)) return false;
+            if (query.CreatedDateTo?.Date != null && !(documentHistory.FirstOrDefault()?.ModifiedAt.Date <= query.CreatedDateTo?.Date)) return false;
             if (query.ModifiedDateFrom?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date >= query.ModifiedDateFrom?.Date)) return false;
             if (query.ModifiedDateTo?.Date != null && !(documentHistory.LastOrDefault()?.ModifiedAt.Date <= query.ModifiedDateTo?.Date)) return false;
             if (query.SearchByCategoryId != 0 && query.SearchByCategoryId != null && doc.DocumentCategoryId != query.SearchByCategoryId) return false;
@@ -146,16 +146,16 @@ namespace NSI.Repository.Repository
             return document != null ? DocumentRepository.MapToDocumentDetailsDto(document, _dbContext) : null;
         }
 
-        int IDocumentRepository.SaveDocument(CreateDocumentDto document)
+        DocumentDetails IDocumentRepository.SaveDocument(CreateDocumentDto document)
         {
             try
             {
                 document.DocumentId = 0;
                 var documentEntity = DocumentRepository.MapToDbEntity(document, _dbContext);
                 _dbContext.Add(documentEntity);
-                var result = _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
                 AddToHistory(documentEntity);
-                return result;
+                return DocumentRepository.MapToDbEntity(documentEntity);
             }
             catch (Exception ex)
             {

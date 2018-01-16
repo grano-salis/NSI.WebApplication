@@ -7,7 +7,7 @@ namespace NSI.Repository.Interfaces
     public interface IDocumentRepository
     {
         DocumentDetails GetDocument(int documentId);
-        int SaveDocument(CreateDocumentDto document);
+        DocumentDetails SaveDocument(CreateDocumentDto document);
         PagingResultModel<DocumentDetails> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
         int Update(DocumentDto document);

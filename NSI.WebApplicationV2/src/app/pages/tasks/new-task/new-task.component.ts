@@ -22,6 +22,8 @@ export class NewTaskComponent implements OnInit {
   onSubmit() {
     console.log(this.model);
     this.model.dueDate = $('#dueDate').val();
+    this.model.title = $('#title').val();
+    this.model.description = $('#description').val();
     console.log(this.model);
     this.tasksService.postTasks(this.model).subscribe((r: any) => console.log(r),
       (error: any) => console.log("Error: " + error.message));
