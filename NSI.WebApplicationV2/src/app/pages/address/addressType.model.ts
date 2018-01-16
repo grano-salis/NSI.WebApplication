@@ -14,5 +14,8 @@ export class AddressType {
     this.modifiedDate = modified_date;
     this.isDeleted = is_deleted;
     this.customerId = customerId;
+
+
+
   }
 }
