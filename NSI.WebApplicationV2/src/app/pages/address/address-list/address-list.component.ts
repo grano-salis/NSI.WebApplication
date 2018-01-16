@@ -20,7 +20,7 @@ export class AddressListComponent implements OnInit {
   addresses: Address[];
   filteredItems: Address[];
   pages: number = 4;
-  pageSize: number = 5;
+  pageSize: number = 10;
   pageNumber: number = 0;
   currentIndex: number = 1;
   pagesIndex: Array<number>;
@@ -35,16 +35,22 @@ export class AddressListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAddresses();
-    this.addressTypeService.getAddressTypes().subscribe((addressTypes: any) => {
-    this.addressTypes = addressTypes;       
-    });
-    
+    this.loadAddresses(); 
   }
 
   loadAddresses(): any {
+
+    this.addressTypeService.getAddressTypes().subscribe((addressTypes: any) => {
+      this.addressTypes = addressTypes;       
+      });
+
     this.addressService.getAddreses().subscribe((addresses: Address[]) => {
       this.addresses = addresses.filter(a => a.isDeleted == false);
+
+      this.addresses.forEach(a => {
+          a.addressType = this.addressTypes.find(type => type.addressTypeId == a.addressTypeId).addressTypeName;
+      });
+      
       this.filteredItems = this.addresses.filter(a => a.isDeleted == false);  
       this.init();    
     });

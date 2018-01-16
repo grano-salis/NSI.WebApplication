@@ -5,6 +5,7 @@ export class Address {
   address2: string;
   addressId: number;
   addressTypeId: number;
+  addressType: string;
   city: string;
   createdByUserId: number;
   dateCreated: Date;
