@@ -1,52 +1,53 @@
 <div class="modal fade" id="history" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-          <div class="modal-header">			 
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                  ×
-              </button>
-              <h4 class="modal-title" id="myModalLabel">
-                [ {{ currentTitle }} ] - Document History Revision 
-              </h4>
-          </div>
-          <div class="modal-body">
-              <div class="x-content">
-                  <div class="table-responsive">
-                      <table class="table table-bordered jambo_table">
-                          <thead>
-                              <tr>
-                                  <th>Open</th>
-                                  <th>Title</th>
-                                  <th *ngIf="!scopedToCase">Case</th>
-                                  <th>Category</th>
-                                  <th>Description</th>
-                                  <th>Author</th>
-                                  <th>Modified At</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr *ngFor="let item of documentHistories; let i = index">
-                                  <td><p data-placement="top" data-toggle="tooltip" title="View" class="text-center">
-                                    <button class="btn-default" data-title="View" data-toggle="modal" data-target="" style="border-radius: 5px;">
-                                      <span><i [ngClass]="['fa', documentDetails.fileIconPath, 'fa-2x']" aria-hidden="true"></i></span></button></p></td>
-                                  
-                                  <td>{{ item.documentTitle }}</td>
-                                  <td *ngIf="!scopedToCase">{{ item.caseNumber }}</td>
-                                  <td>{{ item.documentCategoryName }}</td>
-                                  <td>{{ item.documentDescription }}</td>
-                                  <td>{{ item.author }}</td>
-                                  <td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
-                              </tr>
-                          </tbody> 
-                      </table>
-                  </div>
-              </div>
-          </div>
-          <div class="modal-footer"> 
-              <button type="button" class="btn btn-default" data-dismiss="modal">
-                  Close
-              </button> 
-          </div>
-      </div>
-  </div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">			 
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    [ {{ currentTitle }} ] - Document History Revision 
+                </h4>
+            </div>
+            <div class="modal-body">                
+                <div class="x-content">
+                    <div class="table-responsive">
+                        <table class="table table-bordered jambo_table">
+                            <thead>
+                                <tr>
+                                    <th>Open</th>
+                                    <th>Title</th>
+                                    <th *ngIf="!scopedToCase">Case</th>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Author</th>
+                                    <th>Modified At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of documentHistories; let i = index">
+                                    <td><p data-placement="top" data-toggle="tooltip" title="View" class="text-center">
+                                        <a [href]="sanitize(item.documentPath)">
+                                        <button class="btn-default" data-title="View" data-toggle="modal" data-target="" style="border-radius: 5px;">
+                                            <span><i [ngClass]="['fa', documentDetails.fileIconPath, 'fa-2x']" aria-hidden="true"></i></span></button></a></p></td>
+                                    
+                                    <td>{{ item.documentTitle }}</td>
+                                    <td *ngIf="!scopedToCase">{{ item.caseNumber }}</td>
+                                    <td>{{ item.documentCategoryName }}</td>
+                                    <td>{{ item.documentDescription }}</td>
+                                    <td>{{ item.author }}</td>
+                                    <td>{{ item.modifiedAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+                                </tr>
+                            </tbody> 
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button> 
+            </div>
+        </div>
+    </div>
 </div>

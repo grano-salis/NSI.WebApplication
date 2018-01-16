@@ -165,16 +165,12 @@ export class DocumentListComponent implements OnInit {
         this.documentsService.documentAdded
             .subscribe((document: DocumentDetails) => 
                 { 
-                    console.log("Add: " + JSON.stringify(document));
                     this.documents.unshift(document); 
                 });
         
         this.documentsService.documentUpdated
             .subscribe((document: DocumentDetails) => 
                 {          
-                    // console.log("Indeks: " + this.toBeUpdatedItemIndex);                    
-                    // console.log("Prije: " + JSON.stringify(this.documents[this.toBeUpdatedItemIndex]));
-                    // console.log("Poslije: " + JSON.stringify(document));
                     this.documents[this.toBeUpdatedItemIndex] = document; 
                 });
     }
