@@ -73,20 +73,19 @@ namespace NSI.BLL
             return _customerRepository.SearchCustomer(customerSearch);
         }
 
+        public ICollection<CustomerReportDto> GetCustomerClients()
+        {
+            return _customerRepository.GetCustomerClients();
+        }
 
-        // private CustomerDto FillCustomerDtoWithOtherDtos(CustomerDto customerDto){
+        public CustomerReportDto GetCustomerCasesYearly(int CustomerId)
+        {
+            return _customerRepository.GetCustomerCasesYearly(CustomerId);
+        }
 
-        //     if (customerDto.AddressId!=null)
-        //         customerDto.Address = _addressManipulation.GetAddressById((int)customerDto.AddressId);
-        //     else
-        //        customerDto.Address = null; 
-
-        //     if (customerDto.PricingPackageId!=null)
-        //         customerDto.PricingPackage = _packageManipulation.GetPricingPackage((int)customerDto.PricingPackageId);
-        //     else
-        //         customerDto.PricingPackage = null;
-
-        //     return customerDto;
-        // }
+        public CustomerReportDto GetCustomerCasesMonthly(int CustomerId, int Year)
+        {
+            return _customerRepository.GetCustomerCasesMonthly(CustomerId,Year);
+        }
     }
 }

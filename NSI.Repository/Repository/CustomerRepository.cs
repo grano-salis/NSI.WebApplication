@@ -9,6 +9,7 @@ using NSI.DC.Exceptions;
 using NSI.DC.Exceptions.Enums;
 using Npgsql;
 using System.Data.Entity.Infrastructure;
+using System.Net;
 
 namespace NSI.Repository
 {
@@ -211,6 +212,107 @@ namespace NSI.Repository
                     (customerDto.DateModified <= customerSearchDto.ToModified || customerSearchDto.FromModified.Equals(null)) &&
                     (customerDto.AddressId == customerSearchDto.AddressId || customerSearchDto.AddressId.Equals(null)) &&
                     (customerDto.PricingPackageId == customerSearchDto.PricingPackageId || customerSearchDto.PricingPackageId.Equals(null));
+        }
+
+        public ICollection<CustomerReportDto> GetCustomerClients()
+        {
+            try
+            {
+                var customer = _dbContext.Customer;
+                if (customer != null)
+                {
+                    ICollection<CustomerReportDto> customerDto = new List<CustomerReportDto>();
+                    foreach (var item in customer)
+                    {
+                        var clientNumber = _dbContext.Client.Where(x => x.CustomerId == item.CustomerId).Count();
+                        CustomerReportDto cust = new CustomerReportDto();
+                        cust.CustomerId = item.CustomerId;
+                        cust.CustomerName = item.CustomerName;
+                        cust.NumberOfClient = clientNumber;
+
+                        customerDto.Add(cust);
+                    }
+                    return customerDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
+            }
+            return null;
+        }
+
+        public CustomerReportDto GetCustomerCasesYearly(int CustomerId)
+        {
+            try
+            {
+                var customer = _dbContext.Customer.FirstOrDefault(x=>x.CustomerId == CustomerId);
+                if (customer != null)
+                {
+                    CustomerReportDto customerDto = new CustomerReportDto();
+                    var clientNumber = _dbContext.Client.Where(x => x.CustomerId == CustomerId).Count();
+                    customerDto.CustomerId = customer.CustomerId;
+                    customerDto.CustomerName = customer.CustomerName;
+                    customerDto.NumberOfClient = clientNumber;
+
+                    var cases = _dbContext.CaseInfo.Where(x => x.CustomerId == CustomerId).ToList();
+                    IEnumerable<CaseInfo> filteredList = cases.GroupBy(CaseInfo => CaseInfo.DateCreated.Year)
+                        .Select(group => group.First());
+                    ICollection<CustomerCasesDto> customerCaseDto = new List<CustomerCasesDto>();
+                    foreach(var ca in filteredList){
+                        CustomerCasesDto custCase = new CustomerCasesDto();
+                        custCase.YearOfCases = ca.DateCreated.Year;
+                        custCase.NumberOfCases = _dbContext.CaseInfo.Where(x => x.CustomerId == CustomerId && x.DateCreated.Year == ca.DateCreated.Year).Count();
+
+                        customerCaseDto.Add(custCase);
+                    }
+                    customerDto.Cases = customerCaseDto;
+
+                    return customerDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
+            }
+            return null;
+        }
+
+        public CustomerReportDto GetCustomerCasesMonthly(int CustomerId, int Year)
+        {
+            try
+            {
+                var customer = _dbContext.Customer.FirstOrDefault(x => x.CustomerId == CustomerId);
+                if (customer != null && Year > 0 && Year <9999)
+                {
+                    CustomerReportDto customerDto = new CustomerReportDto();
+                    var clientNumber = _dbContext.Client.Where(x => x.CustomerId == CustomerId).Count();
+                    customerDto.CustomerId = customer.CustomerId;
+                    customerDto.CustomerName = customer.CustomerName;
+                    customerDto.NumberOfClient = clientNumber;
+
+                    var cases = _dbContext.CaseInfo.Where(x => x.CustomerId == CustomerId && x.DateCreated.Year == Year).ToList();
+                    IEnumerable<CaseInfo> filteredList = cases.GroupBy(CaseInfo => CaseInfo.DateCreated.Month)
+                        .Select(group => group.First());
+                    ICollection<CustomerCasesDto> customerCaseDto = new List<CustomerCasesDto>();
+                    foreach (var ca in filteredList)
+                    {
+                        CustomerCasesDto custCase = new CustomerCasesDto();
+                        custCase.MonthOfCases = ca.DateCreated.Month;
+                        custCase.NumberOfCases = _dbContext.CaseInfo.Where(x => x.CustomerId == CustomerId && x.DateCreated.Year == Year && x.DateCreated.Month == ca.DateCreated.Month).Count();
+
+                        customerCaseDto.Add(custCase);
+                    }
+                    customerDto.Cases = customerCaseDto;
+
+                    return customerDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter,HttpStatusCode.BadRequest);
+            }
+            return null;
         }
     }
 }

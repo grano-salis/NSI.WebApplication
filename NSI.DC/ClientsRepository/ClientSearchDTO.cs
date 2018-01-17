@@ -4,16 +4,10 @@ using System.Runtime.Serialization;
 namespace NSI.DC.ClientsRepository
 {
     [DataContract]
-    public class ClientDto
+    public class ClientSearchDTO
     {
         [DataMember]
-        public int? ClientId { get; set; }
-        [DataMember]
         public string ClientName { get; set; }
-        [DataMember]
-        public DateTime? DateCreated { get; set; }
-        [DataMember]
-        public DateTime? DateModified { get; set; }
         [DataMember]
         public bool? IsDeleted { get; set; }
         [DataMember]
@@ -23,6 +17,12 @@ namespace NSI.DC.ClientsRepository
         [DataMember]
         public int? AddressId { get; set; }
         [DataMember]
-        public int? CreatedByUserId { get; set; }
+        public DateTime? FromCreated;
+        [DataMember]
+        public DateTime? ToCreated;
+        [DataMember]
+        public DateTime? FromModified;
+        [DataMember]
+        public DateTime? ToModified;
     }
 }

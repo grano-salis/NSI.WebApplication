@@ -6,7 +6,7 @@ namespace NSI.Repository.Mappers
 {
     public class ClientRepository
     {
-        public static Client MapToDbEntity(ClientDTO clientDTO){
+        public static Client MapToDbEntity(ClientDto clientDTO){
             return new Client()
             {
                 ClientId = clientDTO.ClientId,
@@ -20,8 +20,8 @@ namespace NSI.Repository.Mappers
                 CreatedByUserId = clientDTO.CreatedByUserId
             };
         }
-        public static ClientDTO MapToDto(Client client){
-            return new ClientDTO()
+        public static ClientDto MapToDto(Client client){
+            return new ClientDto()
             {
                 ClientId = client.ClientId,
                 ClientName = client.ClientName,

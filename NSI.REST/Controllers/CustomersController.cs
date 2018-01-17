@@ -83,6 +83,22 @@ namespace NSI.REST.Controllers
             return Ok(_customersManipulation.SearchCustomer(customerSearch));
         }
 
+        [HttpGet("clientno")]
+        public ActionResult GetCustomerClients()
+        {
+            return Ok(_customersManipulation.GetCustomerClients());
+        }
 
+        [HttpGet("caseyearly/{CustomerId}")]
+        public ActionResult GetCustomerCasesYearly(int CustomerId)
+        {
+            return Ok(_customersManipulation.GetCustomerCasesYearly(CustomerId));
+        }
+
+        [HttpGet("casemonthly/{CustomerId}")]
+        public ActionResult GetCustomerCasesMonthly(int CustomerId, int Year)
+        {
+            return Ok(_customersManipulation.GetCustomerCasesMonthly(CustomerId,Year));
+        }
     }
 }
