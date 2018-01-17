@@ -20,6 +20,8 @@ namespace NSI.DC.DocumentRepository
         public string Author { get; set; }
         [DataMember]
         public DateTime ModifiedAt { get; set; }
+        [DataMember]
+        public string IconPath { get; set; }
 
     }
 }

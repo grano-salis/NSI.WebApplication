@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System.IO;
+using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
 
@@ -8,7 +9,7 @@ namespace NSI.Repository.Mappers
     {
         public static Document MapToDbEntity(DocumentDto document, IkarusContext _dbContext)
         {
-            return new Document()
+            var doc = new Document()
             {
                 CaseId = document.DocumentId,
                 DocumentId = document.DocumentId,
@@ -24,6 +25,10 @@ namespace NSI.Repository.Mappers
                 CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
                 CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId
             };
+            var extension = Path.GetExtension(doc.DocumentPath).Replace(".", "");
+            if (extension != null) doc.FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeId);
+
+            return doc;
         }
 
         public static Document MapToDbEntity(CreateDocumentDto document, IkarusContext _dbContext)
@@ -106,6 +111,24 @@ namespace NSI.Repository.Mappers
                 DocumentDescription = documentHistory.DocumentDescription,
                 DocumentPath = documentHistory.DocumentPath
             };
+        }
+
+        public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory, IkarusContext _dbContext, int id)
+        {
+            var documentHistoryDto =  new DocumentHistoryDto()
+            {
+                ModifiedAt = documentHistory.ModifiedAt,
+                DocumentTitle = documentHistory.DocumentTitle,
+                Author = documentHistory.ModifiedByUser.FirstName + " " + documentHistory.ModifiedByUser.LastName,
+                CaseNumber = documentHistory.CaseNumber,
+                DocumentCategoryName = documentHistory.DocumentCategoryName,
+                DocumentDescription = documentHistory.DocumentDescription,
+                DocumentPath = documentHistory.DocumentPath,
+            };
+                var extension = Path.GetExtension(documentHistoryDto.DocumentPath).Replace(".", "");
+                if (extension != null) documentHistoryDto.IconPath = _dbContext.FileType.FirstOrDefault(c => c.Extension == extension).IconPath;
+
+            return documentHistoryDto;
         }
 
         public static DocumentCategoryNamesDto MapToDocumentCategoryNamesDto(DocumentCategory documentCategory)

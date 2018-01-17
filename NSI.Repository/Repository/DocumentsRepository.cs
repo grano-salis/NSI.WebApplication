@@ -30,7 +30,9 @@ namespace NSI.Repository.Repository
 
         public List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id)
         {
-            return _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Include(d => d.Document).Include(d => d.Document.Case).Include(d => d.Document.DocumentCategory).Where(d => d.DocumentId == id).Select(h=>DocumentRepository.MapToDocumentHistoryDto(h)).ToList();
+            var history = _dbContext.DocumentHistory.Include(x => x.ModifiedByUser).Include(d => d.Document)
+                .Include(d => d.Document.Case).Include(d => d.Document.DocumentCategory).Where(d => d.DocumentId == id).ToList();
+            return history.Select(h => DocumentRepository.MapToDocumentHistoryDto(h, _dbContext, id)).ToList();
         }
 
         public List<DocumentDto> GetDocumentsByCase(int id)
