@@ -7,9 +7,9 @@
       <div class="title_right">
         <div class="col-md-5 col-sm-5 col-xs-12 form-group top_search">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for...">
+            <input type="text" class="form-control" placeholder="Search for..." [(ngModel)]="searchName">
             <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
+                      <button class="btn btn-default" type="button" (click)="search()">Go!</button>
                     </span>
           </div>
         </div>
@@ -32,7 +32,7 @@
                 <i class="fa fa-plus" [routerLink]="['/organization/new']"></i>
               </button>
             </div>
-            
+
             <div class="clearfix"></div>
           </div>
 

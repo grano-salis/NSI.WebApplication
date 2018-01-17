@@ -19,6 +19,8 @@ export class ClientsListComponent implements OnInit {
 	addresses: Address[];
 	addressIds: number[];
 	customerIds: number[];
+  searchName: string="";
+  tempData: Client[];
 
 	constructor(private clientsService: ClientsService, private customersService: CustomersService, private addressService: AddressService, private router: Router) {
 	}
@@ -31,7 +33,7 @@ export class ClientsListComponent implements OnInit {
 
 		this.clientsService.getClients().subscribe(data => {
 			this.clients = data;
-
+      this.tempData = data;
 			for(let client of this.clients) {
 				if (client.addressId && this.addressIds.indexOf(client.addressId) === -1) {
 					this.addressIds.push(client.addressId);
@@ -51,7 +53,7 @@ export class ClientsListComponent implements OnInit {
 
 	onDeleteClick(id: number, event: any) {
 		event.stopPropagation();
-		this.clientsService.deleteClient(id).subscribe(data => {			
+		this.clientsService.deleteClient(id).subscribe(data => {
 			for(var i=0; i < this.clients.length; i++) {
 				if (this.clients[i].clientId === id) {
 					this.clients.splice(i, 1);
@@ -82,4 +84,11 @@ export class ClientsListComponent implements OnInit {
 		}
 		return null;
 	}
+
+  search() {
+    this.clients = this.tempData.filter((client: Client) => {
+      return client.clientName.indexOf(this.searchName) !== -1;
+    });
+    console.log(this.searchName);
+  }
 }
