@@ -6,6 +6,7 @@ using Moq;
 using NSI.BLL;
 using NSI.BLL.Interfaces;
 using NSI.DC.ClientsRepository;
+using NSI.DC.Exceptions;
 using NSI.Repository.Interfaces;
 using NSI.Repository.Repository;
 using NSI.REST.Controllers;
@@ -34,8 +35,11 @@ namespace NSI.Tests
         [Fact]
         public void GetClientById_ReturnsNOKModel()
         {
-            var controller = new ClientsController(cM);
 
+            var mockRepo = new Mock<IClientRepository>();
+            mockRepo.Setup(x => x.GetClientById(It.IsAny<int>())).Returns((ClientDto)null);
+            var clientManipulation = new ClientManipulation(mockRepo.Object);
+            var controller = new ClientsController(clientManipulation);
             var result = controller.GetClientById(1);
 
             Assert.IsType<BadRequestObjectResult>(result);
@@ -74,13 +78,12 @@ namespace NSI.Tests
                 ClientId = 1
             };
             var mockRepo = new Mock<IClientRepository>();
-            mockRepo.Setup(x => x.CreateClient(It.IsAny<ClientDto>())).Returns(client);
+            mockRepo.Setup(x => x.CreateClient(It.IsAny<ClientDto>())).Throws<NSIException>();
             var clientManipulation = new ClientManipulation(mockRepo.Object);
             var controller = new ClientsController(clientManipulation);
 
             var result = controller.CreateNewClient(client);
             Assert.IsType<BadRequestObjectResult>(result);
-
         }
 
 
