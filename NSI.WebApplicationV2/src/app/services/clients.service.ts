@@ -9,12 +9,11 @@ import { Client } from '../pages/clients/models/client';
 export class ClientsService {
 
   private readonly _url: string;
-  private headers = new HttpHeaders();
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
   
 
   constructor(private http: HttpClient) {
 	this._url = environment.serverUrl;
-	this.headers = new HttpHeaders({'Content-Type': 'application/json'});	
    }
 
    getClients(params?: any): Observable<any> {
@@ -29,9 +28,16 @@ export class ClientsService {
 		return this.http.get(`${this._url}/api/client/${id}`);
 	}
 
-	updateClient(id:number, newClient:Client): Observable<any> {
-		let body=JSON.stringify(newClient);
+	updateClient(newClient:Client): Observable<any> {
+		var body='?ClientId='+newClient.clientId+'&ClientName='+newClient.clientName+'&ClientTypeId='+newClient.clientTypeId+'&CustomerId='+newClient.customerId+'&AddressId='+newClient.addressId+'&CreatedByUserId='+newClient.createdByUserId;
+		return this.http.put(`${this._url}/api/client`+body, {headers: this.headers});
+	}
 
-		return this.http.put(`${this._url}/api/client/${id}`,body, {headers:this.headers});
+	createClient(newClient:Client):Observable<any> {
+		//return this.http.post(`${this._url}/api/client`,newClient, {headers: this.headers});
+
+		var body='?ClientName='+newClient.clientName+'&ClientTypeId='+newClient.clientTypeId+'&CustomerId='+newClient.customerId+'&AddressId='+newClient.addressId+'&CreatedByUserId='+newClient.createdByUserId;
+		console.log(body);
+		return this.http.post(`${this._url}/api/client`+body, {headers:this.headers});
 	}
 }
