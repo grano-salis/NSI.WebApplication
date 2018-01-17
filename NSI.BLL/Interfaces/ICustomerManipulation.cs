@@ -11,7 +11,7 @@ namespace NSI.BLL.Interfaces
         ICollection<CustomerDto> GetCustomers();
         ICollection<CustomerDto> GetAllCustomers();
         bool DeleteCustomerById(int customerId);
-        bool EditCustomer(CustomerDto customer);
+        bool EditCustomer(int id, CustomerDto customer);
         ICollection<CustomerDto> SearchCustomer(CustomerSearchDto searchCustomer);
         ICollection<CustomerReportDto> GetCustomerClients();
         CustomerReportDto GetCustomerCasesYearly(int CustomerId);

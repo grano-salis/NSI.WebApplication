@@ -160,7 +160,7 @@ namespace NSI.Tests
             // Act
             var mockRepo = new Mock<ICustomerRepository>();
             mockRepo.Setup(x => x.CreateCustomer(It.IsAny<CustomerDto>())).Returns(customer);
-            mockRepo.Setup(x => x.EditCustomer(It.IsAny<CustomerDto>())).Returns(true);
+            mockRepo.Setup(x => x.EditCustomer(id ,It.IsAny<CustomerDto>())).Returns(true);
             var customerManipulation = new CustomerManipulation(mockRepo.Object);
             var controller = new CustomersController(customerManipulation);
             controller.CreateNewCustomer(customer);
@@ -169,7 +169,7 @@ namespace NSI.Tests
 
             customer.CustomerName = "Johndoe";
 
-            var result = controller.EditCustomer(customer);
+            var result = controller.EditCustomer(id,customer);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);

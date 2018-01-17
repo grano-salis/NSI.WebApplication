@@ -144,7 +144,7 @@ namespace NSI.Repository
 
         }
 
-        public bool EditCustomer(CustomerDto customerDto)
+        public bool EditCustomer(int id, CustomerDto customerDto)
         {
             try
             {

@@ -32,9 +32,9 @@ namespace NSI.BLL
         }
 
 
-        public bool EditCustomer(CustomerDto customer)
+        public bool EditCustomer(int id, CustomerDto customer)
         {
-            return _customerRepository.EditCustomer(customer);
+            return _customerRepository.EditCustomer(id, customer);
         }
 
         public CustomerDto GetCustomerById(int customerId)
