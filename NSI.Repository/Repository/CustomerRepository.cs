@@ -7,6 +7,7 @@ using System.Linq;
 using NSI.Repository.Interfaces;
 using NSI.DC.Exceptions;
 using NSI.DC.Exceptions.Enums;
+using System.Net;
 
 namespace NSI.Repository
 {
@@ -32,7 +33,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
             }
             return null;
 
@@ -72,7 +73,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
             }
             return null;
         }
@@ -92,7 +93,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
             }
         }
 
@@ -129,7 +130,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
             }
         }
 
@@ -156,7 +157,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
             }
             return null;
         }
@@ -192,7 +193,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter, HttpStatusCode.BadRequest);
             }
             return null;
         }
@@ -229,7 +230,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter,HttpStatusCode.BadRequest);
             }
             return null;
         }
