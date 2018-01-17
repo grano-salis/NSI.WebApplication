@@ -6,11 +6,15 @@ namespace NSI.Repository.Interfaces
 {
     public interface IDocumentRepository
     {
-        DocumentDto GetDocument(int documentId);
-        IEnumerable<DocumentDto> SearchDocuments(DocumentSearchCriteriaDto searchCriteria);
-        long SaveDocument(DocumentDto document);
-        PagingResultModel<DocumentDto> GetAllDocuments(DocumentsPagingQueryModel query);
+        DocumentDetails GetDocument(int documentId);
+        DocumentDetails SaveDocument(CreateDocumentDto document);
+        PagingResultModel<DocumentDetails> GetAllDocumentsByPage(DocumentsPagingQueryModel query);
         bool DeleteDocument(int id);
-        void Update(DocumentDto document);
+        int Update(DocumentDto document);
+        List<DocumentDetails> GetAllDocuments();
+        List<DocumentHistoryDto> GetDocumentHistoryByDocumentId(int id);
+        List<DocumentDto> GetDocumentsByCase(int id);
+        int GetNumberOfDocumentsByCase(int caseId);
+        List<DocumentCategoryNamesDto> GetDocumentCategories();
     }
 }

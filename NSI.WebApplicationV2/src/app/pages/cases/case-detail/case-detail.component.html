@@ -1,0 +1,248 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div role="main">
+  <div class="clearfix">
+<div class='panel panel-primary' *ngIf='case'>
+  <div class='panel-footer'>
+
+  {{pageTitle + ':' + case.caseNumber}}
+</div>
+<div class='panel-body'>
+  <div class='row'>
+
+      <div class='col-md-6'>
+          <div class='row'>
+              <div class='col-md-3'>Number:</div>
+              <div class='col-md-6'>{{case.caseNumber}}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Code:</div>
+              <div class='col-md-6'>{{case.courtNumber}}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Value:</div>
+              <div class='col-md-6'>{{case.value  | currency:'USD':true:'1.2-2' }}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Judge:</div>
+              <div class='col-md-6'>{{case.judge | uppercase}}</div>
+          </div>
+          <div class='row'>
+              <div class='col-md-3'>Court:</div>
+              <div class='col-md-6'>{{case.court | uppercase}}</div>
+          </div>
+
+
+          
+          </div>
+
+      <div class='row'>
+
+                      <div class='col-md-3'>Documents related:</div>
+                      <div class='col-md-6'>{{document}}</div>
+
+                        <div class='col-md-3'>Counter party:</div>
+                        <div class='col-md-6'>{{case.counterParty | uppercase}}</div>
+
+
+                        <div class='col-md-3'>Case category:</div>
+                        <div class='col-md-6'>{{case.caseCategory | number:0}}</div>
+
+
+                        <div class='col-md-3'>Date created:</div>
+                        <div class='col-md-6'>{{case.dateCreated  | date :  "dd.MM.y"}}</div>
+
+              </div>
+
+
+  </div>
+</div>
+<div class="container">
+<ul class="nav nav-tabs">
+        <!--<div class="col-lg-4 p-0">-->
+
+            <li id="sectionTabOpen"
+                    class="active"
+                    (click)="getTab('Hearings')" style="width:20%;">
+                    <a data-toggle="pill">Hearings</a>
+              
+        </li>
+            <li id="sectionGroupsTabOpen"
+                    class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
+                    (click)="getTab('Contacts')" style="width:20%;">
+                    <a data-toggle="pill">Contacts</a>
+    </li>
+
+            <li id="DocumentsTabOpen"
+            class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
+            (click)="getTab('Documents')"style="width:20%;">
+            <a data-toggle="pill">Documents</a>
+       </li>
+        <li id="NotesTabOpen"
+        class="col-lg-3 col-md-3 col-xs-3 secondaryTabStyle"
+        (click)="getTab('Notes')" style="width:20%;">
+        <a data-toggle="pill">Notes</a>
+    </li>
+                </ul>
+            </div>
+<div class='panel-footer'>
+  <a class='btn btn-default' (click)='onBack()' style='width:80px'>
+    <i class='glyphicon glyphicon-chevron-left'></i>Back
+
+</a>
+
+</div>
+
+  </div>
+
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+<div>
+    <div *ngIf="taskTabOpenName === 'Hearings'">
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">&nbsp;</p>
+       
+   
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    
+                        <th style="width: 20%; text-align:center;color:#4169E1">Date</th>
+                        <th style="width: 20%;text-align:center;color:#4169E1">First User</th>
+                        <th class="table table-striped projects" style="width: 20%;text-align:center;color:#4169E1">Last User</th>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let hearing of hearings;let i = index;">
+                        <td style="width: 20%;text-align:center">{{hearing.hearingDate | date :  "dd.MM.y"}}</td>
+                     
+                        <td *ngFor="let u of hearing.userHearing;let i = index;"style="width: 20%;text-align:center">{{u.userName}}</td>
+                        
+                       
+                        
+                    </tr>
+                </tbody> 
+            </table>
+        
+                  </div></div></div></div>
+     
+        </div>
+        <div *ngIf="taskTabOpenName === 'Contacts'">
+          <app-contacts [caseId]="param"></app-contacts>
+        </div>
+        <div *ngIf="taskTabOpenName === 'Documents'">
+             
+           <!-- <app-document-modal [scopedToCase]="scopedToCase"
+              [caseNumber]="caseNumber"></app-document-modal>	-->
+              <div class="clearfix">
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                
+                    <p class="text-muted font-13 m-b-30">&nbsp;</p>
+              <div class="x_content">
+               <table class="table table-bordered jambo_table">
+					<thead>
+						<tr>
+
+							<th>Title</th>
+
+							<th>Category</th>
+							<th>Description</th>
+							
+							<th>Created At</th>
+							<th>Last Modified</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let item of docs; let i = index">
+
+
+							<td>{{ item.documentTitle }}</td>
+
+							<td>{{ item.categoryName }} </td>
+							<td>{{ item.documentDescription }}</td>
+							
+							<td>{{ item.createdAt | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+							<td>{{ item.lastModified | date: 'dd/MMM/yyyy hh:mm:ss' }}</td>
+
+						</tr>
+					</tbody>
+				</table>
+
+
+
+            </div> 
+        </div>
+    </div>
+  </div>
+</div>
+        </div>
+        <div *ngIf="taskTabOpenName === 'Notes'">
+                <div class="clearfix"></div>
+
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                      <div class="x_content">
+                        <p class="text-muted font-13 m-b-30">&nbsp;</p>
+  
+            <table class="table table-striped table-bordered" id="datatable">
+                <thead>
+                    <tr>
+                    
+                       
+                        <th style="width: 20%;text-align:center;color:#4169E1;">Note</th>
+                        <th class="table table-striped projects;" style="width: 20%;text-align:center;color:#4169E1;">First User</th>
+                        <th class="table table-striped projects;" style="width: 20%;text-align:center;color:#4169E1;">Second User</th>
+                        <th class="table table-striped projects;" style="width: 20%;text-align:center;color:#4169E1">Third User</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let hearing of hearings">
+                        
+                       
+                        <td  *ngFor="let e of hearing.note" style="width: 20%;text-align:center">{{e.text}} </td>
+                        <td *ngFor="let u of hearing.userHearing" style="width: 20%;text-align:center">{{u.userName}}</td>
+                        
+                       
+                        
+                    </tr>
+                </tbody> 
+            </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+</div>

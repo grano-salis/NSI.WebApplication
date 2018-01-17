@@ -2,20 +2,24 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Hearing } from './hearing';
 import { HearingsService } from '../../../services/hearings.service';
 import { UsersService } from '../../../services/users.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from "../../../services/alert.service";
+import { DatePipe } from '@angular/common';
+
 
 declare var $: any;
 
 @Component({
   selector: 'app-hearing-new',
   templateUrl: './hearing-new.component.html',
-  styleUrls: ['./hearing-new.component.scss']
+  styleUrls: ['./hearing-new.component.scss'],
+  providers: [DatePipe]
 })
 export class HearingNewComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     let self = this;
-    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, hh:mm:ss" });
+    $('#hearingDate').datetimepicker({ useCurrent: false, format: "MM/DD/YYYY, HH:mm:ss" });
     $("#hearingDate").on("dp.change", function (e: any) {
       self.model.hearingDate = $("#hearingDate").val();
     });
@@ -28,9 +32,11 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
   date: string;
   noteText: string;
   id: number;
+  noteIndex: number;
   public edit: boolean = false;
 
-  constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute) {
+  constructor(private hearingsService: HearingsService, private usersService: UsersService, private route: ActivatedRoute,
+    private router: Router, private alertService: AlertService, private datePipe: DatePipe) {
     this.query = '';
     this.filteredList = [];
     this.notes = [];
@@ -69,40 +75,63 @@ export class HearingNewComponent implements OnInit, AfterViewInit {
           this.edit = true;
           console.log(data.hearingDate);
           console.log(new Date(data.hearingDate));
-          this.model.hearingDate = new Date(data.hearingDate).toLocaleString();
+          this.model.hearingDate = this.datePipe.transform(new Date(data.hearingDate), 'MM/dd/yyyy, HH:mm:ss');
           this.model.userHearing = data.userHearing;
           this.model.note = data.note;
+          this.noteText = data.note[0].text;
+          $("#editor-one").html(this.noteText);
         }
         console.log(this.edit);
-      });
+      },
+        (error: any) => {
+          this.alertService.showError(error.error.message)
+        }
+      );
     }
   }
 
   updateHearing() {
     this.model.hearingDate = $('#hearingDate').val();
-    this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => console.log(r),
-      (error: any) => console.log("Error: " + error.message));
+    this.noteIndex = this.model.note.findIndex(x => x.createdByUserId == 1);
+    if(this.noteIndex != -1)
+    {
+      this.model.note.splice(this.noteIndex, 1,{ text: this.noteText, createdByUserId: 1, hearingId: 5 });
+    }
+    else
+    {
+      this.model.note.push({ text: this.noteText, createdByUserId: 2, hearingId: 5 });
+    }
+    this.hearingsService.putHearing(this.id, this.model).subscribe((r: any) => this.alertService.showSuccess("Success", "Hearing updated"),
+      (error: any) => this.alertService.showError(error.error.message));
   }
 
   onSubmit() {
     console.log("Form submitted");
+    this.noteText = $.trim($("#editor-one").html())
+    console.log(this.noteText)
     this.model.hearingDate = $('#hearingDate').val()
     this.notes.push({ text: this.noteText, createdByUserId: 1, hearingId: 5 })
     this.model.note = this.notes
     this.model.createdByUserId = 1
     this.model.caseId = 3
     console.log(this.model);
-    this.hearingsService.postHearing(this.model).subscribe((r: any) => console.log(r),
-      (error: any) => console.log("Error: " + error.message));
+    this.hearingsService.postHearing(this.model).subscribe((r: any) => {
+      this.alertService.showSuccess("Success", "Hearing created")
+      // this.model = new Hearing();
+    },
+      (error: any) => this.alertService.showError(error.error.message));
   }
 
   newHearing() {
     this.model = new Hearing();
+    this.router.navigate(['/hearings/new']);
   }
 
   deleteHearing() {
-    this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => console.log('Brisemo hearing:' + r),
-      (error: any) => console.log("Error: " + error.message));
+    this.hearingsService.deleteHearingById(this.id).subscribe((r: any) => {
+      this.model = new Hearing();
+      this.alertService.showSuccess("Success", "Hearing deleted");
+    }, (error: any) => this.alertService.showError(error.error.message));
   }
 
 }

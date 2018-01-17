@@ -6,7 +6,7 @@ using System.Text;
 
 namespace NSI.Repository.Mappers
 {
-    class ContactRepository
+    public static class ContactRepository
     {
         public static Contact MapToDbEntity(ContactDto contactDto)
         {
@@ -16,6 +16,7 @@ namespace NSI.Repository.Mappers
                 CreatedByUserId = contactDto.CreatedByUserId,
                 CreatedDate = contactDto.CreatedDate,
                 AddressId = contactDto.AddressId,
+                Address = contactDto.Address != null ? AddressRepository.MapToDbEntity(contactDto.Address) : null,
                 FirsttName = contactDto.FirsttName,
                 IsDeleted = contactDto.IsDeleted,
                 LastName = contactDto.LastName,
@@ -33,6 +34,7 @@ namespace NSI.Repository.Mappers
                 CreatedByUserId = contact.CreatedByUserId,
                 CreatedDate = contact.CreatedDate,
                 AddressId = contact.AddressId,
+                Address = contact.Address != null ? AddressRepository.MapToDto(contact.Address) : null,
                 FirsttName = contact.FirsttName,
                 IsDeleted = contact.IsDeleted,
                 LastName = contact.LastName,

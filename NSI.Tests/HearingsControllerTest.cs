@@ -179,28 +179,117 @@ namespace NSI.Tests
             Assert.IsType<OkObjectResult>(resultUpdated);
         }
 
-        IkarusContext db = new IkarusContext();
-        IHearingsRepository ihr => new HearingsRepository(db);
-        IHearingsManipulation ihm => new HearingsManipulation(ihr);
-
         [Fact]
-         public void GetHearingsByCase_ReturnsCase()
-         {
-             // Arrange & Act
-             var controller = new HearingsController(ihm);
+        public void GetHearingsByCase_ReturnsCase()
+        {
+            // Arrange
+            int id = 123;
+            DateTime hearingDate = DateTime.Now;
+
+            int createdByUserId = 1;
+            int caseId = 3;
+
+            var usersOnHearing = new List<UserHearingDto>()
+            {
+                new UserHearingDto()
+                {
+                    UserId = 1
+                }
+            };
+
+            var notes = new List<NoteDto>()
+            {
+                new NoteDto
+                {
+                    Text = "test test",
+                    CreatedByUserId = 1,
+                    HearingId = 123
+                }
+            };
+
+            var hearing = new HearingDto()
+            {
+                HearingId = id,
+                HearingDate = hearingDate,
+                CreatedByUserId = createdByUserId,
+                CaseId = caseId,
+                UserHearing = usersOnHearing,
+                Note = notes
+            };
+
+            var hearingRepo = new Mock<IHearingsRepository>();
+            hearingRepo.Setup(x => x.InsertHearing(hearing));
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+
+
+            var controller = new HearingsController(hearingManipulation);
 
             // Act
-             var result = controller.GetHearingsByCase(3);
- 
-             // Assert
-             Assert.IsType<OkObjectResult>(result);
-         }
+            var result = controller.GetHearingsByCase(3);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public void GetHearingsByCase_ReturnsBadRequest()
+        {
+            //Arrange
+            var hearingRepo = new Mock<IHearingsRepository>();
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+            var controller = new HearingsController(hearingManipulation);
+
+            // Act
+            var result = controller.GetHearingsByCase(-1);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
 
         [Fact]
         public void GetAll_ReturnsAllHearings()
         {
-            // Arrange & Act
-            var controller = new HearingsController(ihm);
+            // Arrange
+            int id = 123;
+            DateTime hearingDate = DateTime.Now;
+
+            int createdByUserId = 1;
+            int caseId = 3;
+
+            var usersOnHearing = new List<UserHearingDto>()
+            {
+                new UserHearingDto()
+                {
+                    UserId = 1
+                }
+            };
+
+            var notes = new List<NoteDto>()
+            {
+                new NoteDto
+                {
+                    Text = "test test",
+                    CreatedByUserId = 1,
+                    HearingId = 123
+                }
+            };
+
+            var hearing = new HearingDto()
+            {
+                HearingId = id,
+                HearingDate = hearingDate,
+                CreatedByUserId = createdByUserId,
+                CaseId = caseId,
+                UserHearing = usersOnHearing,
+                Note = notes
+            };
+
+            var hearingRepo = new Mock<IHearingsRepository>();
+            hearingRepo.Setup(x => x.InsertHearing(hearing));
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+
+
+            var controller = new HearingsController(hearingManipulation);
 
             // Act
             var result = controller.GetAll();
@@ -210,12 +299,15 @@ namespace NSI.Tests
         }
 
         [Fact]
-        public void GetHearingById_ReturnsNoContent()
+        public void GetHearingById_ReturnsBadRequest()
         {
-            var controller = new HearingsController(ihm);
+            // Arrange
+            var hearingRepo = new Mock<IHearingsRepository>();
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+            var controller = new HearingsController(hearingManipulation);
 
             // Act
-            var result = controller.Get(0);
+            var result = controller.Get(-1);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result);
@@ -225,10 +317,50 @@ namespace NSI.Tests
         [Fact]
         public void GetHearingById_ReturnsOK()
         {
-            var controller = new HearingsController(ihm);
+            // Arrange
+            int id = 123;
+            DateTime hearingDate = DateTime.Now;
+
+            int createdByUserId = 1;
+            int caseId = 3;
+
+            var usersOnHearing = new List<UserHearingDto>()
+            {
+                new UserHearingDto()
+                {
+                    UserId = 1
+                }
+            };
+
+            var notes = new List<NoteDto>()
+            {
+                new NoteDto
+                {
+                    Text = "test test",
+                    CreatedByUserId = 1,
+                    HearingId = 123
+                }
+            };
+
+            var hearing = new HearingDto()
+            {
+                HearingId = id,
+                HearingDate = hearingDate,
+                CreatedByUserId = createdByUserId,
+                CaseId = caseId,
+                UserHearing = usersOnHearing,
+                Note = notes
+            };
+
+            var hearingRepo = new Mock<IHearingsRepository>();
+            hearingRepo.Setup(x => x.InsertHearing(hearing));
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+
+
+            var controller = new HearingsController(hearingManipulation);
 
             // Act
-            var result = controller.Get(1);
+            var result = controller.Get(123);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -302,6 +434,21 @@ namespace NSI.Tests
             // Assert
             Assert.IsType<OkObjectResult>(result);
         }
+        [Fact]
+        public void Delete_ReturnsBadRequest()
+        {
+            //Arrange
+            var hearingRepo = new Mock<IHearingsRepository>();
 
+            var hearingManipulation = new HearingsManipulation(hearingRepo.Object);
+            var controller = new HearingsController(hearingManipulation);
+
+            // Act
+            var result = controller.DeleteHearing(-1);
+
+            // Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+
+        }
     }
 }

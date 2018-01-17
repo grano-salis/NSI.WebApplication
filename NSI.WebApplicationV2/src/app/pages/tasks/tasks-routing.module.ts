@@ -1,17 +1,24 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { extract } from "../../core/services/i18n.service";
-import { TasksComponent } from "./tasks.component";
-import { NewTaskComponent } from './new-task/new-task.component';
-import { TasksOverviewComponent } from './tasks-overview/tasks-overview.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {TasksComponent} from "./tasks.component";
+import {NewTaskComponent} from './new-task/new-task.component';
+import {CurrentComponent} from "./current/current.component";
+import {HistoryComponent} from "./history/history.component";
 
 const routes: Routes = [
-  { path: '', component: TasksComponent, data: { title: extract('Tasks') }},
-  { path: 'new', component: NewTaskComponent },
+  {
+    path: '', component: TasksComponent, children: [
+      {path: '', redirectTo: 'current', pathMatch: 'full'},
+      {path: 'new', component: NewTaskComponent},
+      {path: 'current', component: CurrentComponent},
+      {path: 'history', component: HistoryComponent}
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TasksRoutingModule { }
+export class TasksRoutingModule {
+}

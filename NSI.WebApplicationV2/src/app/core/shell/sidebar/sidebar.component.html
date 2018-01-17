@@ -25,7 +25,16 @@
   <div id="sidebar-menu" class="main_menu_side  hidden-print main_menu">
     <div class="menu_section">
       <h3>General</h3>
+
       <ul class="nav side-menu">
+
+          <li [routerLink]="['/cases/dashboard']" >
+            <a id="dashboardli" (click)="anchorClicked($event)">
+              <i class="fa fa-dashboard"></i> Dashboard
+              <!--<span id="dashboardchevron" class="fa fa-chevron-down"></span>-->
+            </a>
+          </li>
+
         <li>
           <a id="homeli" (click)="anchorClicked($event)">
             <i class="fa fa-home"></i> Home
@@ -41,33 +50,33 @@
           </ul>
         </li>
 
-        <li >
+        <li [ngClass]="{'active': meetingsRouter.isActive || meetingsNewRouter.isActive}">
           <a id="meetingsli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Meetings
             <span id="meetingschevron" class="fa fa-chevron-down"></span>
           </a>
-          <ul class="nav child_menu">
-            <li [routerLink]="['/meetings']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <ul class="nav child_menu" [ngStyle]="{'display': (meetingsRouter.isActive || meetingsNewRouter.isActive) ? 'block': 'none'}">
+            <li [routerLink]="['/meetings']" routerLinkActive="active" #meetingsRouter="routerLinkActive" [routerLinkActiveOptions]="{exact: true}">
               <a>Overview</a>
             </li>
-            <li [routerLink]="['/meetings/new']" routerLinkActive="active">
+            <li [routerLink]="['/meetings/new']" #meetingsNewRouter="routerLinkActive"  routerLinkActive="active">
               <a>New meeting</a>
             </li>
           </ul>
         </li>
-        <li>
-          <a id="tasksli" (click)="anchorClicked($event)">
+        <li [ngClass]="{'active': tasksRouter.isActive}">
+          <a id="tasksli" (click)="anchorClicked($event)" [routerLink]="['/tasks']"
+             #tasksRouter="routerLinkActive" routerLinkActive="active">
             <i class="fa fa-tasks"></i> Tasks
-            <span id="taskschevron" class="fa fa-chevron-down"></span>
           </a>
-          <ul class="nav child_menu">
+          <!--<ul class="nav child_menu">
             <li [routerLink]="['/tasks']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <a>Overview</a>
             </li>
             <li [routerLink]="['/tasks/new']" routerLinkActive="active">
               <a>New task</a>
             </li>
-          </ul>
+          </ul>-->
         </li>
         <li >
           <a id="hearingsli" (click)="anchorClicked($event)">
@@ -77,6 +86,21 @@
           <ul class="nav child_menu">
             <li [routerLink]="['/hearings/new']" routerLinkActive="active">
               <a>New hearing</a>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <a id="casesli" (click)="anchorClicked($event)">
+            <i class="fa fa-edit"></i> Cases
+            <span id="caseschevron" class="fa fa-chevron-down"></span>
+          </a>
+          <ul class="nav child_menu">
+            <li [routerLink]="['/cases/new']" routerLinkActive="active">
+              <a>New case</a>
+            </li>
+            <li [routerLink]="['/cases/all']" routerLinkActive="active">
+              <a>List of cases</a>
             </li>
           </ul>
         </li>
@@ -124,9 +148,9 @@
           </a>
         </li>
         -->
-        
-        <li routerLinkActive="current-page">
-          <a id="organizationli" (click)="anchorClicked($event)">
+
+        <li [routerLink]="['/organization']" routerLinkActive="current-page">
+          <a>
             <i class="fa fa-calendar-o"></i> Organizations
             <span id="organizationchevron" class="fa fa-chevron-down"></span>
           </a>
@@ -143,18 +167,18 @@
 
         <li>
           <a id="packageli" (click)="anchorClicked($event)">
-            <i class="fa fa-ellipsis-v"></i> Paketi i transakcije
+            <i class="fa fa-ellipsis-v"></i> Packages and Transactions
             <span id="packagechevron" class="fa fa-chevron-down"></span>
           </a>
           <ul class="nav child_menu">
             <li [routerLink]="['/pricingpackages/list']" routerLinkActive="active">
-              <a>Paketi usluga</a>
+              <a>Packages</a>
             </li>
             <li [routerLink]="['/pricingpackages/mypackage']" routerLinkActive="active">
-              <a>Moje usluge</a>
+              <a>My Package</a>
             </li>
             <li [routerLink]="['/transactions']" routerLinkActive="active">
-              <a>Transakcije</a>
+              <a>Transactions</a>
             </li>
           </ul>
         </li>
@@ -366,7 +390,7 @@
               <i class="fa fa-calendar-o"></i> Clients
             </a>
           </li>
-          
+
       </ul>
     </div>
 

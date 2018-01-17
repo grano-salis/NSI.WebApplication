@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using Hangfire;
 
 namespace NSI.REST
 {
@@ -25,7 +26,7 @@ namespace NSI.REST
                 .Build();
 
             OpenBrowser("http://localhost:59738/swagger");
-
+            RecurringJob.AddOrUpdate(() => Console.Write("Easy!"+DateTime.Now.ToString()), Cron.Minutely());
             host.Run();
         }
 

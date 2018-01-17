@@ -6,7 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'show-contact-component',
   templateUrl: './show-contact-component.html',
-  styleUrls: []
+  styleUrls: ['../contacts.component.css']
 })
 export class ShowContactComponent {
   @Input() temp_contact: any;

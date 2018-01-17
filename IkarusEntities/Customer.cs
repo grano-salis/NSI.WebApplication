@@ -35,6 +35,7 @@ namespace IkarusEntities
         public ICollection<ClientType> ClientType { get; set; }
         public ICollection<DocumentCategory> DocumentCategory { get; set; }
         public ICollection<Transaction> Transaction { get; set; }
+        public ICollection<Subscription> Subscription { get; set; }
         public ICollection<UserInfo> UserInfo { get; set; }
     }
 }

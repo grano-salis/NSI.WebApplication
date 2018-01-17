@@ -1,106 +1,201 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSI.BLL.Interfaces;
-using NSI.REST.Models;
 using NSI.DC.DocumentRepository;
+using NSI.DC.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NSI.REST.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/Documents")]
     public class DocumentController : Controller
     {
-        private readonly IDocumentManipulation _documentManipulation;
+        private IDocumentManipulation DocumentManipulation { get; }
+        private ILogger<DocumentController> Logger { get; }
 
-        public DocumentController(IDocumentManipulation documentManipulation)
+        public DocumentController(IDocumentManipulation documentManipulation, ILogger<DocumentController> logger)
         {
-            _documentManipulation = documentManipulation;
+            DocumentManipulation = documentManipulation;
+            Logger = logger;
         }
 
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            //TODO
-            return new[] { "value1", "value2" };
-        }
-
-        [HttpPost]
-        [Route("paging")]
-        public PagingResultModel<DocumentDto> GetDocumentsByPage(DocumentsPagingQueryModel queryDto)
+        // GET: api/Documents
+        [HttpGet("byCase/{id}")]
+        public IActionResult GetByCaseId(int id)
         {
             try
             {
-                return _documentManipulation.GetDocumentsByPage(queryDto);
+                return Ok(DocumentManipulation.GetDocumentsByCase(id));
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+        [HttpGet]
+        [Route("case/{caseId}")]
+        public IActionResult GetNumberOfDocumentsByCase(int caseId)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetNumberOfDocumentsByCase(caseId));
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        [HttpGet]
+        [Route("category")]
+        public IActionResult GetDocumentCategories()
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentCategories());
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetAllDocuments());
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        // GET api/Documents/5
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentById(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        // GET api/Documents/5
+        [HttpGet("history/{id}")]
+        public IActionResult GetDocumentHistory(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentHistoryByDocumentId(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        //POST /api/Documents/paging
+        [HttpPost]
+        [Route("paging")]
+        public IActionResult GetDocumentsByPage([FromBody]DocumentsPagingQueryModel queryDto)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.GetDocumentsByPage(queryDto));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        
+
+        // POST api/Documents/upload
+        [HttpPost]
+        [Route("upload")]
+        public async Task<IActionResult> Upload()
+        {
+            try
+            {
+                var file = Request.Form.Files.FirstOrDefault();
+                var path = await DocumentManipulation.UploadFileAsync(file);
+                return Ok(Path.Combine("localhost:59738", path));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public DocumentDto Get(int id)
-        {
-            try
-            {
-                return _documentManipulation.GetDocumentById(id);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
-        // POST api/values
+        // POST api/Documents
         [HttpPost]
-        public async Task<IActionResult> Post(List<IFormFile> files)
-        {
-            var size = files.Sum(f => f.Length);
-
-            // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-
-            foreach (var formFile in files)
-            {
-                if (formFile.Length <= 0) continue;
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await formFile.CopyToAsync(stream);
-                }
-            }
-
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
-            return Ok(new { count = files.Count, size, filePath });
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]DocumentDto documentDto)
-        {
-            _documentManipulation.EditDocument(id, documentDto);
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Post([FromBody]CreateDocumentDto document)
         {
             try
             {
-                _documentManipulation.DeleteDocument(id);
+                var doc = DocumentManipulation.SaveDocument(document);
+                return Ok(doc);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new Exception(e.Message);
-            } 
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+
+        // PUT api/Documents/5
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]DocumentDto documentDto)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.EditDocument(id, documentDto));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
+        }
+
+        // DELETE api/Documents/3
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                return Ok(DocumentManipulation.DeleteDocument(id));
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message);
+                throw new NSIException(ex.Message, DC.Exceptions.Enums.Level.Error, DC.Exceptions.Enums.ErrorType.InvalidParameter);
+            }
         }
     }
 }

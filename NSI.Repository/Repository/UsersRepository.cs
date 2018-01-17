@@ -6,6 +6,9 @@ using NSI.DC.MeetingsRepository;
 using IkarusEntities;
 using System.Linq;
 using NSI.DC.HearingsRepository;
+using NSI.DC.Exceptions;
+using NSI.DC.Exceptions.Enums;
+using NSI.DC.Auth;
 
 namespace NSI.Repository.Repository
 {
@@ -38,6 +41,16 @@ namespace NSI.Repository.Repository
                                             UserName = x.Username
                                         })
                                         .ToList();
+        }
+
+        public UserInfoDto GetUserInfoByUsername(string username)
+        {
+            if (username == null)
+                throw new NSIException("Username is null", Level.Error, ErrorType.InvalidParameter);
+            var userInfo = _dbContext.UserInfo.FirstOrDefault(x => x.Username == username);
+            if (userInfo == null)
+                throw new NSIException("No user for username = " + username, Level.Info, ErrorType.MissingData);
+            return Mappers.UserInfoRepository.MapToDto(userInfo);
         }
 
     }

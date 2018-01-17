@@ -8,10 +8,13 @@ namespace NSI.BLL.Interfaces
 {
     public interface IContactsManipulation
     {
-        ICollection<ContactDto> GetContacts();
-        ContactDto CreateContact(ContactDto model);
+        PaggedContactDto GetContacts(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder, int caseId);
+        IEnumerable<ContactDto> GetContactsForCase(int caseId);
+        ContactDto CreateContact(ContactDto model, int caseId);
         ContactDto GetContactById(int contactId);
         bool DeleteContactById(int contactId);
         bool EditContact(int contactId, ContactDto contact);
+        string ValidationContact(ContactDto contact);
+    
     }
 }

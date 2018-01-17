@@ -10,7 +10,6 @@ namespace NSI.DC.HearingsRepository
     {
         [DataMember]
         [Required]
-        [StringLength(255, MinimumLength = 5)]
         public string Text { get; set; }
 
         [DataMember]

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NSI.DC.ContactsRepository;
+using Microsoft.EntityFrameworkCore.Internal;
+using System.Text.RegularExpressions;
+using NSI.DC.AddressRepository;
 
 namespace NSI.REST.Controllers
 {
@@ -20,9 +23,9 @@ namespace NSI.REST.Controllers
 
         // GET: api/contacts
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int pageSize, int pageNumber, String searchString, String searchColumn, String sortOrder, int caseId)
         {
-            return Ok(contactsRepository.GetContacts());
+            return Ok(contactsRepository.GetContacts(pageSize, pageNumber, searchString, searchColumn, sortOrder, caseId));
         }
 
 
@@ -33,22 +36,34 @@ namespace NSI.REST.Controllers
             return Ok(contactsRepository.GetContactById(id));
         }
 
+        // GET: api/contacts/forcase/5
+        [HttpGet("/forcase/{caseId}")]
+        public IActionResult GetByCase(int caseId)
+        {
+            return Ok(contactsRepository.GetContactsForCase(caseId));
+        }
+
 
         // POST: api/contacts
-        [HttpPost]
-        public IActionResult Post([FromBody]ContactDto model)
+        [HttpPost("{id}")]
+        public IActionResult Post(int id, [FromBody]ContactDto model)
         {
-            Console.Write(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             try
             {
-               
-               var contact = contactsRepository.CreateContact(model);
-                if (contact != null)
-                    return Ok(contact);
+
+
+                if (model != null)
+                {
+                   
+                        var contact = contactsRepository.CreateContact(model, id);
+                        return Ok(contact);
+                  
+                }
+
                 else
                     return NoContent();
             }
@@ -56,7 +71,6 @@ namespace NSI.REST.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return NoContent();
         }
 
         // PUT: api/contacts/5
@@ -69,11 +83,17 @@ namespace NSI.REST.Controllers
             }
             try
             {
-                var contact = contactsRepository.EditContact(id, model);
-                if (contact)
-                    return Ok(contact);
-                else return NoContent();
-
+             
+                    var contact = contactsRepository.EditContact(id, model);
+                    if (contact)
+                    {
+                        return Ok(contact);
+                    }
+                    else
+                    {
+                        return NoContent();
+                    }
+              
             }
             catch (Exception ex)
             {
@@ -99,6 +119,8 @@ namespace NSI.REST.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+      
     }
 }
 

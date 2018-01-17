@@ -13,6 +13,7 @@ namespace IkarusEntities
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
         public int UserId { get; set; }
+        public string Status { get; set; }
 
         public UserInfo User { get; set; }
     }

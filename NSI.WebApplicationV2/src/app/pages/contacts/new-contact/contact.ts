@@ -1,3 +1,4 @@
+import {Address} from "../../address/address.model";
 export class Contact {
 
   taskId: number;
@@ -6,9 +7,12 @@ export class Contact {
   phone: string;
   mobile: string;
   email: string;
+  address: Address;
   addressId: number;
   createdDate: Date;
   modifiedDate: Date;
   isDeleted: boolean;
   createdByUserId: number;
+  emails: any[];
+  phones: any[];
 }

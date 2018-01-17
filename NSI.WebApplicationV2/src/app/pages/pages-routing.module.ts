@@ -21,7 +21,12 @@ const routes: Routes = [
       {path: 'tasks', loadChildren: './tasks/tasks.module#TasksModule'},
       {path: 'transactions', loadChildren: './transactions/transactions.module#TransactionsModule'},
       {path: 'pricingpackages', loadChildren: './pricing-packages/pricing-packages.module#PricingPackagesModule'},
-      {path: 'clients', loadChildren: './clients/clients.module#ClientsModule'}
+      {path: 'clients', loadChildren: './clients/clients.module#ClientsModule'},
+      {path: 'cases', loadChildren: './cases/cases.module#CasesModule'},
+      {path: 'caseCategory', loadChildren: './caseCategory/caseCategory.module#CaseCategoryModule'},
+      {path: 'clientType', loadChildren: './clientType/clientType.module#ClientTypeModule'},      
+      {path: 'documentCategory', loadChildren: './document-category/document-category.module#DocumentCategoryModule'},
+      {path: 'fileType', loadChildren: './file-type/file-type.module#FileTypeModule'}
     ]
   }
 ];

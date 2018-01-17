@@ -2,17 +2,54 @@
     margin-left: auto;
     margin-right: auto;
 }
-.image-upload > input
-{
+
+.image-upload > input {
     margin-left: auto;
     margin-right: auto;
-    display: none;
 }
 
 #uploadImage {
-	max-height: 18vh;
+    max-height: 18vh;
 	display: block;
 	margin-left: auto;
     margin-right: auto;
 	outline: 0;
+}
+
+#uploadSurface {
+    width: 100%;
+    border-right: 2px solid #3498db;
+    border-left: 2px solid #3498db;
+    border-radius: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 34px;
+    resize: none;
+}
+
+label span input {
+    z-index: 999;
+    line-height: 0;
+    font-size: 50px;
+    position: absolute;
+    top: -2px;
+    left: -700px;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    -ms-filter: "alpha(opacity=0)";
+    cursor: pointer;
+    _cursor: hand;
+    margin: 0;
+    padding:0;
+}
+
+.red-asterix {
+    color: red;
+}
+
+.footer-text-left {
+    float: left;
+    border-bottom: 1px solid red;
 }

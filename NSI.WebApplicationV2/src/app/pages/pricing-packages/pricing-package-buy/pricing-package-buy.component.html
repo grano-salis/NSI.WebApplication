@@ -2,7 +2,7 @@
     <div class="">
       <div class="page-title">
         <div class="title_left">
-          <h3>Prijava paketa</h3>
+          <h3>Package subscription</h3>
         </div>
 
         <div class="title_right">
@@ -23,7 +23,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>Prijava paketa <small>Sessions</small></h2>
+              <h2>Package subscription <small>Package subscription</small></h2>
               <ul class="nav navbar-right panel_toolbox">
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
@@ -45,15 +45,15 @@
 
 
               <!-- Smart Wizard -->
-              <p>This is a basic form wizard example that inherits the colors from the selected scheme.</p>
+
               <div id="wizard" class="form_wizard wizard_horizontal">
                 <ul class="wizard_steps">
                   <li>
                     <a href="#step-1">
                       <span class="step_no">1</span>
                       <span class="step_descr">
-                                        Korak 1<br />
-                                        <small>O usluzi</small>
+                                        Step 1<br />
+                                        <small>About the pricing package</small>
                                     </span>
                     </a>
                   </li>
@@ -61,8 +61,8 @@
                     <a href="#step-2">
                       <span class="step_no">2</span>
                       <span class="step_descr">
-                                        Korak 2<br />
-                                        <small>Zakon i obaveze</small>
+                                        Step 2<br />
+                                        <small>Law and Commitments</small>
                                     </span>
                     </a>
                   </li>
@@ -70,8 +70,8 @@
                     <a href="#step-3">
                       <span class="step_no">3</span>
                       <span class="step_descr">
-                                        Korak 3<br />
-                                        <small>Placanje</small>
+                                        Step 3<br />
+                                        <small>Basic details</small>
                                     </span>
                     </a>
                   </li>
@@ -79,8 +79,8 @@
                     <a href="#step-4">
                       <span class="step_no">4</span>
                       <span class="step_descr">
-                                        Korak 4<br />
-                                        <small>Potvrda uplate</small>
+                                        Step 4<br />
+                                        <small>Payment confirmation</small>
                                     </span>
                     </a>
                   </li>
@@ -89,21 +89,22 @@
                   <form class="form-horizontal form-label-left">
 
                     <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Ime <span class="required">*</span>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name <span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Prezime <span class="required">*</span>
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Surname <span class="required">*</span>
                       </label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
                       </div>
                     </div>
+                    <!--
                     <div class="form-group">
-                      <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Servis za placanje <span class="required">*</span></label>
+                      <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Payment gateway <span class="required">*</span></label>
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <select class="form-control" [(ngModel)]="transaction.PaymentGatewayId" name="paymentGateway">
 
@@ -112,40 +113,26 @@
                         </select>
                       </div>
                     </div>
+                  -->
                     <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Broj kreditne kartice <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-3">Datum isteka kreditne kartice</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" class="form-control" data-inputmask="'mask': '99/99/9999'">
-                        <span class="fa fa-user form-control-feedback right" aria-hidden="true"></span>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12">Automatsko placanje</label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div id="gender" class="btn-group" data-toggle="buttons">
-                          <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                            <input type="radio" name="gender" value="male"> &nbsp; Da &nbsp;
-                          </label>
-                          <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                            <input type="radio" name="gender" value="female"> Ne
-                          </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Recurring payment</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div id="gender" class="btn-group" data-toggle="buttons">
+                            <label>
+                              <input type="checkbox" name="" value="" ckecked>
+                            </label>
+
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                  </div>
 
 
                   </form>
 
                 </div>
                 <div id="step-1">
-                  <h2 class="StepTitle">Usluga na koju se prijavljuje </h2>
+                  <h2 class="StepTitle">Pricing package info </h2>
+                  <br/>
                   <p>
                     U ovu uslugu je ukljuceno:
                     <br>
@@ -154,11 +141,12 @@
                   <p>
                     Za ovu uslugu je potrebno sljedece:
                     <br>
+                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     <code>...</code>
                   </p>
                 </div>
                 <div id="step-2">
-                  <h2 class="StepTitle">Zakon i obaveze</h2>
+                  <h2 class="StepTitle">Law and Commitments</h2>
                   <p>
                     Prijavom na ovu uslugu potvrdjujete da se slazete sa sljedecim obavezama:
                   </p>
@@ -168,46 +156,38 @@
                   </p>
                 </div>
                 <div id="step-4">
-                  <h2 class="StepTitle">Potvrda uplate </h2>
-                  <form class="form-horizontal form-label-left">
-
-                    <div class="form-group">
-                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">PIN za kreditnu karticu <span class="required">*</span>
-                      </label>
-                      <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
-                      </div>
-                    </div>
-
-
-                  </form>
-
+                  <h2 class="StepTitle">Payment confirmation </h2>
+                  <br/>
 
                   <div class="col-xs-12 col-m-6 coll-m-offset-6">
-                    <p class="lead">Uplata:  2/22/2014</p>
+                    <p class="lead">Date:  14/12/2017</p>
                     <div class="table-responsive">
                       <table class="table">
                         <tbody>
                           <tr>
                             <th style="width:50%">Subtotal:</th>
-                            <td>$250.30</td>
+                            <td>{{transaction.Amount}} USD</td>
                           </tr>
                           <tr>
-                            <th>Tax (9.3%)</th>
-                            <td>$10.34</td>
+                            <th>Tax (5%)</th>
+                            <td>{{0.05*transaction.Amount}} USD</td>
                           </tr>
-                          <tr>
-                            <th>Shipping:</th>
-                            <td>$5.80</td>
-                          </tr>
+
                           <tr>
                             <th>Total:</th>
-                            <td>$265.24</td>
+                            <td>{{1.05*transaction.Amount}} USD</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
+                    <br>
+                    <strong>Payment options</strong>
+
+                    <button id="stripe-checkout-button" class="stripe-button-el" style="visibility: visible;"><span style="display: block; min-height: 30px;">Stripe <small>Checkout</small> </span></button>
+                    <div id="paypal-button-container"></div>
                   </div>
+
+
                 </div>
 
               </div>

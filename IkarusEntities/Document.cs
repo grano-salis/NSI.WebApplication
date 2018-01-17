@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace IkarusEntities
 {
-    public class Document
+    public partial class Document
     {
         public Document()
         {
@@ -17,6 +18,8 @@ namespace IkarusEntities
         public string DocumentContent { get; set; }
         public int? CreatedByUserId { get; set; }
         public string Description { get; set; }
+        public bool IsDeleted { get; set; }
+        public string Title { get; set; }
 
         public CaseInfo Case { get; set; }
         public UserInfo CreatedByUser { get; set; }

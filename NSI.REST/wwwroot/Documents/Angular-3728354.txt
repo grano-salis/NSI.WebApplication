@@ -1,0 +1,21 @@
+Data binding:
+
+Data binding inside component:
+	TS to DOM -> string interpolation {{ }}
+		  -> property binding [disabled]="tsVariable"
+	DOM to TS -> event raising (onChange)="method($event.target.value)" or (onClick)="method($event)"
+	Two way   -> [(ngModel)]="propertyName"
+
+
+	another shorter smart way:
+		1. example
+			@Input() defaultColor: string = 'transparent';
+			@Input('selectorOfDirective') customColor: string = 'blue';
+			@HostBinding('style.backgroundColor') backgroundColor: string = 'transparent';
+			ngOnInit() { this.background-color = this.defaultColor; }
+		2. example
+			@HostBinding('class.open') isOpen = false;
+			@HostListener('click') toggleOpen() { this.isOpen = !this.isOpen; } 
+		
+
+	

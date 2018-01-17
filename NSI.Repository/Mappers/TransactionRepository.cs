@@ -15,7 +15,8 @@ namespace NSI.Repository
                 DateCreated = transaction.DateCreated,
                 PricingPackageId = transaction.PricingPackageId,
                 PaymentGatewayId = transaction.PaymentGatewayId,
-                CustomerId = transaction.CustomerId
+                CustomerId = transaction.CustomerId,
+                Status = transaction.Status
             };
         }
 
@@ -28,7 +29,8 @@ namespace NSI.Repository
                 DateCreated = transaction.DateCreated,
                 PricingPackageId = transaction.PricingPackageId,
                 PaymentGatewayId = transaction.PaymentGatewayId,
-                CustomerId = transaction.CustomerId
+                CustomerId = transaction.CustomerId,
+                Status = transaction.Status
             };
         }
 

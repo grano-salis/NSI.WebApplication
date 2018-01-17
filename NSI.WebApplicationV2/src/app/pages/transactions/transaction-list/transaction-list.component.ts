@@ -23,4 +23,21 @@ export class TransactionListComponent implements OnInit {
     this.loadTransactions();
   }
 
+  private convertUTCDateToLocalDate(date:Date) {
+    var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
+
+    var offset = date.getTimezoneOffset() / 60;
+    var hours = date.getHours();
+
+    newDate.setHours(hours - offset);
+
+    return newDate;
+  }
+  
+  formatTimeDate(date:string):string{
+    let d = new Date(date);
+    let outputDate = this.convertUTCDateToLocalDate(d);
+    return String(outputDate.getDate().toString().padStart(2,'0')+"/"+(outputDate.getMonth()+1).toString().padStart(2,'0')+"/"+outputDate.getUTCFullYear().toString().padStart(4,'0'));
+  }
+
 }

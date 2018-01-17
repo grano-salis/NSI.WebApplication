@@ -1,4 +1,3 @@
-
 export class Address {
 
 
@@ -6,6 +5,7 @@ export class Address {
   address2: string;
   addressId: number;
   addressTypeId: number;
+  addressType: string;
   city: string;
   createdByUserId: number;
   dateCreated: Date;
@@ -24,5 +24,9 @@ export class Address {
     this.dateModified = date_modified;
     this.isDeleted = is_deleted;
     this.zipCode = zip_code;
+  }
+
+  public isValid() {
+    return this.city && this.zipCode && this.address1 && this.address1 != '' && this.addressTypeId && this.city != '' && this.zipCode.toString() != '';
   }
 }

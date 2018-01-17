@@ -59,7 +59,6 @@ namespace NSI.REST.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.InnerException);
-                //return BadRequest(ex.Message);
             }
             return NoContent();
         }
@@ -70,8 +69,10 @@ namespace NSI.REST.Controllers
         {
             try
             {
-                if (_addressTypeManipulation.DeleteAddressTypeById(id)) return Ok();
-
+                if (_addressTypeManipulation.DeleteAddressTypeById(id))
+                {
+                    return NoContent();
+                }
                 return NoContent();
             }
             catch (Exception ex)
@@ -93,7 +94,7 @@ namespace NSI.REST.Controllers
             {
                 AddressTypeName = model.AddressTypeName,
                 CreatedDate = model.CreatedDate,
-                ModifiedDate = model.ModifiedDate
+                ModifiedDate = DateTime.Now
             };
 
             try
