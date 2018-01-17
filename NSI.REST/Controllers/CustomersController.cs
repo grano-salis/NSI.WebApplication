@@ -68,11 +68,11 @@ namespace NSI.REST.Controllers
         }
 
 
-        [HttpPut]
-        public ActionResult EditCustomer(CustomerDto customerDto)
+        [HttpPut("{id}")]
+        public ActionResult EditCustomer(int id,[FromBody]CustomerDto customerDto)
         {
             try{
-            return Ok(_customersManipulation.EditCustomer(customerDto));
+            return Ok(_customersManipulation.EditCustomer(id, customerDto));
             }catch(Exception error){
                 return BadRequest(error.Message);
             }
