@@ -32,8 +32,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
             return null;
 
@@ -51,8 +50,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.Message, Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -74,8 +72,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -95,8 +92,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
         }
 
@@ -133,8 +129,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
         }
 
@@ -161,8 +156,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -198,8 +192,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
@@ -236,8 +229,7 @@ namespace NSI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
-                throw new NSIException("Database error!", Level.Error, ErrorType.InvalidParameter);
+                throw new NSIException(ex.InnerException.Message, Level.Error, ErrorType.InvalidParameter);
             }
             return null;
         }
