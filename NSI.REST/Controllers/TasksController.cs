@@ -28,28 +28,21 @@ namespace NSI.REST.Controllers
             _taskRepository = taskManipulation;
         }
 
-        // GET: api/Tasks
-        [HttpGet]
-        [ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
-        public IActionResult GetTasks([FromQuery] int? page, [FromQuery] int? pageSize)
-        {
-            try
-            {
-                return Ok(new NSIResponse<ICollection<TaskDto>>{ Data = _taskRepository.GetTasks(page, pageSize), Message= "Success" });
-            }
-            catch(NSIException ex)
-            {
-                Logger.Logger.LogError(ex);
-                if(ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
-                    return NoContent();
-                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });                
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex);
-                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
-            }
-        }
+		// GET: api/Tasks
+		[HttpGet]
+		[ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
+		public IActionResult GetTasks([FromQuery] int? page, [FromQuery] int? pageSize)
+		{
+			try
+			{
+				return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.GetTasks(page, pageSize), Message = "Success" });
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.LogError(ex);
+				return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+			}
+		}
 
         // GET: api/Tasks/5
         [HttpGet("{id}", Name = "Get")]
@@ -226,53 +219,78 @@ namespace NSI.REST.Controllers
             }
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
-        [Route("getTasks/{username}")]
-        public IActionResult GetTasksByUsername(string username, [FromQuery] int? page, [FromQuery] int? pageSize)
-        {
-            try
-            {
-                return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.GetTasksByUsername("admin",page, pageSize), Message = "Success" });
-            }
-            catch (NSIException ex)
-            {
-                Logger.Logger.LogError(ex);
-                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
-                    return NoContent();
-                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex);
-                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
-            }
-        }
+		[HttpGet]
+		[ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
+		[Route("getTasks/{userId}")]
+		public IActionResult GetTasksByUserId(int userId, [FromQuery] int? page, [FromQuery] int? pageSize)
+		{
+			try
+			{
+				return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.GetTasksByUserId(userId, page, pageSize), Message = "Success" });
+			}
+			catch (NSIException ex)
+			{
+				Logger.Logger.LogError(ex);
+				if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+					return NoContent();
+				return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.LogError(ex);
+				return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+			}
+		}
 
-        [HttpGet]
-        [ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
-        [Route("getTasksWithDueDateRange")]
-        public IActionResult GetTasksWithDueDateRange([FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo, [FromQuery] int? page, [FromQuery] int? pageSize)
-        {
-            try
-            {
-                dateFrom = dateFrom ?? DateTime.Now.AddDays(-2);
-                dateTo = dateTo ?? DateTime.Now.AddDays(2);
-                int count = _taskRepository.GetTasksWithDueDateRangeCount(DateTime.Now.AddYears(-20), (DateTime)dateTo);
-                return Ok(new NSIResponse<ICollection<TaskDto>> {Count = count, Data = _taskRepository.GetTasksWithDueDateRange((DateTime)dateFrom, (DateTime)dateTo, page, pageSize), Message = "Success" });
-            }
-            catch (NSIException ex)
-            {
-                Logger.Logger.LogError(ex);
-                if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
-                    return NoContent();
-                return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
-            }
-            catch (Exception ex)
-            {
-                Logger.Logger.LogError(ex);
-                return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
-            }
-        }
-    }
+		[HttpGet]
+		[ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
+		[Route("getTasks/{username}")]
+		public IActionResult GetTasksByUsername(string username, [FromQuery] int? page, [FromQuery] int? pageSize)
+		{
+			try
+			{
+				return Ok(new NSIResponse<ICollection<TaskDto>> { Data = _taskRepository.GetTasksByUsername(username, page, pageSize), Message = "Success" });
+			}
+			catch (NSIException ex)
+			{
+				Logger.Logger.LogError(ex);
+				if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+					return NoContent();
+				return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.LogError(ex);
+				return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+			}
+		}
+
+		[HttpGet]
+		[ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
+		[Route("getTasksWithDueDateRange")]
+		public IActionResult GetTasksWithDueDateRange([FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo, [FromQuery] int? page, [FromQuery] int? pageSize)
+		{
+			try
+			{
+				if (dateFrom > dateTo)
+					return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+				dateFrom = dateFrom ?? DateTime.Now.AddDays(-2);
+				dateTo = dateTo ?? DateTime.Now.AddDays(2);
+				int count = _taskRepository.GetTasksWithDueDateRangeCount(DateTime.Now.AddYears(-20), (DateTime)dateTo);
+				return Ok(new NSIResponse<ICollection<TaskDto>> { Count = count, Data = _taskRepository.GetTasksWithDueDateRange((DateTime)dateFrom, (DateTime)dateTo, page, pageSize), Message = "Success" });
+			}
+			catch (NSIException ex)
+			{
+				Logger.Logger.LogError(ex);
+				if (ex.ErrorType == DC.Exceptions.Enums.ErrorType.MissingData)
+					return NoContent();
+				return BadRequest(new NSIResponse<object> { Data = null, Message = "Parameter error!" });
+			}
+			catch (Exception ex)
+			{
+				Logger.Logger.LogError(ex);
+				return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
+			}
+		}
+	}
 }
