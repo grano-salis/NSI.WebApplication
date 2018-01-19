@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../../shared/shared.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { DocumentCategoryComponent } from './document-category.component';
 import { DocumentCategoryRoutingModule } from './document-category-routing.module';
 
@@ -11,7 +11,8 @@ import { DocumentCategoryRoutingModule } from './document-category-routing.modul
     CommonModule,
     SharedModule,
     DocumentCategoryRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [DocumentCategoryComponent]
 })

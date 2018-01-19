@@ -12,7 +12,7 @@ import { CaseCategoryComponent } from './caseCategory.component';
     SharedModule,
     CaseCategoryRoutingModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule
   ],
   declarations: [CaseCategoryComponent]
 })

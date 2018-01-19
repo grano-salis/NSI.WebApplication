@@ -1,73 +1,176 @@
-<div class="col-md-12 col-sm-12 col-xs-12">
+<div>
+  <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
-      <div class="x_title">
+      <div class="x_name">
         <h2 >Create new document category</h2>
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <form #taskForm="ngForm" class="form-horizontal form-label-left">
+        <form (ngSubmit)="onSubmit();documentCategoryForm.reset()" #documentCategoryForm="ngForm" class="form-horizontal form-label-left">
           <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
               Document category title
               <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <input type="text" id="title" required name="title" class="form-control col-md-7 col-xs-12">
+              <input type="text" id="name" required name="name" class="form-control col-md-7 col-xs-12"[(ngModel)]="documentCategory.documentCategoryTitle" #name="ngModel">
+              <div [hidden]="!(name.invalid && (name.dirty))"
+              class="alert alert-danger">
+           Title is required
+             </div>
             </div>
+            
             <div class='col-md-3 col-sm-3 col-xs-12'>
             </div>
           </div>
           <div class="ln_solid"></div>
           <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-              <button type="submit" class="btn btn-success">Submit</button>
+              <button type="submit" class="btn btn-success" [disabled]="!documentCategoryForm.form.valid">Submit</button>
             </div>
           </div>
         </form>
       </div>
     </div>
+  </div>
+  
+  
     <div class="x_panel">
-      <div class="x_title">
+      <div class="x_name">
         <h2> Document category list </h2>
         <div class="clearfix"></div>
       </div>
+    
+  
+  
       <div class="row">		
+  
+    
+          <div class="dropdown pull-left">
+              
+                 <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown"  >Sort by: {{sortBy}}
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" (click)="sort('documentCategoryTitle')" >Document category title (A-Z)</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" (click)="sort('-documentCategoryTitle')" >Document category title (Z-A)</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" (click)="sort('dateCreated')">Date created (oldest-newest)</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" (click)="sort('-dateCreated')">Date created (newest-oldest)</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" (click)="sort('dateModified')">Date modified (oldest-newest)</a></li>                  
+                    <li role="presentation"><a role="menuitem" tabindex="-1" (click)="sort('-dateModified')">Date modified (newest-oldest)</a></li>
+                    
+                    </ul>
+            </div>
+  
+            
+  
+  
         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-5">
           <div class="input-group stylish-input-group">
-            <input type="text" class="form-control"  placeholder="Search">
-            <span class="input-group-addon">
-              <button type="submit">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>  
+            <input type="text" class="form-control"  placeholder="Search" [(ngModel)]="filterName" (keyup)="search(filterName)" >
+            <span class="input-group-btn">
+              <button type="submit" (click)="search(filterName)" class="btn btn-default  form-control filter-button"><i
+                class="fa fa-search"></i></button>
             </span>
           </div>
         </div>
+        
       </div>  
+      
       <div class="x-content">
-        <div class="table-responsive">
-          <table class="table table-bordered jambo_table">
-            <thead>
-              <tr>
-                <th>Document category name</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of documents; let i = index">
-                <td>{{ item.documentCategoryTitle }}</td>
-                
-                <td><p data-placement="top" data-toggle="tooltip" title="Edit" class="text-center">
-                  <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
-                    <span class="glyphicon glyphicon-pencil"></span></button></p></td>
-                <td><p data-placement="top" data-toggle="tooltip" title="Delete" class="text-center">
-                  <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
-                    <span class="glyphicon glyphicon-trash"></span></button></p></td>
-              </tr>
-            </tbody> 
-          </table>
+          <div class="table-responsive">
+            <table class="table table-bordered jambo_table">
+              <thead>
+                <tr>
+                  <th>Document category title</th>
+                  <th>Date created</th>
+                  <th>Date modified</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of filteredList; let i = index">
+                  <td>{{ item.documentCategoryTitle }}</td>
+                  <td>{{ item.dateCreated | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+                  <td>{{ item.dateModified | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                  
+                  <td><p data-placement="top" data-toggle="tooltip" name="Edit" class="text-center">
+                    <button class="btn btn-primary btn-xs" data-name="Edit" data-toggle="modal" data-target="#editModal"
+                    (click)="onSelect(item)">
+                      <span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                  <td><p data-placement="top" data-toggle="tooltip" name="Delete" class="text-center">
+                    <button class="btn btn-danger btn-xs" data-name="Delete" data-toggle="modal" data-target="#deleteModal"
+                    (click)="onSelect(item)">
+                      <span class="glyphicon glyphicon-trash"></span></button></p></td>
+                </tr>
+              </tbody> 
+            </table>
+          </div>
         </div>
-      </div>
+      
+  
+    </div>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit document category</h4>
+        </div>
+        <div class="modal-body">
+         
+         <div>
+            <label>New document category title:
+            
+              <input  [(ngModel)]="editcc.documentCategoryTitle">
+            </label>      </div>
+          </div>
+          
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="sc()">Save</button>
+          <button type="button" class="btn btn-cancel" data-dismiss="modal" (click)="c()">Cancel</button>
+  
+        </div>
+      
     </div>
   </div>
+  </div>
+  
+  
+  <div class="modal fade" id="deleteModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete document category</h4>
+        </div>
+        <div class="modal-body">
+         Are you sure you want to delete document category with title: "{{editcc.documentCategoryTitle}}"?
+        </div>
+        
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deleteDocumentCategory()">Yes</button>
+          <button type="button" class="btn btn-cancel" data-dismiss="modal" (click)="c()">No</button>
+  
+        </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  
+  
   

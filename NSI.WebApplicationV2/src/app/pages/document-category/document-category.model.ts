@@ -1,7 +1,9 @@
 export class DocumentCategory{
     
          documentCategoryId:number;
-         categoryTitle: String;
+         documentCategoryTitle: String;
          customerId:number;
+         dateCreated:Date;
+         dateModified:Date;
         
     }

@@ -219,7 +219,7 @@ namespace NSI.REST.Controllers
             }
         }
 
-		[HttpGet]
+		/*[HttpGet]
 		[ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]
 		[Route("getTasks/{userId}")]
 		public IActionResult GetTasksByUserId(int userId, [FromQuery] int? page, [FromQuery] int? pageSize)
@@ -240,7 +240,7 @@ namespace NSI.REST.Controllers
 				Logger.Logger.LogError(ex);
 				return StatusCode(500, new NSIResponse<object> { Data = null, Message = ex.Message });
 			}
-		}
+		}*/
 
 		[HttpGet]
 		[ProducesResponseType(typeof(NSIResponse<ICollection<TaskDto>>), 200)]

@@ -16,7 +16,7 @@ export class ClientTypeService {
   }
 
   getClientTypes(params?: any): Observable<any> {
-    return this.http.get(`${this._url}`);
+    return this.http.get(this._url);
   }
   
   getClientTypeById(id: number): Observable<any>{
@@ -28,14 +28,20 @@ export class ClientTypeService {
       postClientType(clientType: ClientType): Observable<any> {
         const body = JSON.stringify(clientType);
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post(`${this._url}`, body, {headers: headers});
+        return this.http.post(this._url, body, {headers: headers});
     
       }  
-
          
+      putClientType(id: number, clientType:ClientType): Observable<any>{
+        let body = JSON.stringify(clientType);
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+    
+        return this.http.put(this._url+'/'+ id, body, {headers:headers});
+      }
   deleteClientType(params?: number): Observable<any> {
-    return this.http.delete(`${this._url}` + params.toString());
+    return this.http.delete(this._url +'/'+ params.toString());
   }
+
 
 
 }

@@ -29,7 +29,7 @@ namespace NSI.BLL
             return _adminRepository.CreateCaseCategory(model);
         }
 
-        public bool DeleteCaseCategorytById(int caseCategoryId)
+        public bool DeleteCaseCategoryById(int caseCategoryId)
         {
             return _adminRepository.DeleteCaseCategoryById(caseCategoryId);
         }
@@ -44,6 +44,10 @@ namespace NSI.BLL
             return _adminRepository.EditCaseCategory(caseCategoryId, caseCategory);
         }
 
+        public int GetNumberOfCasesByCaseCategory(int caseCategoryId)
+        {
+            return _adminRepository.GetNumberOfCasesByCaseCategory(caseCategoryId);
+        }
         //Document Category
 
         public ICollection<DocumentCategoryDto> GetDocumentCategories()
@@ -56,9 +60,9 @@ namespace NSI.BLL
             return _adminRepository.CreateDocumentCategory(model);
         }
 
-        public bool DeleteDocumentCategorytById(int documentCategoryId)
+        public bool DeleteDocumentCategoryById(int documentCategoryId)
         {
-            return _adminRepository.DeleteCaseCategoryById(documentCategoryId);
+            return _adminRepository.DeleteDocumentCategoryById(documentCategoryId);
         }
 
         public DocumentCategoryDto GetDocumentCategoryById(int documentCategoryId)
@@ -120,15 +124,15 @@ namespace NSI.BLL
             return _adminRepository.GetClientTypeById(clientTypeId);
         }
 
-        public bool EditDocumentCategory(int clientTypeId, ClientTypeDto clientTypeDto)
+        public bool EditClientType(int clientTypeId, ClientTypeDto clientTypeDto)
         {
             return _adminRepository.EditClientType(clientTypeId, clientTypeDto);
         }
 
-        public bool DeleteCaseCategoryById(int caseCategoryId)
+        /*public bool DeleteCaseCategoryById(int caseCategoryId)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         public ICollection<ClientTypeDto> GetClientType()
         {
@@ -145,20 +149,20 @@ namespace NSI.BLL
             throw new NotImplementedException();
         }
 
-        public bool EditClientType(int clientTypeId, ClientTypeDto clientType)
+        /*public bool EditClientType(int clientTypeId, ClientTypeDto clientType)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         public ICollection<DocumentCategoryDto> GetDocumentCategory()
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteDocumentCategoryById(int documentCategoryId)
+        /*public bool DeleteDocumentCategoryById(int documentCategoryId)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         public ICollection<FileTypeDto> GetFileType()
         {

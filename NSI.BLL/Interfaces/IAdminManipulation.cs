@@ -13,6 +13,7 @@ namespace NSI.BLL.Interfaces
         CaseCategoryDto GetCaseCategoryById(int caseCategoryId);
         bool DeleteCaseCategoryById(int caseCategoryId);
         bool EditCaseCategory(int caseCategoryId, CaseCategoryDto caseCategory);
+        int GetNumberOfCasesByCaseCategory(int caseCategoryId);
 
         ICollection<ClientTypeDto> GetClientTypes();
         ClientTypeDto CreateClientType(ClientTypeDto model);

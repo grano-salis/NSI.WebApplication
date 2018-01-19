@@ -19,7 +19,7 @@ export class CaseCategoryService {
   }
   getCaseCategoryById(id: number): Observable<any>{
     
-        return this.http.get(this._url + "/" + id);
+        return this.http.get(this._url + '/' + id);
       }
 
       postCaseCategory(caseCategory: CaseCategory): Observable<any> {
@@ -43,7 +43,7 @@ export class CaseCategoryService {
 
       deleteCaseCategory(id:number): Observable<any> {
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.delete(`${this._url}/caseCategory` + id,{headers:headers});
+        return this.http.delete(this._url+'/' + id,{headers:headers});
         
       }
    

@@ -21,7 +21,7 @@ namespace NSI.REST.Controllers
 
         //CaseCategory
 
-        // GET: api/admin/caseCategory
+        // GET: /caseCategory
         [HttpGet("/caseCategory")]
         public IActionResult GetCases()
         {
@@ -29,7 +29,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // GET: api/admin/caseCategory/1
+        // GET: /caseCategory/1
         [HttpGet("/caseCategory/{id}")]
         public IActionResult GetCase(int id)
         {
@@ -37,7 +37,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // POST: api/admin/caseCategory
+        // POST: /caseCategory
         [HttpPost("/caseCategory")]
         public IActionResult PostCase([FromBody]CaseCategoryCreateModel model)
         {
@@ -67,7 +67,7 @@ namespace NSI.REST.Controllers
             return NoContent();
         }
 
-        // PUT: api/admin/caseCategory/1
+        // PUT: /caseCategory/1
         [HttpPut("/caseCategory/{id}")]
         public IActionResult PutCase(int id, [FromBody]CaseCategoryEditModel model)
         {
@@ -97,20 +97,27 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // DELETE: api/admin/caseCategory/1
+        // DELETE: /caseCategory/1
         [HttpDelete("/caseCategory/{id}")]
         public IActionResult DeleteCase(int id)
         {
             try
             {
-
-                if (adminRepository.DeleteCaseCategoryById(id))
+                var cases = adminRepository.GetNumberOfCasesByCaseCategory(id);
+                if (cases == 0)
                 {
-                    return Ok(id);
 
+                    if (adminRepository.DeleteCaseCategoryById(id))
+                    {
+                        return Ok(id);
+
+                    }
+                    return NoContent();
                 }
-                return NoContent();
+                throw new Exception("Can't delete this case category. " + cases.ToString() + " cases belong to this case category.");
+
             }
+
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -120,7 +127,7 @@ namespace NSI.REST.Controllers
 
         //ClientType
 
-        // GET: api/admin/clientType
+        // GET: /clientType
         [HttpGet("/clientType")]
         public IActionResult GetClients()
         {
@@ -128,7 +135,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // GET: api/admin/clientType/1
+        // GET: /clientType/1
         [HttpGet("/clientType/{id}")]
         public IActionResult GetClient(int id)
         {
@@ -136,7 +143,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // POST: api/admin/clientType
+        // POST: /clientType
         [HttpPost("/clientType")]
         public IActionResult PostClient([FromBody]ClientTypeCreateModel model)
         {
@@ -166,7 +173,7 @@ namespace NSI.REST.Controllers
             return NoContent();
         }
 
-        // PUT: api/admin/clientType/1
+        // PUT: /clientType/1
         [HttpPut("/clientType/{id}")]
         public IActionResult PutClient(int id, [FromBody]ClientTypeEditModel model)
         {
@@ -196,7 +203,7 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // DELETE: api/admin/clientType/1
+        // DELETE: /clientType/1
         [HttpDelete("/clientType/{id}")]
         public IActionResult DeleteClient(int id)
         {
@@ -217,7 +224,7 @@ namespace NSI.REST.Controllers
 
         //DocumentCategory
 
-        // GET: api/admin/documentCategory
+        // GET: /documentCategory
         [HttpGet("/documentCategory")]
         public IActionResult GetDocuments()
         {
@@ -225,7 +232,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // GET: api/admin/documentCategory/1
+        // GET: /documentCategory/1
         [HttpGet("/documentCategory/{id}")]
         public IActionResult GetDocument(int id)
         {
@@ -233,7 +240,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // POST: api/admin/documentCategory
+        // POST: /documentCategory
         [HttpPost("/documentCategory")]
         public IActionResult PostDocument([FromBody]DocumentCategoryCreateModel model)
         {
@@ -263,7 +270,7 @@ namespace NSI.REST.Controllers
             return NoContent();
         }
 
-        // PUT: api/admin/documentCategory/1
+        // PUT: /documentCategory/1
         [HttpPut("/documentCategory/{id}")]
         public IActionResult PutDocument(int id, [FromBody]DocumentCategoryEditModel model)
         {
@@ -293,7 +300,7 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // DELETE: api/admin/documentCategory/1
+        // DELETE: /documentCategory/1
         [HttpDelete("/documentCategory/{id}")]
         public IActionResult DeleteDocument(int id)
         {
@@ -314,7 +321,7 @@ namespace NSI.REST.Controllers
 
         //FileType
 
-        // GET: api/admin/fileType
+        // GET: /fileType
         [HttpGet("/fileType")]
         public IActionResult GetFiles()
         {
@@ -322,7 +329,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // GET: api/admin/fileType/1
+        // GET: /fileType/1
         [HttpGet("/fileType/{id}")]
         public IActionResult GetFile(int id)
         {
@@ -330,7 +337,7 @@ namespace NSI.REST.Controllers
         }
 
 
-        // POST: api/admin/fileType
+        // POST: /fileType
         [HttpPost("/fileType")]
         public IActionResult PostFile([FromBody]FileTypeCreateModel model)
         {
@@ -360,7 +367,7 @@ namespace NSI.REST.Controllers
             return NoContent();
         }
 
-        // PUT: api/admin/fileType/1
+        // PUT: /fileType/1
         [HttpPut("/fileType/{id}")]
         public IActionResult PutFile(int id, [FromBody]FileTypeEditModel model)
         {
@@ -389,7 +396,7 @@ namespace NSI.REST.Controllers
             }
         }
 
-        // DELETE: api/admin/fileType/1
+        // DELETE: /fileType/1
         [HttpDelete("/fileType/{id}")]
         public IActionResult DeleteFile(int id)
         {

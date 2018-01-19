@@ -16,7 +16,7 @@ export class DocumentCategoryService {
   }
 
   getDocumentCategories(params?: any): Observable<any> {
-    return this.http.get(`${this._url}`);
+    return this.http.get(this._url);
   }
   
   getDocumentCategoryById(id: number): Observable<any>{
@@ -25,16 +25,23 @@ export class DocumentCategoryService {
       }
 
       
-      postDocumentcategory(documentCategory: DocumentCategory): Observable<any> {
+      postDocumentCategory(documentCategory: DocumentCategory): Observable<any> {
         const body = JSON.stringify(documentCategory);
         const headers = new HttpHeaders({'Content-Type': 'application/json'});
-        return this.http.post(`${this._url}`, body, {headers: headers});
+        return this.http.post(this._url, body, {headers: headers});
     
       }  
 
+      putDocumentCategory(id: number, caseCategory:DocumentCategory): Observable<any>{
+        let body = JSON.stringify(caseCategory);
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
+    
+        return this.http.put(this._url+'/'+ id, body, {headers:headers});
+      }
+
          
   deleteDocumentCategory(params?: number): Observable<any> {
-    return this.http.delete(`${this._url}` + params.toString());
+    return this.http.delete(this._url +'/'+ params.toString());
   }
 
 

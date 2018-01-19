@@ -52,8 +52,14 @@ namespace NSI.Repository
                 throw new ArgumentNullException(nameof(model), "Model is null!");
             }
 
+
+            var sameName = _dbContext.CaseCategory.FirstOrDefault(x => x.CaseCategoryName == model.CaseCategoryName && x.IsDeleted == false);
+            if (sameName != null)
+                throw new Exception("Case category with this name already exists.");
+
             try
             {
+
                 var caseCategory = Mappers.AdminRepository.MapToDbEntity(model);
                 caseCategory.DateModified = caseCategory.DateCreated = DateTime.Now;
                 caseCategory.IsDeleted = false;
@@ -130,6 +136,12 @@ namespace NSI.Repository
             }
         }
 
+        public int GetNumberOfCasesByCaseCategory(int caseCategoryId)
+        {
+            var cases = _dbContext.CaseInfo.Where(x => x.CaseCategory == caseCategoryId);
+            int n = cases.Count();
+            return n;
+        }
 
         //Client Type
 
