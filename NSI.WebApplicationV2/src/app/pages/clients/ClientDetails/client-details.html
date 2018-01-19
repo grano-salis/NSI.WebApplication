@@ -3,107 +3,82 @@
       <div class="clearfix"></div>
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="x_panel">
+          <div class="x_panel" *ngIf="client" >
             <div class="x_title">
-              <h2>Update client</h2>
+              <h2 *ngIf="createClient">New client</h2>
+              <h2 *ngIf="!createClient">Edit client's info</h2>
 
-              <ul class="nav navbar-right panel_toolbox">
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
+              <div class="col-md-1 col-sm-2 col-xs-2 form-group pull-right">
+                <button class="right btn btn-default">
+                  <i class="fa fa-plus" [routerLink]="['/clients/new']"></i>
+                </button>
+              </div>
 
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
               <div class="clearfix"></div>
             </div>
 
-            <div class="x_content">
+            <div class="x_content" *ngIf='client'>
               <br />
               <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-  
+
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Client name <span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Client name <span class="required"></span>
                           </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
                     <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12" [(ngModel)]="client.clientName" name="clientName">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address 1<span class="required">*</span>
-                          </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" [ngModel]="client.address?.first" (ngModelChange)="client.address.first=$event" name="address.first">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address 2
-                          </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12" [ngModel]="client.address?.second" (ngModelChange)="client.address.second=$event" name="address.second">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">City</label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name" [ngModel]="client.address?.city" (ngModelChange)="client.address.city=$event" name="address.city">
-                  </div>
-                </div>
-  
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Zip code <span class="required">*</span>
-                          </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="client.address?.zipCode" (ngModelChange)="client.address.zipCode" name="address.zipCode">
-                  </div>
-                </div>
 
                 <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Client type<span class="required">*</span>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Address<span class="required"></span>
                           </label>
                   <div class="col-md-6 col-sm-6 col-xs-12">
-                    <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="client.clientType?.clientTypeName" (ngModelChange)="client.clientType.clientTypeName" name="clientType.clientTypeName">
-                  </div>
-                </div>
-  
-                <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Organization<span class="required">*</span>
-                          </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                    <select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" >
-                                <option>Organization 1</option>
-                                <option>Organization 2</option>    
-                                <option>Ostale organizacije..Implementirati</option>                            
+                    <select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [(ngModel)]="client.addressId" (ngModelChange)="client.addressId" name="addressId">
+                      <option *ngFor="let address of addresses" [ngValue]="address.addressId">{{address.address1}}, {{address.city}}, {{address.zipCode}}</option>
                             </select>
                   </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Created by user <span class="required">*</span>
-                            </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [ngModel]="client.user?.username" (ngModelChange)="client.user.username" name="user.username">
-                    </div>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Client type<span class="required"></span>
+                          </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <input id="birthday" class="date-picker form-control col-md-7 col-xs-12" required="required" type="text" [(ngModel)]="client.clientTypeId" name="clientTypeId">
                   </div>
-  
-  
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Organization<span class="required"></span>
+                          </label>
+                  <div class="col-md-6 col-sm-6 col-xs-12">
+                    <select id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text" [(ngModel)]="client.customerId" name="customerId">
+                      <option *ngFor="let customer of customers" [ngValue]="customer.customerId">{{customer.customerName}}</option>
+                            </select>
+                  </div>
+                </div>
+
+
                 <div class="ln_solid"></div>
                 <div class="form-group">
                   <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                     <button class="btn btn-primary" type="button" (click)="cancel()">Cancel</button>
-                    <button type="submit" class="btn btn-success" (click)="cancel()">Update</button>
+                    <button *ngIf="createClient" type="submit" class="btn btn-success" (click)="create()">OK</button>
+                    <button *ngIf="!createClient" type="submit" class="btn btn-success" (click)="update()">Update</button>
                   </div>
                 </div>
-  
+
               </form>
             </div>
           </div>
         </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+        </div>
       </div>
-  
-  
-  
-  
+
+
+
+
     </div>
   </div>
   <!-- /page content -->
-  

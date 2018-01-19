@@ -16,10 +16,10 @@ namespace IkarusEntities
         public DateTime? DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public bool? IsDeleted { get; set; }
-        public int ClientTypeId { get; set; }
-        public int CustomerId { get; set; }
+        public int? ClientTypeId { get; set; }
+        public int? CustomerId { get; set; }
         public int? AddressId { get; set; }
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
 
         public Address Address { get; set; }
         public ClientType ClientType { get; set; }

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace NSI.DC.ClientsRepository
 {
     [DataContract]
-    public class ClientDTO
+    public class ClientDto
     {
         [DataMember]
         public int? ClientId { get; set; }
@@ -17,12 +17,12 @@ namespace NSI.DC.ClientsRepository
         [DataMember]
         public bool? IsDeleted { get; set; }
         [DataMember]
-        public int ClientTypeId { get; set; }
+        public int? ClientTypeId { get; set; }
         [DataMember]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         [DataMember]
         public int? AddressId { get; set; }
         [DataMember]
-        public int CreatedByUserId { get; set; }
+        public int? CreatedByUserId { get; set; }
     }
 }

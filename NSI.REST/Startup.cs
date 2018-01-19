@@ -25,9 +25,6 @@ using NSI.Repository.Repository;
 using NSI.DC;
 using AutoMapper;
 
-using IkarusEntities;
-using NSI.BLL.Interfaces;
-using NSI.BLL;
 using NSI.Repository.Mappers;
 using AddressRepository = NSI.Repository.AddressRepository;
 using AddressTypeRepository = NSI.Repository.AddressTypeRepository;

@@ -6,11 +6,12 @@ namespace NSI.Repository.Interfaces
 {
     public interface IClientRepository
     {
-        ClientDTO CreateClient(ClientDTO clientDTO);
-        ICollection<ClientDTO> SearchClient(ClientDTO searchCriteria);
-        ClientDTO GetClientById(int clientId);
-        ICollection<ClientDTO> GetClients();
+        ClientDto CreateClient(ClientDto clientDTO);
+        ClientDto GetClientById(int clientId);
+        ICollection<ClientDto> GetAllClients();
+        ICollection<ClientDto> GetClients();
         bool DeleteClientById(int clientId);
-        bool EditClient(int clientId, ClientDTO clientDTO);
+        bool EditClient(ClientDto clientDTO);
+        ICollection<ClientDto> SearchClients(ClientSearchDTO searchClient);
     }
 }

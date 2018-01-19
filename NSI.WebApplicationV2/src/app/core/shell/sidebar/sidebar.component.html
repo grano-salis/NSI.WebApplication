@@ -147,10 +147,11 @@
             <i class="fa fa-user"></i> Address
           </a>
         </li>
+
         -->
 
-        <li [routerLink]="['/organization']" routerLinkActive="current-page">
-          <a>
+        <li>
+          <a id="organizationli" (click)="anchorClicked($event)">
             <i class="fa fa-calendar-o"></i> Organizations
             <span id="organizationchevron" class="fa fa-chevron-down"></span>
           </a>

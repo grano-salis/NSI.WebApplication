@@ -1,6 +1,9 @@
 ﻿using IkarusEntities;
 using NSI.DC.CustomersRepository;
 using System;
+using NSI.Repository;
+using NSI.Repository.Interfaces;
+
 namespace NSI.Repository.Mappers
 {
     public partial class CustomerRepository

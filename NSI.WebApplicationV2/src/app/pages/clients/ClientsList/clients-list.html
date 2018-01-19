@@ -1,27 +1,38 @@
 <div role="main">
-    <div class="">  
+    <div class="">
       <div class="clearfix"></div>
-  
+
       <div class="row">
-  
+
         <div class="clearfix"></div>
-  
+
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>Clients preview</h2>
-              <ul class="nav navbar-right panel_toolbox">
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-        
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
+              <h2 class="col-md-12 col-sm-12 col-xs-12">Clients preview</h2>
+
+              <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group top_search">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for..." [(ngModel)]="searchName">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button" (click)="search()">Go!</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-1 col-sm-2 col-xs-2 form-group pull-right">
+                <button class="right btn btn-default">
+                  <i class="fa fa-plus" [routerLink]="['/clients/new']"></i>
+                </button>
+              </div>
+
               <div class="clearfix"></div>
             </div>
-  
+
             <div class="x_content">
-  
+
               <div class="table-responsive">
                 <table class="table table-striped jambo_table">
                   <thead>
@@ -30,9 +41,7 @@
                       <th class="column-title">Address </th>
                       <th class="column-title">Zip code </th>
                       <th class="column-title">City </th>
-                      <th class="column-title">Client type </th>
                       <th class="column-title">Customer</th>
-                      <th class="column-title">Created by user</th>
                       <th class="column-title no-link last"><span class="nobr">Action</span>
                       </th>
                       <th class="bulk-actions" colspan="7">
@@ -40,24 +49,22 @@
                       </th>
                     </tr>
                   </thead>
-  
+
                   <tbody>
                     <tr *ngFor="let client of clients" class="even pointer" (click)="onClientClick(client.clientId)" routerLinkActive="active">
                                           <td class=" ">{{client.clientName}}</td>
-                                          <td class=" ">{{client.address?.first}}</td>
-                                          <td class=" ">{{client.address?.zipCode}}</td>
-                                          <td class=" ">{{client.address?.city}}</td>
-                                          <td class=" ">{{client.clientType?.clientTypeName}}</td>                                          
-                                          <td class=" ">{{client.customer?.customerName}}</td>
-                                          <td class=" ">{{client.user?.username}}</td>
+                                          <td class=" ">{{getAddress(client.addressId)?.address1}}</td>
+                                          <td class=" ">{{getAddress(client.addressId)?.zipCode}}</td>
+                                          <td class=" ">{{getAddress(client.addressId)?.city}}</td>
+                                          <td class=" ">{{getCustomer(client.customerId)?.customerName}}</td>
                                           <td class=" last"><a href="javascript:" (click)="onDeleteClick(client.clientId, $event)">Delete</a>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-  
-  
+
+
             </div>
           </div>
         </div>

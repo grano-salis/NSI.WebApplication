@@ -17,7 +17,9 @@ export class CustomersListComponent implements OnInit {
 	addresses: Address[];
 	pricingPackages: PricingPackage[];
 	addressIds: number[];
-	pricingPackageIds: number[];
+  pricingPackageIds: number[];
+  searchName: string="";
+  tempArray: Customer[];
 
 	constructor(private customersService: CustomersService, private addressService: AddressService, private pricingPackageService: PricingPackagesService, private router: Router) {
 	}
@@ -29,6 +31,7 @@ export class CustomersListComponent implements OnInit {
 		this.pricingPackageIds = new Array<number>();
 		this.customersService.getCustomers().subscribe(data => {
 			this.customers = data;
+			this.tempArray = data;
 			for(let customer of this.customers) {
 				if (customer.addressId && this.addressIds.indexOf(customer.addressId) === -1) {
 					this.addressIds.push(customer.addressId);
@@ -76,6 +79,13 @@ export class CustomersListComponent implements OnInit {
 			}
 		});
 	}
+
+  search(){
+	  this.customers = this.tempArray.filter((customer: Customer) => {
+	    return customer.customerName.indexOf(this.searchName) !== -1;
+    });
+	  console.log(this.searchName);
+  }
 
 	onCustomerClick(id: number) {
 		this.router.navigate([`/organization/${id}`]);

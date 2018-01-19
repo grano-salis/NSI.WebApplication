@@ -24,5 +24,7 @@ namespace NSI.DC.CustomersRepository
         public int? PricingPackageId { get; set; }
         [DataMember]
         public int? AddressId { get; set; }
+        [DataMember]
+        public string logoLink { get; set; }
     }
 }

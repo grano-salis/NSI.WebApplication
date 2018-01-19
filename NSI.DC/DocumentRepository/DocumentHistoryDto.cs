@@ -22,5 +22,6 @@ namespace NSI.DC.DocumentRepository
         public DateTime ModifiedAt { get; set; }
         [DataMember]
         public string IconPath { get; set; }
+
     }
 }

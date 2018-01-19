@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using IkarusEntities;
 using NSI.DC.DocumentRepository;
@@ -19,6 +19,8 @@ namespace NSI.Repository.Mappers
                 DocumentCategory = _dbContext.DocumentCategory.FirstOrDefault(d => d.DocumentCategoryId == document.CategoryId),
                 Description = document.DocumentDescription,
                 Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId),
+                FileType = _dbContext.FileType.FirstOrDefault(f => f.FileTypeId == document.FileTypeId),
+                FileTypeId = document.FileTypeId,
                 DocumentHistory = _dbContext.DocumentHistory.ToList(),
                 CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
                 CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId
@@ -31,7 +33,7 @@ namespace NSI.Repository.Mappers
 
         public static Document MapToDbEntity(CreateDocumentDto document, IkarusContext _dbContext)
         {
-            var doc = new Document()
+            return new Document()
             {
                 CaseId = document.DocumentId,
                 DocumentId = document.DocumentId,
@@ -41,15 +43,14 @@ namespace NSI.Repository.Mappers
                 DocumentCategory = _dbContext.DocumentCategory.FirstOrDefault(d => d.DocumentCategoryId == document.CategoryId),
                 Description = document.DocumentDescription,
                 Case = _dbContext.CaseInfo.FirstOrDefault(c => c.CaseId == document.CaseId),
+                // Work here
+                FileType = _dbContext.FileType.FirstOrDefault(),
+                FileTypeId = 1,
                 DocumentHistory = _dbContext.DocumentHistory.Where(d=> d.DocumentId == document.DocumentId).ToList(),
                 CreatedByUser = _dbContext.UserInfo.FirstOrDefault(),
                 CreatedByUserId = _dbContext.UserInfo.FirstOrDefault().UserId,
                 Title = document.DocumentTitle
             };
-            var extension = Path.GetExtension(doc.DocumentPath).Replace(".", "");
-            if (extension != null) doc.FileType = _dbContext.FileType.FirstOrDefault(f => f.Extension == extension);
-
-            return doc;
         }
 
         public static DocumentDto MapToDto(Document document, IkarusContext dbContext)
@@ -96,6 +97,20 @@ namespace NSI.Repository.Mappers
             };
             return documentDetails;
 
+        }
+
+        public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory)
+        {
+            return new DocumentHistoryDto()
+            {
+                ModifiedAt = documentHistory.ModifiedAt,
+                DocumentTitle = documentHistory.DocumentTitle,
+                Author = documentHistory.ModifiedByUser.FirstName + " " + documentHistory.ModifiedByUser.LastName,
+                CaseNumber = documentHistory.CaseNumber,
+                DocumentCategoryName = documentHistory.DocumentCategoryName,
+                DocumentDescription = documentHistory.DocumentDescription,
+                DocumentPath = documentHistory.DocumentPath
+            };
         }
 
         public static DocumentHistoryDto MapToDocumentHistoryDto(DocumentHistory documentHistory, IkarusContext _dbContext, int id)
